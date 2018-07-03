@@ -28,7 +28,7 @@
     <body>
       <router-view/>
     </body>
-    <footer class="fixed-bottom">
+    <footer>
       <nav class="footer__nav">
         <ul class="footer__list">
           <li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>
