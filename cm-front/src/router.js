@@ -4,6 +4,8 @@ import Home from "./views/Home.vue";
 import About from "./views/About.vue";
 import Registration from "./views/Registration.vue";
 import Auth from "./views/Auth.vue";
+import Forgotpassword from "./views/Forgotpassword.vue";
+import Restorepassword from "./views/Restorepassword.vue";
 
 Vue.use(Router);
 
@@ -28,6 +30,16 @@ export default new Router({
       path: "/auth",
       name: "auth",
       component: Auth
+    },
+    {
+      path: "/forgotpassword",
+      name: "forgotpassword",
+      component: Forgotpassword
+    },
+    {
+      path: "/restorepassword",
+      name: "restorepassword",
+      component: Restorepassword
     }
   ]
 });

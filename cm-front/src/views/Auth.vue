@@ -11,7 +11,7 @@
                     <input type="checkbox" value="remember-me">Remember me </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <router-link class="cm-form-signin__link" to="/forgotPassword">Forgot password?</router-link>
+            <router-link class="cm-form-signin__link" to="/forgotpassword">Forgot password?</router-link>
             <router-link class="cm-form-signin__link" to="/registration">Don`t have an account?</router-link>
         </form>
     </div>
