@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <header>
+    <body>
+      <header>
       <nav class="main-nav">
         <ul class="nav-list">
           <li class="nav-item nav-item--logo">
@@ -25,10 +26,8 @@
         </ul>
       </nav>
     </header>
-    <body>
       <router-view/>
-    </body>
-    <footer>
+      <footer>
       <nav class="footer__nav">
         <ul class="footer__list">
           <li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>
@@ -41,6 +40,7 @@
         </ul>
       </nav>
     </footer>
+    </body>
   </div>
 </template>
 
@@ -48,8 +48,14 @@
   @import '../node_modules/bootstrap/scss/bootstrap-reboot.scss';
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
   @import '../node_modules/bootstrap/scss/bootstrap-grid.scss';
+  body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 footer{
   background-color: #343a40;
+margin-top: auto;
 }
 .footer{
   &__list{
