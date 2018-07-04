@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Sportsman Settings</title>
+	<link rel="stylesheet" href="bootstrap.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<header class="header">
+		<div class="container">
+			<div class="header__inner">
+				<div class="row">
+					<div class="col-6 col-lg-5 col-md-5">
+						<div class="logo">
+							<img src="img/logo.png" alt="Federation logo" class="logo__img">
+						</div>
+					</div>
+					<div class="col-2 col-lg-3 col-md-3">
+						<div class="contacts">
+							<a href="tel:+3806785463982" class="contacts__phone">Federation Phone</a>
+							<a href="mailto:info@example.co" class="contacts__email">Federation Email</a>
+						</div>
+					</div>
+					<div class="col-3 col-lg-4 col-md-4">
+						<div class="user">
+							<div class="user__date">Valid until
+								<time class="user__time">10.10.2020</time>
+							</div>
+							<div class="user__wrap">
+								<div class="user__wrap-inner">
+									<img src="img/user.png" alt="User" class="user__photo">
+									<ul class="user__menu">
+										<li class="user__item"><a href="#" class="user__link">My Profile</a></li>
+										<li class="user__item"><a href="#" class="user__link">Settings</a></li>
+										<li class="user__item"><a href="#" class="user__link">Exit</a></li>
+									</ul>
+								</div>
+								<div class="lang">
+									<select name="lang" class="lang__select">
+										<option value="ru">ru</option>
+										<option value="ua">ua</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="info-form">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="info col-6">
+					<div class="info__str row">
+						<div class="info__status">Status</div>
+						<div class="info__active">Active</div>
+					</div>
+					<div class="info__str row">
+						<div class="info__subsc">Subscription</div>
+						<div class="info__wrap-text">
+							<div class="info__active">Expire in <span>X</span> days</div>
+							<button class="info__btn">Subscribe</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form row justify-content-center">
+				<div class="col-5 form__wrap">
+					<form action="#" method="POST">
+					<h3 class="form__header">Update password</h3>
+					<div class="form__fields">
+						<div class="form__field">
+							<input type="password" name="pass" placeholder="Old password" class="form__input">
+						</div>
+						<div class="form__field">
+							<input type="password" name="newPass" placeholder="New password" class="form__input">
+						</div>
+						<div class="form__field">
+							<input type="password" name="" name="confirmPass" placeholder="Confirm new password" class="form__input">
+						</div>
+						<div class="form__btn-wrap">
+							<input type="submit" value="Update" class="form__btn">
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>
