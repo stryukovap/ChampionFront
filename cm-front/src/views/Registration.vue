@@ -68,7 +68,8 @@
 							<input autocomplete="off" placeholder="Trainer" type="text" name="s-trainer" id="s-trainer" class="form-control">
 						</div>
 						<div class="cm-form__wrapper autocomplete">
-							<input autocomplete="off" placeholder="City" type="text" name="s-city" id="s-city" class="form-control">
+							<!--<input placeholder="City" type="text" name="s-city" id="s-city" class="form-control">-->
+							<autocomplete :items="['Винница', 'Днепр', 'Донецк', 'Житомир', 'Запорожье', 'Ивано-Франковск', 'Киев', 'Кропивницкий', 'Луганск', 'Луцк', 'Львов', 'Николаев', 'Одесса', 'Полтава', 'Ровно', 'Сумы', 'Тернополь', 'Ужгород', 'Харьков', 'Херсон', 'Хмельницкий', 'Черкассы', 'Чернигов', 'Черновцы']" />
 						</div>
 						<div class="cm-form__wrapper text-center">
 							<button class="btn btn-primary" id="submit">Registration</button>
@@ -117,13 +118,28 @@
 	</div>
 	</div>
 </template>
-<style scoped lang="scss">
-	.wrapper {
-		margin: 50px auto;
-	}
 
-	.cm-form__wrapper {
-		margin-top: 10px;
-		text-align: left;
-	}
+<script>
+import Autocomplete from "../components/autocomplete-city.vue";
+export default {
+  name: "registration",
+  components: {
+    autocomplete: Autocomplete
+  },
+  data() {
+    return {};
+  },
+  methods: {}
+};
+</script>
+
+<style scoped lang="scss">
+.wrapper {
+  margin: 50px auto;
+}
+
+.cm-form__wrapper {
+  margin-top: 10px;
+  text-align: left;
+}
 </style>
