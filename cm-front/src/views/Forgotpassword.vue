@@ -1,34 +1,10 @@
 <template>
-  <div class="forgotpassword">
-    <div class="col-12 col-md-6 col-lg-4 col-xl-4 wrapper">
-      <form action="#">
-        <h1 class="cm-form__title">Restore password</h1>
-        <div class="cm-form__wrapper">
-          <input class="form-control" type="email" name="forgot_password" id="forgot_password" placeholder="Email" required>
-        </div>
-        <div class="cm-form__wrapper text-center">
-          <router-link class="btn btn-primary btn-user" to="/restorepassword">Restore</router-link>
-        </div>
-      </form>
-    </div>
-  </div>
+  <Forgotpass_step1/>
 </template>
-<style scoped lang="scss">
-  .wrapper {
-    margin: 100px auto;
-    border: 2px solid #000;
-    border-radius: 5px;
+<script>
+import Forgotpass_step1 from "../components/Forgotpass_step1";
 
-  }
-  .btn-user{
-    margin-bottom: 25px;
-  }
-  .cm-form__wrapper {
-    margin-top: 50px;
-    text-align: left;
-  }
-  .cm-form__title{
-    padding-bottom: 10px;
-    border-bottom: 1px solid #000;
-  }
-</style>
+export default {
+  components: { Forgotpass_step1 }
+};
+</script>
