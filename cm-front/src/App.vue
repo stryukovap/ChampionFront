@@ -30,86 +30,83 @@
       <router-view/>
     </main>
       <footer>
-      <nav class="footer__nav">
-        <ul class="footer__list">
-          <li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>
-          <li class="footer__item"><a href="#" class="footer__link">Footer item 2</a></li>
-          <li class="footer__item"><a href="#" class="footer__link">Footer item 3</a></li>
-          <li class="footer__item"><a href="#" class="footer__link">Footer item 4</a></li>
-          <li class="footer__item footer__item--logo">
-            <router-link class="nav-link" to="/">Home</router-link>
-          </li>
-        </ul>
-      </nav>
+        <footer_static/>
     </footer>
     </body>
   </div>
 </template>
 
 <style lang="scss">
-  @import '../node_modules/bootstrap/scss/bootstrap-reboot.scss';
-  @import '../node_modules/bootstrap/scss/bootstrap.scss';
-  @import '../node_modules/bootstrap/scss/bootstrap-grid.scss';
-  body{
-    text-align: center;    
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-footer{
-  background-color: #343a40;
-margin-top: auto;
+@import "../node_modules/bootstrap/scss/bootstrap-reboot.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
+body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-.footer{
-  &__list{
+footer {
+  background-color: #343a40;
+  margin-top: auto;
+}
+.footer {
+  &__list {
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
-    list-style:none;
+    list-style: none;
   }
-  &__item{
+  &__item {
     margin-left: 10px;
     margin-right: 10px;
-    &--logo{
+    &--logo {
       margin-left: auto;
     }
   }
 }
 
-.btn-user{
+.btn-user {
   margin-left: 10px;
   margin-right: 10px;
 }
 
-  .main-nav {
-    background-color: #343a40
-  }
+.main-nav {
+  background-color: #343a40;
+}
 
-  .nav-list {
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-    align-items: center;
-    &--sub {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+.nav-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  &--sub {
+    flex-direction: column;
+    align-items: flex-start;
   }
+}
 
-  .nav-item {
-    margin-right: 10px;
-    margin-left: 10px;
-    &--logo {
-      margin-right: auto;
-    }
+.nav-item {
+  margin-right: 10px;
+  margin-left: 10px;
+  &--logo {
+    margin-right: auto;
   }
-  .nav-link{
-    background-image: url(assets/logo.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
+}
+.nav-link {
+  background-image: url(assets/logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 </style>
+<script>
+import Footer_static from "./components/Footer_static";
+
+export default {
+  components: { Footer_static }
+};
+</script>
