@@ -5,18 +5,18 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible">
 <meta content="object" property="og:type">
 <meta content="GitLab" property="og:site_name">
-<meta content="cm-front/src/views/Registration.vue · feature/auth+reg · Andrey / champion_front" property="og:title">
+<meta content="cm-front/src/components/autocomplete-city.vue · feature/auth+reg · Andrey / champion_front" property="og:title">
 <meta content="GitLab.com" property="og:description">
 <meta content="https://assets.gitlab-static.net/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="og:image">
 <meta content="64" property="og:image:width">
 <meta content="64" property="og:image:height">
-<meta content="https://gitlab.com/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue" property="og:url">
+<meta content="https://gitlab.com/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue" property="og:url">
 <meta content="summary" property="twitter:card">
-<meta content="cm-front/src/views/Registration.vue · feature/auth+reg · Andrey / champion_front" property="twitter:title">
+<meta content="cm-front/src/components/autocomplete-city.vue · feature/auth+reg · Andrey / champion_front" property="twitter:title">
 <meta content="GitLab.com" property="twitter:description">
 <meta content="https://assets.gitlab-static.net/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="twitter:image">
 
-<title>cm-front/src/views/Registration.vue · feature/auth+reg · Andrey / champion_front · GitLab</title>
+<title>cm-front/src/components/autocomplete-city.vue · feature/auth+reg · Andrey / champion_front · GitLab</title>
 <meta content="GitLab.com" name="description">
 <link rel="shortcut icon" type="image/png" href="https://gitlab.com/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" id="favicon" data-original-href="https://gitlab.com/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" />
 <link rel="stylesheet" media="all" href="https://assets.gitlab-static.net/assets/application-1d86daecfb6704a29ef0e9f42ab3478baed22a68f8e1f8aa719ec7a8698d2129.css" />
@@ -40,7 +40,7 @@ window.gon={};gon.api_version="v4";gon.default_avatar_url="https://assets.gitlab
 </script>
 
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="1mSHxmkPuwnBxExzs8mRQq94PhH9lTP39YZNwwO6JyrLksrjchMFxwvcL8bJLT0V2gC++sN0ctVktZRuNdMslg==" />
+<meta name="csrf-token" content="onbOOV0Pcwfeo6t1DBDHCDoN91Kk1b/dUXqxLI/KN0+/gIMcRhPNyRS7yMB29GtfT3V3uZo0/v/ASWiBuaM88w==" />
 <meta content="origin-when-cross-origin" name="referrer">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
 <meta content="#474D57" name="theme-color">
@@ -526,7 +526,7 @@ Activity
 <li><a href="/stryukovap">Andrey</a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="https://gitlab.com/assets/icons-287b331848727a2f75ca16fc538c5a50deacfed69bdd96c6e59f1d26b422f961.svg#angle-right"></use></svg></li> <li><a href="/stryukovap/champion_front"><span class="breadcrumb-item-text js-breadcrumb-item-text">champion_front</span></a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="https://gitlab.com/assets/icons-287b331848727a2f75ca16fc538c5a50deacfed69bdd96c6e59f1d26b422f961.svg#angle-right"></use></svg></li>
 
 <li>
-<h2 class="breadcrumbs-sub-title"><a href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue">Repository</a></h2>
+<h2 class="breadcrumbs-sub-title"><a href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue">Repository</a></h2>
 </li>
 </ul>
 </div>
@@ -561,7 +561,7 @@ Activity
 <div class="tree-ref-container">
 <div class="tree-ref-holder">
 <form class="project-refs-form" action="/stryukovap/champion_front/refs/switch" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="destination" id="destination" value="blob" />
-<input type="hidden" name="path" id="path" value="cm-front/src/views/Registration.vue" />
+<input type="hidden" name="path" id="path" value="cm-front/src/components/autocomplete-city.vue" />
 <div class="dropdown">
 <button class="dropdown-menu-toggle js-project-refs-dropdown qa-branches-select" type="button" data-toggle="dropdown" data-selected="feature/auth+reg" data-ref="feature/auth+reg" data-refs-url="/stryukovap/champion_front/refs?sort=updated_desc" data-field-name="ref" data-submit-form-on-click="true" data-visit="true"><span class="dropdown-toggle-text ">feature/auth+reg</span><i aria-hidden="true" data-hidden="true" class="fa fa-chevron-down"></i></button>
 <div class="dropdown-menu dropdown-menu-paging dropdown-menu-selectable git-revision-dropdown qa-branches-dropdown">
@@ -586,10 +586,10 @@ Activity
 <a href="/stryukovap/champion_front/tree/feature/auth+reg/cm-front/src">src</a>
 </li>
 <li class="breadcrumb-item">
-<a href="/stryukovap/champion_front/tree/feature/auth+reg/cm-front/src/views">views</a>
+<a href="/stryukovap/champion_front/tree/feature/auth+reg/cm-front/src/components">components</a>
 </li>
 <li class="breadcrumb-item">
-<a href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue"><strong>Registration.vue</strong>
+<a href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue"><strong>autocomplete-city.vue</strong>
 </a></li>
 </ul>
 </div>
@@ -597,7 +597,7 @@ Activity
 <a class="btn shortcuts-find-file" rel="nofollow" href="/stryukovap/champion_front/find_file/feature/auth+reg"><i aria-hidden="true" data-hidden="true" class="fa fa-search"></i>
 <span>Find file</span>
 </a>
-<div class="btn-group" role="group"><a class="btn js-blob-blame-link" href="/stryukovap/champion_front/blame/feature/auth+reg/cm-front/src/views/Registration.vue">Blame</a><a class="btn" href="/stryukovap/champion_front/commits/feature/auth+reg/cm-front/src/views/Registration.vue">History</a><a class="btn js-data-file-blob-permalink-url" href="/stryukovap/champion_front/blob/2d8edfc2bd2bc87c1e168cf9986b7065fcd7106e/cm-front/src/views/Registration.vue">Permalink</a></div>
+<div class="btn-group" role="group"><a class="btn js-blob-blame-link" href="/stryukovap/champion_front/blame/feature/auth+reg/cm-front/src/components/autocomplete-city.vue">Blame</a><a class="btn" href="/stryukovap/champion_front/commits/feature/auth+reg/cm-front/src/components/autocomplete-city.vue">History</a><a class="btn js-data-file-blob-permalink-url" href="/stryukovap/champion_front/blob/2d8edfc2bd2bc87c1e168cf9986b7065fcd7106e/cm-front/src/components/autocomplete-city.vue">Permalink</a></div>
 </div>
 </div>
 
@@ -643,19 +643,19 @@ Activity
 <div class="file-header-content">
 <i aria-hidden="true" data-hidden="true" class="fa fa-file-text-o fa-fw"></i>
 <strong class="file-title-name">
-Registration.vue
+autocomplete-city.vue
 </strong>
-<button class="btn btn-clipboard btn-transparent prepend-left-5" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn-clipboard btn-transparent prepend-left-5" data-title="Copy file path to clipboard" data-clipboard-text="{&quot;text&quot;:&quot;cm-front/src/views/Registration.vue&quot;,&quot;gfm&quot;:&quot;`cm-front/src/views/Registration.vue`&quot;}" type="button" title="Copy file path to clipboard" aria-label="Copy file path to clipboard"><i aria-hidden="true" aria-hidden="true" data-hidden="true" class="fa fa-clipboard"></i></button>
+<button class="btn btn-clipboard btn-transparent prepend-left-5" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn-clipboard btn-transparent prepend-left-5" data-title="Copy file path to clipboard" data-clipboard-text="{&quot;text&quot;:&quot;cm-front/src/components/autocomplete-city.vue&quot;,&quot;gfm&quot;:&quot;`cm-front/src/components/autocomplete-city.vue`&quot;}" type="button" title="Copy file path to clipboard" aria-label="Copy file path to clipboard"><i aria-hidden="true" aria-hidden="true" data-hidden="true" class="fa fa-clipboard"></i></button>
 <small>
-6.3 KB
+3 KB
 </small>
 </div>
 
 <div class="file-actions">
 
-<div class="btn-group" role="group"><button class="btn btn btn-sm js-copy-blob-source-btn" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn btn-sm js-copy-blob-source-btn" data-title="Copy source to clipboard" data-clipboard-target=".blob-content[data-blob-id=&#39;fae5dc924b8d883522d91eac14ee384d5ae4f267&#39;]" type="button" title="Copy source to clipboard" aria-label="Copy source to clipboard"><i aria-hidden="true" aria-hidden="true" data-hidden="true" class="fa fa-clipboard"></i></button><a class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" title="Open raw" data-container="body" href="/stryukovap/champion_front/raw/feature/auth+reg/cm-front/src/views/Registration.vue"><i aria-hidden="true" data-hidden="true" class="fa fa-file-code-o"></i></a></div>
+<div class="btn-group" role="group"><button class="btn btn btn-sm js-copy-blob-source-btn" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn btn-sm js-copy-blob-source-btn" data-title="Copy source to clipboard" data-clipboard-target=".blob-content[data-blob-id=&#39;7e1637ede7b04d488950fc0a52b807b9f472bf35&#39;]" type="button" title="Copy source to clipboard" aria-label="Copy source to clipboard"><i aria-hidden="true" aria-hidden="true" data-hidden="true" class="fa fa-clipboard"></i></button><a class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" title="Open raw" data-container="body" href="/stryukovap/champion_front/raw/feature/auth+reg/cm-front/src/components/autocomplete-city.vue"><i aria-hidden="true" data-hidden="true" class="fa fa-file-code-o"></i></a></div>
 <div class="btn-group" role="group">
-<a class="btn js-edit-blob  btn-sm" href="/stryukovap/champion_front/edit/feature/auth+reg/cm-front/src/views/Registration.vue">Edit</a><a class="btn btn-default btn-sm" href="/-/ide/project/stryukovap/champion_front/edit/feature/auth+reg/-/cm-front/src/views/Registration.vue">Web IDE</a><button name="button" type="submit" class="btn btn-default" data-target="#modal-upload-blob" data-toggle="modal">Replace</button><button name="button" type="submit" class="btn btn-remove" data-target="#modal-remove-blob" data-toggle="modal">Delete</button></div>
+<a class="btn js-edit-blob  btn-sm" href="/stryukovap/champion_front/edit/feature/auth+reg/cm-front/src/components/autocomplete-city.vue">Edit</a><a class="btn btn-default btn-sm" href="/-/ide/project/stryukovap/champion_front/edit/feature/auth+reg/-/cm-front/src/components/autocomplete-city.vue">Web IDE</a><button name="button" type="submit" class="btn btn-default" data-target="#modal-upload-blob" data-toggle="modal">Replace</button><button name="button" type="submit" class="btn btn-remove" data-target="#modal-remove-blob" data-toggle="modal">Delete</button></div>
 </div>
 </div>
 <div class="js-file-fork-suggestion-section file-fork-suggestion hidden">
@@ -667,7 +667,7 @@ edit
 files in this project directly. Please fork this project,
 make your changes there, and submit a merge request.
 </span>
-<a class="js-fork-suggestion-button btn btn-grouped btn-inverted btn-new" rel="nofollow" data-method="post" href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue">Fork</a>
+<a class="js-fork-suggestion-button btn btn-grouped btn-inverted btn-new" rel="nofollow" data-method="post" href="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue">Fork</a>
 <button class="js-cancel-fork-suggestion-button btn btn-grouped" type="button">
 Cancel
 </button>
@@ -675,7 +675,7 @@ Cancel
 
 
 
-<div class="blob-viewer" data-type="simple" data-url="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue?format=json&amp;viewer=simple">
+<div class="blob-viewer" data-type="simple" data-url="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue?format=json&amp;viewer=simple">
 <div class="text-center prepend-top-default append-bottom-default">
 <i aria-hidden="true" aria-label="Loading content…" class="fa fa-spinner fa-spin fa-2x"></i>
 </div>
@@ -690,19 +690,19 @@ Cancel
 <div class="modal-dialog">
 <div class="modal-content">
 <div class="modal-header">
-<h3 class="page-title">Delete Registration.vue</h3>
+<h3 class="page-title">Delete autocomplete-city.vue</h3>
 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
 <span aria-hidden="true">&times;</span>
 </button>
 </div>
 <div class="modal-body">
-<form class="js-delete-blob-form js-quick-submit js-requires-input" action="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/views/Registration.vue" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="authenticity_token" value="iJ3qTEMkS5dHzZ3L5j+0AF398U0fIk31xhkgkYFxGTWVa6dpWDj1WY3V/n6c2xhXKIVxpiHDDNdXKvk8txgSiQ==" /><div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-e23f7d346c1bcbc8d7dd8c541c0f79cc">Commit message
+<form class="js-delete-blob-form js-quick-submit js-requires-input" action="/stryukovap/champion_front/blob/feature/auth+reg/cm-front/src/components/autocomplete-city.vue" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="authenticity_token" value="KgY7XVYWGHQiQbnMpQDw1TEAmhAqZX0lv2hpgEZhTdg38HZ4TQqmuuhZ2nnf5FyCRHga+xSEPAcuW7AtcAhGZA==" /><div class="form-group row commit_message-group">
+<label class="col-form-label col-sm-2" for="commit_message-ad42cc08f131ebedaa94f2349f2e0126">Commit message
 </label><div class="col-sm-10">
 <div class="commit-message-container">
 <div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-e23f7d346c1bcbc8d7dd8c541c0f79cc" class="form-control js-commit-message" placeholder="Delete Registration.vue" required="required" rows="3">
-Delete Registration.vue</textarea>
+<textarea name="commit_message" id="commit_message-ad42cc08f131ebedaa94f2349f2e0126" class="form-control js-commit-message" placeholder="Delete autocomplete-city.vue" required="required" rows="3">
+Delete autocomplete-city.vue</textarea>
 </div>
 </div>
 </div>
@@ -713,8 +713,8 @@ Delete Registration.vue</textarea>
 <input type="text" name="branch_name" id="branch_name" value="feature/auth+reg" required="required" class="form-control js-branch-name ref-name" />
 <div class="js-create-merge-request-container">
 <div class="form-check prepend-top-8">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-cb136712cc20cd3b280c0bf247e931b5" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-cb136712cc20cd3b280c0bf247e931b5">Start a <strong>new merge request</strong> with these changes
+<input type="checkbox" name="create_merge_request" id="create_merge_request-f4b151a2cc9d169bf08c1e44f8bba2d3" value="1" class="js-create-merge-request form-check-input" checked="checked" />
+<label class="form-check-label" for="create_merge_request-f4b151a2cc9d169bf08c1e44f8bba2d3">Start a <strong>new merge request</strong> with these changes
 </label></div>
 
 </div>
@@ -737,13 +737,13 @@ Delete Registration.vue</textarea>
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
 <div class="modal-header">
-<h3 class="page-title">Replace Registration.vue</h3>
+<h3 class="page-title">Replace autocomplete-city.vue</h3>
 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
 <span aria-hidden="true">&times;</span>
 </button>
 </div>
 <div class="modal-body">
-<form class="js-quick-submit js-upload-blob-form" data-method="put" action="/stryukovap/champion_front/update/feature/auth+reg/cm-front/src/views/Registration.vue" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="aEocIh5NHYDiiOZBSWhc6dVMsqbZOXogf2lxjlgrXsZ1vFEHBVGjTiiQhfQzjPC+oDQyTefYOwLuWqgjbkJVeg==" /><div class="dropzone">
+<form class="js-quick-submit js-upload-blob-form" data-method="put" action="/stryukovap/champion_front/update/feature/auth+reg/cm-front/src/components/autocomplete-city.vue" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="ZWpmh2EmcnDlVZGN1pTVJnXrZF/jzakyUJ0KJ+iir7Z4nCuiejrMvi9N8jiscHlxAJPktN0s6BDBrtOK3sukCg==" /><div class="dropzone">
 <div class="dropzone-previews blob-upload-dropzone-previews">
 <p class="dz-message light">
 Attach a file by drag &amp; drop or <a class="markdown-selector" href="#">click to upload</a>
@@ -753,12 +753,12 @@ Attach a file by drag &amp; drop or <a class="markdown-selector" href="#">click 
 <br>
 <div class="dropzone-alerts alert alert-danger data" style="display:none"></div>
 <div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-9ea1db9388beff531c52b4fdf80b0251">Commit message
+<label class="col-form-label col-sm-2" for="commit_message-b86c21f9d10e502c7b0cc73ab3764a7f">Commit message
 </label><div class="col-sm-10">
 <div class="commit-message-container">
 <div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-9ea1db9388beff531c52b4fdf80b0251" class="form-control js-commit-message" placeholder="Replace Registration.vue" required="required" rows="3">
-Replace Registration.vue</textarea>
+<textarea name="commit_message" id="commit_message-b86c21f9d10e502c7b0cc73ab3764a7f" class="form-control js-commit-message" placeholder="Replace autocomplete-city.vue" required="required" rows="3">
+Replace autocomplete-city.vue</textarea>
 </div>
 </div>
 </div>
@@ -769,8 +769,8 @@ Replace Registration.vue</textarea>
 <input type="text" name="branch_name" id="branch_name" value="feature/auth+reg" required="required" class="form-control js-branch-name ref-name" />
 <div class="js-create-merge-request-container">
 <div class="form-check prepend-top-8">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-925bc037d75b4a6724a7367ca0d52002" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-925bc037d75b4a6724a7367ca0d52002">Start a <strong>new merge request</strong> with these changes
+<input type="checkbox" name="create_merge_request" id="create_merge_request-9f751567c20c461cbf21fceff0766043" value="1" class="js-create-merge-request form-check-input" checked="checked" />
+<label class="form-check-label" for="create_merge_request-9f751567c20c461cbf21fceff0766043">Start a <strong>new merge request</strong> with these changes
 </label></div>
 
 </div>
