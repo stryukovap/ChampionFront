@@ -10,7 +10,7 @@
           <li class="nav-item">
             <ul class="nav-list nav-list--sub">
               <li class="nav-item">
-                <a href="tel:+#">Phone: +38067000000</a>
+                <a href="tel:+#">Phone: +38067000001</a>
               </li>
               <li class="nav-item">
                 <a href="mailto:#">E-mail: exemple@exemple.com</a>
