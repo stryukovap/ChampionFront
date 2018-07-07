@@ -1,36 +1,38 @@
 <template>
   <div id="app">
     <body>
-      <header>
-      <nav class="main-nav">
-        <ul class="nav-list">
-          <li class="nav-item nav-item--logo">
-            <router-link class="nav-link" to="/">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <ul class="nav-list nav-list--sub">
-              <li class="nav-item">
-                <a href="tel:+#">Phone: +38067000001</a>
-              </li>
-              <li class="nav-item">
-                <a href="mailto:#">E-mail: exemple@exemple.com</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <!-- <div class="user"> -->
-            <router-link class="btn btn-primary btn-user" to="/auth">Log in</router-link>
-            <router-link class="btn btn-primary btn-user" to="/registration">Registration</router-link>
-            <!-- </div> -->
-          </li>
-        </ul>
-      </nav>
+    <header>
+      <!--<div class="container">-->
+        <nav class="main-nav">
+          <ul class="nav-list">
+            <li class="nav-item nav-item--logo">
+              <router-link class="nav-link" to="/">Home</router-link>
+            </li>
+            <li class="nav-item">
+              <ul class="nav-list nav-list--sub">
+                <li class="nav-item">
+                  <a href="tel:+#">Phone: +38067000001</a>
+                </li>
+                <li class="nav-item">
+                  <a href="mailto:#">E-mail: exemple@exemple.com</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <!-- <div class="user"> -->
+              <router-link class="btn btn-primary btn-user" to="/auth">Log in</router-link>
+              <router-link class="btn btn-primary btn-user" to="/registration">Registration</router-link>
+              <!-- </div> -->
+            </li>
+          </ul>
+        </nav>
+      <!--</div>-->
     </header>
     <main>
       <router-view/>
     </main>
-      <footer>
-        <footer_static/>
+    <footer>
+      <footer_static/>
     </footer>
     </body>
   </div>

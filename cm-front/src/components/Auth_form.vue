@@ -11,8 +11,8 @@
                     <input type="checkbox" value="remember-me">Remember me </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <router-link class="cm-form-signin__link" to="/forgotpassword">Forgot password?</router-link>
-            <router-link class="cm-form-signin__link" to="/registration">Don`t have an account?</router-link>
+            <router-link class="form-signin__link" to="/forgotpassword">Forgot password?</router-link>
+            <router-link class="form-signin__link" to="/registration">Don`t have an account?</router-link>
         </form>
     </div>
 </template>
@@ -22,15 +22,14 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-body {
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-}
-
+/*.auth {*/
+/*display: flex;*/
+/*-ms-flex-align: center;*/
+/*align-items: center;*/
+/*padding-top: 40px;*/
+/*padding-bottom: 40px;*/
+/*!*background-color: #f5f5f5;*!*/
+/*}*/
 .form-signin {
   width: 100%;
   max-width: 330px;
@@ -38,6 +37,11 @@ body {
   margin: auto;
   text-align: center;
   margin-top: 50px;
+  &__link {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 .form-signin .checkbox {

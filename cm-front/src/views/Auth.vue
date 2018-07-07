@@ -8,3 +8,5 @@ export default {
   components: { Auth_form }
 };
 </script>
+<style>
+</style>
