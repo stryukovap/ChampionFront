@@ -22,7 +22,6 @@ import Card_sport from "../components/Card_sport";
 export default {
   components: { Card_sport },
   data() {
-    // return { sports:[{name: 'football'},{name: 'handball'}
     return {
       sports: [
         {
