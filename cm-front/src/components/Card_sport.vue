@@ -2,7 +2,7 @@
     <div class="card_sport">
         <div class="card card-item">
             <img class="card-img-top"
-                 v-bind:src="'/assets/' + sportImage"
+                 v-bind:src="'img/' + sportImage"
                  alt="Card image cap">
             <div class="card-body">
                 <a href="#" class="btn btn-primary">{{ sportName }}</a>

@@ -3,13 +3,18 @@
         <h1>Registration</h1>
         <div class="row cm-form__wrapper text-center">
             <div class="col">
-                <input class="form-control" type="radio" name="as-role" id="as-role-f">
+                <input class="form-control" type="radio" name="as-role" id="as-role-f"
+                v-model="userRole"
+                value="1">
                 <label for="as-role-f">As federation</label>
             </div>
             <div class="col">
-                <input class="form-control" type="radio" name="as-role" id="as-role-s" checked>
+                <input class="form-control" type="radio" name="as-role" id="as-role-s" checked
+                v-model="userRole"
+                value="2">
                 <label for="as-role-s">As sportsman</label>
             </div>
+            <span>value: {{userRole}}</span>
         </div>
         <div class="cm-form__wrapper">
             <input class="form-control" type="email" name="user-email" id="user-email" required autofocus
@@ -33,7 +38,14 @@
 </template>
 <script>
 export default {
-  name: "registration_user"
+  name: "registration_user",
+  data() {
+    return {
+      userRole: 0,
+      userEmail: "",
+      userPassword: ""
+    };
+  }
 };
 </script>
 <style scoped lang="scss">

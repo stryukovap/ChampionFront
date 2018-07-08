@@ -2,7 +2,7 @@
     <div class="cm-form__content cm-form__content--f">
         <h3 class="cm-form__user-role">Register as Federation</h3>
         <div class="cm-form__wrapper text-left">
-            <button class="btn btn-primary" id="submit">Back</button>
+            <!--<button class="btn btn-primary" id="submit">Back</button>-->
         </div>
         <div class="cm-form__wrapper">
             <input placeholder="Federation Name" class="form-control" type="text" name="f-name" id="f-name"
@@ -39,7 +39,7 @@
                    class="form-control">
         </div>
         <div class="cm-form__wrapper text-center">
-            <button class="btn btn-primary" id="submit">Registration</button>
+            <!--<button class="btn btn-primary" id="submit">Registration</button>-->
         </div>
     </div>
 </template>

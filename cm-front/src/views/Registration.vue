@@ -1,14 +1,15 @@
 <template>
 	<div class="registration">
 		<div class="container">
-			<div class="col-12 col-md-6 col-lg-6 col-xl-6 wrapper">
+			<div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
+                <h1 v-bind="userRole"></h1>
 				<form class="cm-form" action="#" autocomplete="off" method="post">
                     <tabs>
                         <tab name="First step">
                             <registration_user/>
                         </tab>
                         <tab name="Second step">
-                            <registation_spotsman/>
+                            <Registration_sportsman/>
                         </tab>
                         <tab name="Third tab">
                             <registration_federation/>
@@ -23,7 +24,7 @@
 
 <script>
 import Registration_user from "../components/Registration_user";
-import Registation_spotsman from "../components/Registation_spotsman";
+import Registration_sportsman from "../components/Registration_sportsman";
 import Registration_federation from "../components/Registration_federation";
 import { Tabs, Tab } from "vue-tabs-component";
 
@@ -31,14 +32,13 @@ export default {
   name: "registration",
   components: {
     Registration_federation,
-    Registation_spotsman,
+    Registration_sportsman,
     Registration_user,
     Tabs,
     Tab
   },
-  data() {
-    return {};
-  },
+  props: ["userRole"],
+  data() {},
   methods: {}
 };
 </script>

@@ -2,7 +2,7 @@
     <div class="cm-form__content cm-form__content--s">
         <h3 class="cm-form__user-role">Register as Sportsman</h3>
         <div class="cm-form__wrapper text-left">
-            <button class="btn btn-primary" id="submit">Back</button>
+            <!--<button class="btn btn-primary" id="submit">Back</button>-->
         </div>
         <div class="cm-form__wrapper">
             <input placeholder="Name" class="form-control" type="text" name="s-name" id="s-name"
@@ -45,7 +45,7 @@
                     :items="['Винница', 'Днепр', 'Донецк', 'Житомир', 'Запорожье', 'Ивано-Франковск', 'Киев', 'Кропивницкий', 'Луганск', 'Луцк', 'Львов', 'Николаев', 'Одесса', 'Полтава', 'Ровно', 'Сумы', 'Тернополь', 'Ужгород', 'Харьков', 'Херсон', 'Хмельницкий', 'Черкассы', 'Чернигов', 'Черновцы']"/>
         </div>
         <div class="cm-form__wrapper text-center">
-            <button class="btn btn-primary" id="submit">Registration</button>
+            <!--<button class="btn btn-primary" id="submit">Registration</button>-->
         </div>
     </div>
 </template>
