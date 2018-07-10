@@ -1,45 +1,265 @@
 <template>
-	<div class="registration">
-		<div class="container">
-			<div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <h1 v-bind="userRole"></h1>
-				<form class="cm-form" action="#" autocomplete="off" method="post">
+    <div class="registration">
+        <div class="container">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
+                <form class="cm-form" action="#" autocomplete="off" method="post">
                     <tabs>
                         <tab name="First step">
-                            <registration_user/>
+                            <div class="cm-form__content cm-form__content--one">
+                                <h1>Registration</h1>
+                                <div class="row cm-form__wrapper text-center">
+                                    <div class="col">
+                                        <input class="form-control" type="radio" name="as-role" id="as-role-f"
+                                               v-model="sportsman"
+                                               value="false">
+                                        <label for="as-role-f">As federation</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="radio" name="as-role" id="as-role-s" checked
+                                               v-model="sportsman"
+                                               value="true">
+                                        <label for="as-role-s">As sportsman</label>
+                                    </div>
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="email" name="user-email" id="user-email"
+                                           required
+                                           autofocus
+                                           autocomplete="off"
+                                           placeholder="E-mail"
+                                           v-model="userEmail">
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="password" name="user-pass" id="user-pass"
+                                           required
+                                           autocomplete="off"
+                                           placeholder="Password"
+                                           v-model="userPassword">
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="password" name="user-confpass" id="user-confpass"
+                                           required
+                                           autocomplete="off"
+                                           placeholder="Confirm password"
+                                           v-model="userPasswordConfirm">
+                                </div>
+                                <div class="cm-form__wrapper text-center">
+                                    <a href="#second-step">Next</a>
+                                </div>
+                                <div class="cm-form__wrapper text-center">
+                                    <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
+                                </div>
+                            </div>
                         </tab>
                         <tab name="Second step">
-                            <Registration_sportsman/>
-                        </tab>
-                        <tab name="Third tab">
-                            <registration_federation/>
+                            <div class="cm-form__wrapper text-left">
+                                <a href="#first-step">Back</a>
+                            </div>
+                            <div class="cm-form__content cm-form__content--s"
+                                 v-if="sportsman === 'true'">
+                                <h3 class="cm-form__user-role">Register as Sportsman</h3>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text" name="s-name" id="s-name"
+                                           placeholder="Name"
+                                           pattern="([A-Za-zА-Яа-я-']){1,}"
+                                           required
+                                           autofocus
+                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
+                                           v-model="userName">
+                                </div>
+                                <div class="row cm-form__wrapper align-items-end">
+                                    <div class="col">
+                                        <label class="cm-form__label" for="s-bdate">Date of Birth</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="date" name="s-bdate" id="s-bdate"
+                                               title="Date of Birth"
+                                               required
+                                               v-model="userDateOfBirth">
+                                    </div>
+                                </div>
+                                <div class="row cm-form__wrapper">
+                                    <div class="col">
+                                        <span class="cm-form__user-gender">Gender</span>
+                                    </div>
+                                    <div class="col">
+                                        <input type="radio" name="gender" id="male"
+                                               checked
+                                               v-model="userGender"
+                                               value="male">
+                                        <label for="male"> M</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="radio" name="gender" id="female"
+                                               v-model="userGender"
+                                               value="female">
+                                        <label for="female"> F</label>
+                                    </div>
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text" name="s-federation" id="s-federation"
+                                           placeholder="Federation"
+                                           disabled
+                                           v-model="userFederation">
+                                </div>
+                                <div class="cm-form__wrapper autocomplete">
+                                    <input class="form-control" type="text" name="s-trainer" id="s-trainer"
+                                           placeholder="Trainer"
+                                           autocomplete="off"
+                                           v-model="userTrainer">
+                                </div>
+                                <div class="cm-form__wrapper autocomplete">
+                                    <input class="form-control" type="text" name="s-city" id="s-city"
+                                           placeholder="City"
+                                           autocomplete="off"
+                                           v-model="userCity">
+                                </div>
+                            </div>
+                            <div class="cm-form__content cm-form__content--f"
+                                 v-else>
+                                <h3 class="cm-form__user-role">Register as Federation</h3>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text" name="f-name" id="f-name"
+                                           placeholder="Federation Name"
+                                           pattern="([A-Za-zА-Яа-я-']){1,}"
+                                           required
+                                           autofocus
+                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
+                                           v-model="federationName">
+                                </div>
+                                <div class="cm-form__wrapper align-items-end row">
+                                    <div class="col">
+                                        <label class="cm-form__label" for="f-sport">Sport</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" name="sport" id="f-sport"
+                                                v-model="federationSport">
+                                            <option v-for="sport in sports"
+                                                    v-bind:value="sport.sportName"
+                                                    :key="sport.sportId">{{sport.sportName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text" name="f-presidentName" id="f-presidentName"
+                                           placeholder="President Name"
+                                           v-model="federationPresidentName">
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
+                                           id="f-subDomain"
+                                           placeholder="Subdomain"
+                                           v-model="federationSubDomain">
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
+                                           placeholder="Contact Phone"
+                                           v-model="federationPhone">
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" autocomplete="off" type="email" name="f-email"
+                                           id="f-email"
+                                           placeholder="Contact Email"
+                                           v-model="federationEmail">
+                                </div>
+                            </div>
+                            <div class="cm-form__wrapper text-center">
+                                <button class="btn btn-primary" id="submit"
+                                        @click="sendDataOnServer">Registration</button>
+                            </div>
                         </tab>
                     </tabs>
-				</form>
-				<!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
-			</div>
-		</div>
-	</div>
+                </form>
+                <!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import Registration_user from "../components/Registration_user";
-import Registration_sportsman from "../components/Registration_sportsman";
-import Registration_federation from "../components/Registration_federation";
 import { Tabs, Tab } from "vue-tabs-component";
+import axios from "axios";
 
 export default {
   name: "registration",
   components: {
-    Registration_federation,
-    Registration_sportsman,
-    Registration_user,
     Tabs,
     Tab
   },
-  props: ["userRole"],
-  data() {},
-  methods: {}
+  data() {
+    return {
+      sportsman: "true",
+      userEmail: "",
+      userPassword: "",
+      userPasswordConfirm: "",
+      userName: "",
+      userDateOfBirth: "",
+      userGender: "female",
+      userFederation: "",
+      userTrainer: "",
+      userCity: "",
+      federationName: "",
+      sports: [
+        {
+          sportId: "1",
+          sportName: "first"
+        },
+        {
+          sportId: "2",
+          sportName: "second"
+        },
+        {
+          sportId: "3",
+          sportName: "third"
+        }
+      ],
+      federationSport: "",
+      federationPresidentName: "",
+      federationSubDomain: "",
+      federationPhone: "",
+      federationEmail: ""
+    };
+  },
+  methods: {
+    sendDataOnServer() {
+      // let data1=data();
+      axios
+        .post("https://jsonplaceholder.typicode.com/posts", {
+          body: JSON.stringify({
+            title: "foo",
+            body: "bar",
+            userId: 1
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+        .then(function(response) {
+          window.console.log(response);
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+      // window.console.log(data());
+    }
+    //
+    // POST adds a random id to the object sent
+    //   fetch("https://my-json-server.typicode.com/stryukovap/my-app/master/", {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       title: "foo",
+    //       body: "bar",
+    //       userId: 1
+    //     }),
+    //     headers: {
+    //       "Content-type": "application/json; charset=UTF-8"
+    //     }
+    //   })
+    //     .then(response => response.json())
+    //     .then(json => window.console.log(json));
+    // }
+  }
 };
 </script>
 
