@@ -1,0 +1,52 @@
+<template>
+  <div class="col-3 cm-sp-inf-coaches">
+        <h2>Coaches</h2>
+        <ul
+          class="list-unstyled cm-sp-info__coaches-list coaches-list"
+          v-for = '(coach, index) in userCoaches'
+          :key = 'coach.index'
+          v-if = 'index < 4'>
+            <li>
+              <a href="#">
+                <img src = "img/user-photo.PNG" width="35" height="35" alt = "coach photo" class = "coach-photo">
+                {{ coach }}
+              </a>
+            </li>
+
+        </ul>
+
+      </div>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'userCoaches',
+  data: function () {
+    return {
+      userCoaches: []
+    }
+  },
+  mounted () {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.userCoaches.push(response.data[i].name)
+        }
+      })
+      // .catch((error) => {
+      //   console.log(error)
+      // })
+  }
+}
+</script>
+
+<style scoped>
+
+.coaches-list a,
+.coaches-list a:hover {
+  text-decoration: none;
+  color: inherit;
+  }
+
+</style>

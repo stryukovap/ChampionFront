@@ -6,6 +6,7 @@ import Registration from "./views/Registration.vue";
 import Auth from "./views/Auth.vue";
 import Forgotpassword from "./views/Forgotpassword.vue";
 import Restorepassword from "./views/Restorepassword.vue";
+import Userprofile from "./views/Userprofile.vue";
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
       path: "/restorepassword",
       name: "restorepassword",
       component: Restorepassword
+    },
+    {
+      path: "/userprofile",
+      name: "userprofile",
+      component: Userprofile
     }
   ]
 });
