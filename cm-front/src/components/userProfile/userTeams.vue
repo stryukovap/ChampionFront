@@ -8,8 +8,8 @@
             :key = 'team.index'
             v-if = 'index < 8'>
             <a href="#" class="col-4">
-              <img src = "img/user-photo.PNG" width="35" height="35" alt = "coach photo" class = "coach-photo">
-              {{ team }}
+              <img v-bind:src = "team.avatar" width="35" height="35" alt = "coach photo" class = "coach-photo">
+              {{ team.name }}
             </a>
           </div>
         </div>
@@ -18,26 +18,30 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  name: 'userTeams',
-  data: function () {
+  name: "userTeams",
+  data: function() {
     return {
       userTeams: []
-    }
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
         for (let i = 0; i < response.data.length; i++) {
-          this.userTeams.push(response.data[i].name);
+          this.userTeams.push({
+            name: response.data[i].name,
+            avatar: "img/user-photo.PNG"
+          });
         }
       })
-      .catch((error) => {
-        console.log(error);
-      })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 
 <style scoped>
