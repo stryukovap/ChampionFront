@@ -22,6 +22,7 @@
               <!-- <div class="user"> -->
               <router-link class="btn btn-primary btn-user" to="/auth">Log in</router-link>
               <router-link class="btn btn-primary btn-user" to="/registration">Registration</router-link>
+              <router-link class="btn btn-primary btn-user" to="/coachcabinet">Coach Cabinet</router-link>
               <!-- </div> -->
             </li>
           </ul>
@@ -106,6 +107,8 @@ footer {
 }
 </style>
 <script>
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 import Footer_static from "./components/Footer_static";
 
 export default {
