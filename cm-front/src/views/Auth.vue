@@ -1,7 +1,7 @@
 <template>
     <div class="auth">
         <form class="form-signin"
-              @submit="sendDataOnServer">
+              @submit.prevent="sendDataOnServer">
             <h2 class="h2 mb-3 font-weight-normal">Please sign in</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail"
@@ -19,7 +19,7 @@
                  v-if="!$v.email.email">This field should be an email
             </div>
             <!--<pre>-->
-                <!--{{$v.email}}-->
+            <!--{{$v.email}}-->
             <!--</pre>-->
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" id="inputPassword"
@@ -32,7 +32,7 @@
             <!--<div class="invalid-feedback"-->
             <!--v-if="!$v.password.minLength">Password field is required</div>-->
             <!--<pre>-->
-                <!--{{$v.password}}-->
+            <!--{{$v.password}}-->
             <!--</pre>-->
             <div class="checkbox mb-3">
                 <label>
@@ -79,7 +79,8 @@ export default {
             password: this.password
           }),
           headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            Accept: "application/json",
+            "Content-type": "application/json"
           }
         })
         .then(function(response) {

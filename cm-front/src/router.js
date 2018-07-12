@@ -7,13 +7,14 @@ import Auth from "./views/Auth.vue";
 import Forgotpassword from "./views/Forgotpassword.vue";
 import Restorepassword from "./views/Restorepassword.vue";
 import Userprofile from "./views/Userprofile.vue";
+import Federations from "./views/Federations.vue";
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: "",
+      path: "/",
       name: "home",
       component: Home
     },
@@ -46,7 +47,12 @@ export default new Router({
       path: "/userprofile",
       name: "userprofile",
       component: Userprofile
+    },
+    {
+      path: "/federations",
+      name: "federations",
+      component: Federations
     }
-  ],
-  mode: "history"
+  ]
+  // mode: "history"
 });
