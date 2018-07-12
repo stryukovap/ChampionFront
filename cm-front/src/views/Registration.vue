@@ -44,7 +44,7 @@
                                            v-model="user.PasswordConfirm">
                                 </div>
                                 <div class="cm-form__wrapper text-center">
-                                    <a href="#second-step">Next</a>
+                                    <a class="btn btn-success" href="#second-step">Next</a>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -53,7 +53,7 @@
                         </tab>
                         <tab name="Second step">
                             <div class="cm-form__wrapper text-left">
-                                <a href="#first-step">Back</a>
+                                <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
                                  v-if="userSportsman === 'true'">

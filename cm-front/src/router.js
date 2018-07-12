@@ -13,7 +13,7 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: "/",
+      path: "",
       name: "home",
       component: Home
     },
@@ -47,5 +47,6 @@ export default new Router({
       name: "userprofile",
       component: Userprofile
     }
-  ]
+  ],
+  mode: "history"
 });

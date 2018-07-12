@@ -5,11 +5,11 @@
                 <!--<div class="row card-list">-->
                 <!--<div class="row card-list" v-for="sportName in sports" :key="sportId">-->
                 <div class="row card-list">
-                    <card_sport class="col-12 col-md-6 col-lg-4 col-xl-4"
-                                v-for="sport in sports"
-                                v-bind:sportName="sport.sportName"
-                                v-bind:sportImage="sport.sportImage"
-                                :key="sport.sportId"/>
+                    <card class="col-12 col-md-6 col-lg-4 col-xl-4"
+                          v-for="sport in sports"
+                          v-bind:Name="sport.Name"
+                          v-bind:Image="sport.Image"
+                          :key="sport.Id"/>
                 </div>
                 <!--<card_sport/>-->
             </div>
@@ -17,27 +17,27 @@
     </div>
 </template>
 <script>
-import Card_sport from "../components/Card_sport";
+import Card from "../components/Card";
 
 export default {
-  components: { Card_sport },
+  components: { Card },
   data() {
     return {
       sports: [
         {
-          sportId: "111",
-          sportName: "TKV",
-          sportImage: "logo.png"
+          Id: "111",
+          Name: "TKV",
+          Image: "logo.png"
         },
         {
-          sportId: "222",
-          sportName: "TVK",
-          sportImage: "logo.png"
+          Id: "222",
+          Name: "TVK",
+          Image: "logo.png"
         },
         {
-          sportId: "333",
-          sportName: "VKT",
-          sportImage: "github-mark_560x560.png"
+          Id: "333",
+          Name: "VKT",
+          Image: "github-mark_560x560.png"
         }
       ]
     };
