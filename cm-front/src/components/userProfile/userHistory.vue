@@ -23,29 +23,28 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  name: 'userHistory',
-  data: function () {
+  name: "userHistory",
+  data: function() {
     return {
       userTournaments: []
-    }
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        window.console.log(response)
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
         for (let i = 0; i < response.data.length; i++) {
-          this.userTournaments.push(response.data[i])
+          this.userTournaments.push(response.data[i]);
         }
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

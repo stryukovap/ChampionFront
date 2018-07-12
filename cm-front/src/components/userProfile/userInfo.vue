@@ -2,7 +2,7 @@
     <div class="row  cm-sp-info">
       <div class="col-2 cm-sp-info-photo">
         <a href = "#">
-          <img src = "img/user-photo.PNG" width="150" height="150" alt ="user photo" class = "user__photo">
+          <img v-bind:src="userAvatar" width="150" height="150" alt ="user photo" class = "user__photo">
         </a>
         <user-contacts v-if="userIsCoach"></user-contacts>
       </div>
@@ -28,32 +28,34 @@
 </template>
 
 <script>
-import axios from 'axios'
-import UserCoaches from './userCoaches'
-import UserContacts from './userContacts'
+import axios from "axios";
+import UserCoaches from "./userCoaches";
+import UserContacts from "./userContacts";
 export default {
-  name: 'user-info',
+  name: "user-info",
   components: {
     UserCoaches,
-    UserContacts    
+    UserContacts
   },
-  props: ['userIsCoach'],
-  data: function () {
+  props: ["userIsCoach"],
+  data: function() {
     return {
-      userFullName: '',
-      userRole: 'Coach',
-      userLevel: '2 Dan',
-      userRank: 'International Master of Sports',
-      userWeight: '68 kg',
-      userCity: 'Odessa',
-      userFederation: 'Federation Name',
+      userAvatar: "img/user-photo.PNG",
+      userFullName: "",
+      userRole: "Coach",
+      userLevel: "2 Dan",
+      userRank: "International Master of Sports",
+      userWeight: "68 kg",
+      userCity: "Odessa",
+      userFederation: "Federation Name",
       federationLocation: {}
-    }
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        this.userFullName = response.data[0].name
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
+        this.userFullName = response.data[0].name;
         // this.userRole = response.data[0].username
         // this.userLevel = response.data[0].suite
         // this.userRank = response.data[0].street
@@ -62,13 +64,12 @@ export default {
         // this.userFederation = response.data[0].company.name
         // this.federationLocation = response.data[0].geo
       })
-      .catch((error) => {
-        error;
-      })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

@@ -14,28 +14,29 @@
 </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  name: 'userContacts',
-  data: function () {
+  name: "userContacts",
+  data: function() {
     return {
-      userPhone: '',
-      userFacebook: '#',
-      userInstagram: '#'
-    }
+      userPhone: "",
+      userFacebook: "#",
+      userInstagram: "#"
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-          this.userPhone = response.data[3].phone;
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
+        this.userPhone = response.data[3].phone;
         //   this.userFacebook = response.data[0].name,
         //   this.userInstagram = response.data[0].name
-        })
-      .catch(function (error) {
-        error;
       })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 <style scoped>
 </style>

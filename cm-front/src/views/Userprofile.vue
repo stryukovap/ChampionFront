@@ -10,36 +10,36 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import userInfo from '../components/userProfile/userInfo';
-import userCertificates from '../components/userProfile/userCertificates';
-import userHistory from '../components/userProfile/userHistory';
-import userTeams from '../components/userProfile/userTeams';
-
+import axios from "axios";
+import userInfo from "../components/userProfile/userInfo";
+import userCertificates from "../components/userProfile/userCertificates";
+import userHistory from "../components/userProfile/userHistory";
+import userTeams from "../components/userProfile/userTeams";
 
 export default {
-  name: 'user-profile',
+  name: "user-profile",
   components: {
     userInfo,
     userCertificates,
     userHistory,
     userTeams
   },
-  data: function () {
+  data: function() {
     return {
       userIsCoach: false
-    }
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/todos')
-      .then((response) => {
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos")
+      .then(response => {
         this.userIsCoach = response.data[3].completed;
       })
-      .catch((error) => {
-        error;
-      })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 <style>
 .container {

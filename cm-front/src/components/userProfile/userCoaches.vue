@@ -8,8 +8,8 @@
           v-if = 'index < 4'>
             <li>
               <a href="#">
-                <img src = "img/user-photo.PNG" width="35" height="35" alt = "coach photo" class = "coach-photo">
-                {{ coach }}
+                <img v-bind:src="coach.avatar" width="35" height="35" alt = "coach photo" class = "coach-photo">
+                {{ coach.name }}
               </a>
             </li>
 
@@ -19,34 +19,36 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  name: 'userCoaches',
-  data: function () {
+  name: "userCoaches",
+  data: function() {
     return {
       userCoaches: []
-    }
+    };
   },
-  mounted () {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
+  mounted() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
         for (let i = 0; i < response.data.length; i++) {
-          this.userCoaches.push(response.data[i].name)
+          this.userCoaches.push({
+            name: response.data[i].name,
+            avatar: "img/user-photo.PNG"
+          });
         }
       })
-      // .catch((error) => {
-      //   console.log(error)
-      // })
+      .catch(error => {
+        window.console.log(error);
+      });
   }
-}
+};
 </script>
 
 <style scoped>
-
 .coaches-list a,
 .coaches-list a:hover {
   text-decoration: none;
   color: inherit;
-  }
-
+}
 </style>
