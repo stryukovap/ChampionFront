@@ -53,6 +53,6 @@ export default new Router({
       name: "federations",
       component: Federations
     }
-  ]
-  // mode: "history"
+  ],
+  mode: "history"
 });

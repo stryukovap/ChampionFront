@@ -74,14 +74,8 @@ export default {
       window.console.log("password", this.password);
       axios
         .post("https://champion-api.herokuapp.com/api/login", {
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password
-          }),
-          headers: {
-            Accept: "application/json",
-            "Content-type": "application/json"
-          }
+          email: this.email,
+          password: this.password
         })
         .then(function(response) {
           window.console.log(response);
