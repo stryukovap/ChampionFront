@@ -10,13 +10,13 @@
                                 <div class="row cm-form__wrapper text-center">
                                     <div class="col">
                                         <input class="form-control" type="radio" name="as-role" id="as-role-f"
-                                               v-model="sportsman"
+                                               v-model="userSportsman"
                                                value="false">
                                         <label for="as-role-f">As federation</label>
                                     </div>
                                     <div class="col">
                                         <input class="form-control" type="radio" name="as-role" id="as-role-s" checked
-                                               v-model="sportsman"
+                                               v-model="userSportsman"
                                                value="true">
                                         <label for="as-role-s">As sportsman</label>
                                     </div>
@@ -27,21 +27,21 @@
                                            autofocus
                                            autocomplete="off"
                                            placeholder="E-mail"
-                                           v-model="userEmail">
+                                           v-model="user.Email">
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-pass" id="user-pass"
                                            required
                                            autocomplete="off"
                                            placeholder="Password"
-                                           v-model="userPassword">
+                                           v-model="user.Password">
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-confpass" id="user-confpass"
                                            required
                                            autocomplete="off"
                                            placeholder="Confirm password"
-                                           v-model="userPasswordConfirm">
+                                           v-model="user.PasswordConfirm">
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <a href="#second-step">Next</a>
@@ -56,7 +56,7 @@
                                 <a href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
-                                 v-if="sportsman === 'true'">
+                                 v-if="userSportsman === 'true'">
                                 <h3 class="cm-form__user-role">Register as Sportsman</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="s-name" id="s-name"
@@ -166,7 +166,8 @@
                             </div>
                             <div class="cm-form__wrapper text-center">
                                 <button class="btn btn-primary" id="submit"
-                                        @click="sendDataOnServer">Registration</button>
+                                        @click="sendDataOnServer">Registration
+                                </button>
                             </div>
                         </tab>
                     </tabs>
@@ -189,17 +190,22 @@ export default {
   },
   data() {
     return {
-      sportsman: "true",
-      userEmail: "",
-      userPassword: "",
-      userPasswordConfirm: "",
-      userName: "",
-      userDateOfBirth: "",
+      user: {
+        Email: "exemple@exemple.com",
+        Password: "password",
+        PasswordConfirm: "password"
+      },
+      userSportsman: "true",
+      userEmail: "exemple@exemple.com",
+      userPassword: "password",
+      userPasswordConfirm: "password",
+      userName: "sportsman",
+      userDateOfBirth: "2018-07-10",
       userGender: "female",
-      userFederation: "",
-      userTrainer: "",
-      userCity: "",
-      federationName: "",
+      userFederation: "federation",
+      userTrainer: "trainer",
+      userCity: "city",
+      federationName: "federation",
       sports: [
         {
           sportId: "1",
@@ -214,23 +220,31 @@ export default {
           sportName: "third"
         }
       ],
-      federationSport: "",
-      federationPresidentName: "",
-      federationSubDomain: "",
-      federationPhone: "",
-      federationEmail: ""
+      federationSport: "first",
+      federationPresidentName: "president",
+      federationSubDomain: "domain",
+      federationPhone: "phone",
+      federationEmail: "exemple@exemple.com"
     };
   },
   methods: {
     sendDataOnServer() {
-      // let data1=data();
       axios
-        .post("https://jsonplaceholder.typicode.com/posts", {
-          body: JSON.stringify({
-            title: "foo",
-            body: "bar",
-            userId: 1
-          }),
+        // .post("https://jsonplaceholder.typicode.com/posts", {
+        .post("https://champion-api.herokuapp.com/api/user", {
+          body: JSON.stringify(
+            {
+              email: "alex1@alexandrz.com",
+              password: "123456",
+              password_confirmation: "123456"
+            }
+            // {
+            // title: "foo",
+            // body: "bar",
+            // userId: 1
+            // self.user
+            // }
+          ),
           headers: {
             "Content-type": "application/json; charset=UTF-8"
           }
@@ -241,24 +255,7 @@ export default {
         .catch(function(error) {
           window.console.log(error);
         });
-      // window.console.log(data());
     }
-    //
-    // POST adds a random id to the object sent
-    //   fetch("https://my-json-server.typicode.com/stryukovap/my-app/master/", {
-    //     method: "POST",
-    //     body: JSON.stringify({
-    //       title: "foo",
-    //       body: "bar",
-    //       userId: 1
-    //     }),
-    //     headers: {
-    //       "Content-type": "application/json; charset=UTF-8"
-    //     }
-    //   })
-    //     .then(response => response.json())
-    //     .then(json => window.console.log(json));
-    // }
   }
 };
 </script>

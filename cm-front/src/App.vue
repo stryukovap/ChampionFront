@@ -39,9 +39,7 @@
 </template>
 
 <style lang="scss">
-@import "../node_modules/bootstrap/scss/bootstrap-reboot.scss";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
 body {
   text-align: center;
   display: flex;
