@@ -35,8 +35,7 @@ export default {
       activeItem: "Tournaments",
       menu: [
         {
-          title: "Tournaments",
-          href: "coachcabinet/tournaments"
+          title: "Tournaments"
         },
         {
           title: "My team"
