@@ -6,10 +6,8 @@
             </div>
             <div class="col-4">
                 <b-dropdown variant="outline-primary" right text="Activate">
-                    <b-dropdown-item>Activate</b-dropdown-item>
-                    <b-dropdown-item>Deactivate</b-dropdown-item>
-                    <b-dropdown-item>Buy Sudscription</b-dropdown-item>
-                    <b-dropdown-item>Delete</b-dropdown-item>
+                    <b-dropdown-item @click="buySubscription">Buy Sudscription</b-dropdown-item>
+                    <b-dropdown-item @click="deleteSportsman">Delete</b-dropdown-item>
                 </b-dropdown>
             </div>
             <div class="col-4">
@@ -69,7 +67,6 @@ export default {
                 active: false,
                 subscription: false
             },
-            selected: [],
             allSelected: false,
             selectedItems: []
         }
@@ -138,6 +135,17 @@ export default {
         selectItem() {
             this.allSelected = false;
         },
+        buySubscription() {
+            this.$router.push({ path: '/buysubscribtion', params: { sportsmans: this.selectedItems }});
+        },
+        deleteSportsman() {
+//            const promises = this.selectedItems.map(item => {
+//                return axios
+//                    .delete(`https://champion-api.herokuapp.com/api/sportsman/${item.id}`)
+//                    .then(response => console.log(response.data.message))
+//            })
+//            return Promise.all(promises)
+        }
     }
 }
 </script>

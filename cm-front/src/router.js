@@ -7,6 +7,7 @@ import Auth from "./views/Auth.vue";
 import Forgotpassword from "./views/Forgotpassword.vue";
 import Restorepassword from "./views/Restorepassword.vue";
 import Coachcabinet from "./components/coach_cabinet.vue";
+import BuySubscription from "./components/buy_subscribtion.vue";
 
 Vue.use(Router);
 
@@ -46,6 +47,12 @@ export default new Router({
       path: "/coachcabinet",
       name: "coach-cabinet",
       component: Coachcabinet
+    },
+    {
+        path: "/buysubscribtion",
+        name: "buysubscription",
+        component: BuySubscription,
+        props: true
     }
   ]
 });
