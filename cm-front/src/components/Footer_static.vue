@@ -1,9 +1,18 @@
 <template>
     <nav class="footer__nav">
         <ul class="footer__list">
-            <li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>
-            <li class="footer__item"><a href="#" class="footer__link">Footer item 2</a></li>
-            <li class="footer__item"><a href="#" class="footer__link">Footer item 3</a></li>
+            <router-link tag="a"
+                         class="footer__item"
+                         to="/Federations">Federations</router-link>
+            <router-link tag="a"
+                         class="footer__item"
+                         to="/userprofile">Userprofile</router-link>
+            <router-link tag="a"
+                         class="footer__item"
+                         to="/federation">Federation</router-link>
+            <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>-->
+            <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 2</a></li>-->
+            <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 3</a></li>-->
             <li class="footer__item"><a href="#" class="footer__link">Footer item 4</a></li>
             <li class="footer__item footer__item--logo">
                 <router-link class="nav-link" to="/">Home</router-link>
@@ -17,9 +26,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../../node_modules/bootstrap/scss/bootstrap-reboot";
 @import "../../node_modules/bootstrap/scss/bootstrap";
-@import "../../node_modules/bootstrap/scss/bootstrap-grid";
 
 body {
   text-align: center;

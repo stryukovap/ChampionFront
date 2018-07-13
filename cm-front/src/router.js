@@ -9,6 +9,7 @@ import Restorepassword from "./views/Restorepassword.vue";
 import Restorepasswordfalse from "./views/Restorepasswordfalse.vue";
 import Userprofile from "./views/Userprofile.vue";
 import Federations from "./views/Federations.vue";
+import Federation from "./views/Federation.vue";
 
 Vue.use(Router);
 
@@ -58,6 +59,11 @@ export default new Router({
       path: "/restorepasswordfalse",
       name: "restorepasswordfalse",
       component: Restorepasswordfalse
+    },
+    {
+      path: "/federation",
+      name: "federation",
+      component: Federation
     }
   ],
   mode: "history"

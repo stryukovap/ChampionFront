@@ -14,12 +14,13 @@
     "vue-instant": "^1.0.2",
     "vue-router": "^3.0.1",
     "vue-tabs-component": "^1.4.0",
+    "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
     "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
-    "@vue/cli-service": "^3.0.0-beta.15",
+    "@vue/cli-service": "^3.0.0-rc.4",
     "@vue/eslint-config-prettier": "^3.0.0-rc.3",
     "lint-staged": "^6.0.0",
     "node-sass": "^4.9.0",
