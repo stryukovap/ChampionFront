@@ -78,7 +78,8 @@ export default {
           password: this.password
         })
         .then(function(response) {
-          window.console.log(response);
+          window.console.log(response.data);
+          window.console.log(response.data.auth_token);
         })
         .catch(function(error) {
           window.console.log(error);
