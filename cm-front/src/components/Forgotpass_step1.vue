@@ -21,9 +21,9 @@
                             :disabled="$v.$invalid"
                             @click="sendDataOnServer">sendDataOnServer
                     </button>
-                    <button class="btn btn-primary btn-user"
-                            @click="goRestore">goRestore
-                    </button>
+                    <!--<button class="btn btn-primary btn-user"-->
+                    <!--@click="goRestore">goRestore-->
+                    <!--</button>-->
                     <!--<router-link class="btn btn-primary btn-user"-->
                     <!--tag="button"-->
                     <!--:disabled="$v.$invalid"-->
@@ -57,6 +57,9 @@ export default {
     goRestore: function() {
       this.$router.push("/restorepassword");
     },
+    goFalse: function() {
+      this.$router.push("/restorepasswordfalse");
+    },
     sendDataOnServer: function() {
       window.console.log(this.email);
       axios
@@ -65,12 +68,7 @@ export default {
         })
         .then(function(response) {
           window.console.log(response);
-          this.message = response.data.message;
-          // if (response.data.message === "We have e-mailed your password reset link!") {
-          window.console.log(this.message);
-          // this.$router.push('/restorepassword')
-          // }
-        })
+        }, this.goRestore())
         .catch(function(error) {
           window.console.log(error);
         });

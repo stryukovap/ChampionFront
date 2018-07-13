@@ -6,6 +6,7 @@ import Registration from "./views/Registration.vue";
 import Auth from "./views/Auth.vue";
 import Forgotpassword from "./views/Forgotpassword.vue";
 import Restorepassword from "./views/Restorepassword.vue";
+import Restorepasswordfalse from "./views/Restorepasswordfalse.vue";
 import Userprofile from "./views/Userprofile.vue";
 import Federations from "./views/Federations.vue";
 
@@ -52,6 +53,11 @@ export default new Router({
       path: "/federations",
       name: "federations",
       component: Federations
+    },
+    {
+      path: "/restorepasswordfalse",
+      name: "restorepasswordfalse",
+      component: Restorepasswordfalse
     }
   ],
   mode: "history"

@@ -1,8 +1,11 @@
 <template>
-    <div class="restorepassword">
+    <div>
         <div class="col-12 col-md-6 col-lg-4 col-xl-4 wrapper">
             <h1 class="cm-form__title">{{ message}}</h1>
-            <span class="cm-form__desc">Check your mail to restore account access.</span>
+            <span class="cm-form__desc">Check mail</span>
+            <button class="btn btn-danger"
+                    @click="goPrevios">goPrevios
+            </button>
         </div>
     </div>
 </template>
@@ -10,8 +13,14 @@
 export default {
   data() {
     return {
-      message: "We have e-mailed your password reset link!"
+      message: "We cant find a user with that e-mail address"
     };
+  },
+
+  methods: {
+    goPrevios: function() {
+      window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+    }
   }
 };
 </script>
