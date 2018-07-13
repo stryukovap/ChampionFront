@@ -2,7 +2,8 @@
     <div class="registration">
         <div class="container">
             <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <form class="cm-form" action="#" autocomplete="off" method="post">
+                <!--<form class="cm-form" autocomplete="off" @submit.prevent="sendDataOnServer">-->
+                <form class="cm-form" autocomplete="off" @submit.prevent="">
                     <tabs>
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
@@ -23,28 +24,54 @@
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="email" name="user-email" id="user-email"
-                                           required
                                            autofocus
                                            autocomplete="off"
                                            placeholder="E-mail"
-                                           v-model="user.Email">
+                                           v-model="user.email"
+                                           @input="$v.user.email.$touch()"
+                                           :class="{'is-invalid': $v.user.email.$error}">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.required">Email field is required
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.email">This field should be an email
+                                    </div>
+                                    <!--<div class="invalid-feedback"-->
+                                         <!--v-if="!$v.user.email.uniqemail">This email is already exist-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-pass" id="user-pass"
-                                           required
                                            autocomplete="off"
                                            placeholder="Password"
-                                           v-model="user.Password">
+                                           v-model="user.password"
+                                           @input="$v.user.password.$touch()"
+                                           :class="{'is-invalid' :$v.user.password.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.user.password.minLength">
+                                        Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
+                                        is {{ user.password.length }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
-                                    <input class="form-control" type="password" name="user-confpass" id="user-confpass"
-                                           required
+                                    <input class="form-control" type="password" name="user-confpass"
+                                           id="user-confpass"
                                            autocomplete="off"
                                            placeholder="Confirm password"
-                                           v-model="user.PasswordConfirm">
+                                           v-model="user.passwordConfirm"
+                                           :class="{'is-invalid': $v.user.passwordConfirm.$error}"
+                                           @input="$v.user.passwordConfirm.$touch()">
+                                    <div class="invalid-feedback" v-if="!$v.user.passwordConfirm.sameAs">
+                                        Passwords should match
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
-                                    <a class="btn btn-success" href="#second-step">Next</a>
+                                    <a class="btn btn-success"
+                                            href="#second-step"
+                                       :disabled="$v.$invalid"
+                                       @click="sendDataOnServer">Next</a>
+                                    <!--<button class="btn btn-success"-->
+                                            <!--:disabled="$v.$invalid"-->
+                                            <!--@click="sendDataOnServer">Next</button>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -61,11 +88,17 @@
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="s-name" id="s-name"
                                            placeholder="Name"
-                                           pattern="([A-Za-zА-Яа-я-']){1,}"
-                                           required
+                                           pattern="([A-Za-zА-Яа-я-'])"
                                            autofocus
+                                           autocomplete="off"
                                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                                           v-model="userName">
+                                           v-model="userName"
+                                           @input="$v.userName.$touch()"
+                                           :class="{'is-invalid' :$v.userName.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.userName.minLength">
+                                        Min length of Name is {{ $v.userName.$params.minLength.min }}. Now it
+                                        is {{ userName.length }}.
+                                    </div>
                                 </div>
                                 <div class="row cm-form__wrapper align-items-end">
                                     <div class="col">
@@ -74,8 +107,12 @@
                                     <div class="col">
                                         <input class="form-control" type="date" name="s-bdate" id="s-bdate"
                                                title="Date of Birth"
-                                               required
-                                               v-model="userDateOfBirth">
+                                               v-model="userDateOfBirth"
+                                               @input="$v.userDateOfBirth.$touch()"
+                                               :class="{'is-invalid' :$v.userDateOfBirth.$error}">
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.userDateOfBirth.required">Date of Birth field is required
                                     </div>
                                 </div>
                                 <div class="row cm-form__wrapper">
@@ -165,9 +202,8 @@
                                 </div>
                             </div>
                             <div class="cm-form__wrapper text-center">
-                                <button class="btn btn-primary" id="submit"
-                                        @click="sendDataOnServer">Registration
-                                </button>
+                                <button class="btn btn-primary">Registration
+                                </button><!--@click="sendDataOnServer">Registration-->
                             </div>
                         </tab>
                     </tabs>
@@ -181,6 +217,7 @@
 <script>
 import { Tabs, Tab } from "vue-tabs-component";
 import axios from "axios";
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 
 export default {
   name: "registration",
@@ -191,14 +228,14 @@ export default {
   data() {
     return {
       user: {
-        Email: "exemple@exemple.com",
-        Password: "password",
-        PasswordConfirm: "password"
+        email: "",
+        password: "",
+        passwordConfirm: ""
       },
       userSportsman: "true",
-      userEmail: "exemple@exemple.com",
-      userPassword: "password",
-      userPasswordConfirm: "password",
+      // userEmail: "exemple@exemple.com",
+      // userPassword: "password",
+      // userPasswordConfirm: "password",
       userName: "sportsman",
       userDateOfBirth: "2018-07-10",
       userGender: "female",
@@ -224,30 +261,41 @@ export default {
       federationPresidentName: "president",
       federationSubDomain: "domain",
       federationPhone: "phone",
-      federationEmail: "exemple@exemple.com"
+      federationEmail: "exemple@exemple.com",
+      authUser: {}
     };
   },
+  validations: {
+    user: {
+      email: {
+        required: required,
+        email: email
+      },
+      password: {
+        minLength: minLength(6)
+      },
+      passwordConfirm: {
+        sameAs: sameAs("password")
+      }
+    },
+    userName: {
+      minLength: minLength(3)
+    },
+    userDateOfBirth: {
+      required: required
+    }
+  },
   methods: {
-    sendDataOnServer() {
+    sendDataOnServer: function() {
+      window.console.log(this.user.email);
+      window.console.log(this.user.password);
+      window.console.log(this.user.passwordConfirm);
+
       axios
-        // .post("https://jsonplaceholder.typicode.com/posts", {
         .post("https://champion-api.herokuapp.com/api/user", {
-          body: JSON.stringify(
-            {
-              email: "alex1@alexandrz.com",
-              password: "123456",
-              password_confirmation: "123456"
-            }
-            // {
-            // title: "foo",
-            // body: "bar",
-            // userId: 1
-            // self.user
-            // }
-          ),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          }
+          email: this.user.email,
+          password: this.user.password,
+          password_confirmation: this.user.passwordConfirm
         })
         .then(function(response) {
           window.console.log(response);

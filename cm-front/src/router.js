@@ -6,15 +6,16 @@ import Registration from "./views/Registration.vue";
 import Auth from "./views/Auth.vue";
 import Forgotpassword from "./views/Forgotpassword.vue";
 import Restorepassword from "./views/Restorepassword.vue";
+import Restorepasswordfalse from "./views/Restorepasswordfalse.vue";
 import Userprofile from "./views/Userprofile.vue";
-import Federation from "./views/Federation.vue";
+import Federations from "./views/Federations.vue";
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: "",
+      path: "/",
       name: "home",
       component: Home
     },
@@ -49,9 +50,14 @@ export default new Router({
       component: Userprofile
     },
     {
-      path: "/federation",
-      name: "federation",
-      component: Federation
+      path: "/federations",
+      name: "federations",
+      component: Federations
+    },
+    {
+      path: "/restorepasswordfalse",
+      name: "restorepasswordfalse",
+      component: Restorepasswordfalse
     }
   ],
   mode: "history"
