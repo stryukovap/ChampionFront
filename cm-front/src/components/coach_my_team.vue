@@ -29,19 +29,19 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
-                        <th scope="col">Sportsman</th>
-                        <th scope="col">Active</th>
-                        <th scope="col">Subscription expiry date</th>
+                        <th><input type="checkbox" @click="selectAll" v-model="allSelected"></th>
+                        <th class="table__head-item" scope="col" @click="sortItems('sportsman')">Sportsman</th>
+                        <th class="table__head-item" scope="col" @click="sortItems('active')">Active</th>
+                        <th class="table__head-item" scope="col" @click="sortItems('subscription')">Subscription expiry date</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <paginate tag="tbody" name="items" :list="items" :per="5" ref="paginator">
                     <tr v-for="item in paginated('items')">
-                        <th><input type="checkbox"></th>
+                        <td><input type="checkbox" v-model="selectedItems" @click="selectItem" :value="item" ></td>
                         <td>{{item.name}}</td>
                         <td>{{item.username}}</td>
-                        <td>{{item.phone}}</td>
+                        <td>{{item.id}}</td>
                         <th>Edit</th>
                     </tr>
                 </paginate>
@@ -63,7 +63,15 @@ export default {
     data: function () {
         return {
             items: [],
-            paginate: ['items']
+            paginate: ['items'],
+            sorted: {
+                name: false,
+                active: false,
+                subscription: false
+            },
+            selected: [],
+            allSelected: false,
+            selectedItems: []
         }
     },
     mounted() {
@@ -72,11 +80,75 @@ export default {
             .catch(error => console.log(error));
     },
     methods: {
+        sortItems(column) {
+            if(column === 'sportsman') {
+                if (this.sorted.name === false) {
+                    this.items.sort((a,b) => {
+                        if (a.name > b.name) return 1;
+                        if (a.name < b.name) return -1;
+                        return 0;
+                    });
+                    this.sorted.name = !this.sorted.name;
+                } else {
+                    this.items.sort((a,b) => {
+                        if (a.name > b.name) return -1;
+                        if (a.name < b.name) return 1;
+                        return 0;
+                    });
+                    this.sorted.name = !this.sorted.name;
+                }
+            } else if (column === 'active') {
+                if (this.sorted.active === false) {
+                    this.items.sort((a, b) => {
+                        if (a.username > b.username) return 1;
+                        if (a.username < b.username) return -1;
+                        return 0;
+                    });
+                    this.sorted.active = !this.sorted.active;
+                } else {
+                    this.items.sort((a, b) => {
+                        if (a.username > b.username) return -1;
+                        if (a.username < b.username) return 1;
+                        return 0;
+                    });
+                    this.sorted.active = !this.sorted.active;
+                }
+            } else if (column === 'subscription') {
+                if (this.sorted.subscription === false) {
+                    this.items.sort((a, b) => {
+                        return a.id - b.id;
+                    });
+                    this.sorted.subscription = !this.sorted.subscription;
+                } else {
+                    this.items.sort((a, b) => {
+                        return b.id - a.id;
+                    });
+                    this.sorted.subscription = !this.sorted.subscription;
+                }
+            }
+        },
+        selectAll() {
+            this.selectedItems = [];
+            if (!this.allSelected) {
+                this.items.forEach(item => {
+                    this.selectedItems.push(item);
+                });
+            }
+        },
+        selectItem() {
+            this.allSelected = false;
+        },
     }
 }
 </script>
 
 <style lang="scss">
+    .table {
+        &__head-item {
+            cursor: pointer;
+        }
+    }
+
     .navbar-light {
         margin-top: -8px;
     }
