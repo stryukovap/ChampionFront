@@ -1,6 +1,6 @@
 module.exports = {
   assetsDir: undefined,
-  baseUrl: "",
+  baseUrl: undefined,
   outputDir: undefined,
   runtimeCompiler: undefined,
   productionSourceMap: undefined,
