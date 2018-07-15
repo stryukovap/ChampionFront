@@ -63,7 +63,7 @@ export default {
     sendDataOnServer: function() {
       window.console.log(this.email);
       axios
-        .post("https://champion-api.herokuapp.com/api/password/email", {
+        .post(this.$store.state.postResetEmail, {
           email: this.email
         })
         .then(function(response) {

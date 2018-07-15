@@ -1,7 +1,7 @@
 <template>
     <div class="auth">
         <form class="form-signin"
-              @submit.prevent="sendDataOnServer">
+              @submit.prevent="loginUser">
             <h2 class="h2 mb-3 font-weight-normal">Please sign in</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail"
@@ -68,23 +68,46 @@ export default {
       minLength: minLength(6)
     }
   },
+  // mounted: function () {
+  //     this.loginAuth();
+  // },
   methods: {
-    sendDataOnServer() {
+    loginUser() {
+      const authUser = {};
       window.console.log("email", this.email);
       window.console.log("password", this.password);
       axios
-        .post("https://champion-api.herokuapp.com/api/login", {
+        .post(this.$store.state.postLoginUrl, {
           email: this.email,
           password: this.password
         })
-        .then(function(response) {
-          window.console.log(response.data);
-          window.console.log(response.data.auth_token);
+        .then(response => {
+          window.console.log("response.status " + response.status);
+          if (response.status === 200) {
+            authUser.data = response.data;
+            authUser.token = response.data.auth_token;
+            this.$store.state.isLoggedIn = true;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
+            window.localStorage.setItem("lbUser", JSON.stringify(authUser));
+            this.$router.push("/");
+          } else {
+            this.$store.state.isLoggedIn = false;
+          }
         })
         .catch(function(error) {
           window.console.log(error);
         });
     }
+    // loginAuth: function () {
+    //     const status1 = JSON.parse(window.localStorage.getItem('lbUser'));
+    //     if (status1 === null || status === undefined) {
+    //         this.$router.push('/auth');
+    //     } else {
+    //         this.$router.push('/');
+    //     }
+    // }
   }
 };
 </script>

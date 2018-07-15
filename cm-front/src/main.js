@@ -9,11 +9,12 @@ import VuePaginate from "vue-paginate";
 Vue.use(VuePaginate);
 Vue.use(BootstrapVue);
 
+
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");

@@ -11,6 +11,7 @@ import Userprofile from "./views/Userprofile.vue";
 import Federations from "./views/Federations.vue";
 import Coachcabinet from "./components/coach_cabinet.vue";
 import BuySubscription from "./components/buy_subscribtion.vue";
+import Federation from "./views/Federation.vue";
 
 Vue.use(Router);
 
@@ -57,6 +58,11 @@ export default new Router({
             component: Federations
         },
         {
+            path: "/federation",
+            name: "federation",
+            component: Federation
+        },
+        {
             path: "/restorepasswordfalse",
             name: "restorepasswordfalse",
             component: Restorepasswordfalse
@@ -74,4 +80,3 @@ export default new Router({
         }
     ],
     mode: "history"
-});

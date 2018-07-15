@@ -292,7 +292,7 @@ export default {
       window.console.log(this.user.passwordConfirm);
 
       axios
-        .post("https://champion-api.herokuapp.com/api/user", {
+        .post(this.$store.state.postRegistrationUserUrl, {
           email: this.user.email,
           password: this.user.password,
           password_confirmation: this.user.passwordConfirm
