@@ -77,7 +77,7 @@ export default {
       window.console.log("email", this.email);
       window.console.log("password", this.password);
       axios
-        .post("https://champion-api.herokuapp.com/api/login", {
+        .post(this.$store.state.postLoginUrl, {
           email: this.email,
           password: this.password
         })
