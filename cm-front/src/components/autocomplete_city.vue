@@ -94,12 +94,6 @@ export default {
       }
     }
   }
-  //  mounted() {
-  //    document.addEventListener("click", this.handleClickOutside);
-  //  },
-  //  destroyed() {
-  //    document.removeEventListener("click", this.handleClickOutside);
-  //  }
 };
 </script>
 
