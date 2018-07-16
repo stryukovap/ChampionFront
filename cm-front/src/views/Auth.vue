@@ -73,7 +73,7 @@ export default {
   // },
   methods: {
     loginUser() {
-      const authUser = {};
+      // const authUser = {};
       window.console.log("email", this.email);
       window.console.log("password", this.password);
       axios
@@ -84,16 +84,24 @@ export default {
         .then(response => {
           window.console.log("response.status " + response.status);
           if (response.status === 200) {
-            authUser.data = response.data;
-            authUser.token = response.data.auth_token;
+            this.$store.state.authUser = response.data;
+            window.console.log(
+              "this.$store.state.authUser " + this.$store.state.authUser
+            );
             this.$store.state.isLoggedIn = true;
             window.console.log(
               "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
             );
-            window.localStorage.setItem("lbUser", JSON.stringify(authUser));
+            window.localStorage.setItem(
+              "lbUser",
+              JSON.stringify(this.$store.state.authUser)
+            );
             this.$router.push("/");
           } else {
             this.$store.state.isLoggedIn = false;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
           }
         })
         .catch(function(error) {

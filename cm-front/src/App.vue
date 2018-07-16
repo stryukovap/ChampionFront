@@ -128,6 +128,7 @@ export default {
       window.console.log(
         "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
       );
+      this.$router.push("/");
     }
   },
   computed: {

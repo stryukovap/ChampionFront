@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1bdb522c-26ac-4e11-95f3-be771f5b6446" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cm-front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cm-front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cm-front/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cm-front/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/src/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cm-front/src/views/Auth.vue" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/src/views/Auth.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cm-front/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/cm-front/src/views/Registration.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,11 +22,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="store.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cm-front/src/store.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="router.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cm-front/src/router.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="447">
+              <caret line="46" column="6" selection-start-line="46" selection-start-column="6" selection-end-line="46" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Registration.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cm-front/src/views/Registration.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="379" column="53" lean-forward="true" selection-start-line="379" selection-start-column="53" selection-end-line="379" selection-end-column="53" />
+              <folding>
+                <element signature="e#14424#14471#0" expanded="true" />
+                <element signature="n#style#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Auth.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cm-front/src/views/Auth.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="57" column="35" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
+            <state relative-caret-position="263">
+              <caret line="96" column="110" selection-start-line="96" selection-start-column="110" selection-end-line="96" selection-end-column="110" />
               <folding>
                 <element signature="n#style#0;n#!!top" />
               </folding>
@@ -33,13 +68,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="router.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cm-front/src/router.js">
+      <file leaf-file-name="App.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cm-front/src/App.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+            <state relative-caret-position="217">
+              <caret line="125" column="40" selection-start-line="125" selection-start-column="40" selection-end-line="125" selection-end-column="40" />
               <folding>
-                <element signature="e#0#22#0" expanded="true" />
+                <element signature="n#style#0;n#!!top" />
               </folding>
             </state>
           </provider>
@@ -84,14 +119,14 @@
         <option value="$PROJECT_DIR$/cm-front/src/views/Forgotpassword.vue" />
         <option value="$PROJECT_DIR$/cm-front/src/views/Restorepassword.vue" />
         <option value="$PROJECT_DIR$/cm-front/src/views/Restorepasswordfalse.vue" />
-        <option value="$PROJECT_DIR$/cm-front/src/router.js" />
         <option value="$PROJECT_DIR$/cm-front/src/components/Footer_static.vue" />
         <option value="$PROJECT_DIR$/cm-front/src/main.js" />
-        <option value="$PROJECT_DIR$/cm-front/src/App.vue" />
-        <option value="$PROJECT_DIR$/cm-front/src/views/Auth.vue" />
-        <option value="$PROJECT_DIR$/cm-front/src/views/Registration.vue" />
-        <option value="$PROJECT_DIR$/cm-front/src/store.js" />
         <option value="$PROJECT_DIR$/cm-front/src/components/Forgotpass_step1.vue" />
+        <option value="$PROJECT_DIR$/cm-front/src/router.js" />
+        <option value="$PROJECT_DIR$/cm-front/src/views/Auth.vue" />
+        <option value="$PROJECT_DIR$/cm-front/src/App.vue" />
+        <option value="$PROJECT_DIR$/cm-front/src/store.js" />
+        <option value="$PROJECT_DIR$/cm-front/src/views/Registration.vue" />
       </list>
     </option>
   </component>
@@ -116,8 +151,8 @@
     <handled-path value="$PROJECT_DIR$/cm-front/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1015" />
-    <option name="y" value="100" />
+    <option name="x" value="87" />
+    <option name="y" value="138" />
     <option name="width" value="1600" />
     <option name="height" value="710" />
   </component>
@@ -282,6 +317,7 @@
       <workItem from="1531594525574" duration="4775000" />
       <workItem from="1531602725365" duration="455000" />
       <workItem from="1531603225865" duration="6469000" />
+      <workItem from="1531682487097" duration="17876000" />
     </task>
     <task id="LOCAL-00001" summary="create new branch">
       <created>1530804971925</created>
@@ -294,39 +330,29 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="176286000" />
+    <option name="totallyTimeSpent" value="194162000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4957265" visible="true" weight="0.16920027" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4957265" weight="0.23066755" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.2881692" side_tool="true" weight="0.46723646" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.7118308" weight="0.46723646" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32905984" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" sideWeight="0.50427353" side_tool="true" weight="0.16920027" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49966952" weight="0.32905984" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49966952" weight="0.2991453" />
       <window_info id="Favorites" order="2" sideWeight="0.50427353" side_tool="true" weight="0.16920027" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4957265" visible="true" weight="0.23066755" />
-      <window_info id="Structure" order="1" sideWeight="0.50427353" side_tool="true" weight="0.16920027" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.7118308" weight="0.46723646" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.2881692" side_tool="true" weight="0.46723646" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32905984" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49966952" weight="0.2991453" />
-      <window_info id="Favorites" order="2" sideWeight="0.50427353" side_tool="true" weight="0.16920027" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +407,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
@@ -673,27 +699,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cm-front/src/components/Forgotpass_step1.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1518">
+          <caret line="67" column="10" lean-forward="true" selection-start-line="67" selection-start-column="10" selection-end-line="67" selection-end-column="10" />
+          <folding>
+            <element signature="n#style#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cm-front/src/router.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+        <state relative-caret-position="447">
+          <caret line="46" column="6" selection-start-line="46" selection-start-column="6" selection-end-line="46" selection-end-column="6" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cm-front/src/views/Registration.vue">
+    <entry file="file://$PROJECT_DIR$/cm-front/src/views/Auth.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="292" lean-forward="true" selection-start-line="292" selection-end-line="292" />
+        <state relative-caret-position="263">
+          <caret line="96" column="110" selection-start-line="96" selection-start-column="110" selection-end-line="96" selection-end-column="110" />
+          <folding>
+            <element signature="n#style#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cm-front/src/App.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="126" column="43" lean-forward="true" selection-start-line="126" selection-start-column="43" selection-end-line="126" selection-end-column="43" />
+        <state relative-caret-position="217">
+          <caret line="125" column="40" selection-start-line="125" selection-start-column="40" selection-end-line="125" selection-end-column="40" />
           <folding>
             <element signature="n#style#0;n#!!top" />
           </folding>
@@ -702,26 +741,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cm-front/src/store.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="20" />
+        <state relative-caret-position="184">
+          <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cm-front/src/views/Auth.vue">
+    <entry file="file://$PROJECT_DIR$/cm-front/src/views/Registration.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="57" column="35" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
+        <state relative-caret-position="364">
+          <caret line="379" column="53" lean-forward="true" selection-start-line="379" selection-start-column="53" selection-end-line="379" selection-end-column="53" />
           <folding>
-            <element signature="n#style#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cm-front/src/components/Forgotpass_step1.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1518">
-          <caret line="67" column="10" lean-forward="true" selection-start-line="67" selection-start-column="10" selection-end-line="67" selection-end-column="10" />
-          <folding>
+            <element signature="e#14424#14471#0" expanded="true" />
             <element signature="n#style#0;n#!!top" />
           </folding>
         </state>
