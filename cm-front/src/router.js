@@ -9,8 +9,8 @@ import Restorepassword from "./views/Restorepassword.vue";
 import Restorepasswordfalse from "./views/Restorepasswordfalse.vue";
 import Userprofile from "./views/Userprofile.vue";
 import Federations from "./views/Federations.vue";
-import Coachcabinet from "./views/CoachCabinet.vue";
-import BuySubscription from "./components/privateCabinet/buy_subscribtion.vue";
+import Coachcabinet from "./components/coach_cabinet.vue";
+import BuySubscription from "./components/buy_subscribtion.vue";
 import Federation from "./views/Federation.vue";
 
 Vue.use(Router);
@@ -80,4 +80,3 @@ export default new Router({
         }
     ],
     mode: "history"
-})

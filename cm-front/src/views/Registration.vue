@@ -37,7 +37,7 @@
                                          v-if="!$v.user.email.email">This field should be an email
                                     </div>
                                     <!--<div class="invalid-feedback"-->
-                                         <!--v-if="!$v.user.email.uniqemail">This email is already exist-->
+                                    <!--v-if="!$v.user.email.uniqemail">This email is already exist-->
                                     <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -66,12 +66,12 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <a class="btn btn-success"
-                                            href="#second-step"
+                                       href="#second-step"
                                        :disabled="$v.$invalid"
-                                       @click="sendDataOnServer">Next</a>
+                                       @click="sendUserDataOnServer">Next</a>
                                     <!--<button class="btn btn-success"-->
-                                            <!--:disabled="$v.$invalid"-->
-                                            <!--@click="sendDataOnServer">Next</button>-->
+                                    <!--:disabled="$v.$invalid"-->
+                                    <!--@click="sendDataOnServer">Next</button>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -86,18 +86,45 @@
                                  v-if="userSportsman === 'true'">
                                 <h3 class="cm-form__user-role">Register as Sportsman</h3>
                                 <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text" name="s-name" id="s-name"
+                                    <input class="form-control" type="text"
                                            placeholder="Name"
-                                           pattern="([A-Za-zА-Яа-я-'])"
                                            autofocus
                                            autocomplete="off"
                                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                                           v-model="userName"
-                                           @input="$v.userName.$touch()"
-                                           :class="{'is-invalid' :$v.userName.$error}">
-                                    <div class="invalid-feedback" v-if="!$v.userName.minLength">
-                                        Min length of Name is {{ $v.userName.$params.minLength.min }}. Now it
-                                        is {{ userName.length }}.
+                                           v-model="sportsman.name"
+                                           @input="$v.sportsman.name.$touch()"
+                                           :class="{'is-invalid' :$v.sportsman.name.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.minLength">
+                                        Min length of Name is {{ $v.sportsman.name.$params.minLength.min }}. Now it
+                                        is {{ sportsman.name.length }}.
+                                    </div>
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text"
+                                           placeholder="Surname"
+                                           autocomplete="off"
+                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
+                                           v-model="sportsman.surname"
+                                           @input="$v.sportsman.surname.$touch()"
+                                           :class="{'is-invalid' :$v.sportsman.surname.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.minLength">
+                                        Min length of Surname is {{ $v.sportsman.sportsman.surname.$params.minLength.min
+                                        }}. Now it
+                                        is {{ sportsman.surname.length }}.
+                                    </div>
+                                </div>
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text"
+                                           placeholder="Patronymic"
+                                           autocomplete="off"
+                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
+                                           v-model="sportsman.patronymic"
+                                           @input="$v.sportsman.patronymic.$touch()"
+                                           :class="{'is-invalid' :$v.sportsman.patronymic.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">
+                                        Min length of Patronymic is {{
+                                        $v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it
+                                        is {{ sportsman.patronymic.length }}.
                                     </div>
                                 </div>
                                 <div class="row cm-form__wrapper align-items-end">
@@ -107,12 +134,12 @@
                                     <div class="col">
                                         <input class="form-control" type="date" name="s-bdate" id="s-bdate"
                                                title="Date of Birth"
-                                               v-model="userDateOfBirth"
-                                               @input="$v.userDateOfBirth.$touch()"
-                                               :class="{'is-invalid' :$v.userDateOfBirth.$error}">
+                                               v-model="sportsman.dateOfBirth"
+                                               @input="$v.sportsman.dateOfBirth.$touch()"
+                                               :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
                                     </div>
                                     <div class="invalid-feedback"
-                                         v-if="!$v.userDateOfBirth.required">Date of Birth field is required
+                                         v-if="!$v.sportsman.dateOfBirth.required">Date of Birth field is required
                                     </div>
                                 </div>
                                 <div class="row cm-form__wrapper">
@@ -122,34 +149,34 @@
                                     <div class="col">
                                         <input type="radio" name="gender" id="male"
                                                checked
-                                               v-model="userGender"
-                                               value="male">
-                                        <label for="male"> M</label>
+                                               v-model="sportsman.gender"
+                                               value="M">
+                                        <label for="male"> Male</label>
                                     </div>
                                     <div class="col">
                                         <input type="radio" name="gender" id="female"
-                                               v-model="userGender"
-                                               value="female">
-                                        <label for="female"> F</label>
+                                               v-model="sportsman.gender"
+                                               value="F">
+                                        <label for="female"> Female</label>
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text" name="s-federation" id="s-federation"
+                                    <input class="form-control" type="text"
                                            placeholder="Federation"
                                            disabled
-                                           v-model="userFederation">
+                                           v-model="sportsman.federation">
                                 </div>
-                                <div class="cm-form__wrapper autocomplete">
-                                    <input class="form-control" type="text" name="s-trainer" id="s-trainer"
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text"
                                            placeholder="Trainer"
                                            autocomplete="off"
-                                           v-model="userTrainer">
+                                           v-model="sportsman.trainer">
                                 </div>
-                                <div class="cm-form__wrapper autocomplete">
-                                    <input class="form-control" type="text" name="s-city" id="s-city"
+                                <div class="cm-form__wrapper">
+                                    <input class="form-control" type="text"
                                            placeholder="City"
                                            autocomplete="off"
-                                           v-model="userCity">
+                                           v-model="sportsman.city">
                                 </div>
                             </div>
                             <div class="cm-form__content cm-form__content--f"
@@ -202,8 +229,12 @@
                                 </div>
                             </div>
                             <div class="cm-form__wrapper text-center">
-                                <button class="btn btn-primary">Registration
-                                </button><!--@click="sendDataOnServer">Registration-->
+                                <button v-if="userSportsman" class="btn btn-primary"
+                                        @click="sendSportsmanDataOnServer">Registration sportsman
+                                </button>
+                                <button v-else class="btn btn-primary"
+                                        @click="sendFederationDataOnServer">Registration federation
+                                </button>
                             </div>
                         </tab>
                     </tabs>
@@ -232,16 +263,17 @@ export default {
         password: "",
         passwordConfirm: ""
       },
+      sportsman: {
+        name: "name",
+        surname: "surname",
+        patronymic: "patronymic",
+        gender: "M",
+        dateOfBirth: "2018-07-10",
+        federation: "federation",
+        trainer: "trainer",
+        city: "city"
+      },
       userSportsman: "true",
-      // userEmail: "exemple@exemple.com",
-      // userPassword: "password",
-      // userPasswordConfirm: "password",
-      userName: "sportsman",
-      userDateOfBirth: "2018-07-10",
-      userGender: "female",
-      userFederation: "federation",
-      userTrainer: "trainer",
-      userCity: "city",
       federationName: "federation",
       sports: [
         {
@@ -278,31 +310,79 @@ export default {
         sameAs: sameAs("password")
       }
     },
-    userName: {
-      minLength: minLength(3)
-    },
-    userDateOfBirth: {
-      required: required
+    sportsman: {
+      name: {
+        minLength: minLength(1)
+      },
+      surname: {
+        minLength: minLength(1)
+      },
+      patronymic: {
+        minLength: minLength(1)
+      },
+      dateOfBirth: {
+        required: required
+      }
     }
   },
   methods: {
-    sendDataOnServer: function() {
-      window.console.log(this.user.email);
-      window.console.log(this.user.password);
-      window.console.log(this.user.passwordConfirm);
-
+    sendUserDataOnServer: function() {
+      window.console.log(this.user);
       axios
         .post(this.$store.state.postRegistrationUserUrl, {
           email: this.user.email,
           password: this.user.password,
           password_confirmation: this.user.passwordConfirm
         })
+        .then(response => {
+          window.console.log("response.status " + response.status);
+          if (response.status === 201) {
+            this.$store.state.authUser = response.data;
+            window.console.log("response.status " + response.data);
+            this.$store.state.isLoggedIn = true;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
+            window.localStorage.setItem(
+              "lbUser",
+              JSON.stringify(this.$store.state.authUser)
+            );
+            // this.$router.push("/");
+          } else {
+            this.$store.state.isLoggedIn = false;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
+            this.$router.push("/auth");
+          }
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    },
+    sendSportsmanDataOnServer: function() {
+      window.console.log(this.sportsman);
+      var HTTP = axios.create({
+        headers: {
+          Authorization: this.$store.state.authUser.auth_token
+        }
+      });
+      HTTP.post(this.$store.state.postSportsman, {
+        first_name: this.sportsman.name,
+        last_name: this.sportsman.surname,
+        patronymic_name: this.sportsman.patronymic,
+        gender: this.sportsman.gender,
+        date_of_birth: this.sportsman.dateOfBirth
+      })
         .then(function(response) {
           window.console.log(response);
         })
         .catch(function(error) {
           window.console.log(error);
         });
+    },
+    sendFederationDataOnServer: function() {
+      window.console.log("++++++++++++++++++++++++++");
     }
   }
 };
