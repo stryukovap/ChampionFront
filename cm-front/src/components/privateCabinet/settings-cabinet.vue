@@ -28,7 +28,7 @@
                                 <input type="password" name="newPass" placeholder="New password" class="form__input">
                             </div>
                             <div class="form__field">
-                                <input type="password" name="" name="confirmPass" placeholder="Confirm new password" class="form__input">
+                                <input type="password" name="confirmPass" placeholder="Confirm new password" class="form__input">
                             </div>
                             <div class="form__btn-wrap">
                                 <input type="submit" value="Update" class="form__btn btn btn-primary">

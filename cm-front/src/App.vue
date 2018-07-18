@@ -28,9 +28,9 @@
                                 v-on:click="logout">Logout</button>
                     </li>
                     <li class="nav-item" v-else>
-                    <router-link tag="button"
-                                     class="btn btn-primary btn-user"
-                                     to="/auth">Log in</router-link>
+                        <router-link tag="button"
+                                         class="btn btn-primary btn-user"
+                                         to="/auth">Log in</router-link>
                         <router-link tag="button"
                                      class="btn btn-primary btn-user"
                                      to="/registration">Registration</router-link>

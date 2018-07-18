@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import axios from "axios";
-import TournamentsCabinet from "./tournaments_cabinet.vue";
-import CoachMyTeam from "./coach_my_team";
-import Settings from "./settings-cabinet.vue";
+//import axios from "axios";
+import TournamentsCabinet from "../components/privateCabinet/tournaments_cabinet.vue";
+import CoachMyTeam from "../components/privateCabinet/coach_my_team";
+import Settings from "../components/privateCabinet/settings-cabinet.vue";
 
 export default {
   name: "coach-cabinet",
