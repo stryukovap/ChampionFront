@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+dist/
 
 # local env files
 .env.local
@@ -11,7 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
-.idea/
+.idea
 .vscode
 *.suo
 *.ntvs*
