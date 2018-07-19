@@ -7,7 +7,7 @@
             v-for = '(team, index) in userTeams'
             :key = 'team.index'
             v-if = 'index < 8'>
-            <a href="#" class="col-4">
+            <a v-bind:href="team.link" class="col-4">
               <img v-bind:src = "team.avatar" width="35" height="35" alt = "coach photo" class = "coach-photo">
               {{ team.name }}
             </a>
@@ -33,7 +33,8 @@ export default {
         for (let i = 0; i < response.data.length; i++) {
           this.userTeams.push({
             name: response.data[i].name,
-            avatar: "img/user-photo.PNG"
+            avatar: "img/user-photo.PNG",
+            link: "#"
           });
         }
       })

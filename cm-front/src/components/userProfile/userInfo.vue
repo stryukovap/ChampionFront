@@ -1,9 +1,7 @@
 <template>
     <div class="row  cm-sp-info">
       <div class="col-2 cm-sp-info-photo">
-        <a href = "#">
           <img v-bind:src="userAvatar" width="150" height="150" alt ="user photo" class = "user__photo">
-        </a>
         <user-contacts v-if="userIsCoach"></user-contacts>
       </div>
 
@@ -12,13 +10,13 @@
         <p class="user__role">{{ userRole }}</p>
         <p class="user__level">
           <img src = "img/belt.png" width="25" height="25" alt = "user belt" class = "user__belt">
-          <span class="user__belt-description">{{ userLevel }}</span>
+          <span class="user__belt-description"> {{ userLevel }}</span>
         </p>
         <p class="user__rank">{{ userRank }}</p>
         <p class="user__weight">{{ userWeight }}</p>
         <p class="user__city">{{ userCity }}</p>
         <p class="user__federation">{{ userFederation }}
-          <a href = "#">Show on map</a>
+        <a v-bind:href="federationLocation">Show on map</a>
         </p>
       </div>
 
@@ -40,22 +38,23 @@ export default {
   props: ["userIsCoach"],
   data: function() {
     return {
+      userID: "22",
       userAvatar: "img/user-photo.PNG",
-      userFullName: "",
+      userFullName: "User Name",
       userRole: "Coach",
       userLevel: "2 Dan",
       userRank: "International Master of Sports",
       userWeight: "68 kg",
       userCity: "Odessa",
       userFederation: "Federation Name",
-      federationLocation: {}
+      federationLocation: "#"
     };
   },
   mounted() {
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      .get("https://champion-api.herokuapp.com/api/sportsman/" + this.userID)
       .then(response => {
-        this.userFullName = response.data[0].name;
+        this.userFullName = response.data.first_name + " " + response.data.last_name;
         // this.userRole = response.data[0].username
         // this.userLevel = response.data[0].suite
         // this.userRank = response.data[0].street

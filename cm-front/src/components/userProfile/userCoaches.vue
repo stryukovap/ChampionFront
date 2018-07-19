@@ -7,7 +7,7 @@
           :key = 'coach.index'
           v-if = 'index < 4'>
             <li>
-              <a href="#">
+              <a v-bind:href="coach.link">
                 <img v-bind:src="coach.avatar" width="35" height="35" alt = "coach photo" class = "coach-photo">
                 {{ coach.name }}
               </a>
@@ -34,7 +34,8 @@ export default {
         for (let i = 0; i < response.data.length; i++) {
           this.userCoaches.push({
             name: response.data[i].name,
-            avatar: "img/user-photo.PNG"
+            avatar: "img/user-photo.PNG",
+            link: "#"
           });
         }
       })
@@ -46,9 +47,9 @@ export default {
 </script>
 
 <style scoped>
-.coaches-list a,
-.coaches-list a:hover {
-  text-decoration: none;
-  color: inherit;
-}
+/* .coaches-list a,
+.coaches-list a:hover { */
+  /* text-decoration: none;
+  color: inherit; */
+/* } */
 </style>

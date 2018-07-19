@@ -7,7 +7,9 @@
            v-for='(certificate, index) in userCertificates'
            v-if='index < 7'
            :key='certificate.index'>
-           <img class="certificate-item" :src='certificate' width='200' height='200'>
+           <a v-bind:href="certificate.link">
+            <img class="certificate-item" :src='certificate.picture' width='200' height='200'>
+           </a>
          </li>
       </ul>
     </div>
@@ -28,7 +30,10 @@ export default {
       .get("https://jsonplaceholder.typicode.com/photos")
       .then(response => {
         for (let i = 0; i < response.data.length; i++) {
-          this.userCertificates.push(response.data[i].url);
+          this.userCertificates.push({
+            picture: response.data[i].url,
+            link: "#"
+          });
         }
       })
       .catch(error => {
