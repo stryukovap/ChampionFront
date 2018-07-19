@@ -2,7 +2,6 @@
     <div class="registration">
         <div class="container">
             <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <!--<form class="cm-form" autocomplete="off" @submit.prevent="sendDataOnServer">-->
                 <form class="cm-form" autocomplete="off" @submit.prevent="">
                     <tabs>
                         <tab name="First step">
@@ -36,9 +35,9 @@
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.email">This field should be an email
                                     </div>
-                                    <!--<div class="invalid-feedback"-->
-                                    <!--v-if="!$v.user.email.uniqemail">This email is already exist-->
-                                    <!--</div>-->
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.unique">This email is already exist
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-pass" id="user-pass"
@@ -65,13 +64,14 @@
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
+                                    <!--<a class="btn btn-success"-->
+                                       <!--href="#second-step"-->
+                                       <!--:disabled="$v.$invalid"-->
+                                       <!--@click="sendUserDataOnServer">Next</a>-->
                                     <a class="btn btn-success"
                                        href="#second-step"
-                                       :disabled="$v.$invalid"
+                                       v-if="!$v.$invalid"
                                        @click="sendUserDataOnServer">Next</a>
-                                    <!--<button class="btn btn-success"-->
-                                    <!--:disabled="$v.$invalid"-->
-                                    <!--@click="sendDataOnServer">Next</button>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -178,6 +178,11 @@
                                            autocomplete="off"
                                            v-model="sportsman.city">
                                 </div>
+                                <div class="cm-form__wrapper text-center">
+                                    <button class="btn btn-primary"
+                                            @click="sendSportsmanDataOnServer">Registration sportsman
+                                    </button>
+                                </div>
                             </div>
                             <div class="cm-form__content cm-form__content--f"
                                  v-else>
@@ -185,11 +190,9 @@
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
-                                           pattern="([A-Za-zА-Яа-я-']){1,}"
-                                           required
                                            autofocus
                                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                                           v-model="federationName">
+                                           v-model="federation.name">
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
@@ -197,7 +200,7 @@
                                     </div>
                                     <div class="col">
                                         <select class="form-control" name="sport" id="f-sport"
-                                                v-model="federationSport">
+                                                v-model="federation.sport">
                                             <option v-for="sport in sports"
                                                     v-bind:value="sport.sportName"
                                                     :key="sport.sportId">{{sport.sportName}}
@@ -208,34 +211,39 @@
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-presidentName" id="f-presidentName"
                                            placeholder="President Name"
-                                           v-model="federationPresidentName">
+                                           v-model="federation.presidentName">
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
                                            id="f-subDomain"
                                            placeholder="Subdomain"
-                                           v-model="federationSubDomain">
+                                           v-model="federation.subDomain">
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
                                            placeholder="Contact Phone"
-                                           v-model="federationPhone">
+                                           v-model="federation.phone">
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="email" name="f-email"
                                            id="f-email"
                                            placeholder="Contact Email"
-                                           v-model="federationEmail">
+                                           v-model="federation.email">
+                                </div>
+                                <div class="cm-form__wrapper text-center">
+                                    <button class="btn btn-primary"
+                                            @click="sendFederationDataOnServer">Registration federation
+                                    </button>
                                 </div>
                             </div>
-                            <div class="cm-form__wrapper text-center">
-                                <button v-if="userSportsman" class="btn btn-primary"
-                                        @click="sendSportsmanDataOnServer">Registration sportsman
-                                </button>
-                                <button v-else class="btn btn-primary"
-                                        @click="sendFederationDataOnServer">Registration federation
-                                </button>
-                            </div>
+                            <!--<div class="cm-form__wrapper text-center">-->
+                                <!--<button v-if="userSportsman" class="btn btn-primary"-->
+                                        <!--@click="sendSportsmanDataOnServer">Registration sportsman-->
+                                <!--</button>-->
+                                <!--<button class="btn btn-primary"-->
+                                        <!--@click="sendFederationDataOnServer">Registration federation-->
+                                <!--</button>-->
+                            <!--</div>-->
                         </tab>
                     </tabs>
                 </form>
@@ -246,240 +254,260 @@
 </template>
 
 <script>
-import { Tabs, Tab } from "vue-tabs-component";
-import axios from "axios";
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+    import {Tabs, Tab} from "vue-tabs-component";
+    import axios from "axios";
+    import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
 
-export default {
-  name: "registration",
-  components: {
-    Tabs,
-    Tab
-  },
-  data() {
-    return {
-      user: {
-        email: "",
-        password: "",
-        passwordConfirm: ""
-      },
-      sportsman: {
-        name: "name",
-        surname: "surname",
-        patronymic: "patronymic",
-        gender: "M",
-        dateOfBirth: "2018-07-10",
-        federation: "federation",
-        trainer: "trainer",
-        city: "city"
-      },
-      userSportsman: "true",
-      federationName: "federation",
-      sports: [
-        {
-          sportId: "1",
-          sportName: "first"
+    export default {
+        name: "registration",
+        components: {
+            Tabs,
+            Tab
         },
-        {
-          sportId: "2",
-          sportName: "second"
+        data() {
+            return {
+                user: {
+                    email: "stryukovap1@gmail.com",
+                    password: "",
+                    passwordConfirm: ""
+                },
+                sportsman: {
+                    name: "name",
+                    surname: "surname",
+                    patronymic: "patronymic",
+                    gender: "M",
+                    dateOfBirth: "2018-07-10",
+                    federation: "federation",
+                    trainer: "trainer",
+                    city: "city"
+                },
+                federation:{
+                    name:"federation",
+                    sport:"first",
+                    presidentName: "president",
+                    subDomain: "domain",
+                    phone: "phone",
+                    email: "exemple@exemple.com",
+                },
+                userSportsman: "true",
+                sports: [
+                    {
+                        sportId: "1",
+                        sportName: "first"
+                    },
+                    {
+                        sportId: "2",
+                        sportName: "second"
+                    },
+                    {
+                        sportId: "3",
+                        sportName: "third"
+                    }
+                ],
+                authUser: {}
+            };
         },
-        {
-          sportId: "3",
-          sportName: "third"
+        validations: {
+            user: {
+                email: {
+                    required: required,
+                    email: email,
+                    unique: val => {
+                        if (val === "") return true;
+                        return axios
+                            .get("https://champion-api.herokuapp.com/api/user/find?email=" + val) //+userEmail, 200 true, 404 false)
+                            // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
+                            .then(response => {
+                                // handle success
+                                console.log(response);
+                                if (response.status === 200) {
+                                    return false;
+                                }
+                            })
+                            .catch(function (error) {
+                                // handle error
+                                console.log(error);
+                                return true;
+                            })
+                    }
+                },
+                password: {
+                    minLength: minLength(6)
+                },
+                passwordConfirm: {
+                    sameAs: sameAs("password")
+                }
+            },
+            sportsman: {
+                name: {
+                    minLength: minLength(1)
+                },
+                surname: {
+                    minLength: minLength(1)
+                },
+                patronymic: {
+                    minLength: minLength(1)
+                },
+                dateOfBirth: {
+                    required: required
+                }
+            }
+        },
+        methods: {
+            sendUserDataOnServer: function () {
+                window.console.log(this.user);
+                axios
+                    .post(this.$store.state.postRegistrationUserUrl, {
+                        email: this.user.email,
+                        password: this.user.password,
+                        password_confirmation: this.user.passwordConfirm
+                    })
+                    .then(response => {
+                        window.console.log("response.status " + response.status);
+                        if (response.status === 201) {
+                            this.$store.state.authUser = response.data;
+                            window.console.log("response.status " + response.data);
+                            this.$store.state.isLoggedIn = true;
+                            window.console.log(
+                                "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+                            );
+                            window.localStorage.setItem(
+                                "lbUser",
+                                JSON.stringify(this.$store.state.authUser)
+                            );
+                            // this.$router.push("/");
+                        } else {
+                            this.$store.state.isLoggedIn = false;
+                            window.console.log(
+                                "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+                            );
+                            this.$router.push("/auth");
+                        }
+                    })
+                    .catch(function (error) {
+                        window.console.log(error);
+                    });
+            },
+            sendSportsmanDataOnServer: function () {
+                window.console.log(this.sportsman);
+                var HTTP = axios.create({
+                    headers: {
+                        Authorization: this.$store.state.authUser.auth_token
+                    }
+                });
+                HTTP.post(this.$store.state.postSportsman, {
+                    first_name: this.sportsman.name,
+                    last_name: this.sportsman.surname,
+                    patronymic_name: this.sportsman.patronymic,
+                    gender: this.sportsman.gender,
+                    date_of_birth: this.sportsman.dateOfBirth
+                })
+                    .then(function (response) {
+                        window.console.log(response);
+                    })
+                    .catch(function (error) {
+                        window.console.log(error);
+                    });
+            },
+            sendFederationDataOnServer: function () {
+                window.console.log("++++++++++++++++++++++++++");
+            }
         }
-      ],
-      federationSport: "first",
-      federationPresidentName: "president",
-      federationSubDomain: "domain",
-      federationPhone: "phone",
-      federationEmail: "exemple@exemple.com",
-      authUser: {}
     };
-  },
-  validations: {
-    user: {
-      email: {
-        required: required,
-        email: email
-      },
-      password: {
-        minLength: minLength(6)
-      },
-      passwordConfirm: {
-        sameAs: sameAs("password")
-      }
-    },
-    sportsman: {
-      name: {
-        minLength: minLength(1)
-      },
-      surname: {
-        minLength: minLength(1)
-      },
-      patronymic: {
-        minLength: minLength(1)
-      },
-      dateOfBirth: {
-        required: required
-      }
-    }
-  },
-  methods: {
-    sendUserDataOnServer: function() {
-      window.console.log(this.user);
-      axios
-        .post(this.$store.state.postRegistrationUserUrl, {
-          email: this.user.email,
-          password: this.user.password,
-          password_confirmation: this.user.passwordConfirm
-        })
-        .then(response => {
-          window.console.log("response.status " + response.status);
-          if (response.status === 201) {
-            this.$store.state.authUser = response.data;
-            window.console.log("response.status " + response.data);
-            this.$store.state.isLoggedIn = true;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            window.localStorage.setItem(
-              "lbUser",
-              JSON.stringify(this.$store.state.authUser)
-            );
-            // this.$router.push("/");
-          } else {
-            this.$store.state.isLoggedIn = false;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            this.$router.push("/auth");
-          }
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    },
-    sendSportsmanDataOnServer: function() {
-      window.console.log(this.sportsman);
-      var HTTP = axios.create({
-        headers: {
-          Authorization: this.$store.state.authUser.auth_token
-        }
-      });
-      HTTP.post(this.$store.state.postSportsman, {
-        first_name: this.sportsman.name,
-        last_name: this.sportsman.surname,
-        patronymic_name: this.sportsman.patronymic,
-        gender: this.sportsman.gender,
-        date_of_birth: this.sportsman.dateOfBirth
-      })
-        .then(function(response) {
-          window.console.log(response);
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    },
-    sendFederationDataOnServer: function() {
-      window.console.log("++++++++++++++++++++++++++");
-    }
-  }
-};
 </script>
 
 <style lang="scss">
-.wrapper {
-  margin: 50px auto;
-}
+    .wrapper {
+        margin: 50px auto;
+    }
 
-.cm-form__wrapper {
-  margin-top: 10px;
-  text-align: left;
-}
+    .cm-form__wrapper {
+        margin-top: 10px;
+        text-align: left;
+    }
 
-.tabs-component {
-  margin: 4em 0;
-}
+    .tabs-component {
+        margin: 4em 0;
+    }
 
-.tabs-component-tabs {
-  border: solid 1px #ddd;
-  border-radius: 6px;
-  margin-bottom: 5px;
-}
+    .tabs-component-tabs {
+        border: solid 1px #ddd;
+        border-radius: 6px;
+        margin-bottom: 5px;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-tabs {
-    border: 0;
-    align-items: stretch;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: -1px;
-  }
-}
+    @media (min-width: 700px) {
+        .tabs-component-tabs {
+            border: 0;
+            align-items: stretch;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: -1px;
+        }
+    }
 
-.tabs-component-tab {
-  color: #999;
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 0;
-  list-style: none;
-}
+    .tabs-component-tab {
+        color: #999;
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 0;
+        list-style: none;
+    }
 
-.tabs-component-tab:not(:last-child) {
-  border-bottom: dotted 1px #ddd;
-}
+    .tabs-component-tab:not(:last-child) {
+        border-bottom: dotted 1px #ddd;
+    }
 
-.tabs-component-tab:hover {
-  color: #666;
-}
+    .tabs-component-tab:hover {
+        color: #666;
+    }
 
-.tabs-component-tab.is-active {
-  color: #000;
-}
+    .tabs-component-tab.is-active {
+        color: #000;
+    }
 
-.tabs-component-tab.is-disabled * {
-  color: #cdcdcd;
-  cursor: not-allowed !important;
-}
+    .tabs-component-tab.is-disabled * {
+        color: #cdcdcd;
+        cursor: not-allowed !important;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-tab {
-    background-color: #fff;
-    border: solid 1px #ddd;
-    border-radius: 3px 3px 0 0;
-    margin-right: 0.5em;
-    transform: translateY(2px);
-    transition: transform 0.3s ease;
-  }
+    @media (min-width: 700px) {
+        .tabs-component-tab {
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 3px 3px 0 0;
+            margin-right: 0.5em;
+            transform: translateY(2px);
+            transition: transform 0.3s ease;
+        }
 
-  .tabs-component-tab.is-active {
-    border-bottom: solid 1px #fff;
-    z-index: 2;
-    transform: translateY(0);
-  }
-}
+        .tabs-component-tab.is-active {
+            border-bottom: solid 1px #fff;
+            z-index: 2;
+            transform: translateY(0);
+        }
+    }
 
-.tabs-component-tab-a {
-  align-items: center;
-  color: inherit;
-  display: flex;
-  padding: 0.75em 1em;
-  text-decoration: none;
-}
+    .tabs-component-tab-a {
+        align-items: center;
+        color: inherit;
+        display: flex;
+        padding: 0.75em 1em;
+        text-decoration: none;
+    }
 
-.tabs-component-panels {
-  padding: 4em 0;
-}
+    .tabs-component-panels {
+        padding: 4em 0;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-panels {
-    border-top-left-radius: 0;
-    background-color: #fff;
-    border: solid 1px #ddd;
-    border-radius: 0 6px 6px 6px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    padding: 4em 2em;
-  }
-}
+    @media (min-width: 700px) {
+        .tabs-component-panels {
+            border-top-left-radius: 0;
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 0 6px 6px 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            padding: 4em 2em;
+        }
+    }
 </style>
