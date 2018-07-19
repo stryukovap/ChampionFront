@@ -1,21 +1,6 @@
 <template>
     <body>
-        <section>
-            <div class="container">
-                <div class="row">
-                    <h2 class="h2">Nearest tournaments</h2>
-                    <h2 class="h2-2">News</h2>
-                </div>
-            </div>
-        </section>
         <tournaments></tournaments>
-        <section>
-            <div class="container">
-                <div class="row">
-                    <hr class="line">
-                </div>
-            </div>
-        </section>
         <sportsmen></sportsmen>
     </body>
 </template>

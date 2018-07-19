@@ -1,30 +1,32 @@
 <template>
 <section>
-    <div class="container">
+    <div class="container mb-5 mt-3">
         <div class="row">
             <div class="col-xs-12 col-md-9 main-content">
+              <h2 class="h2">Nearest tournaments</h2>
                 <div class="row">
                     <div class="col-xs-12 col-sm-4"
                         v-for='(tournament, index) in tournaments'
                         v-if='index < 6 || isAllTournamentsShown'
                         :key='tournament.index'>
+                        <a v-bind:href="tournament.link" class="text-secondary">
                         <div class="thumbnail">
                             <img class="card-img-top"
                                  v-bind:src="tournament.avatar"
                                  alt="Card image cap">
-                            <div class="caption">
+                            <div class="caption mb-3">
                                 <h4 class="text-center">{{ tournament.name }}</h4>
-                                <p class="text-center">Start date: {{ tournament.date }}<br>
-                                    Registration starts/finishes<br>
-                                    {{ tournament.registration }}
-                                </p>
-                                <p class="text-center">{{ tournament.numberOfMembers }} Members
-                                </p>
+                                <p class="text-center mb-1">Start date: {{ tournament.date }}</p>
+                                <p class="text-center mb-1">Registration starts/finishes {{ tournament.registration }}</p>
+                                <p class="text-center mb-1">{{ tournament.numberOfMembers }} Members</p>
                             </div>
                         </div>
+                        </a>
                     </div>
                 </div>
-                <a v-on:click.prevent="togleTournamentsState" class="h2" href="#">{{ linkText }}</a>
+                <div class="text-right">
+                  <a v-on:click.prevent="togleTournamentsState" href="#">{{ linkText }}</a>
+                </div>
             </div>
             <news></news>
         </div>
@@ -57,7 +59,8 @@ export default {
             name: response.data[i].name,
             date: "04.04.04",
             registration: "02.02.02 - 03.03.03",
-            numberOfMembers: "5/100"
+            numberOfMembers: "5/100",
+            link: "#"
           });
         }
       })
@@ -72,7 +75,7 @@ export default {
   },
   computed: {
     linkText: function() {
-      return this.isAllTournamentsShown ? "See 6" : "See all";
+      return this.isAllTournamentsShown ? "Less..." : "More...";
     }
   }
 };

@@ -4,7 +4,6 @@
         <div class="container">
             <div class="row">
                 <h2 class="h2">Our Sportsmen</h2>
-                <a v-on:click.prevent="togleSportsmenState" class="h2" href="#">{{ linkText }}</a>
             </div>
         </div>
     </section>
@@ -15,20 +14,22 @@
                     v-for='(sportsman, index) in sportsmen'
                     v-if='index < 6 || isAllSportsmenShown'
                     :key='sportsman.index'>
-                    <div class="thumbnail">
-                        <img src="img/user-photo.PNG">
-                        <div class="caption">
-                            <h4 class="text-center">{{ sportsman.name }}</h4>
-                            <p class="text-center">{{ sportsman.role }}<img v-bind:src="sportsman.avatar">{{ sportsman.dan }}</p>
-                        </div>
-                    </div>
+                    <a v-bind:href="sportsman.link" class="text-secondary">
+                      <div class="thumbnail">
+                        <img src="img/user-photo.PNG" class="mx-auto d-block">
+                        <h4 class="text-center">{{ sportsman.name }}</h4>
+                        <p class="text-center">{{ sportsman.role }}<img v-bind:src="sportsman.avatar">{{ sportsman.dan }}</p>
+                      </div>
+                    </a>
                 </div>
+            </div>
+            <div class="text-right">
+              <a v-on:click.prevent="togleSportsmenState" href="#">{{ linkText }}</a>
             </div>
         </div>
     </section>
 </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
@@ -48,7 +49,8 @@ export default {
             name: response.data[i].name,
             role: "coach",
             avatar: "img/pos.png",
-            dan: response.data[i].id
+            dan: response.data[i].id,
+            link: "#"
           });
         }
       })
@@ -63,11 +65,10 @@ export default {
   },
   computed: {
     linkText: function() {
-      return this.isAllSportsmenShown ? "See 6" : "See all";
+      return this.isAllSportsmenShown ? "Less..." : "More...";
     }
   }
 };
 </script>
-
 <style>
 </style>
