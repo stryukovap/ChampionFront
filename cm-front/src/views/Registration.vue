@@ -10,6 +10,7 @@
                                 <h1>Registration</h1>
                                 <div class="row cm-form__wrapper text-center">
                                     <div class="col">
+                                        <!-- id принято писать кемелКейсом-->
                                         <input class="form-control" type="radio" name="as-role" id="as-role-f"
                                                v-model="userSportsman"
                                                value="false">
@@ -263,6 +264,9 @@ export default {
         password: "",
         passwordConfirm: ""
       },
+// в свойства не стоит записывать по умолчанию заполненные строки,
+// так как они видны в инпутах как настоящий текст
+// там же и там есть плейсхолдеры. Здесь лучше просто указать пустую строку
       sportsman: {
         name: "name",
         surname: "surname",
@@ -310,6 +314,7 @@ export default {
         sameAs: sameAs("password")
       }
     },
+      // может лучше сделать минимальную длину больше чем 1 - хотя-бы 3
     sportsman: {
       name: {
         minLength: minLength(1)
@@ -327,6 +332,8 @@ export default {
   },
   methods: {
     sendUserDataOnServer: function() {
+        // а чем отличается window.console.log от console.log?
+        // вижу ты везде используешь, но не понимаю в чем ее преимущество
       window.console.log(this.user);
       axios
         .post(this.$store.state.postRegistrationUserUrl, {

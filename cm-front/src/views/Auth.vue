@@ -15,6 +15,7 @@
             <div class="invalid-feedback"
                  v-if="!$v.email.required">Email field is required
             </div>
+            <!--мне кажется понятнее будет вместо This field should be an email написать invalid email address-->
             <div class="invalid-feedback"
                  v-if="!$v.email.email">This field should be an email
             </div>
@@ -36,11 +37,13 @@
             <!--</pre>-->
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" value="remember-me">Remember me </label>
+                    <input type="checkbox" value="remember-me">Remember me
+                </label>
             </div>
             <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
             <button class="btn btn-lg btn-success btn-block"
-                    :disabled="$v.$invalid">Sign in
+                    :disabled="$v.$invalid">
+                Sign in
             </button>
             <router-link class="form-signin__link" to="/forgotpassword">Forgot password?</router-link>
             <router-link class="form-signin__link" to="/registration">Don`t have an account?</router-link>
