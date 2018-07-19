@@ -65,9 +65,9 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <!--<a class="btn btn-success"-->
-                                       <!--href="#second-step"-->
-                                       <!--:disabled="$v.$invalid"-->
-                                       <!--@click="sendUserDataOnServer">Next</a>-->
+                                    <!--href="#second-step"-->
+                                    <!--:disabled="$v.$invalid"-->
+                                    <!--@click="sendUserDataOnServer">Next</a>-->
                                     <a class="btn btn-success"
                                        href="#second-step"
                                        v-if="!$v.$invalid"
@@ -237,12 +237,12 @@
                                 </div>
                             </div>
                             <!--<div class="cm-form__wrapper text-center">-->
-                                <!--<button v-if="userSportsman" class="btn btn-primary"-->
-                                        <!--@click="sendSportsmanDataOnServer">Registration sportsman-->
-                                <!--</button>-->
-                                <!--<button class="btn btn-primary"-->
-                                        <!--@click="sendFederationDataOnServer">Registration federation-->
-                                <!--</button>-->
+                            <!--<button v-if="userSportsman" class="btn btn-primary"-->
+                            <!--@click="sendSportsmanDataOnServer">Registration sportsman-->
+                            <!--</button>-->
+                            <!--<button class="btn btn-primary"-->
+                            <!--@click="sendFederationDataOnServer">Registration federation-->
+                            <!--</button>-->
                             <!--</div>-->
                         </tab>
                     </tabs>
@@ -283,7 +283,7 @@
                 },
                 federation:{
                     name:"federation",
-                    sport:"first",
+                    sport:"1",
                     presidentName: "president",
                     subDomain: "domain",
                     phone: "phone",
@@ -293,15 +293,15 @@
                 sports: [
                     {
                         sportId: "1",
-                        sportName: "first"
+                        sportName: "1"
                     },
                     {
                         sportId: "2",
-                        sportName: "second"
+                        sportName: "2"
                     },
                     {
                         sportId: "3",
-                        sportName: "third"
+                        sportName: "3"
                     }
                 ],
                 authUser: {}
@@ -410,7 +410,27 @@
                     });
             },
             sendFederationDataOnServer: function () {
-                window.console.log("++++++++++++++++++++++++++");
+                window.console.log(this.federation);
+                var HTTP = axios.create({
+                    headers: {
+                        Authorization: this.$store.state.authUser.auth_token
+                    }
+                });
+                HTTP.post("https://champion-api.herokuapp.com/api/federations", {
+                    name: this.federation.name,
+                    president_name: this.federation.presidentName,
+                    logo_id: "1234567",
+                    sub_domain: this.federation.subDomain,
+                    contact_telephone: this.federation.phone,
+                    contact_email: this.federation.email,
+                    sport_id: this.federation.sport,
+                })
+                    .then(function (response) {
+                        window.console.log(response);
+                    })
+                    .catch(function (error) {
+                        window.console.log(error);
+                    });
             }
         }
     };
