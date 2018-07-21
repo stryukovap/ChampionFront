@@ -254,280 +254,284 @@
 </template>
 
 <script>
-    import {Tabs, Tab} from "vue-tabs-component";
-    import axios from "axios";
-    import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
+import { Tabs, Tab } from "vue-tabs-component";
+import axios from "axios";
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 
-    export default {
-        name: "registration",
-        components: {
-            Tabs,
-            Tab
+export default {
+  name: "registration",
+  components: {
+    Tabs,
+    Tab
+  },
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+        passwordConfirm: ""
+      },
+      sportsman: {
+        name: "",
+        surname: "",
+        patronymic: "",
+        gender: "",
+        dateOfBirth: "",
+        federation: "",
+        trainer: "",
+        city: ""
+      },
+      federation: {
+        name: "",
+        sport: "2",
+        presidentName: "",
+        subDomain: "",
+        phone: "",
+        email: ""
+      },
+      userSportsman: "true",
+      sports: [
+        {
+          sportId: "1",
+          sportName: "1"
         },
-        data() {
-            return {
-                user: {
-                    email: "stryukovap1@gmail.com",
-                    password: "",
-                    passwordConfirm: ""
-                },
-                sportsman: {
-                    name: "name",
-                    surname: "surname",
-                    patronymic: "patronymic",
-                    gender: "M",
-                    dateOfBirth: "2018-07-10",
-                    federation: "federation",
-                    trainer: "trainer",
-                    city: "city"
-                },
-                federation:{
-                    name:"federation",
-                    sport:"1",
-                    presidentName: "president",
-                    subDomain: "domain",
-                    phone: "phone",
-                    email: "exemple@exemple.com",
-                },
-                userSportsman: "true",
-                sports: [
-                    {
-                        sportId: "1",
-                        sportName: "1"
-                    },
-                    {
-                        sportId: "2",
-                        sportName: "2"
-                    },
-                    {
-                        sportId: "3",
-                        sportName: "3"
-                    }
-                ],
-                authUser: {}
-            };
+        {
+          sportId: "2",
+          sportName: "2"
         },
-        validations: {
-            user: {
-                email: {
-                    required: required,
-                    email: email,
-                    unique: val => {
-                        if (val === "") return true;
-                        return axios
-                            .get("https://champion-api.herokuapp.com/api/user/find?email=" + val) //+userEmail, 200 true, 404 false)
-                            // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
-                            .then(response => {
-                                // handle success
-                                console.log(response);
-                                if (response.status === 200) {
-                                    return false;
-                                }
-                            })
-                            .catch(function (error) {
-                                // handle error
-                                console.log(error);
-                                return true;
-                            })
-                    }
-                },
-                password: {
-                    minLength: minLength(6)
-                },
-                passwordConfirm: {
-                    sameAs: sameAs("password")
-                }
-            },
-            sportsman: {
-                name: {
-                    minLength: minLength(1)
-                },
-                surname: {
-                    minLength: minLength(1)
-                },
-                patronymic: {
-                    minLength: minLength(1)
-                },
-                dateOfBirth: {
-                    required: required
-                }
-            }
-        },
-        methods: {
-            sendUserDataOnServer: function () {
-                window.console.log(this.user);
-                axios
-                    .post(this.$store.state.postRegistrationUserUrl, {
-                        email: this.user.email,
-                        password: this.user.password,
-                        password_confirmation: this.user.passwordConfirm
-                    })
-                    .then(response => {
-                        window.console.log("response.status " + response.status);
-                        if (response.status === 201) {
-                            this.$store.state.authUser = response.data;
-                            window.console.log("response.status " + response.data);
-                            this.$store.state.isLoggedIn = true;
-                            window.console.log(
-                                "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-                            );
-                            window.localStorage.setItem(
-                                "lbUser",
-                                JSON.stringify(this.$store.state.authUser)
-                            );
-                            // this.$router.push("/");
-                        } else {
-                            this.$store.state.isLoggedIn = false;
-                            window.console.log(
-                                "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-                            );
-                            this.$router.push("/auth");
-                        }
-                    })
-                    .catch(function (error) {
-                        window.console.log(error);
-                    });
-            },
-            sendSportsmanDataOnServer: function () {
-                window.console.log(this.sportsman);
-                var HTTP = axios.create({
-                    headers: {
-                        Authorization: this.$store.state.authUser.auth_token
-                    }
-                });
-                HTTP.post(this.$store.state.postSportsman, {
-                    first_name: this.sportsman.name,
-                    last_name: this.sportsman.surname,
-                    patronymic_name: this.sportsman.patronymic,
-                    gender: this.sportsman.gender,
-                    date_of_birth: this.sportsman.dateOfBirth
-                })
-                    .then(function (response) {
-                        window.console.log(response);
-                    })
-                    .catch(function (error) {
-                        window.console.log(error);
-                    });
-            },
-            sendFederationDataOnServer: function () {
-                window.console.log(this.federation);
-                var HTTP = axios.create({
-                    headers: {
-                        Authorization: this.$store.state.authUser.auth_token
-                    }
-                });
-                HTTP.post("https://champion-api.herokuapp.com/api/federations", {
-                    name: this.federation.name,
-                    president_name: this.federation.presidentName,
-                    logo_id: "1234567",
-                    sub_domain: this.federation.subDomain,
-                    contact_telephone: this.federation.phone,
-                    contact_email: this.federation.email,
-                    sport_id: this.federation.sport,
-                })
-                    .then(function (response) {
-                        window.console.log(response);
-                    })
-                    .catch(function (error) {
-                        window.console.log(error);
-                    });
-            }
+        {
+          sportId: "3",
+          sportName: "3"
         }
+      ],
+      authUser: {}
     };
+  },
+  validations: {
+    user: {
+      email: {
+        required: required,
+        email: email,
+        unique: val => {
+          // if (val === "") return true;
+          return (
+            axios
+              .get(
+                "https://champion-api.herokuapp.com/api/user/find?email=" + val
+              ) //+userEmail, 200 true, 404 false)
+              // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
+              .then(response => {
+                // handle success
+                window.console.log(response);
+                if (response.status === 200) {
+                  return false;
+                }
+              })
+              .catch(function(error) {
+                // handle error
+                window.console.log(error);
+                return true;
+              })
+          );
+        }
+      },
+      password: {
+        minLength: minLength(6)
+      },
+      passwordConfirm: {
+        sameAs: sameAs("password")
+      }
+    },
+    sportsman: {
+      name: {
+        minLength: minLength(1)
+      },
+      surname: {
+        minLength: minLength(1)
+      },
+      patronymic: {
+        minLength: minLength(1)
+      },
+      dateOfBirth: {
+        required: required
+      }
+    }
+  },
+  methods: {
+    sendUserDataOnServer: function() {
+      window.console.log(this.user);
+      axios
+        .post(this.$store.state.postRegistrationUserUrl, {
+          email: this.user.email,
+          password: this.user.password,
+          password_confirmation: this.user.passwordConfirm
+        })
+        .then(response => {
+          window.console.log("response.status " + response.status);
+          if (response.status === 201) {
+            this.$store.state.authUser = response.data;
+            window.console.log("response.status " + response.data);
+            this.$store.state.isLoggedIn = true;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
+            window.localStorage.setItem(
+              "lbUser",
+              JSON.stringify(this.$store.state.authUser)
+            );
+            // this.$router.push("/");
+          } else {
+            this.$store.state.isLoggedIn = false;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
+            this.$router.push("/auth");
+          }
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    },
+    sendSportsmanDataOnServer: function() {
+      window.console.log(this.sportsman);
+      var HTTP = axios.create({
+        headers: {
+          Authorization: this.$store.state.authUser.auth_token
+        }
+      });
+      HTTP.post(this.$store.state.postSportsman, {
+        first_name: this.sportsman.name,
+        last_name: this.sportsman.surname,
+        patronymic_name: this.sportsman.patronymic,
+        gender: this.sportsman.gender,
+        date_of_birth: this.sportsman.dateOfBirth
+      })
+        .then(function(response) {
+          window.console.log(response);
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    },
+    sendFederationDataOnServer: function() {
+      window.console.log(this.federation);
+      var HTTP = axios.create({
+        headers: {
+          Authorization: this.$store.state.authUser.auth_token
+        }
+      });
+      HTTP.post("https://champion-api.herokuapp.com/api/federations", {
+        name: this.federation.name,
+        president_name: this.federation.presidentName,
+        logo_id: "1234567",
+        sub_domain: this.federation.subDomain,
+        contact_telephone: this.federation.phone,
+        contact_email: this.federation.email,
+        sport_id: this.federation.sport
+      })
+        .then(function(response) {
+          window.console.log(response);
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-    .wrapper {
-        margin: 50px auto;
-    }
+.wrapper {
+  margin: 50px auto;
+}
 
-    .cm-form__wrapper {
-        margin-top: 10px;
-        text-align: left;
-    }
+.cm-form__wrapper {
+  margin-top: 10px;
+  text-align: left;
+}
 
-    .tabs-component {
-        margin: 4em 0;
-    }
+.tabs-component {
+  margin: 4em 0;
+}
 
-    .tabs-component-tabs {
-        border: solid 1px #ddd;
-        border-radius: 6px;
-        margin-bottom: 5px;
-    }
+.tabs-component-tabs {
+  border: solid 1px #ddd;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
 
-    @media (min-width: 700px) {
-        .tabs-component-tabs {
-            border: 0;
-            align-items: stretch;
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: -1px;
-        }
-    }
+@media (min-width: 700px) {
+  .tabs-component-tabs {
+    border: 0;
+    align-items: stretch;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: -1px;
+  }
+}
 
-    .tabs-component-tab {
-        color: #999;
-        font-size: 14px;
-        font-weight: 600;
-        margin-right: 0;
-        list-style: none;
-    }
+.tabs-component-tab {
+  color: #999;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 0;
+  list-style: none;
+}
 
-    .tabs-component-tab:not(:last-child) {
-        border-bottom: dotted 1px #ddd;
-    }
+.tabs-component-tab:not(:last-child) {
+  border-bottom: dotted 1px #ddd;
+}
 
-    .tabs-component-tab:hover {
-        color: #666;
-    }
+.tabs-component-tab:hover {
+  color: #666;
+}
 
-    .tabs-component-tab.is-active {
-        color: #000;
-    }
+.tabs-component-tab.is-active {
+  color: #000;
+}
 
-    .tabs-component-tab.is-disabled * {
-        color: #cdcdcd;
-        cursor: not-allowed !important;
-    }
+.tabs-component-tab.is-disabled * {
+  color: #cdcdcd;
+  cursor: not-allowed !important;
+}
 
-    @media (min-width: 700px) {
-        .tabs-component-tab {
-            background-color: #fff;
-            border: solid 1px #ddd;
-            border-radius: 3px 3px 0 0;
-            margin-right: 0.5em;
-            transform: translateY(2px);
-            transition: transform 0.3s ease;
-        }
+@media (min-width: 700px) {
+  .tabs-component-tab {
+    background-color: #fff;
+    border: solid 1px #ddd;
+    border-radius: 3px 3px 0 0;
+    margin-right: 0.5em;
+    transform: translateY(2px);
+    transition: transform 0.3s ease;
+  }
 
-        .tabs-component-tab.is-active {
-            border-bottom: solid 1px #fff;
-            z-index: 2;
-            transform: translateY(0);
-        }
-    }
+  .tabs-component-tab.is-active {
+    border-bottom: solid 1px #fff;
+    z-index: 2;
+    transform: translateY(0);
+  }
+}
 
-    .tabs-component-tab-a {
-        align-items: center;
-        color: inherit;
-        display: flex;
-        padding: 0.75em 1em;
-        text-decoration: none;
-    }
+.tabs-component-tab-a {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  padding: 0.75em 1em;
+  text-decoration: none;
+}
 
-    .tabs-component-panels {
-        padding: 4em 0;
-    }
+.tabs-component-panels {
+  padding: 4em 0;
+}
 
-    @media (min-width: 700px) {
-        .tabs-component-panels {
-            border-top-left-radius: 0;
-            background-color: #fff;
-            border: solid 1px #ddd;
-            border-radius: 0 6px 6px 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            padding: 4em 2em;
-        }
-    }
+@media (min-width: 700px) {
+  .tabs-component-panels {
+    border-top-left-radius: 0;
+    background-color: #fff;
+    border: solid 1px #ddd;
+    border-radius: 0 6px 6px 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 4em 2em;
+  }
+}
 </style>
