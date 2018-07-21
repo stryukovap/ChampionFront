@@ -6,7 +6,7 @@
                     <tabs>
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
-                                <h1>Registration</h1>
+                                <h1 class="text-center">Registration</h1>
                                 <div class="row cm-form__wrapper text-center">
                                     <div class="col">
                                         <input class="form-control" type="radio" name="as-role" id="as-role-f"
@@ -84,7 +84,7 @@
                             </div>
                             <div class="cm-form__content cm-form__content--s"
                                  v-if="userSportsman === 'true'">
-                                <h3 class="cm-form__user-role">Register as Sportsman</h3>
+                                <h3 class="cm-form__user-role text-center">Register as Sportsman</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Name"
@@ -186,7 +186,7 @@
                             </div>
                             <div class="cm-form__content cm-form__content--f"
                                  v-else>
-                                <h3 class="cm-form__user-role">Register as Federation</h3>
+                                <h3 class="cm-form__user-role text-center">Register as Federation</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
@@ -275,7 +275,7 @@ export default {
         name: "",
         surname: "",
         patronymic: "",
-        gender: "",
+        gender: "M",
         dateOfBirth: "",
         federation: "",
         trainer: "",
