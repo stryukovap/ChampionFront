@@ -13,9 +13,10 @@
           <tr
             v-for='(tournament, index) in userTournaments'
             :key='index'>
-            <td>{{ tournament.name }}</td>
-            <td>{{ tournament.phone }}</td>
-            <td>{{ tournament.username }}</td>
+              <td><a v-bind:href="tournament.website">{{ tournament.name }}</a></td>
+              <td>{{ tournament.phone }}</td>
+              <td>{{ tournament.username }}</td>
+            
           </tr>
         </tbody>
       </table>
@@ -46,5 +47,5 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 </style>
