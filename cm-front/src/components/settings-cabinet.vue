@@ -91,7 +91,7 @@
             updatePassword: function () {
                 var HTTP = axios.create({
                     headers: {
-                        Authorization: this.$store.state.authUser.auth_token
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
                     }
                 });
                 HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
