@@ -4,7 +4,7 @@
     <user-info v-bind:userIsCoach="userIsCoach"></user-info>
     <user-certificates></user-certificates>
 
-    <user-teams v-if="userIsCoach"></user-teams>
+    <user-team v-if="userIsCoach"></user-team>
     <user-history></user-history>
 
   </div>
@@ -14,7 +14,7 @@ import axios from "axios";
 import userInfo from "../components/userProfile/userInfo";
 import userCertificates from "../components/userProfile/userCertificates";
 import userHistory from "../components/userProfile/userHistory";
-import userTeams from "../components/userProfile/userTeams";
+import userTeam from "../components/userProfile/userTeam";
 
 export default {
   name: "user-profile",
@@ -22,7 +22,7 @@ export default {
     userInfo,
     userCertificates,
     userHistory,
-    userTeams
+    userTeam
   },
   data: function() {
     return {

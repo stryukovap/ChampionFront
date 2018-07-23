@@ -1,17 +1,26 @@
 <template>
     <body>
-        <tournaments></tournaments>
-        <sportsmen></sportsmen>
+      <section>
+        <div class="container mb-5 mt-3">
+          <div class="row">
+            <tournaments></tournaments>
+            <news></news>
+          </div>
+        </div>
+      </section>
+      <sportsmen></sportsmen>
     </body>
 </template>
 <script>
 import tournaments from "../components/federation/Tournaments";
 import sportsmen from "../components/federation/Sportsmen";
+import news from "../components/federation/News";
 
 export default {
   components: {
     tournaments,
-    sportsmen
+    sportsmen,
+    news
   }
 };
 </script>
