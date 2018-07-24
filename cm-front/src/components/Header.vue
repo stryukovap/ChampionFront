@@ -2,23 +2,49 @@
 	<nav class="main-nav">
 		<ul class="nav-list">
 			<li class="nav-item nav-item--logo">
-				<router-link class="nav-link" to="/">Home
-					<img :src="getHeaderLogo(headerLogo)" alt="logo" class="nav-logo-img">
+				<router-link class="nav-link" to="/">
+					<img v-if="checkLogin"
+					     :src="getImage(logoFederation)"
+					     alt="logo" class="nav-logo-img"
+					>
+					<img v-else
+					     :src="getImage(logoChampion)"
+					     alt="logo"
+					     class="nav-logo-img"
+					>
 				</router-link>
 			</li>
 			<li class="nav-item">
 				<ul class="nav-list nav-list--sub">
 					<li class="nav-item">
-						<a href="tel:+#">Phone: {{ contacts.phone }}</a>
+						<a :href="'tel:' + contacts.phone">Phone: {{ contacts.phone }}</a>
 					</li>
 					<li class="nav-item">
-						<a href="mailto:#">E-mail: {{ contacts.email }}</a>
+						<a :href="'mailto:' + contacts.email">E-mail: {{ contacts.email }}</a>
 					</li>
 				</ul>
 			</li>
-			<li>
-				<router-link tag="button" class="btn btn-primary btn-user" to="/coachcabinet">Coach Cabinet
-				</router-link>
+			<li class="nav-item d-flex align-items-center" v-if="checkLogin">
+				<div class="user">
+					<div class="user__date">Valid until
+						<time class="user__time">{{ userData.validUntil }}</time>
+					</div>
+					<div class="user__wrap">
+						<div class="user__wrap-inner">
+							<img :src="getImage(userData.userLogo)" alt="User" class="user__photo">
+							<div class="user__menu">
+								<div class="user__name">{{ userData.userName }}</div>
+								<ul class="user__menu-items">
+									<router-link tag="li" :to="'/userprofile/' + userData.id" class="user__item"><a class="user__link">{{ menu[0].title }}</a>
+									</router-link>
+									<router-link tag="li" :to="'/coachcabinet/' + userData.id" class="user__item"><a class="user__link">{{ menu[1].title }}</a>
+									</router-link>
+									<li @click="logout()" class="user__item user__link c-pointer">{{ menu[2].title }}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</li>
 			<li class="nav-item" v-if="checkLogin">
 				<button class="btn btn-primary btn-user" v-on:click="logout">Logout</button>
@@ -51,21 +77,48 @@
 	                phone: '+38067000001',
 	                email: 'example@example.com'
 			    },
-	            validuntil: '10.10.2020',
-	            headerLogo: 'logo_champion.png'
+	            userData: {
+	                id: '',
+                    validUntil: '10.10.2020',
+		            userName: 'Denis Yermolin',
+		            userLogo: 'user.png'
+                },
+                menu: [
+                    {
+                        title: "My Profile"
+                    },
+                    {
+                        title: "My Cabinet"
+                    },
+                    {
+                        title: "Exit"
+                    }
+                ],
+	            logoChampion: 'logo_champion.png',
+	            logoFederation: 'logo_federation.png'
             }
 	    },
         methods: {
             logout: function() {
                 localStorage.removeItem("lbUser");
                 this.$store.state.isLoggedIn = false;
+                this.$router.push('/');
                 window.console.log(
                     "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
                 );
             },
-	        getHeaderLogo: function (image) {
+	        getImage: function (image) {
                 const images = require.context('../assets/', false, /\.png$/)
                 return images('./' + image)
+            },
+            getUserId() {
+                //ISSUE
+	            // if user sign in first time, the user's ID did't pass to router-link
+	            // to solve this, you must reload page once
+                if (localStorage.getItem("lbUser")) {
+                    const userObj = JSON.parse(localStorage.getItem("lbUser"));
+                    this.userData.id = userObj.id;
+                }
             }
         },
         computed: {
@@ -73,6 +126,9 @@
 	            window.console.log(this.$store.state.isLoggedIn);
                 return this.$store.state.isLoggedIn;
             }
+        },
+        mounted(){
+            this.getUserId();
         }
     }
 </script>
@@ -84,6 +140,10 @@
 		background-color: $bg-color;
 	}
 
+	.c-pointer {
+		cursor: pointer;
+	}
+	
 	.nav {
 		&-list {
 			display: flex;
@@ -108,6 +168,10 @@
 
 		&-logo-img {
 			max-height: 32px;
+		}
+
+		&-link {
+			background: none;
 		}
 	}
 
@@ -171,6 +235,7 @@
 		&__link {
 			display: block;
 			color: #fff;
+			padding: 8px 0;
 
 			&:hover {
 				text-decoration: none;
