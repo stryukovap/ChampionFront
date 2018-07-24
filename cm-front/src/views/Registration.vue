@@ -48,6 +48,9 @@
                                            @input="$v.user.password.$touch()"
                                            @blur="$v.user.password.$touch()"
                                            :class="{'is-invalid' :$v.user.password.$error}">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.password.required">Password field is required
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.user.password.minLength">
                                         Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
                                         is {{ user.password.length }}.
@@ -62,6 +65,9 @@
                                            :class="{'is-invalid': $v.user.passwordConfirm.$error}"
                                            @input="$v.user.passwordConfirm.$touch()"
                                            @blur="$v.user.passwordConfirm.$touch()">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.password.required">Confirm password field is required
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.user.passwordConfirm.sameAs">
                                         Passwords should match
                                     </div>
@@ -72,25 +78,25 @@
                                        v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error}"
+                                       $v.user.passwordConfirm.$error  || testInitPassword}"
                                        @click="sendUserDataOnServer">Next</a>
                                     <!--<div>{{$v.user.email.$error}}</div>-->
                                     <!--<div>{{$v.user.password.$error}}</div>-->
                                     <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
                                     <!--<div style="color:red">{{$v.user.email.$error ||-->
-                                        <!--$v.user.password.$error ||-->
-                                        <!--$v.user.passwordConfirm.$error}}</div>-->
+                                    <!--$v.user.password.$error ||-->
+                                    <!--$v.user.passwordConfirm.$error}}</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
                                 </div>
                             </div>
                         </tab>
-                        <!--<tab name="Second step"-->
-                             <!--:is-disabled="$v.user.email.$error ||-->
-                                       <!--$v.user.password.$error ||-->
-                                       <!--$v.user.passwordConfirm.$error">-->
-                            <tab name="Second step">
+                        <tab name="Second step"
+                             :is-disabled="$v.user.email.$error ||
+                                       $v.user.password.$error ||
+                                       $v.user.passwordConfirm.$error || testInitPassword">
+                            <!--<tab name="Second step">-->
                             <div class="cm-form__wrapper text-left">
                                 <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
@@ -140,32 +146,26 @@
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
-                                    <!--<div class="row align-items-end">-->
-                                        <!--<div class="col">-->
+                                    <div class="row align-items-end">
+                                        <div class="col align-self-center">
                                             <label class="cm-form__label" for="s-bdate">Date of Birth</label>
-                                        <!--</div>-->
-                                        <!--<div class="col">-->
+                                        </div>
+                                        <div class="col">
                                             <input class="form-control" type="date" name="s-bdate" id="s-bdate"
                                                    title="Date of Birth"
                                                    v-model="sportsman.dateOfBirth"
                                                    @input="$v.sportsman.dateOfBirth.$touch()"
                                                    @blur="$v.sportsman.dateOfBirth.$touch()"
                                                    :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
-                                        <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required" :display="'display:block'">
-                                            Date of Birth field is required
+                                            <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required">
+                                                Date of Birth field is required
+                                            </div>
+                                            <div class="invalid-feedback"
+                                                 v-if="!$v.sportsman.dateOfBirth.checkFutureData">
+                                                Date of Birth choose the future date, check Date
+                                            </div>
                                         </div>
-                                        <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.checkFutureData">
-                                            Date of Birth choose the future date check Date
-                                        </div>
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div>{{$v.sportsman.dateOfBirth.$error}}</div>-->
-                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required" :display="'display:block'">-->
-                                        <!--Date of Birth field is required-->
-                                    <!--</div>-->
-                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.checkFutureData">-->
-                                        <!--Date of Birth choose the future date check Date-->
-                                    <!--</div>-->
+                                    </div>
                                 </div>
                                 <div class="row cm-form__wrapper">
                                     <div class="col">
@@ -185,23 +185,41 @@
                                         <label for="female"> Female</label>
                                     </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="Federation"
-                                           disabled
-                                           v-model="sportsman.federation">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="federation" class="cm-form__label">Federation</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="federation"
+                                               placeholder="Federation"
+                                               disabled
+                                               v-model="sportsman.federation">
+                                    </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="Trainer"
-                                           autocomplete="off"
-                                           v-model="sportsman.trainer">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="trainer" class="cm-form__label">Coach</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="trainer"
+                                               placeholder="Coach"
+                                               autocomplete="off"
+                                               v-model="sportsman.trainer">
+                                    </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="City"
-                                           autocomplete="off"
-                                           v-model="sportsman.city">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="city" class="cm-form__label">City</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="city"
+                                               placeholder="City"
+                                               autocomplete="off"
+                                               v-model="sportsman.city">
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
@@ -332,6 +350,15 @@
                 authUser: {}
             };
         },
+        computed: {
+            testInitPassword: function () {
+                if (this.user.password === "" || this.user.passwordConfirm === "") {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        },
         validations: {
             user: {
                 email: {
@@ -361,14 +388,17 @@
                     }
                 },
                 password: {
-                    minLength: minLength(6)
+                    required: required,
+                    minLength: minLength(6),
                 },
                 passwordConfirm: {
+                    required: required,
                     sameAs: sameAs("password")
                 }
             },
             sportsman: {
                 name: {
+                    required: required,
                     minLength: minLength(1)
                 },
                 surname: {
@@ -380,7 +410,7 @@
                 dateOfBirth: {
                     required: required,
                     checkFutureData: val => {
-                        if (val==""){
+                        if (val == "") {
                             return true
                         }
                         var today = new Date();// сегодняшнеяя дата и время
@@ -388,7 +418,7 @@
                         window.console.log('today ' + today);
                         window.console.log('val ' + val);
                         window.console.log('inputDate ' + inputDate);
-                        if (today >= inputDate){
+                        if (today >= inputDate) {
                             window.console.log('true');
                             return true
                         } else {
