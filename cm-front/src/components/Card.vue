@@ -1,10 +1,11 @@
 <template>
     <div class="card card-item">
-        <img class="card-img-top"
-             v-bind:src="'img/' + Image"
-             alt="Card image cap">
+        <!--<img class="card-img-top"-->
+             <!--v-bind:src="'img/' + Image"-->
+             <!--alt="Card image cap">-->
         <div class="card-body">
-            <a href="#" class="btn btn-primary">{{ Name }}</a>
+            <!--<a href="#" class="btn btn-primary">{{ Name }}</a>-->
+            <router-link tag="a" class="btn btn-success" to="/federations">{{Name}}</router-link>
         </div>
     </div>
 </template>

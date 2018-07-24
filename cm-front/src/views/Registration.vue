@@ -139,24 +139,33 @@
                                         is {{ sportsman.patronymic.length }}.
                                     </div>
                                 </div>
-                                <div class="row cm-form__wrapper align-items-end">
-                                    <div class="col">
-                                        <label class="cm-form__label" for="s-bdate">Date of Birth</label>
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" type="date" name="s-bdate" id="s-bdate"
-                                               title="Date of Birth"
-                                               v-model="sportsman.dateOfBirth"
-                                               @input="$v.sportsman.dateOfBirth.$touch()"
-                                               @blur="$v.sportsman.dateOfBirth.$touch()"
-                                               :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
-                                    </div>
-                                    <div class="invalid-feedback"
-                                         v-if="!$v.sportsman.dateOfBirth.required">Date of Birth field is required
-                                    </div>
-                                    <div class="invalid-feedback"
-                                         v-if="!$v.sportsman.dateOfBirth.checkFutureData">Date of Birth choose the future date check Date
-                                    </div>
+                                <div class="cm-form__wrapper">
+                                    <!--<div class="row align-items-end">-->
+                                        <!--<div class="col">-->
+                                            <label class="cm-form__label" for="s-bdate">Date of Birth</label>
+                                        <!--</div>-->
+                                        <!--<div class="col">-->
+                                            <input class="form-control" type="date" name="s-bdate" id="s-bdate"
+                                                   title="Date of Birth"
+                                                   v-model="sportsman.dateOfBirth"
+                                                   @input="$v.sportsman.dateOfBirth.$touch()"
+                                                   @blur="$v.sportsman.dateOfBirth.$touch()"
+                                                   :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
+                                        <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required" :display="'display:block'">
+                                            Date of Birth field is required
+                                        </div>
+                                        <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.checkFutureData">
+                                            Date of Birth choose the future date check Date
+                                        </div>
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div>{{$v.sportsman.dateOfBirth.$error}}</div>-->
+                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required" :display="'display:block'">-->
+                                        <!--Date of Birth field is required-->
+                                    <!--</div>-->
+                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.checkFutureData">-->
+                                        <!--Date of Birth choose the future date check Date-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="row cm-form__wrapper">
                                     <div class="col">
@@ -371,10 +380,15 @@
                 dateOfBirth: {
                     required: required,
                     checkFutureData: val => {
-                        var today = new Date(); // сегодняшнеяя дата и время
+                        if (val==""){
+                            return true
+                        }
+                        var today = new Date();// сегодняшнеяя дата и время
+                        var inputDate = new Date(val);
                         window.console.log('today ' + today);
                         window.console.log('val ' + val);
-                        if (today >= val){
+                        window.console.log('inputDate ' + inputDate);
+                        if (today >= inputDate){
                             window.console.log('true');
                             return true
                         } else {
