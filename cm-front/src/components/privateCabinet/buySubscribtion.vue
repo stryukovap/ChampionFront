@@ -8,10 +8,10 @@
                 <th class="table__head-item" scope="col" @click="sortItems('subscription')">Subscription expiry date</th>
             </tr>
             </thead>
-            <tr v-for="item in $store.state.selectedSportsmans">
-                <td>{{item.name}}</td>
-                <td>{{item.username}}</td>
+            <tr v-for="item in sportsmen">
+                <td>{{item.first_name}} {{item.last_name}}</td>
                 <td>{{item.id}}</td>
+                <td>{{item.date_of_birth}}</td>
             </tr>
         </table>
     </div>
@@ -21,6 +21,18 @@
 
     export default {
         name: "buysubscription",
-        mounted() {}
+        data: function () {
+            return {
+                sportsmen: {},
+                sportsmanIds: []
+            }
+        },
+        mounted() {
+            this.sportsmanIds = this.$store.state.selectedSportsmen;
+            this.sportsmen = this.sportsmanIds.map(id => {
+                return this.$store.state.sportsmanList[id]
+            });
+            console.log(this.sportsmen)
+        }
     };
 </script>

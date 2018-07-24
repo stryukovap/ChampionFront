@@ -11,21 +11,35 @@ export default new Vuex.Store({
     postLoginUrl: "https://champion-api.herokuapp.com/api/login",
     postRegistrationUserUrl: "https://champion-api.herokuapp.com/api/user",
     postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
-    sportsmanList: [],
-    selectedSportsmans: []
-    postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
     deleteSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
     getSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
     postSportsman: "https://champion-api.herokuapp.com/api/sportsman",
     getEmailValidation:
-      "https://champion-api.herokuapp.com/api/user/find?email=" //+userEmail, 200 true, 404 false
+      "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
+    sportsmanList: {},
+    sportsmanIds: [],
+    selectedSportsmen: []
   },
   mutations: {
     setSportsmanList(state, sportsmanList) {
-      state.sportsmanList = sportsmanList;
+      state.sportsmanList = sportsmanList.reduce((acc, sportsman) =>({
+        ...acc,
+        [sportsman.id]: sportsman
+      }), {});
+      state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
+      console.log(state.sportsmanList);
+      console.log(state.sportsmanIds);
     },
-    setSelectedSportsmans(state, sportsmans) {
-        state.selectedSportsmans.push(sportsmans);
+    setSelectedSportsmen(state) {
+        state.selectedSportsmen = state.sportsmanIds;
+    },
+    removeSportsman(state) {
+      state.selectedSportsmen.map(id => {
+        delete state.sportsmanList[id];
+        let index = state.sportsmanIds.indexOf(id);
+        state.sportsmanIds.splice(index, 1);
+      });
+      state.selectedSportsmen = [];
     }
   },
   actions: {}

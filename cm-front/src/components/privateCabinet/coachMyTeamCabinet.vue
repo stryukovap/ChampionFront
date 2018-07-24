@@ -13,8 +13,8 @@
             <div class="col-4">
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search input" aria-label="Search">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                        <input v-model="searchingSportsman" class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search">
+                        <button @click="searchSportsman" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </nav>
             </div>
@@ -34,19 +34,19 @@
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <paginate tag="tbody" name="items" :list="$store.state.sportsmanList" :per="5" ref="paginator">
-                    <tr v-for="item in paginated('items')">
-                        <td><input type="checkbox" v-model="$store.state.selectedSportsmans" @click="selectItem" :value="item" ></td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.username}}</td>
-                        <td>{{item.id}}</td>
+                <tbody name="items" :list="$store.state.sportsmanList">
+                    <tr v-for="item in $store.state.sportsmanList">
+                        <td><input type="checkbox" v-model="$store.state.selectedSportsmen" @click="selectSportsman" :value="item.id" ></td>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
+                        <td>{{item.patronymic_name}}</td>
+                        <td>{{item.date_of_birth}}</td>
                         <th>Edit</th>
                     </tr>
-                </paginate>
+                </tbody>
             </table>
         </div>
         <div>
-            <paginate-links for="items" :show-step-links="true" :limit="2" :step-links="{ next: 'Next', prev: 'Previous'}"></paginate-links>
+            <!--<paginate-links for="items" :show-step-links="true" :limit="2" :step-links="{ next: 'Next', prev: 'Previous'}"></paginate-links>-->
         </div>
     </div>
 </template>
@@ -64,46 +64,47 @@ export default {
                 active: false,
                 subscription: false
             },
-            allSelected: false
+            allSelected: false,
+            searchingSportsman: ''
         }
     },
+    beforeMount() {
+        this.$store.state.sportsmanList = {};
+        this.$store.state.selectedSportsmen = [];
+    },
     mounted() {
-        axios.get("https://jsonplaceholder.typicode.com/users")
+        axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
             .then(response => {
                 this.$store.commit('setSportsmanList', response.data);
-                this.items = this.$store.state.sportsmanList;
             })
             .catch(error => console.log(error));
     },
     methods: {
         selectAll() {
-            this.$store.state.selectedSportsmans = [];
+            this.$store.state.selectedSportsmen = [];
             if (!this.allSelected) {
-                this.$store.state.sportsmanList.forEach(item => {
-                    this.$store.commit('setSelectedSportsmans', item)
-                });
+                this.$store.commit('setSelectedSportsmen');
             }
         },
-        selectItem() {
+        selectSportsman() {
             this.allSelected = false;
         },
         buySubscription() {
             this.$router.push({ path: '/buysubscribtion'});
         },
         deleteSportsman() {
-            const promises = this.$store.state.selectedSportsmans.map(item => {
+            this.$store.state.selectedSportsmen.map(id => {
                 return axios
-                    .delete(`https://champion-api.herokuapp.com/api/sportsman`, {
-                        params: {
-                            id: item.id
-                        }
-                    })
-                    .then(response => console.log(response.data.message))
+                    .delete(`https://champion-api.herokuapp.com/api/sportsman/${id}`)
+                    .then(response => console.log(response));
             });
-            return Promise.all(promises);
+            this.$store.commit('removeSportsman');
         },
-
-
+        searchSportsman() {
+            axios.post(`https://champion-api.herokuapp.com/api/sportsman/search`, {
+                name: this.searchingSportsman
+            }).then(response => console.log(response.data))
+        }
 //{
 //    "id": 2,
 //    "first_name": "denissssss",
@@ -176,35 +177,7 @@ export default {
             cursor: pointer;
         }
     }
-
     .navbar-light {
         margin-top: -8px;
-    }
-
-    .paginate-links {
-        user-select: none;
-        margin: 0 10px;
-        list-style: none;
-        li {
-            margin: 0 10px;
-            list-style: none;
-            display: inline-block;
-            color: #0069d9;
-            a {
-                cursor: pointer;
-            }
-        }
-        li.active a {
-            font-weight: bold;
-        }
-        li.next:before {
-            content: ' | ';
-            margin-right: 13px;
-            color: #ddd;
-        }
-        li.disabled a {
-            color: #ccc;
-            cursor: no-drop;
-        }
     }
 </style>

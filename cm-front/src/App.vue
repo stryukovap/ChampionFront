@@ -18,11 +18,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <router-link tag="button"
-                                     class="btn btn-primary btn-user"
-                                     to="/coachcabinet">Coach Cabinet</router-link>
-                    </li>
                     <li class="nav-item" v-if="checkLogin">
                         <button class="btn btn-primary btn-user"
                                 v-on:click="logout">Logout</button>

@@ -9,8 +9,9 @@ import Restorepassword from "./views/Restorepassword.vue";
 import Restorepasswordfalse from "./views/Restorepasswordfalse.vue";
 import Userprofile from "./views/Userprofile.vue";
 import Federations from "./views/Federations.vue";
-import Coachcabinet from "./components/coach_cabinet.vue";
-import BuySubscription from "./components/buy_subscribtion.vue";
+import CoachCabinet from "./views/CoachCabinet.vue";
+import FederationCabinet from "./views/FederationCabinet.vue";
+import BuySubscription from "./components/privateCabinet/buySubscribtion.vue";
 import Federation from "./views/Federation.vue";
 
 Vue.use(Router);
@@ -70,7 +71,12 @@ export default new Router({
         {
             path: "/coachcabinet",
             name: "coach-cabinet",
-            component: Coachcabinet
+            component: CoachCabinet
+        },
+        {
+            path: "/federationcabinet",
+            name: "federation-cabinet",
+            component: FederationCabinet
         },
         {
             path: "/buysubscribtion",
@@ -80,3 +86,4 @@ export default new Router({
         }
     ],
     mode: "history"
+})
