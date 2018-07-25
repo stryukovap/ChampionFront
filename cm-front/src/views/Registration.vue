@@ -6,7 +6,7 @@
                     <tabs>
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
-                                <h1>Registration</h1>
+                                <h1 class="text-center">Registration</h1>
                                 <div class="row cm-form__wrapper text-center">
                                     <div class="col">
                                         <input class="form-control" type="radio" name="as-role" id="as-role-f"
@@ -28,6 +28,7 @@
                                            placeholder="E-mail"
                                            v-model="user.email"
                                            @input="$v.user.email.$touch()"
+                                           @blur="$v.user.email.$touch()"
                                            :class="{'is-invalid': $v.user.email.$error}">
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.required">Email field is required
@@ -45,7 +46,11 @@
                                            placeholder="Password"
                                            v-model="user.password"
                                            @input="$v.user.password.$touch()"
+                                           @blur="$v.user.password.$touch()"
                                            :class="{'is-invalid' :$v.user.password.$error}">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.password.required">Password field is required
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.user.password.minLength">
                                         Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
                                         is {{ user.password.length }}.
@@ -58,33 +63,46 @@
                                            placeholder="Confirm password"
                                            v-model="user.passwordConfirm"
                                            :class="{'is-invalid': $v.user.passwordConfirm.$error}"
-                                           @input="$v.user.passwordConfirm.$touch()">
+                                           @input="$v.user.passwordConfirm.$touch()"
+                                           @blur="$v.user.passwordConfirm.$touch()">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.password.required">Confirm password field is required
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.user.passwordConfirm.sameAs">
                                         Passwords should match
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
-                                    <!--<a class="btn btn-success"-->
-                                    <!--href="#second-step"-->
-                                    <!--:disabled="$v.$invalid"-->
-                                    <!--@click="sendUserDataOnServer">Next</a>-->
                                     <a class="btn btn-success"
                                        href="#second-step"
-                                       v-if="!$v.$invalid"
+                                       v-bind:class="{'disabled':
+                                       $v.user.email.$error ||
+                                       $v.user.password.$error ||
+                                       $v.user.passwordConfirm.$error  || testInitPassword}"
                                        @click="sendUserDataOnServer">Next</a>
+                                    <!--<div>{{$v.user.email.$error}}</div>-->
+                                    <!--<div>{{$v.user.password.$error}}</div>-->
+                                    <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
+                                    <!--<div style="color:red">{{$v.user.email.$error ||-->
+                                    <!--$v.user.password.$error ||-->
+                                    <!--$v.user.passwordConfirm.$error}}</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
                                 </div>
                             </div>
                         </tab>
-                        <tab name="Second step">
+                        <tab name="Second step"
+                             :is-disabled="$v.user.email.$error ||
+                                       $v.user.password.$error ||
+                                       $v.user.passwordConfirm.$error || testInitPassword">
+                            <!--<tab name="Second step">-->
                             <div class="cm-form__wrapper text-left">
                                 <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
                                  v-if="userSportsman === 'true'">
-                                <h3 class="cm-form__user-role">Register as Sportsman</h3>
+                                <h3 class="cm-form__user-role text-center">Register as Sportsman</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Name"
@@ -127,19 +145,26 @@
                                         is {{ sportsman.patronymic.length }}.
                                     </div>
                                 </div>
-                                <div class="row cm-form__wrapper align-items-end">
-                                    <div class="col">
-                                        <label class="cm-form__label" for="s-bdate">Date of Birth</label>
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control" type="date" name="s-bdate" id="s-bdate"
-                                               title="Date of Birth"
-                                               v-model="sportsman.dateOfBirth"
-                                               @input="$v.sportsman.dateOfBirth.$touch()"
-                                               :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
-                                    </div>
-                                    <div class="invalid-feedback"
-                                         v-if="!$v.sportsman.dateOfBirth.required">Date of Birth field is required
+                                <div class="cm-form__wrapper">
+                                    <div class="row align-items-end">
+                                        <div class="col align-self-center">
+                                            <label class="cm-form__label" for="s-bdate">Date of Birth</label>
+                                        </div>
+                                        <div class="col">
+                                            <input class="form-control" type="date" name="s-bdate" id="s-bdate"
+                                                   title="Date of Birth"
+                                                   v-model="sportsman.dateOfBirth"
+                                                   @input="$v.sportsman.dateOfBirth.$touch()"
+                                                   @blur="$v.sportsman.dateOfBirth.$touch()"
+                                                   :class="{'is-invalid' :$v.sportsman.dateOfBirth.$error}">
+                                            <div class="invalid-feedback" v-if="!$v.sportsman.dateOfBirth.required">
+                                                Date of Birth field is required
+                                            </div>
+                                            <div class="invalid-feedback"
+                                                 v-if="!$v.sportsman.dateOfBirth.checkFutureData">
+                                                Date of Birth choose the future date, check Date
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row cm-form__wrapper">
@@ -160,23 +185,41 @@
                                         <label for="female"> Female</label>
                                     </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="Federation"
-                                           disabled
-                                           v-model="sportsman.federation">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="federation" class="cm-form__label">Federation</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="federation"
+                                               placeholder="Federation"
+                                               disabled
+                                               v-model="sportsman.federation">
+                                    </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="Trainer"
-                                           autocomplete="off"
-                                           v-model="sportsman.trainer">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="trainer" class="cm-form__label">Coach</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="trainer"
+                                               placeholder="Coach"
+                                               autocomplete="off"
+                                               v-model="sportsman.trainer">
+                                    </div>
                                 </div>
-                                <div class="cm-form__wrapper">
-                                    <input class="form-control" type="text"
-                                           placeholder="City"
-                                           autocomplete="off"
-                                           v-model="sportsman.city">
+                                <div class="cm-form__wrapper row">
+                                    <div class="col">
+                                        <label for="city" class="cm-form__label">City</label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" type="text"
+                                               id="city"
+                                               placeholder="City"
+                                               autocomplete="off"
+                                               v-model="sportsman.city">
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
@@ -186,7 +229,7 @@
                             </div>
                             <div class="cm-form__content cm-form__content--f"
                                  v-else>
-                                <h3 class="cm-form__user-role">Register as Federation</h3>
+                                <h3 class="cm-form__user-role text-center">Register as Federation</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
@@ -267,27 +310,27 @@
         data() {
             return {
                 user: {
-                    email: "stryukovap1@gmail.com",
+                    email: "",
                     password: "",
                     passwordConfirm: ""
                 },
                 sportsman: {
-                    name: "name",
-                    surname: "surname",
-                    patronymic: "patronymic",
+                    name: "",
+                    surname: "",
+                    patronymic: "",
                     gender: "M",
-                    dateOfBirth: "2018-07-10",
-                    federation: "federation",
-                    trainer: "trainer",
-                    city: "city"
+                    dateOfBirth: "",
+                    federation: "",
+                    trainer: "",
+                    city: ""
                 },
-                federation:{
-                    name:"federation",
-                    sport:"1",
-                    presidentName: "president",
-                    subDomain: "domain",
-                    phone: "phone",
-                    email: "exemple@exemple.com",
+                federation: {
+                    name: "",
+                    sport: "2",
+                    presidentName: "",
+                    subDomain: "",
+                    phone: "",
+                    email: ""
                 },
                 userSportsman: "true",
                 sports: [
@@ -307,39 +350,55 @@
                 authUser: {}
             };
         },
+        computed: {
+            testInitPassword: function () {
+                if (this.user.password === "" || this.user.passwordConfirm === "") {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        },
         validations: {
             user: {
                 email: {
                     required: required,
                     email: email,
                     unique: val => {
-                        if (val === "") return true;
-                        return axios
-                            .get("https://champion-api.herokuapp.com/api/user/find?email=" + val) //+userEmail, 200 true, 404 false)
-                            // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
-                            .then(response => {
-                                // handle success
-                                console.log(response);
-                                if (response.status === 200) {
-                                    return false;
-                                }
-                            })
-                            .catch(function (error) {
-                                // handle error
-                                console.log(error);
-                                return true;
-                            })
+                        // if (val === "") return true;
+                        return (
+                            axios
+                                .get(
+                                    "https://champion-api.herokuapp.com/api/user/find?email=" + val
+                                ) //+userEmail, 200 true, 404 false)
+                                // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
+                                .then(response => {
+                                    // handle success
+                                    window.console.log(response);
+                                    if (response.status === 200) {
+                                        return false;
+                                    }
+                                })
+                                .catch(function (error) {
+                                    // handle error
+                                    window.console.log(error);
+                                    return true;
+                                })
+                        );
                     }
                 },
                 password: {
-                    minLength: minLength(6)
+                    required: required,
+                    minLength: minLength(6),
                 },
                 passwordConfirm: {
+                    required: required,
                     sameAs: sameAs("password")
                 }
             },
             sportsman: {
                 name: {
+                    required: required,
                     minLength: minLength(1)
                 },
                 surname: {
@@ -349,7 +408,24 @@
                     minLength: minLength(1)
                 },
                 dateOfBirth: {
-                    required: required
+                    required: required,
+                    checkFutureData: val => {
+                        if (val == "") {
+                            return true
+                        }
+                        var today = new Date();// сегодняшнеяя дата и время
+                        var inputDate = new Date(val);
+                        window.console.log('today ' + today);
+                        window.console.log('val ' + val);
+                        window.console.log('inputDate ' + inputDate);
+                        if (today >= inputDate) {
+                            window.console.log('true');
+                            return true
+                        } else {
+                            window.console.log('false');
+                            return false
+                        }
+                    }
                 }
             }
         },
@@ -392,7 +468,7 @@
                 window.console.log(this.sportsman);
                 var HTTP = axios.create({
                     headers: {
-                        Authorization: this.$store.state.authUser.auth_token
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
                     }
                 });
                 HTTP.post(this.$store.state.postSportsman, {
@@ -413,7 +489,7 @@
                 window.console.log(this.federation);
                 var HTTP = axios.create({
                     headers: {
-                        Authorization: this.$store.state.authUser.auth_token
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
                     }
                 });
                 HTTP.post("https://champion-api.herokuapp.com/api/federations", {
@@ -423,7 +499,7 @@
                     sub_domain: this.federation.subDomain,
                     contact_telephone: this.federation.phone,
                     contact_email: this.federation.email,
-                    sport_id: this.federation.sport,
+                    sport_id: this.federation.sport
                 })
                     .then(function (response) {
                         window.console.log(response);

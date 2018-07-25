@@ -130,7 +130,7 @@
         mounted(){
             this.getUserId();
         }
-    }
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,8 @@
 <template>
-  <div class="row cm-sp-certificates">
+  <div class="row cm-sp-certificates mt-3">
     <div class="col-12">
       <h2>Certificates</h2>
-      <ul class="cm-sp-certificates-list user-certificates-list list-unstyled d-inline-flex">
+      <ul class="cm-sp-certificates-list user-certificates-list list-unstyled d-inline-flex col-12">
          <li
            v-for='(certificate, index) in userCertificates'
            v-if='index < 7'
@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .user-certificates-list {
-  max-width: 1110px;
+  /*max-width: 1110px;*/
   height: 260px;
   overflow-x: scroll;
 }

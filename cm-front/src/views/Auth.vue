@@ -55,8 +55,10 @@ export default {
   name: "Auth",
   data() {
     return {
-      email: "alex1@alexandrz.com",
-      password: "123456"
+      // email: "alex1@alexandrz.com",
+      email: "",
+      // password: "123456"
+      password: ""
     };
   },
   validations: {
@@ -96,7 +98,7 @@ export default {
               "lbUser",
               JSON.stringify(this.$store.state.authUser)
             );
-            this.$router.push("/");
+            this.$router.push("/settings");
           } else {
             this.$store.state.isLoggedIn = false;
             window.console.log(

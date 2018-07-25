@@ -3,16 +3,15 @@
     </div>
 </template>
 <script>
+// import axios from "axios";
 
-    // import axios from "axios";
-
-    export default {
-        name: "buysubscription",
-        data: function() {
-            return {
-                props: ['sportsmans']
-            };
-        },
-        mounted() {}
+export default {
+  name: "buysubscription",
+  data: function() {
+    return {
+      props: ["sportsmans"]
     };
+  },
+  mounted() {}
+};
 </script>

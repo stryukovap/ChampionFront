@@ -30,14 +30,14 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then(response => {
-        this.userIsCoach = response.data[3].completed;
-      })
-      .catch(error => {
-        window.console.log(error);
-      });
+    // axios
+    //   .get("https://jsonplaceholder.typicode.com/todos")
+    //   .then(response => {
+    //     this.userIsCoach = response.data[3].completed;
+    //   })
+    //   .catch(error => {
+    //     window.console.log(error);
+    //   });
   }
 };
 </script>

@@ -54,7 +54,8 @@ export default {
     axios
       .get("https://champion-api.herokuapp.com/api/sportsman/" + this.userID)
       .then(response => {
-        this.userFullName = response.data.first_name + " " + response.data.last_name;
+        this.userFullName =
+          response.data.first_name + " " + response.data.last_name;
         // this.userRole = response.data[0].username
         // this.userLevel = response.data[0].suite
         // this.userRank = response.data[0].street

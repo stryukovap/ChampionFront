@@ -49,7 +49,7 @@ export default {
 <style scoped>
 /* .coaches-list a,
 .coaches-list a:hover { */
-  /* text-decoration: none;
+/* text-decoration: none;
   color: inherit; */
 /* } */
 </style>
