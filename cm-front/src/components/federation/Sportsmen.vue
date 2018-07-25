@@ -42,19 +42,28 @@ export default {
   },
   mounted() {
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      .get("http://champion-api.herokuapp.com/api/sportsman/list")
       .then(response => {
         for (let i = 0; i < response.data.length; i++) {
           this.sportsmen.push({
-            name: response.data[i].name,
+            name: response.data[i].first_name + " " + response.data[i].last_name,
             role: "coach",
             avatar: "img/pos.png",
-            dan: response.data[i].id,
+            dan: 3,
             link: "#"
           });
         }
       })
       .catch(error => {
+        for(let i = 0; i < 10; i++) {
+          this.sportsmen.push({
+            name: "sp1",
+            role: "coach",
+            avatar: "img/pos.png",
+            dan: 3,
+            link: "#"
+          });
+        }
         window.console.log(error);
       });
   },
