@@ -12,74 +12,79 @@ import Federations from "./views/Federations.vue";
 import Coachcabinet from "./components/coach_cabinet.vue";
 import BuySubscription from "./components/buy_subscribtion.vue";
 import Federation from "./views/Federation.vue";
+import Settingscabinet from "./components/settings-cabinet.vue";
 
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-        {
-            path: "/",
-            name: "home",
-            component: Home
-        },
-        {
-            path: "/about",
-            name: "about",
-            component: About
-        },
-        {
-            path: "/registration",
-            name: "registration",
-            component: Registration
-        },
-        {
-            path: "/auth",
-            name: "auth",
-            component: Auth
-        },
-        {
-            path: "/forgotpassword",
-            name: "forgotpassword",
-            component: Forgotpassword
-        },
-        {
-            path: "/restorepassword",
-            name: "restorepassword",
-            component: Restorepassword
-        },
-        {
-            path: "/userprofile",
-            name: "userprofile",
-            component: Userprofile
-        },
-        {
-            path: "/federations",
-            name: "federations",
-            component: Federations
-        },
-        {
-            path: "/federation",
-            name: "federation",
-            component: Federation
-        },
-        {
-            path: "/restorepasswordfalse",
-            name: "restorepasswordfalse",
-            component: Restorepasswordfalse
-        },
-        {
-            path: "/coachcabinet",
-            name: "coach-cabinet",
-            component: Coachcabinet
-        },
-        {
-            path: "/buysubscribtion",
-            name: "buysubscription",
-            component: BuySubscription,
-            props: true
-        }
-    ],
-
-    mode: "history"
+	routes: [
+		{
+			path: "/",
+			name: "home",
+			component: Home
+		},
+		{
+			path: "/about",
+			name: "about",
+			component: About
+		},
+		{
+			path: "/registration",
+			name: "registration",
+			component: Registration
+		},
+		{
+			path: "/auth",
+			name: "auth",
+			component: Auth
+		},
+		{
+			path: "/forgotpassword",
+			name: "forgotpassword",
+			component: Forgotpassword
+		},
+		{
+			path: "/restorepassword",
+			name: "restorepassword",
+			component: Restorepassword
+		},
+		{
+			path: "/userprofile",
+			name: "userprofile",
+			component: Userprofile
+		},
+		{
+			path: "/federations",
+			name: "federations",
+			component: Federations
+		},
+		{
+			path: "/federation",
+			name: "federation",
+			component: Federation
+		},
+		{
+			path: "/restorepasswordfalse",
+			name: "restorepasswordfalse",
+			component: Restorepasswordfalse
+		},
+		{
+			path: "/coachcabinet",
+			name: "coach-cabinet",
+			component: Coachcabinet
+		},
+		{
+			path: "/settingscabinet",
+			name: "settings-cabinet",
+			component: Settingscabinet
+		},
+		{
+			path: "/buysubscribtion",
+			name: "buysubscription",
+			component: BuySubscription,
+			props: true
+		}
+	],
+	mode: "history"
 });
 
