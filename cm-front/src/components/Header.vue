@@ -5,13 +5,11 @@
 				<router-link class="nav-link" to="/">
 					<img v-if="checkLogin"
 					     :src="getImage(logoFederation)"
-					     alt="logo" class="nav-logo-img"
-					>
+					     alt="logo" class="nav-logo-img">
 					<img v-else
 					     :src="getImage(logoChampion)"
 					     alt="logo"
-					     class="nav-logo-img"
-					>
+					     class="nav-logo-img">
 				</router-link>
 			</li>
 			<li class="nav-item">
@@ -35,11 +33,26 @@
 							<div class="user__menu">
 								<div class="user__name">{{ userData.userName }}</div>
 								<ul class="user__menu-items">
-									<router-link tag="li" :to="'/userprofile/' + userData.id" class="user__item"><a class="user__link">{{ menu[0].title }}</a>
+									<template>
+										<router-link tag="li" :to="'/federation'" class="user__item"
+										             v-if="this.$store.state.roles.userIsFederation"><a
+												class="user__link">{{ menu[0].titleFederation }}</a>
+										</router-link>
+										<router-link tag="li" :to="'/userprofile/' + userData.id" class="user__item"
+										             v-else><a
+												class="user__link">{{ menu[0].title }}</a>
+										</router-link>
+									</template>
+									<router-link tag="li" :to="'/coachcabinet/' + userData.id" class="user__item"
+									             v-if="this.$store.state.roles.userIsCoach"><a
+											class="user__link">{{ menu[1].titleCoach }}</a>
 									</router-link>
-									<router-link tag="li" :to="'/coachcabinet/' + userData.id" class="user__item"><a class="user__link">{{ menu[1].title }}</a>
+									<router-link tag="li" :to="'/settingscabinet/' + userData.id" class="user__item"
+									             v-else-if="this.$store.state.roles.userIsSportsman"><a
+											class="user__link">{{ menu[1].titleSportsman }}</a>
 									</router-link>
-									<li @click="logout()" class="user__item user__link c-pointer">{{ menu[2].title }}</li>
+									<li @click="logout()" class="user__item user__link c-pointer">{{ menu[2].title }}
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -54,83 +67,78 @@
 				<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration</router-link>
 			</li>
 			<li class="nav-item">
-				<form>
-					<select name="lang" class="custom-select" v-model="selectedLang">
-						<option v-for="language in languages" :key="language">{{ language }}</option>
-					</select>
-				</form>
+				<select name="lang" class="custom-select" v-model="selectedLang">
+					<option v-for="language in languages" :key="language">{{ language }}</option>
+				</select>
 			</li>
 		</ul>
 	</nav>
 </template>
 
 <script>
-    // import axios from "axios";
-
-    export default {
-        name: "Header",
-	    data() {
-            return {
-	            selectedLang: 'en',
-	            languages: ['en', 'ru', 'ua'],
-			    contacts: {
-	                phone: '+38067000001',
-	                email: 'example@example.com'
-			    },
-	            userData: {
-	                id: '',
-                    validUntil: '10.10.2020',
-		            userName: 'Denis Yermolin',
-		            userLogo: 'user.png'
-                },
-                menu: [
-                    {
-                        title: "My Profile"
-                    },
-                    {
-                        title: "My Cabinet"
-                    },
-                    {
-                        title: "Exit"
-                    }
-                ],
-	            logoChampion: 'logo_champion.png',
-	            logoFederation: 'logo_federation.png'
-            }
-	    },
-        methods: {
-            logout: function() {
-                localStorage.removeItem("lbUser");
-                this.$store.state.isLoggedIn = false;
-                this.$router.push('/');
-                window.console.log(
-                    "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-                );
-            },
-	        getImage: function (image) {
-                const images = require.context('../assets/', false, /\.png$/)
-                return images('./' + image)
-            },
-            getUserId() {
-                //ISSUE
-	            // if user sign in first time, the user's ID did't pass to router-link
-	            // to solve this, you must reload page once
-                if (localStorage.getItem("lbUser")) {
-                    const userObj = JSON.parse(localStorage.getItem("lbUser"));
-                    this.userData.id = userObj.id;
-                }
-            }
-        },
-        computed: {
-            checkLogin() {
-	            window.console.log(this.$store.state.isLoggedIn);
-                return this.$store.state.isLoggedIn;
-            }
-        },
-        mounted(){
-            this.getUserId();
-        }
-    }
+export default {
+	name: "Header",
+	data() {
+		return {
+			selectedLang: 'en',
+			languages: ['en', 'ru', 'ua'],
+			contacts: {
+				phone: '+38067000001',
+				email: 'example@example.com'
+			},
+			userData: {
+				id: '',
+				validUntil: '10.10.2020',
+				userName: 'Denis Yermolin',
+				userLogo: 'user.png'
+			},
+			menu: [
+				{
+					title: "My Profile",
+					titleFederation: "Federation"
+				},
+				{
+					titleCoach: "My Cabinet",
+					titleSportsman: "Settings"
+				},
+				{
+					title: "Exit"
+				}
+			],
+			logoChampion: 'logo_champion.png',
+			logoFederation: 'logo_federation.png'
+		}
+	},
+	methods: {
+		logout: function () {
+			localStorage.removeItem("lbUser");
+			this.$store.state.isLoggedIn = false;
+			this.$router.push('/');
+			window.console.log(
+				"store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+			);
+		},
+		getImage: function (image) {
+			const images = require.context('../assets/', false, /\.png$/);
+			return images('./' + image);
+		},
+		getUserId() {
+			if (localStorage.getItem("lbUser")) {
+				const userObj = this.$store.state.authUser;
+				this.userData.id = userObj.id;
+			}
+		}
+	},
+	computed: {
+		checkLogin() {
+			window.console.log(this.$store.state.isLoggedIn);
+			if (this.$store.state.isLoggedIn) {
+				this.getUserId();
+			}
+			return this.$store.state.isLoggedIn;
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -143,7 +151,7 @@
 	.c-pointer {
 		cursor: pointer;
 	}
-	
+
 	.nav {
 		&-list {
 			display: flex;
@@ -179,6 +187,10 @@
 		display: inline-flex;
 		flex-direction: column;
 		color: #fff;
+
+		&__name {
+			padding: 8px 0;
+		}
 
 		&__wrap {
 			display: flex;
