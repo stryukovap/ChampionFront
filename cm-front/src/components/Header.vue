@@ -67,9 +67,17 @@
 				<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration</router-link>
 			</li>
 			<li class="nav-item">
-				<select name="lang" class="custom-select" v-model="selectedLang">
-					<option v-for="language in languages" :key="language">{{ language }}</option>
-				</select>
+				<ul class="list-group list-group-show">
+					<li class="list-group-item list-group-border-bottom">{{ selectedLang }}</li>
+					<li class="list-group-item-display">
+						<ul class="list-group list-group-border-none">
+							<li class="list-group-item"
+							    v-for="lang in languages"
+							    v-if="lang !== selectedLang"
+								@click="setActiveLang($event)">{{ lang }}</li>
+						</ul>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</nav>
@@ -127,6 +135,9 @@ export default {
 				const userObj = this.$store.state.authUser;
 				this.userData.id = userObj.id;
 			}
+		},
+		setActiveLang(e) {
+			this.selectedLang = e.target.textContent;
 		}
 	},
 	computed: {
@@ -169,6 +180,7 @@ export default {
 		&-item {
 			margin-right: 10px;
 			margin-left: 10px;
+			position: relative;
 			&--logo {
 				margin-right: auto;
 			}
@@ -254,6 +266,42 @@ export default {
 				color: #fff;
 			}
 		}
+	}
+
+	.list-group {
+		list-style: none;
+
+		&-border-none &-item:first-child {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+
+		& > &-border-bottom {
+			border-bottom-left-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+
+		&-item {
+			cursor: pointer;
+			padding: 0.35rem 0.95rem;
+		}
+
+		&-item-display {
+			display: none;
+			position: absolute;
+			top: 103%;
+			opacity: 0;
+		}
+	}
+
+	.list-group-show:hover .list-group-item-display {
+		display: block;
+		animation: showMenu .5s forwards;
+	}
+
+	.list-group-show:hover .list-group-border-bottom {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 
 	@keyframes showMenu {
