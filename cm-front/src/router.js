@@ -54,9 +54,10 @@ export default new Router({
       component: Userprofile
     },
     {
-      path: "/federations",
+      path: "/federations/:id",
       name: "federations",
-      component: Federations
+      component: Federations,
+      props: true
     },
     {
       path: "/federation",

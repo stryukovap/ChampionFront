@@ -5,7 +5,7 @@
              <!--alt="Card image cap">-->
         <div class="card-body">
             <!--<a href="#" class="btn btn-primary">{{ Name }}</a>-->
-            <router-link tag="a" class="btn btn-success" to="/federations">{{Name}}</router-link>
+            <router-link tag="a" class="btn btn-success" v-bind:to="'/' + link_to">{{Name}}</router-link>
         </div>
     </div>
 </template>
@@ -19,6 +19,6 @@
 <script>
 export default {
   name: "card",
-  props: ["Name", "Image"]
+  props: ["Name", "Image", "link_to"]
 };
 </script>

@@ -13,6 +13,7 @@
                     <card class="col-12 col-md-6 col-lg-4 col-xl-4"
                           v-for="federation in federations"
                           v-bind:Name="federation.name"
+                          v-bind:link_to="link + '/' + federation.id"
                           :key="federation.id"/>
                 </div>
                 <!--<card_sport/>-->
@@ -27,17 +28,17 @@ import axios from "axios";
 // https://champion-api.herokuapp.com/api/federations/{sportId}
 export default {
   name: "Federations",
-    props:["id"],
+    link:"federation",
   components: { Card },
   data() {
     return {
-      federations: []
+      federations: {}
     };
   },
     mounted(){
         axios
             .get(
-        "https://champion-api.herokuapp.com/api/federations/" + this.id
+        "https://champion-api.herokuapp.com/api/federations/" + this.$route.params.id
             )
             .then(response => {
                 // handle success
