@@ -18,7 +18,12 @@ export default new Vuex.Store({
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
     sportsmanIds: [],
-    selectedSportsmen: []
+    selectedSportsmen: [],
+      roles: {
+          userIsSportsman: false,
+          userIsCoach: false,
+          userIsFederation: true
+      }
   },
   mutations: {
     setSportsmanList(state, sportsmanList) {
@@ -40,7 +45,6 @@ export default new Vuex.Store({
         state.sportsmanIds.splice(index, 1);
       });
       state.selectedSportsmen = [];
-    }
   },
-  actions: {}
-});
+  actions: {}}}
+);
