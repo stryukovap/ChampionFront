@@ -9,8 +9,8 @@
                 </div>
             </div>
             <div class="col-10">
-                <tournaments-cabinet v-if="activeItem === 'Tournaments'"></tournaments-cabinet>
-                <coach-my-team v-else-if="activeItem === 'My team'"></coach-my-team>
+                <tournaments v-if="activeItem === 'Tournaments'"></tournaments>
+                <my-team v-else-if="activeItem === 'My team'"></my-team>
                 <settings class="col-10" v-else-if="activeItem === 'Settings'"></settings>
             </div>
         </div>
@@ -18,16 +18,16 @@
 </template>
 
 <script>
-import axios from "axios";
-import TournamentsCabinet from "./tournaments_cabinet.vue";
-import CoachMyTeam from "./coach_my_team";
-import Settings from "./settings-cabinet.vue";
+//import axios from "axios";
+import Tournaments from "../components/privateCabinet/tournamentsCabinet.vue";
+import MyTeam from "../components/privateCabinet/coachMyTeamCabinet";
+import Settings from "../components/privateCabinet/settingsCabinet.vue";
 
 export default {
   name: "coach-cabinet",
   components: {
-    TournamentsCabinet,
-    CoachMyTeam,
+    Tournaments,
+    MyTeam,
     Settings
   },
   data: function() {
@@ -52,9 +52,6 @@ export default {
     }
   },
   mounted() {
-    //            axios.get('https://jsonplaceholder.typicode.com/todos')
-    //                .then(response => this.menu = response.data)
-    //                .catch(error => console.log(error))
   }
 };
 </script>

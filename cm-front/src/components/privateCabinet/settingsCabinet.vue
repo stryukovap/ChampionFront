@@ -39,12 +39,16 @@
                                        v-model="newPassword">
                             </div>
                             <div class="form__field">
+<<<<<<< HEAD:cm-front/src/components/settings-cabinet.vue
                                 <input type="password"
                                        autocomplete="off"
                                        name="confirmPass"
                                        placeholder="Confirm new password"
                                        class="form__input"
                                        v-model="confirmNewPassword">
+=======
+                                <input type="password" name="confirmPass" placeholder="Confirm new password" class="form__input">
+>>>>>>> feature/cabinet:cm-front/src/components/privateCabinet/settingsCabinet.vue
                             </div>
                             <div class="form__btn-wrap">
                                 <!--<input type="submit"-->

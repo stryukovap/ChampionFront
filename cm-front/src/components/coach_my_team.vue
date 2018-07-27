@@ -74,7 +74,7 @@ export default {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then(response => (this.items = response.data))
-      .catch(error => console.log(error));
+      .catch(error => window.console.log(error));
   },
   methods: {
     sortItems(column) {

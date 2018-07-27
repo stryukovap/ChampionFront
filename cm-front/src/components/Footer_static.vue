@@ -10,10 +10,12 @@
             <router-link tag="a"
                          class="footer__item"
                          to="/federation">Federation</router-link>
-            <li>
-                <router-link tag="button" class="btn btn-primary btn-user" to="/coachcabinet">Coach Cabinet
-                </router-link>
-            </li>
+            <router-link tag="a"
+                         class="footer__item"
+                         to="/coachcabinet">Coach Cabinet</router-link>
+            <router-link tag="a"
+                         class="footer__item"
+                         to="/federationcabinet">Federation Cabinet</router-link>
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>-->
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 2</a></li>-->
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 3</a></li>-->
