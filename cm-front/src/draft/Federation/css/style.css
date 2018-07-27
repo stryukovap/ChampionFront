@@ -1,0 +1,23 @@
+.h2 {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.h2-2{
+    display: inline-block;
+    margin-left: 525px;
+}
+
+.line{
+    border: none;
+    background-color: #5a5a5a;
+    color: #5a5a5a;
+    height: 1px;
+}
+
+@media (min-width: 992px) {
+    .main-content {
+        border-right: 1px solid
+    }
+
+}
