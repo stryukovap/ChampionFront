@@ -27,8 +27,6 @@ export default new Vuex.Store({
         [sportsman.id]: sportsman
       }), {});
       state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
-      console.log(state.sportsmanList);
-      console.log(state.sportsmanIds);
     },
     setSelectedSportsmen(state) {
         state.selectedSportsmen = state.sportsmanIds;
