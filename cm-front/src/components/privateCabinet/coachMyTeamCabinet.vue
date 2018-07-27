@@ -40,7 +40,11 @@
                         <td>{{item.first_name}} {{item.last_name}}</td>
                         <td>{{item.patronymic_name}}</td>
                         <td>{{item.date_of_birth}}</td>
-                        <th>Edit</th>
+                        <th>
+                            <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                                Edit
+                            </button>
+                        </th>
                     </tr>
                 </tbody>
             </table>
@@ -48,7 +52,12 @@
         <div>
             <!--<paginate-links for="items" :show-step-links="true" :limit="2" :step-links="{ next: 'Next', prev: 'Previous'}"></paginate-links>-->
         </div>
-        <modal-form @clicked="closeAndUpdate" @click.prevent="modalShow = false" v-if="modalShow"></modal-form>
+        <modal-form
+                v-bind:sportsman-id="sportsmanId"
+                @clicked="closeAndUpdate"
+                @click.prevent="closeModal"
+                v-if="modalShow">
+        </modal-form>
     </div>
 </template>
 
@@ -64,6 +73,7 @@
         data: function () {
             return {
                 modalShow: false,
+                sportsmanId: '',
                 paginate: ['items'],
                 sorted: {
                     name: false,
@@ -95,8 +105,17 @@
             selectSportsman() {
                 this.allSelected = false;
             },
+            editSportsman(id) {
+                this.sportsmanId = id;
+                this.modalShow = true;
+            },
+            closeModal() {
+                this.modalShow = false;
+                this.sportsmanId = '';
+            },
             closeAndUpdate() {
                 this.modalShow = false;
+                this.sportsmanId = '';
                 axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data);

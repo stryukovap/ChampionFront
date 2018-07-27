@@ -3,7 +3,10 @@
         <div class="popup__inner">
             <form class="popup__edit container text-center">
                 <div class="popup__title-wrapper row">
-                    <h2 class="popup__title col">Create Sportsman</h2>
+                    <h2 class="popup__title col">
+                        {{sportsmanId === ''? 'Create': 'Edit'}}
+                        {{personRole === 'Coach' ? 'Coach' : (personRole === 'Referee' ? 'Referee' : 'Sportsman')}}
+                    </h2>
                     <button class="popup__exit btn btn-danger"
                             v-on="$listeners">X</button>
                 </div>
@@ -19,12 +22,12 @@
                            autofocus
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.name">
-                    <!--@input="$v.sportsman.name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.name.minLength">-->
-                    <!--Min length of Name is {{ $v.sportsman.name.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.name.length }}.-->
+                           v-model="sportsman.first_name">
+                    <!--@input="$v.sportsman.first_name.$touch()"-->
+                    <!--:class="{'is-invalid' :$v.sportsman.first_name.$error}">-->
+                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.first_name.minLength">-->
+                    <!--Min length of Name is {{ $v.sportsman.first_name.$params.minLength.min }}. Now it-->
+                    <!--is {{ sportsman.first_name.length }}.-->
                     <!--</div>-->
                 </div>
                 <div class="cm-form__wrapper">
@@ -32,13 +35,13 @@
                            placeholder="Surname"
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.surname">
-                    <!--@input="$v.sportsman.surname.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.surname.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.surname.minLength">-->
-                    <!--Min length of Surname is {{ $v.sportsman.sportsman.surname.$params.minLength.min-->
+                           v-model="sportsman.last_name">
+                    <!--@input="$v.sportsman.last_name.$touch()"-->
+                    <!--:class="{'is-invalid' :$v.sportsman.last_name.$error}">-->
+                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.last_name.minLength">-->
+                    <!--Min length of Surname is {{ $v.sportsman.sportsman.surname.last_name.minLength.min-->
                     <!--}}. Now it-->
-                    <!--is {{ sportsman.surname.length }}.-->
+                    <!--is {{ sportsman.last_name.length }}.-->
                     <!--</div>-->
                 </div>
                 <div class="cm-form__wrapper">
@@ -46,13 +49,13 @@
                            placeholder="Patronymic"
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.patronymic">
-                    <!--@input="$v.sportsman.patronymic.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.patronymic.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">-->
+                           v-model="sportsman.patronymic_name">
+                    <!--@input="$v.sportsman.patronymic_name.$touch()"-->
+                    <!--:class="{'is-invalid' :$v.sportsman.patronymic_name.$error}">-->
+                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.patronymic_name.minLength">-->
                     <!--Min length of Patronymic is {{-->
-                    <!--$v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.patronymic.length }}.-->
+                    <!--$v.sportsman.sportsman.patronymic_name.$params.minLength.min }}. Now it-->
+                    <!--is {{ sportsman.patronymic_name.length }}.-->
                     <!--</div>-->
                 </div>
                 <div class="row cm-form__wrapper">
@@ -122,8 +125,11 @@
                 <section class="popup__sertificates">
                     <!--<userCertificates></userCertificates>-->
                 </section>
-                <button class="popup__save btn btn-success mt-3 mb-2"
+                <button v-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-2"
                         @click.prevent="createSportsman">Create
+                </button>
+                <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-2"
+                        @click.prevent="updateSportsman">Save
                 </button>
             </form>
         </div>
@@ -139,14 +145,15 @@ import axios from "axios";
 //        components: {
 //            userCertificates,
 //        },
+        props: ['sportsmanId', 'personRole'],
         data() {
             return {
                 sportsman: {
-                    name: "",
-                    surname: "",
-                    patronymic: "",
+                    first_name: "",
+                    last_name: "",
+                    patronymic_name: "",
                     gender: "",
-                    dateOfBirth: "2018-07-10",
+                    date_of_birth: "2018-07-10",
                     belt: "",
                     degree: "",
                     weight: "",
@@ -160,22 +167,29 @@ import axios from "axios";
                 })
             }
         },
-
+        mounted() {
+            if (this.sportsmanId !== '') {
+                this.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
+            }
+        },
         methods: {
             createSportsman: function() {
-                this.http.post(this.$store.state.postSportsman, {
-                    first_name: this.sportsman.name,
-                    last_name: this.sportsman.surname,
-                    patronymic_name: this.sportsman.patronymic,
-                    gender: this.sportsman.gender,
-                    date_of_birth: this.sportsman.dateOfBirth,
-                })
-                    .then((response) => {
+                this.http.post(this.$store.state.postSportsman, this.sportsman)
+                    .then(response => {
                         console.log(response);
                         this.$emit('clicked');
                     })
                     .catch(error => console.log(error.message));
             },
+            updateSportsman() {
+                this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+                    this.sportsman)
+                    .then(response => {
+                        console.log('saved successfully');
+                        this.$emit('clicked');
+                    })
+                    .catch(error => console.log(error.message));
+            }
         }
     }
 </script >

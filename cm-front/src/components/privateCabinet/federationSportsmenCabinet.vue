@@ -23,7 +23,7 @@
                                 aria-label="Search">
                         <button
                                 @click.prevent="searchSportsman"
-                                class="btn btn-outline-primary my-2 my-sm-0">
+                                class="btn btn-primary my-2 my-sm-0">
                             Search
                         </button>
                     </form>
@@ -31,9 +31,9 @@
             </div>
             <div class="col-2">
                 <b-dropdown variant="outline-primary" right text="Create">
-                    <b-dropdown-item @click="createOne">Coach</b-dropdown-item>
-                    <b-dropdown-item @click="createOne">Referee</b-dropdown-item>
-                    <b-dropdown-item @click="createOne">Sportsman</b-dropdown-item>
+                    <b-dropdown-item @click="createPerson('Coach')">Coach</b-dropdown-item>
+                    <b-dropdown-item @click="createPerson('Referee')">Referee</b-dropdown-item>
+                    <b-dropdown-item @click="createPerson('Sportsman')">Sportsman</b-dropdown-item>
                 </b-dropdown>
             </div>
         </div>
@@ -80,13 +80,22 @@
                                     v-bind:false-value="checkbox.notCoach" />
                         </td>
                         <td>{{item.date_of_birth}}</td>
-                        <th>Edit</th>
+                        <th>
+                            <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                                Edit
+                            </button>
+                        </th>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <p>{{$store.state.selectedSportsmen}}</p>
-        <modal-form @clicked="closeAndUpdate" @click.prevent="modalShow = false" v-if="modalShow"></modal-form>
+        <modal-form
+                v-bind:sportsman-id="sportsmanId"
+                v-bind:person-role="roleOfCreatedPerson"
+                @clicked="closeAndUpdate"
+                @click.prevent="closeModal"
+                v-if="modalShow">
+        </modal-form>
     </div>
 </template>
 
@@ -101,6 +110,8 @@
         data: function () {
             return {
                 modalShow: false,
+                roleOfCreatedPerson: '',
+                sportsmanId: '',
                 sorted: {
                     name: false,
                     active: false,
@@ -140,11 +151,23 @@
             selectSportsman() {
                 this.allSelected = false;
             },
-            createOne() {
+            createPerson(role) {
                 this.modalShow = true;
+                this.roleOfCreatedPerson = role;
+            },
+            editSportsman(id) {
+                this.sportsmanId = id;
+                this.modalShow = true;
+            },
+            closeModal() {
+                this.modalShow = false;
+                this.sportsmanId = '';
+                this.roleOfCreatedPerson = '';
             },
             closeAndUpdate() {
                 this.modalShow = false;
+                this.sportsmanId = '';
+                this.roleOfCreatedPerson = '';
                 axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data);
