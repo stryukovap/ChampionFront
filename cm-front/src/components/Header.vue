@@ -4,10 +4,10 @@
 			<li class="nav-item nav-item--logo">
 				<router-link class="nav-link" to="/">
 					<img v-if="checkLogin"
-					     :src="getImage(logoFederation)"
+					     :src="getImage(headerLogo.logoFederation)"
 					     alt="logo" class="nav-logo-img">
 					<img v-else
-					     :src="getImage(logoChampion)"
+					     :src="getImage(headerLogo.logoChampion)"
 					     alt="logo"
 					     class="nav-logo-img">
 				</router-link>
@@ -68,13 +68,15 @@
 			</li>
 			<li class="nav-item">
 				<ul class="list-group list-group-show">
-					<li class="list-group-item list-group-border-bottom">{{ selectedLang }}</li>
-					<li class="list-group-item-display">
+					<li :class="{'list-group-border-bottom': languages.selectedLang, 'list-group-item': true}"
+						@click="languages.activeClass = !languages.activeClass">{{ languages.selectedLang }}</li>
+					<li :class="{'list-group-item-display-show': languages.activeClass, 'list-group-item-display': true}">
 						<ul class="list-group list-group-border-none">
 							<li class="list-group-item"
-							    v-for="lang in languages"
-							    v-if="lang !== selectedLang"
-								@click="setActiveLang($event)">{{ lang }}</li>
+							    v-for="lang in languages.langList"
+							    :key="lang"
+							    v-if="lang !== languages.selectedLang"
+								@click="[setActiveLang($event), languages.activeClass = !languages.activeClass]">{{ lang }}</li>
 						</ul>
 					</li>
 				</ul>
@@ -88,8 +90,11 @@ export default {
 	name: "Header",
 	data() {
 		return {
-			selectedLang: 'en',
-			languages: ['en', 'ru', 'ua'],
+            languages: {
+                selectedLang: 'en',
+                langList: ['en', 'ru', 'ua'],
+	            activeClass: false
+            },
 			contacts: {
 				phone: '+38067000001',
 				email: 'example@example.com'
@@ -113,8 +118,10 @@ export default {
 					title: "Exit"
 				}
 			],
-			logoChampion: 'logo_champion.png',
-			logoFederation: 'logo_federation.png'
+			headerLogo: {
+				logoChampion: 'logo_champion.png',
+				logoFederation: 'logo_federation.png'
+			}
 		}
 	},
 	methods: {
@@ -137,7 +144,7 @@ export default {
 			}
 		},
 		setActiveLang(e) {
-			this.selectedLang = e.target.textContent;
+			this.languages.selectedLang = e.target.textContent;
 		}
 	},
 	computed: {
@@ -291,22 +298,35 @@ export default {
 			position: absolute;
 			top: 103%;
 			opacity: 0;
+
+			&-show {
+				display: block;
+				animation: showMenu .5s forwards;
+			}
 		}
 	}
 
-	.list-group-show:hover .list-group-item-display {
-		display: block;
-		animation: showMenu .5s forwards;
-	}
-
-	.list-group-show:hover .list-group-border-bottom {
+	.list-group-border-bottom {
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
 	}
 
+	/*.list-group-show:hover .list-group-item-display {*/
+		/*display: block;*/
+		/*animation: showMenu .5s forwards;*/
+	/*}*/
+
+	/*.list-group-show:hover .list-group-border-bottom {*/
+		/*border-bottom-left-radius: 0;*/
+		/*border-bottom-right-radius: 0;*/
+	/*}*/
+
 	@keyframes showMenu {
 		100% {
 			opacity: 1;
+		}
+		0% {
+			opacity: 0;
 		}
 	}
 </style>
