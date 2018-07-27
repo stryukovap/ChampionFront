@@ -47,7 +47,7 @@
 									             v-if="this.$store.state.roles.userIsCoach"><a
 											class="user__link">{{ menu[1].titleCoach }}</a>
 									</router-link>
-									<router-link tag="li" :to="'/settingscabinet/' + userData.id" class="user__item"
+									<router-link tag="li" :to="'/settingscabinet'" class="user__item"
 									             v-else-if="this.$store.state.roles.userIsSportsman"><a
 											class="user__link">{{ menu[1].titleSportsman }}</a>
 									</router-link>
