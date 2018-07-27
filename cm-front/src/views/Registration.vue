@@ -320,7 +320,7 @@
                     patronymic: "",
                     gender: "M",
                     dateOfBirth: "",
-                    federation: "",
+                    federation: "2",
                     trainer: "",
                     city: ""
                 },
