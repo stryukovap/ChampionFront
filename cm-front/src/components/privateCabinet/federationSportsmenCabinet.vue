@@ -15,13 +15,26 @@
             <div class="col-4">
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
-                        <input v-model="searchingSportsman" class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search">
-                        <button @click="searchSportsman" class="btn btn-outline-primary my-2 my-sm-0">Search</button>
+                        <input
+                                v-model="searchingSportsman"
+                                class="form-control mr-sm-2"
+                                type="search"
+                                placeholder="Enter name"
+                                aria-label="Search">
+                        <button
+                                @click.prevent="searchSportsman"
+                                class="btn btn-outline-primary my-2 my-sm-0">
+                            Search
+                        </button>
                     </form>
                 </nav>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-outline-primary">Create</button>
+                <b-dropdown variant="outline-primary" right text="Create">
+                    <b-dropdown-item @click="createOne">Coach</b-dropdown-item>
+                    <b-dropdown-item @click="createOne">Referee</b-dropdown-item>
+                    <b-dropdown-item @click="createOne">Sportsman</b-dropdown-item>
+                </b-dropdown>
             </div>
         </div>
 
@@ -41,17 +54,30 @@
                 </thead>
                 <tbody name="items" :list="$store.state.sportsmanList">
                     <tr v-for="item in $store.state.sportsmanList">
-                        <td><input type="checkbox" v-model="$store.state.selectedSportsmen" @click="selectSportsman" :value="item.id" ></td>
+                        <td><input
+                                type="checkbox"
+                                v-model="$store.state.selectedSportsmen"
+                                @click="selectSportsman"
+                                :value="item.id" >
+                        </td>
                         <td>{{item.first_name}} {{item.last_name}}</td>
                         <td>{{item.patronymic_name}}</td>
                         <td>{{item.city}}</td>
                         <td>
-                            <input @click="deactivateOne" v-if="item.first_name === 'Ivan'" checked type="checkbox">
-                            <input  @click="activateOne(item.id)" v-else type="checkbox">
+                            <input
+                                    @click="toggleActive(item.id)"
+                                    type="checkbox"
+                                    v-model="item.city"
+                                    v-bind:true-value="checkbox.active"
+                                    v-bind:false-value="checkbox.notActive" />
                         </td>
                         <td>
-                            <input @click="removeFromCoach(item.id)" v-if="item.first_name === 'name'" checked type="checkbox">
-                            <input @click="addToCoach(item.id)" v-else type="checkbox">
+                            <input
+                                    @click="toggleIsCoach(item.id)"
+                                    type="checkbox"
+                                    v-model="item.patronymic_name"
+                                    v-bind:true-value="checkbox.coach"
+                                    v-bind:false-value="checkbox.notCoach" />
                         </td>
                         <td>{{item.date_of_birth}}</td>
                         <th>Edit</th>
@@ -60,22 +86,37 @@
             </table>
         </div>
         <p>{{$store.state.selectedSportsmen}}</p>
+        <modal-form @clicked="closeAndUpdate" @click.prevent="modalShow = false" v-if="modalShow"></modal-form>
     </div>
 </template>
 
 <script>
     import axios from "axios";
+    import ModalForm from "./modalForm.vue";
     export default {
         name: "federation-sportsmen",
+        components: {
+            ModalForm
+        },
         data: function () {
             return {
+                modalShow: false,
                 sorted: {
                     name: false,
                     active: false,
                     subscription: false
                 },
+                checkbox: {
+                    active: 'Odessa',
+                    notActive: 'Kyiv',
+                    coach: 'coach',
+                    notCoach: 'not a coach'
+                },
                 allSelected: false,
-                searchingSportsman: ''
+                searchingSportsman: '',
+                http: axios.create({
+                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
+                })
             }
         },
         beforeMount() {
@@ -99,61 +140,59 @@
             selectSportsman() {
                 this.allSelected = false;
             },
-            activateOne(id) {
-                this.$store.state.sportsmanList[id].first_name = 'Ivan';
-//                this.$store.state.sportsmanList[id].active = true;
-
-                axios.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                    first_name: 'Ivan'
-//                    active: true
-                })
+            createOne() {
+                this.modalShow = true;
+            },
+            closeAndUpdate() {
+                this.modalShow = false;
+                axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+                    .then(response => {
+                        this.$store.commit('setSportsmanList', response.data);
+                    })
+                    .catch(error => console.log(error));
+            },
+            toggleActive(id) {
+                if (this.$store.state.sportsmanList[id].city === 'Kyiv') {
+                    this.$store.state.sportsmanList[id].city = 'Odessa';
+//                    this.$store.state.sportsmanList[id].active = true;
+                } else {
+                    this.$store.state.sportsmanList[id].city = 'Kyiv';
+//                    this.$store.state.sportsmanList[id].active = false;
+                }
+                this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+                    this.$store.state.sportsmanList[id])
                     .then(response => console.log('saved successfully'))
                     .catch(error => console.log(error.message));
             },
-            deactivateOne() {
-                this.$store.state.sportsmanList[id].first_name = 'Ivan';
-//                this.$store.state.sportsmanList[id].active = false;
-                axios.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                    first_name: 'Ivan'
-//                    active: false
-                })
-                    .then(response => console.log('saved successfully'))
-                    .catch(error => console.log(error.message));
-            },
-            addToCoach(id) {
-                this.$store.state.sportsmanList[id].isCoach = true;
-                axios.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                    isCoach: true
-                })
-                    .then(response => console.log('saved successfully'))
-                    .catch(error => console.log(error.message));
-            },
-            removeFromCoach(id) {
-                this.$store.state.sportsmanList[id].isCoach = false;
-                axios.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                    isCoach: false
-                })
+            toggleIsCoach(id) {
+                if (this.$store.state.sportsmanList[id].patronymic_name === 'not a coach') {
+                    this.$store.state.sportsmanList[id].patronymic_name = 'coach';
+//                    this.$store.state.sportsmanList[id].isCoach = true;
+                } else {
+                    this.$store.state.sportsmanList[id].patronymic_name = 'not a coach';
+//                    this.$store.state.sportsmanList[id].isCoach = false;
+                }
+                this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+                    this.$store.state.sportsmanList[id])
                     .then(response => console.log('saved successfully'))
                     .catch(error => console.log(error.message));
             },
             activateSelected() {
                 this.$store.state.selectedSportsmen.map(id => {
                     this.$store.state.sportsmanList[id].active = true;
-                    return axios
-                        .put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                            active: true
-                        })
+                    return this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+                        this.$store.state.sportsmanList[id])
                         .then(response => console.log(response.data.message))
+                        .catch(error => console.log(error.message));
                 });
             },
             deactivateSelected() {
                 this.$store.state.selectedSportsmen.map(id => {
                     this.$store.state.sportsmanList[id].active = false;
-                    return axios
-                        .put(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                            active: false
-                        })
+                    return this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+                        this.$store.state.sportsmanList[id])
                         .then(response => console.log(response.data.message))
+                        .catch(error => console.log(error.message));
                 });
             },
             buySubscription() {
@@ -163,14 +202,16 @@
                 this.$store.state.selectedSportsmen.map(id => {
                     return axios
                         .delete(`https://champion-api.herokuapp.com/api/sportsman/${id}`)
-                        .then(response => console.log(response));
+                        .then(response => console.log(response))
+                        .catch(error => console.log(error.message));
                 });
                 this.$store.commit('removeSportsman');
             },
             searchSportsman() {
-                axios.post(`https://champion-api.herokuapp.com/api/sportsman/search`, {
-                    name: this.searchingSportsman
-                }).then(response => console.log(response.data))
+//                axios.post(`https://champion-api.herokuapp.com/api/sportsman/search`, {
+//                    name: this.searchingSportsman})
+//                    .then(response => console.log(response.data))
+//                    .catch(error => console.log(error.message));
             }
         }
     }
@@ -182,7 +223,6 @@
             cursor: pointer;
         }
     }
-
     .navbar-light {
         margin-top: -8px;
     }

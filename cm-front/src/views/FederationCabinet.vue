@@ -19,7 +19,6 @@
 </template>
 
 <script>
-    //import axios from "axios";
     import Tournaments from "../components/privateCabinet/tournamentsCabinet.vue";
     import Sportsmen from "../components/privateCabinet/federationSportsmenCabinet.vue";
     import News from "../components/privateCabinet/newsCabinet.vue";

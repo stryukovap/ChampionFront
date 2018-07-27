@@ -19,7 +19,7 @@
                 </nav>
             </div>
             <div class="col-2">
-                <button type="button" class="btn btn-outline-primary">Create</button>
+                <button type="button" @click="modalShow = true" class="btn btn-outline-primary">Create</button>
             </div>
         </div>
 
@@ -48,77 +48,77 @@
         <div>
             <!--<paginate-links for="items" :show-step-links="true" :limit="2" :step-links="{ next: 'Next', prev: 'Previous'}"></paginate-links>-->
         </div>
+        <modal-form @clicked="closeAndUpdate" @click.prevent="modalShow = false" v-if="modalShow"></modal-form>
     </div>
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
+    import ModalForm from "./modalForm.vue";
 
-export default {
-    name: "coach-my-team",
-    data: function () {
-        return {
-            paginate: ['items'],
-            sorted: {
-                name: false,
-                active: false,
-                subscription: false
-            },
-            allSelected: false,
-            searchingSportsman: ''
-        }
-    },
-    beforeMount() {
-        this.$store.state.sportsmanList = {};
-        this.$store.state.selectedSportsmen = [];
-    },
-    mounted() {
-        axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
-            .then(response => {
-                this.$store.commit('setSportsmanList', response.data);
-            })
-            .catch(error => console.log(error));
-    },
-    methods: {
-        selectAll() {
-            this.$store.state.selectedSportsmen = [];
-            if (!this.allSelected) {
-                this.$store.commit('setSelectedSportsmen');
+    export default {
+        name: "coach-my-team",
+        components: {
+            ModalForm
+        },
+        data: function () {
+            return {
+                modalShow: false,
+                paginate: ['items'],
+                sorted: {
+                    name: false,
+                    active: false,
+                    subscription: false
+                },
+                allSelected: false,
+                searchingSportsman: ''
             }
         },
-        selectSportsman() {
-            this.allSelected = false;
+        beforeMount() {
+            this.$store.state.sportsmanList = {};
+            this.$store.state.selectedSportsmen = [];
         },
-        buySubscription() {
-            this.$router.push({ path: '/buysubscribtion'});
+        mounted() {
+            axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+                .then(response => {
+                    this.$store.commit('setSportsmanList', response.data);
+                })
+                .catch(error => console.log(error));
         },
-        deleteSportsman() {
-            this.$store.state.selectedSportsmen.map(id => {
-                return axios
-                    .delete(`https://champion-api.herokuapp.com/api/sportsman/${id}`)
-                    .then(response => console.log(response));
-            });
-            this.$store.commit('removeSportsman');
-        },
-        searchSportsman() {
-            axios.post(`https://champion-api.herokuapp.com/api/sportsman/search`, {
-                name: this.searchingSportsman
-            }).then(response => console.log(response.data))
-        }
-//{
-//    "id": 2,
-//    "first_name": "denissssss",
-//    "last_name": "den",
-//    "patronymic_name": "den",
-//    "gender": "M",
-//    "date_of_birth": "1990-01-02",
-//    "city": null,
-//    "owner_id": null,
-//    "medical_exam_id": null,
-//    "created_at": "2018-07-13 12:52:52",
-//    "updated_at": "2018-07-13 13:02:19"
-//}
-
+        methods: {
+            selectAll() {
+                this.$store.state.selectedSportsmen = [];
+                if (!this.allSelected) {
+                    this.$store.commit('setSelectedSportsmen');
+                }
+            },
+            selectSportsman() {
+                this.allSelected = false;
+            },
+            closeAndUpdate() {
+                this.modalShow = false;
+                axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+                    .then(response => {
+                        this.$store.commit('setSportsmanList', response.data);
+                    })
+                    .catch(error => console.log(error));
+            },
+            buySubscription() {
+                this.$router.push({ path: '/buysubscribtion'});
+            },
+            deleteSportsman() {
+                this.$store.state.selectedSportsmen.map(id => {
+                    return axios
+                        .delete(`https://champion-api.herokuapp.com/api/sportsman/${id}`)
+                        .then(response => console.log(response));
+                });
+                this.$store.commit('removeSportsman');
+            },
+            searchSportsman() {
+                axios.post(`https://champion-api.herokuapp.com/api/sportsman/search`, {
+                    name: this.searchingSportsman
+                }).then(response => console.log(response.data))
+            }
 
 //        sortItems(column) {
 //            if(column === 'sportsman') {
@@ -167,8 +167,8 @@ export default {
 //                }
 //            }
 //        },
+        }
     }
-}
 </script>
 
 <style lang="scss">
