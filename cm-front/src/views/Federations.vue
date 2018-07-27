@@ -32,7 +32,8 @@ export default {
   components: { Card },
   data() {
     return {
-      federations: {}
+      federations: {},
+        link:"federation"
     };
   },
     mounted(){

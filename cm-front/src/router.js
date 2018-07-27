@@ -13,7 +13,7 @@ import CoachCabinet from "./views/CoachCabinet.vue";
 import FederationCabinet from "./views/FederationCabinet.vue";
 import BuySubscription from "./components/privateCabinet/buySubscribtion.vue";
 import Federation from "./views/Federation.vue";
-import Settingscabinet from "./components/settings-cabinet.vue";
+import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
 
 Vue.use(Router);
 

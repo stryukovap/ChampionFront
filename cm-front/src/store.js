@@ -43,6 +43,8 @@ export default new Vuex.Store({
         state.sportsmanIds.splice(index, 1);
       });
       state.selectedSportsmen = [];
+  }
   },
-  actions: {}}}
+        actions: {},
+}
 );

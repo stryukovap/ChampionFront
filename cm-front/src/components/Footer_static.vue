@@ -3,9 +3,6 @@
         <ul class="footer__list">
             <router-link tag="a"
                          class="footer__item"
-                         to="/Federations">Federations</router-link>
-            <router-link tag="a"
-                         class="footer__item"
                          to="/userprofile">Userprofile</router-link>
             <router-link tag="a"
                          class="footer__item"
@@ -19,11 +16,6 @@
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 1</a></li>-->
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 2</a></li>-->
             <!--<li class="footer__item"><a href="#" class="footer__link">Footer item 3</a></li>-->
-            <li class="footer__item"><a href="#" class="footer__link">Footer item 4</a></li>
-            <li>
-                <router-link tag="button" class="btn btn-primary btn-user" to="/coachcabinet">Coach Cabinet
-                </router-link>
-            </li>
             <li class="footer__item footer__item--logo">
                 <router-link class="nav-link" to="/">Home</router-link>
             </li>
