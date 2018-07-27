@@ -320,7 +320,7 @@
                     patronymic: "",
                     gender: "M",
                     dateOfBirth: "",
-                    federation: "2",
+                    federation: "2", //по умолчанию для возможности регистрировать спортсмена
                     trainer: "",
                     city: ""
                 },

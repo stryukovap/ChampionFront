@@ -40,29 +40,34 @@ export default {
     return {
       userID: "22",
       userAvatar: "img/user-photo.PNG",
-      userFullName: "User Name",
-      userRole: "Coach",
-      userLevel: "2 Dan",
-      userRank: "International Master of Sports",
-      userWeight: "68 kg",
-      userCity: "Odessa",
-      userFederation: "Federation Name",
-      federationLocation: "#"
+      userFullName: "userFullName",
+      userPatronymicName: "userPatronymicName",
+      userDOB: "DOB",
+      userGender: "userGender",
+      userRole: "userRole",
+      userLevel: "userLevel",
+      userRank: "userRank",
+      userWeight: "userWeight",
+      userCity: "userCity",
+      userFederation: "userFederation",
+      federationLocation: "federationLocation"
     };
   },
   mounted() {
     axios
-      .get("https://champion-api.herokuapp.com/api/sportsman/" + this.userID)
+      .get(`https://champion-api.herokuapp.com/api/sportsman/${this.userID}`)
       .then(response => {
-        this.userFullName =
-          response.data.first_name + " " + response.data.last_name;
-        // this.userRole = response.data[0].username
-        // this.userLevel = response.data[0].suite
-        // this.userRank = response.data[0].street
-        // this.userWeight = response.data[0].zipcode
-        // this.userCity = response.data[0].city
-        // this.userFederation = response.data[0].company.name
-        // this.federationLocation = response.data[0].geo
+        this.userFullName = response.data.first_name + " " + response.data.last_name;
+        this.userDOB = response.data.date_of_birth;
+        this.userGender = response.data.gender;
+        this.userPatronymicName = response.data.patronymic_name;
+        this.userRole = response.data.username;
+        this.userLevel = response.data.suite;
+        this.userRank = response.data.street;
+        this.userWeight = response.data.zipcode;
+        this.userCity = response.data.city;
+        this.userFederation = response.data.company.name;
+        this.federationLocation = response.data.geo;
       })
       .catch(error => {
         window.console.log(error);
