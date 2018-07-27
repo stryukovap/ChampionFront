@@ -13,6 +13,7 @@
                     <card class="col-12 col-md-6 col-lg-4 col-xl-4"
                           v-for="sport in sports"
                           v-bind:Name="sport.name"
+                          v-bind:link_to="link + '/' + sport.id"
                           :key="sport.id"/>
                 </div>
                 <!--<card_sport/>-->
@@ -28,7 +29,8 @@ export default {
   components: { Card },
   data() {
     return {
-      sports: []
+      sports: {},
+        link:"federations"
     };
   },
   mounted(){
