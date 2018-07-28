@@ -16,9 +16,9 @@ export default new Vuex.Store({
     postSportsman: "https://champion-api.herokuapp.com/api/sportsman",
     getEmailValidation: "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     roles: {
-      userIsSportsman: false,
+      userIsSportsman: true,
       userIsCoach: false,
-      userIsFederation: true
+      userIsFederation: false
     }
   },
   mutations: {},

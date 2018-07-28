@@ -12,6 +12,46 @@
 					     class="nav-logo-img">
 				</router-link>
 			</li>
+			<!-- show boolean variables -->
+			<!--<li class="nav-item">-->
+				<!--<ul>-->
+					<!--<li class="text-white">{{ 'sportsman - ' + this.$store.state.roles.userIsSportsman }}</li>-->
+					<!--<li class="text-white">{{ 'coach - ' + this.$store.state.roles.userIsCoach }}</li>-->
+					<!--<li class="text-white">{{ 'federation - ' + this.$store.state.roles.userIsFederation }}</li>-->
+				<!--</ul>-->
+			<!--</li>-->
+			<!-- show boolean variables END -->
+			<!-- Checkboxes with roles -->
+			<li class="nav-item">
+				<div class="form-check form-check-inline">
+					<label class="form-check-label text-white">
+						<input class="form-check-input"
+						       type="radio" name="role"
+						       @input="setRole($event)"
+						       value="userIsSportsman"
+						       :checked="this.$store.state.roles.userIsSportsman"> Sportsman
+					</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label text-white">
+						<input class="form-check-input"
+						       type="radio" name="role"
+						       @input="setRole($event)"
+						       value="userIsCoach"
+						       :checked="this.$store.state.roles.userIsCoach"> Coach
+					</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<label class="form-check-label text-white">
+						<input class="form-check-input"
+						       type="radio" name="role"
+						       @input="setRole($event)"
+						       value="userIsFederation"
+						       :checked="this.$store.state.roles.userIsFederation"> Federation
+					</label>
+				</div>
+			</li>
+			<!-- Checkboxes with roles END -->
 			<li class="nav-item">
 				<ul class="nav-list nav-list--sub">
 					<li class="nav-item">
@@ -33,23 +73,21 @@
 							<div class="user__menu">
 								<div class="user__name">{{ userData.userName }}</div>
 								<ul class="user__menu-items">
-									<template>
-										<router-link tag="li" :to="'/federation'" class="user__item"
-										             v-if="this.$store.state.roles.userIsFederation"><a
-												class="user__link">{{ menu[0].titleFederation }}</a>
-										</router-link>
-										<router-link tag="li" :to="'/userprofile/' + userData.id" class="user__item"
-										             v-else><a
-												class="user__link">{{ menu[0].title }}</a>
-										</router-link>
-									</template>
+									<router-link tag="li" :to="'/federation'" class="user__item"
+									             v-if="this.$store.state.roles.userIsFederation === true"><a
+												 class="user__link">{{ menu[0].titleFederation }}</a>
+									</router-link>
+									<router-link tag="li" :to="'/userprofile/' + userData.id" class="user__item"
+									             v-if="this.$store.state.roles.userIsFederation === false"><a
+												 class="user__link">{{ menu[0].title }}</a>
+									</router-link>
 									<router-link tag="li" :to="'/coachcabinet/' + userData.id" class="user__item"
 									             v-if="this.$store.state.roles.userIsCoach"><a
-											class="user__link">{{ menu[1].titleCoach }}</a>
+												 class="user__link">{{ menu[1].titleCoach }}</a>
 									</router-link>
 									<router-link tag="li" :to="'/settingscabinet'" class="user__item"
 									             v-else-if="this.$store.state.roles.userIsSportsman"><a
-											class="user__link">{{ menu[1].titleSportsman }}</a>
+												 class="user__link">{{ menu[1].titleSportsman }}</a>
 									</router-link>
 									<li @click="logout()" class="user__item user__link c-pointer">{{ menu[2].title }}
 									</li>
@@ -145,11 +183,19 @@ export default {
 		},
 		setActiveLang(e) {
 			this.languages.selectedLang = e.target.textContent;
-		}
+		},
+		// set user's role with radio button
+		setRole(e) {
+		    let role = e.target.value;
+			let roles = this.$store.state.roles;
+		    for (let key in roles) {
+                roles[key] = false;
+            }
+            roles[role] = true;
+        }
 	},
 	computed: {
 		checkLogin() {
-			window.console.log(this.$store.state.isLoggedIn);
 			if (this.$store.state.isLoggedIn) {
 				this.getUserId();
 			}
@@ -310,16 +356,6 @@ export default {
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
 	}
-
-	/*.list-group-show:hover .list-group-item-display {*/
-		/*display: block;*/
-		/*animation: showMenu .5s forwards;*/
-	/*}*/
-
-	/*.list-group-show:hover .list-group-border-bottom {*/
-		/*border-bottom-left-radius: 0;*/
-		/*border-bottom-right-radius: 0;*/
-	/*}*/
 
 	@keyframes showMenu {
 		100% {
