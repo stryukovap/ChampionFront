@@ -61,7 +61,7 @@ export default new Router({
       props: true
     },
     {
-      path: "/federation",
+      path: "/federation/:id",
       name: "federation",
       component: Federation
     },
