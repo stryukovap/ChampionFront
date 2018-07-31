@@ -1,15 +1,13 @@
 <template>
-    <body>
-      <section>
-        <div class="container mb-5 mt-3">
-          <div class="row">
-            <tournaments v-bind:tournamentsList="tournamentsList"></tournaments>
-            <news v-bind:newsList="newsList"></news>
-          </div>
+    <div>
+      <div class="container">
+        <div class="row">
+          <tournaments v-bind:tournamentsList="tournamentsList" class="col-lg-9"></tournaments>
+          <news v-bind:newsList="newsList" class="col-lg-3"></news>
         </div>
-      </section>
+      </div>
       <sportsmen v-bind:sportsmenList="sportsmenList"></sportsmen>
-    </body>
+    </div>
 </template>
 <script>
 import axios from "axios";

@@ -6,7 +6,7 @@
                          to="/userprofile">Userprofile</router-link>
             <router-link tag="a"
                          class="footer__item"
-                         to="/federation">Federation</router-link>
+                         to="/federation/22">Federation</router-link>
             <router-link tag="a"
                          class="footer__item"
                          to="/coachcabinet">Coach Cabinet</router-link>
