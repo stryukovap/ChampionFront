@@ -23,7 +23,7 @@ export default new Vuex.Store({
           userIsSportsman: false,
           userIsCoach: false,
           userIsFederation: true
-      }
+      },
   },
   mutations: {
     setSportsmanList(state, sportsmanList) {

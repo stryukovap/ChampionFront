@@ -96,8 +96,9 @@
                              :is-disabled="$v.user.email.$error ||
                                        $v.user.password.$error ||
                                        $v.user.passwordConfirm.$error || testInitPassword">
-                            <!--<tab name="Second step">-->
-                            <div class="cm-form__wrapper text-left">
+                            <!--включено для отладки-->
+                        <!--<tab name="Second step">-->
+                        <div class="cm-form__wrapper text-left">
                                 <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
@@ -189,13 +190,20 @@
                                     <div class="col">
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
-                                    <div class="col">
-                                        <input class="form-control" type="text"
-                                               id="federation"
-                                               placeholder="Federation"
-                                               disabled
-                                               v-model="sportsman.federation">
-                                    </div>
+                                    <!--<div class="col">-->
+                                        <!--<input class="form-control" type="text"-->
+                                               <!--id="federation"-->
+                                               <!--placeholder="Federation"-->
+                                               <!--disabled-->
+                                               <!--v-model="sportsman.federation">-->
+                                    <!--</div>-->
+                                    <select class="form-control" name="federation" id="federation"
+                                            v-model="sportsman.federation">
+                                        <option v-for="federation in federations"
+                                                v-bind:value="federation.id"
+                                                :key="federation.id">{{federation.name}}
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
@@ -245,8 +253,8 @@
                                         <select class="form-control" name="sport" id="f-sport"
                                                 v-model="federation.sport">
                                             <option v-for="sport in sports"
-                                                    v-bind:value="sport.sportName"
-                                                    :key="sport.sportId">{{sport.sportName}}
+                                                    v-bind:value="sport.id"
+                                                    :key="sport.id">{{sport.name}}
                                             </option>
                                         </select>
                                     </div>
@@ -320,35 +328,55 @@
                     patronymic: "",
                     gender: "M",
                     dateOfBirth: "",
-                    federation: "2", //по умолчанию для возможности регистрировать спортсмена
+                    federation: "2", //по умолчанию, чтобы показывалось значение
                     trainer: "",
                     city: ""
                 },
                 federation: {
                     name: "",
-                    sport: "2",
+                    sport: "2", //по умолчанию, чтобы показывалось значение
                     presidentName: "",
                     subDomain: "",
                     phone: "",
                     email: ""
                 },
                 userSportsman: "true",
-                sports: [
-                    {
-                        sportId: "1",
-                        sportName: "1"
-                    },
-                    {
-                        sportId: "2",
-                        sportName: "2"
-                    },
-                    {
-                        sportId: "3",
-                        sportName: "3"
-                    }
-                ],
+                federations:{},
+                sports: {},
                 authUser: {}
             };
+        },
+        mounted(){
+            axios
+                .get(
+                    "https://champion-api.herokuapp.com/api/federations/"
+                )
+                .then(response => {
+                    // handle success
+                    window.console.log(response);
+                    if (response.status === 200) {
+                        this.federations=response.data
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    window.console.log(error);
+                });
+            axios
+                .get(
+                    "https://champion-api.herokuapp.com/api/sports/"
+                )
+                .then(response => {
+                    // handle success
+                    window.console.log(response);
+                    if (response.status === 200) {
+                        this.sports=response.data
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    window.console.log(error);
+                })
         },
         computed: {
             testInitPassword: function () {
@@ -359,6 +387,7 @@
                 }
             }
         },
+
         validations: {
             user: {
                 email: {
@@ -476,7 +505,8 @@
                     last_name: this.sportsman.surname,
                     patronymic_name: this.sportsman.patronymic,
                     gender: this.sportsman.gender,
-                    date_of_birth: this.sportsman.dateOfBirth
+                    date_of_birth: this.sportsman.dateOfBirth,
+                    federation_sportsmen:this.sportsman.federation,
                 })
                     .then(function (response) {
                         window.console.log(response);
