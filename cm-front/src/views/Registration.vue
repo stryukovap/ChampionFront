@@ -349,7 +349,7 @@
         mounted(){
             axios
                 .get(
-                    "https://champion-api.herokuapp.com/api/federations/"
+                    "https://champion-api.herokuapp.com/api/federations"
                 )
                 .then(response => {
                     // handle success
@@ -364,7 +364,7 @@
                 });
             axios
                 .get(
-                    "https://champion-api.herokuapp.com/api/sports/"
+                    "https://champion-api.herokuapp.com/api/sports"
                 )
                 .then(response => {
                     // handle success
