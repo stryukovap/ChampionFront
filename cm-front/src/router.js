@@ -14,6 +14,7 @@ import FederationCabinet from "./views/FederationCabinet.vue";
 import BuySubscription from "./components/privateCabinet/buySubscribtion.vue";
 import Federation from "./views/Federation.vue";
 import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
+import tournamentsCabinet from "./components/privateCabinet/tournamentsCabinet.vue";
 
 Vue.use(Router);
 
@@ -90,6 +91,11 @@ export default new Router({
           path:"/FederationCabinet",
           name:"FederationCabinet",
           component:FederationCabinet
+      },
+      {
+        path:"/tournamentscabinet",
+          name:"tournamentscabinet",
+          component:tournamentsCabinet
       }
   ],
 
