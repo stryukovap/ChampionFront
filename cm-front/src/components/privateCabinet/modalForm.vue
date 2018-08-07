@@ -111,10 +111,15 @@
                            v-model="sportsman.weight">
                 </div>
                 <div class="cm-form__wrapper">
-                    <input class="form-control" type="text"
-                           placeholder="City"
-                           autocomplete="off"
-                           v-model="sportsman.city">
+                    <!--<input class="form-control" type="text"-->
+                           <!--placeholder="City"-->
+                           <!--autocomplete="off"-->
+                           <!--v-model="sportsman.city">-->
+                    <autocomplete-city
+                            @clicked="setCity"
+                            v-bind:cities="cities"
+                            v-bind:sportsman-city="sportsman.city"
+                    ></autocomplete-city>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
@@ -124,11 +129,12 @@
                 </div>
                 <section class="popup__sertificates">
                     <!--<userCertificates></userCertificates>-->
+                    {{sportsman}}
                 </section>
-                <button v-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-2"
+                <button v-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createSportsman">Create
                 </button>
-                <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-2"
+                <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman">Save
                 </button>
             </form>
@@ -139,12 +145,15 @@
 <script>
 //    import userCertificates from "../components/userProfile/userCertificates"
 import axios from "axios";
-
+import AutocompleteCity from '../autocomplete_city';
+import citiesUkrainian from '../../assets/citiesUkrainian';
+import citiesRussian from '../../assets/citiesRussian';
     export default {
         name: "modal-form",
-//        components: {
-//            userCertificates,
-//        },
+       components: {
+           // userCertificates,
+           AutocompleteCity
+       },
         props: ['sportsmanId', 'personRole'],
         data() {
             return {
@@ -164,12 +173,30 @@ import axios from "axios";
                 degrees: {},
                 http: axios.create({
                     headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
-                })
+                }),
+                citiesUkr: [],
+                citiesRus: [],
+                cities: []
             }
         },
         mounted() {
             if (this.sportsmanId !== '') {
                 this.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
+            };
+            citiesUkrainian.region.forEach(region => {
+                region.city.forEach(city => {
+                    this.citiesUkr.push(city.name);
+                })
+            });
+            citiesRussian.region.forEach(region => {
+                region.city.forEach(city => {
+                    this.citiesRus.push(city.name);
+                })
+            });
+            if (window.navigator.language === 'ru-RU') {
+                this.cities = this.citiesRus;
+            } else {
+                this.cities = this.citiesUkr;
             }
         },
         methods: {
@@ -189,6 +216,9 @@ import axios from "axios";
                         this.$emit('clicked');
                     })
                     .catch(error => console.log(error.message));
+            },
+            setCity(city) {
+                this.sportsman.city = city;
             }
         }
     }

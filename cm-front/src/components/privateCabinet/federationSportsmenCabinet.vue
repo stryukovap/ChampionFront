@@ -135,7 +135,19 @@
             this.$store.state.selectedSportsmen = [];
         },
         mounted() {
-            axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+            // axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+            //     .then(response => {
+            //         this.$store.commit('setSportsmanList', response.data);
+            //     })
+            //     .catch(error => console.log(error));
+
+            // axios.get("https://champion-api.herokuapp.com/api/federations")
+            //     .then(response => {
+            //         console.log(response.data);
+            //     });
+            // 6960b15ffd99a85a0fd58939c8841bf1
+
+            axios.get("https://champion-api.herokuapp.com/api/sportsman-list/by-federation/72/2")
                 .then(response => {
                     this.$store.commit('setSportsmanList', response.data);
                 })
