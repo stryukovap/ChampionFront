@@ -1,6 +1,7 @@
 <template>
 	<div id="app">
 		<body>
+		<preloader></preloader>
 		<header>
 			<Header></Header>
 		</header>
@@ -52,15 +53,17 @@
 	}
 </style>
 <script>
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import Footer_static from "./components/Footer_static";
-import Header from "./components/Header";
+    import "bootstrap/dist/css/bootstrap.css";
+    import "bootstrap-vue/dist/bootstrap-vue.css";
+    import Footer_static from "./components/Footer_static";
+    import Header from "./components/Header";
+    import Preloader from "./components/Preloader";
 
-export default {
-    components: {
-        Footer_static,
-        Header
+    export default {
+        components: {
+            Footer_static,
+            Header,
+            Preloader
+        }
     }
-}
 </script>
