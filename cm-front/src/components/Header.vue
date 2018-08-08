@@ -1,10 +1,11 @@
 <template>
-	<div>
+	<div class="header__wrapper">
 		<nav class="main-nav">
-			<ul class="nav-list">
-				<li class="nav-item nav-item-hamburger">
+			<ul class="nav-list"
+				@click="mobileMenu($event)">
+				<li class="nav-item nav-item-hamburger" :class="{'hamburger__fixed': toggleClass.hamburger}">
 					<div class="hamburger">
-						<div :class="{'menu-btn': true, 'menu-btn_active': toggleClass.hamburger}"
+						<div class="menu-btn" :class="{'menu-btn_active': toggleClass.hamburger}"
 						     @click="[showMobileNav(), toggleClass.hamburger = !toggleClass.hamburger]">
 							<span></span>
 						</div>
@@ -102,18 +103,18 @@
 				<li class="nav-item nav-item-logout" v-if="checkLogin">
 					<button class="btn btn-primary btn-user" v-on:click="logout">Logout</button>
 				</li>
-				<li class="nav-item" v-else>
+				<li class="nav-item nav-item-buttons" v-else>
 					<router-link tag="button" class="btn btn-primary btn-user" to="/auth">Log in</router-link>
 					<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration
 					</router-link>
 				</li>
 				<li class="nav-item nav-item-lang">
 					<ul class="list-group list-group-show">
-						<li :class="{'list-group-border-bottom': languages.selectedLang, 'list-group-item': true}"
+						<li class="list-group-item" :class="{'list-group-border-bottom': languages.selectedLang}"
 						    @click="languages.activeClass = !languages.activeClass">{{
 							languages.selectedLang }}
 						</li>
-						<li :class="{'list-group-item-display-show': languages.activeClass, 'list-group-item-display': true}">
+						<li class="list-group-item-display" :class="{'list-group-item-display-show': languages.activeClass}">
 							<ul class="list-group list-group-border-none">
 								<li class="list-group-item"
 								    v-for="lang in languages.langList"
@@ -128,20 +129,21 @@
 				</li>
 			</ul>
 		</nav>
-		<div :class="{'mobile': true, 'mobile-slideIn': toggleClass.mobileMenu}">
-			<div class="d-flex justify-content-end mr-5">
+		<div class="mobile" :class="{'mobile-slideIn': toggleClass.mobileMenu}">
+			<div class="d-flex justify-content-end mt-2 mr-2">
 				<ul class="list-group list-group-show">
-					<li :class="{'list-group-border-bottom': languages.selectedLang, 'list-group-item': true}"
-					    @click="languages.activeClass = !languages.activeClass">{{
-						languages.selectedLang }}
+					<li class="list-group-item"
+					    :class="{'list-group-border-bottom': languages.selectedLang}"
+					    @click="languages.activeClassMobile = !languages.activeClassMobile">{{ languages.selectedLang }}
 					</li>
-					<li :class="{'list-group-item-display-show': languages.activeClass, 'list-group-item-display': true}">
+					<li class="list-group-item-mobile"
+					    :class="{'list-group-item-display-show': languages.activeClassMobile}">
 						<ul class="list-group list-group-border-none">
 							<li class="list-group-item"
 							    v-for="lang in languages.langList"
 							    :key="lang"
 							    v-if="lang !== languages.selectedLang"
-							    @click="[setActiveLang($event), languages.activeClass = !languages.activeClass]">
+							    @click="[setActiveLangMobile($event), languages.activeClassMobile = !languages.activeClassMobile]">
 								{{ lang }}
 							</li>
 						</ul>
@@ -149,8 +151,9 @@
 				</ul>
 			</div>
 			<nav class="mobile__nav">
-				<ul class="mobile__list">
-					<li class="mobile__item mobile__item-logo"><a href="#" class="mobile__link">
+				<ul class="mobile__list"
+					@click="mobileMenu($event)">
+					<li class="mobile__item mobile__item-logo">
 						<router-link class="nav-link" to="/">
 							<img v-if="checkLogin"
 							     :src="headerLogo.logoFederation"
@@ -160,7 +163,7 @@
 							     alt="logo"
 							     class="nav-logo--img">
 						</router-link>
-					</a></li>
+					</li>
 					<li class="mobile__item"><a href="tel:+3809645813" class="mobile__link p-0">+3809645813</a></li>
 					<li class="mobile__item mobile__item-contacts"><a href="mailto:exmple@gmail.com"
 					                                                  class="mobile__link p-0">exmple@gmail.com</a></li>
@@ -199,10 +202,9 @@
 					    class="mobile__item mobile__item-hover mobile__link c-pointer">{{
 						menu[2].title }}
 					</li>
-					<li class="nav-item" v-if="!checkLogin">
+					<li class="nav-item btn-user__mobile" v-if="!checkLogin">
 						<router-link tag="button" class="btn btn-primary btn-user" to="/auth">Log in</router-link>
-						<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration
-						</router-link>
+						<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration</router-link>
 					</li>
 				</ul>
 			</nav>
@@ -218,7 +220,8 @@ export default {
             languages: {
                 selectedLang: 'en',
                 langList: ['en', 'ru', 'ua'],
-                activeClass: false
+                activeClass: false,
+                activeClassMobile: false
             },
             contacts: {
                 phone: '+38067000001',
@@ -250,8 +253,7 @@ export default {
             toggleClass: {
                 hamburger: false,
                 mobileMenu: false
-            },
-            temp: ''
+            }
         }
     },
     methods: {
@@ -263,10 +265,6 @@ export default {
                 "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
             );
         },
-        // getImage: function (image) {
-        // 	const images = require.context('../assets/', false, /\.png$/);
-        // 	return images('./' + image);
-        // },
         getUserId() {
             if (localStorage.getItem("lbUser")) {
                 const userObj = this.$store.state.authUser;
@@ -276,17 +274,34 @@ export default {
         setActiveLang(e) {
             this.languages.selectedLang = e.target.textContent.trim();
         },
+        setActiveLangMobile(e) {
+            this.languages.selectedLang = e.target.textContent.trim();
+        },
         // set user's role with radio button
         setRole(e) {
             let role = e.target.value;
+            console.log(role);
             let roles = this.$store.state.roles;
             for (let key in roles) {
                 roles[key] = false;
+                if (role) {
+                    roles[role] = true;
+                }
             }
-            roles[role] = true;
         },
         showMobileNav() {
             this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
+        },
+	    // method for hiding mobile menu
+        mobileMenu(e) {
+            const logoClass = e.target.parentNode.parentNode.classList.contains('mobile__item-logo');
+            const listClass = e.target.parentNode.classList.contains('mobile__item-hover');
+            const logInClass = e.target.parentNode.classList.contains('btn-user__mobile');
+            const mobileExit = e.target.classList.contains('mobile__link');
+            if (logoClass || listClass || logInClass || mobileExit) {
+                this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
+                this.toggleClass.hamburger = !this.toggleClass.hamburger
+            }
         }
     },
     computed: {
@@ -303,7 +318,8 @@ export default {
 <style lang="scss" scoped>
 	$bg-color: #343a40;
 
-	.main-nav {
+	.header__wrapper {
+		padding: 5px 0;
 		background-color: $bg-color;
 	}
 
@@ -439,7 +455,7 @@ export default {
 			position: absolute;
 			top: 103%;
 			opacity: 0;
-			z-index: 100;
+			z-index: 9 !important;
 
 			&-show {
 				display: block;
@@ -475,6 +491,7 @@ export default {
 
 	.menu-btn {
 		display: inline-block;
+		vertical-align: middle;
 		width: 35px;
 		height: 35px;
 		background-color: #ffffff;
@@ -527,6 +544,11 @@ export default {
 				transform: rotate(-45deg);
 			}
 		}
+	}
+
+	.hamburger__fixed {
+		position: fixed;
+		left: 0;
 	}
 
 	//MOBILE MENU
@@ -632,7 +654,7 @@ export default {
 			padding: 0.35rem 0.95rem;
 		}
 
-		&-item-display {
+		&-item-display, &-item-mobile  {
 			display: none;
 			position: absolute;
 			top: 103%;
@@ -643,6 +665,10 @@ export default {
 				display: block;
 				animation: showMenu .5s forwards;
 			}
+		}
+
+		&-item-mobile {
+			top: 45px;
 		}
 	}
 
@@ -660,14 +686,13 @@ export default {
 		}
 	}
 
-	@media screen and (max-width: 360px) {
+	//MEDIA QUERIES
+
+	@media screen and (min-width: 821px) {
 		.mobile {
-			width: 100%;
-			height: 100%;
+			display: none;
 		}
 	}
-
-	//MEDIA QUERIES
 
 	@media screen and (max-width: 1140px) {
 		.checkboxes {
@@ -675,16 +700,45 @@ export default {
 		}
 	}
 
-	@media screen and (max-width: 820px) {
+	@media screen and (max-width: 836px) {
 		.nav-item {
 
-			&-user, &-logout, &-lang, &-contacts {
-				display: none !important;
+			&-user, &-logout, &-contacts, &-buttons {
+				display: none;
+			}
+
+			&-hamburger {
+				margin-right: auto;
+			}
+
+			&--logo {
+				margin: 0 auto;
 			}
 		}
 
 		.hamburger {
 			display: inline-block;
+		}
+	}
+
+	@media screen and (max-width: 545px) {
+		.nav-item {
+
+			&--logo {
+				margin: 0 auto;
+			}
+		}
+	}
+
+	@media screen and (max-width: 474px) {
+		.nav-item-user {
+			display: none !important;
+		}
+	}
+	@media screen and (max-width: 360px) {
+		.mobile {
+			width: 100%;
+			height: 100%;
 		}
 	}
 </style>
