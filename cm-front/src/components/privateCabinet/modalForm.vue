@@ -22,7 +22,7 @@
                            autofocus
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.first_name">
+                           v-model="$store.state.sportsman.first_name">
                     <!--@input="$v.sportsman.first_name.$touch()"-->
                     <!--:class="{'is-invalid' :$v.sportsman.first_name.$error}">-->
                     <!--<div class="invalid-feedback" v-if="!$v.sportsman.first_name.minLength">-->
@@ -35,7 +35,7 @@
                            placeholder="Surname"
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.last_name">
+                           v-model="$store.state.sportsman.last_name">
                     <!--@input="$v.sportsman.last_name.$touch()"-->
                     <!--:class="{'is-invalid' :$v.sportsman.last_name.$error}">-->
                     <!--<div class="invalid-feedback" v-if="!$v.sportsman.last_name.minLength">-->
@@ -49,7 +49,7 @@
                            placeholder="Patronymic"
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="sportsman.patronymic_name">
+                           v-model="$store.state.sportsman.patronymic_name">
                     <!--@input="$v.sportsman.patronymic_name.$touch()"-->
                     <!--:class="{'is-invalid' :$v.sportsman.patronymic_name.$error}">-->
                     <!--<div class="invalid-feedback" v-if="!$v.sportsman.patronymic_name.minLength">-->
@@ -65,13 +65,13 @@
                     <div class="col">
                         <input type="radio" name="gender" id="male"
                                checked
-                               v-model="sportsman.gender"
+                               v-model="$store.state.sportsman.gender"
                                value="M">
                         <label for="male"> Male</label>
                     </div>
                     <div class="col">
                         <input type="radio" name="gender" id="female"
-                               v-model="sportsman.gender"
+                               v-model="$store.state.sportsman.gender"
                                value="F">
                         <label for="female"> Female</label>
                     </div>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="col">
                         <select class="form-control" name="belt" id="belt"
-                                v-model="sportsman.belt">
+                                v-model="$store.state.sportsman.belt">
                             <option v-for="belt in belts"
                                     v-bind:value="belt.color"
                                     :key="belt.id">{{belt.color}}
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col">
                         <select class="form-control" name="degree" id="degree"
-                                v-model="sportsman.degree">
+                                v-model="$store.state.sportsman.degree">
                             <option v-for="degree in degrees"
                                     v-bind:value="degree.value"
                                     :key="degree.id">{{degree.value}}
@@ -108,7 +108,7 @@
                     <input class="form-control" type="text"
                            placeholder="Weight"
                            autocomplete="off"
-                           v-model="sportsman.weight">
+                           v-model="$store.state.sportsman.weight">
                 </div>
                 <div class="cm-form__wrapper">
                     <!--<input class="form-control" type="text"-->
@@ -116,20 +116,18 @@
                            <!--autocomplete="off"-->
                            <!--v-model="sportsman.city">-->
                     <autocomplete-city
-                            @clicked="setCity"
                             v-bind:cities="cities"
-                            v-bind:sportsman-city="sportsman.city"
                     ></autocomplete-city>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Coaches"
                            autocomplete="off"
-                           v-model="sportsman.coaches">
+                           v-model="$store.state.sportsman.coaches">
                 </div>
                 <section class="popup__sertificates">
                     <!--<userCertificates></userCertificates>-->
-                    {{sportsman}}
+                    {{$store.state.sportsman}}
                 </section>
                 <button v-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createSportsman">Create
@@ -149,7 +147,7 @@ import AutocompleteCity from '../autocomplete_city';
 import citiesUkrainian from '../../assets/citiesUkrainian';
 import citiesRussian from '../../assets/citiesRussian';
     export default {
-        name: "modal-form",
+       name: "modal-form",
        components: {
            // userCertificates,
            AutocompleteCity
@@ -157,18 +155,6 @@ import citiesRussian from '../../assets/citiesRussian';
         props: ['sportsmanId', 'personRole'],
         data() {
             return {
-                sportsman: {
-                    first_name: "",
-                    last_name: "",
-                    patronymic_name: "",
-                    gender: "",
-                    date_of_birth: "2018-07-10",
-                    belt: "",
-                    degree: "",
-                    weight: "",
-                    city: "",
-                    coaches: ""
-                },
                 belts: {},
                 degrees: {},
                 http: axios.create({
@@ -181,7 +167,7 @@ import citiesRussian from '../../assets/citiesRussian';
         },
         mounted() {
             if (this.sportsmanId !== '') {
-                this.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
+                this.$store.state.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
             };
             citiesUkrainian.region.forEach(region => {
                 region.city.forEach(city => {
@@ -201,7 +187,7 @@ import citiesRussian from '../../assets/citiesRussian';
         },
         methods: {
             createSportsman: function() {
-                this.http.post(this.$store.state.postSportsman, this.sportsman)
+                this.http.post(this.$store.state.postSportsman, this.$store.state.sportsman)
                     .then(response => {
                         console.log(response);
                         this.$emit('clicked');
@@ -210,19 +196,16 @@ import citiesRussian from '../../assets/citiesRussian';
             },
             updateSportsman() {
                 this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
-                    this.sportsman)
+                    this.$store.state.sportsman)
                     .then(response => {
                         console.log('saved successfully');
                         this.$emit('clicked');
                     })
                     .catch(error => console.log(error.message));
-            },
-            setCity(city) {
-                this.sportsman.city = city;
             }
         }
     }
-</script >
+</script>
 
 <style lang="scss">
     .popup {

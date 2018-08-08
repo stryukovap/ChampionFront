@@ -1,7 +1,7 @@
 <template>
     <div id="autocomplete" class="autocomplete">
         <input
-                v-model="search"
+                v-model="$store.state.sportsman.city"
                 type="text"
                 placeholder="City"
                 @input="onChange"
@@ -26,10 +26,6 @@
         name: "autocomplete",
         template: "#autocomplete",
         props: {
-            sportsmanCity: {
-                type: String,
-                required: false
-            },
             cities: {
                 type: Array,
                 required: false,
@@ -38,7 +34,6 @@
             isAsync: {
                 type: Boolean,
                 required: false
-                //      default: false
             }
         },
 
@@ -46,23 +41,18 @@
             return {
                 isOpen: false,
                 results: [],
-                search: '',
                 isLoading: false,
                 arrowCounter: 0
             };
         },
         mounted() {
             document.addEventListener('click', this.handleClickOutside);
-            this.search = this.sportsmanCity;
         },
         destroyed() {
             document.removeEventListener('click', this.handleClickOutside)
         },
         methods: {
             onChange() {
-                // Let's warn the parent that a change was made
-                this.$emit("input", this.search);
-
                 // Is the data given by an outside ajax request?
                 if (this.isAsync) {
                     this.isLoading = true;
@@ -75,12 +65,11 @@
             filterResults() {
                 // first uncapitalize all the things
                 this.results = this.cities.filter(item => {
-                    return item.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+                    return item.toLowerCase().indexOf(this.$store.state.sportsman.city.toLowerCase()) > -1;
                 });
             },
             setResult(result) {
-                this.search = result;
-                this.$emit('clicked', this.search);
+                this.$store.state.sportsman.city = result;
                 this.isOpen = false;
             },
             onArrowDown() {
@@ -94,7 +83,7 @@
                 }
             },
             onEnter() {
-                this.search = this.results[this.arrowCounter];
+                this.$store.state.sportsman.city = this.results[this.arrowCounter];
                 this.isOpen = false;
                 this.arrowCounter = -1;
             },
@@ -102,10 +91,6 @@
                 if (!this.$el.contains(evt.target)) {
                     this.isOpen = false;
                     this.arrowCounter = -1;
-                    // console.log(this.search);
-                    // if (this.search === '') {
-                    //     this.$emit('clicked', this.search);
-                    // }
                 }
             }
         },

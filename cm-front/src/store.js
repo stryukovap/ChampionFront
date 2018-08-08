@@ -19,11 +19,24 @@ export default new Vuex.Store({
     sportsmanList: {},
     sportsmanIds: [],
     selectedSportsmen: [],
-      roles: {
-          userIsSportsman: false,
-          userIsCoach: false,
-          userIsFederation: true
-      },
+    sportsman: {
+        first_name: "",
+        last_name: "",
+        patronymic_name: "",
+        gender: "",
+        date_of_birth: "2018-07-10",
+        belt: "",
+        degree: "",
+        weight: "",
+        city: "",
+        coaches: ""
+    },
+    roles: {
+        userIsSportsman: false,
+        userIsCoach: false,
+        userIsFederation: true
+    },
+    federationId: 72
   },
   mutations: {
     setSportsmanList(state, sportsmanList) {
@@ -32,6 +45,7 @@ export default new Vuex.Store({
         [sportsman.id]: sportsman
       }), {});
       state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
+      console.log(state.sportsmanList);
     },
     setSelectedSportsmen(state) {
         state.selectedSportsmen = state.sportsmanIds;
