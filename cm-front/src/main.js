@@ -20,12 +20,12 @@ new Vue({
   render: h => h(App),
   created() {
       firebase.initializeApp({
-          apiKey: "AIzaSyAEeWQim0ju2_EwfDd5YFXiYXPSKw9boVc",
-          authDomain: "champion-tournaments.firebaseapp.com",
-          databaseURL: "https://champion-tournaments.firebaseio.com",
-          projectId: "champion-tournaments",
-          storageBucket: "champion-tournaments.appspot.com",
-          messagingSenderId: "899578314830"
+          apiKey: "AIzaSyB25AhdbYD1lwX9JcPb-H9tEaTIPojbKaM",
+          authDomain: "champion-app-tournaments.firebaseapp.com",
+          databaseURL: "https://champion-app-tournaments.firebaseio.com",
+          projectId: "champion-app-tournaments",
+          storageBucket: "champion-app-tournaments.appspot.com",
+          messagingSenderId: "91933137040"
       });
   }
 }).$mount("#app");

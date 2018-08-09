@@ -189,8 +189,17 @@ import citiesRussian from '../../assets/citiesRussian';
             createSportsman: function() {
                 this.http.post(this.$store.state.postSportsman, this.$store.state.sportsman)
                     .then(response => {
-                        console.log(response);
-                        this.$emit('clicked');
+                        console.log(response.data);
+                        this.http.post('https://champion-api.herokuapp.com/api/federation-sportsman', {
+                            sportsman_id: response.data.id,
+                            federation_id: 72,
+                            is_active: 0,
+                            is_coach: 0,
+                            is_referee: 0,
+                            belt: "bbbb"
+                        })
+                            .then(this.$emit('clicked'))
+                            .catch(error => console.log(error.message));
                     })
                     .catch(error => console.log(error.message));
             },

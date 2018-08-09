@@ -1,26 +1,33 @@
 <template>
     <div>
-        <div class="row mt-4 mr-4">
-            <div class="col-12 text-right">
-                <button class="btn btn-outline-primary" @click="createTournament" type="submit">Create</button>
+        <div v-if="tournamentsShow">
+            <div class="row mt-4 mr-4">
+                <div class="col-12 text-right">
+                    <button class="btn btn-outline-success" @click="createTournament" type="submit">Create</button>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-md-9">
-            <div class="row">
-                <div class="col-xs-12 col-sm-4"
-                     v-for='tournament in tournamentsList'>
-                    <div class="thumbnail">
-                        <img class="card-img-top"
-                             src="../../assets/github-mark_560x560.png"
-                             alt="Card image cap">
-                        <div class="caption mb-3">
-                            <h4 class="text-center">{{ tournament.name }}</h4>
-                            <p class="text-center mb-1">Start date: {{ tournament.dates.dateStart }}</p>
+            <div class="col-xs-12 col-md-9">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4"
+                         v-for='(tournament, key) in $store.state.tournamentsList'>
+                        <div class="thumbnail">
+                            <img class="card-img-top"
+                                 src="../../assets/github-mark_560x560.png"
+                                 alt="Card image cap">
+                            <div class="caption mb-3">
+                                <h4 @click="openTournament(key)" class="text-center">{{ tournament.name }}</h4>
+                                <p class="text-center mb-1">Start date: {{ tournament.dates.dateStart }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <tournament-page
+                v-if="tournamentPageShow"
+                v-bind:tournament-key="tournamentKey"
+                @click.prevent="closeTournament">
+        </tournament-page>
         <tournament-create
                 v-if="modalShow"
                 @click.prevent="closeModal"
@@ -41,21 +48,31 @@
         },
         data: function () {
             return {
+                tournamentsShow: true,
+                tournamentPageShow: false,
                 modalShow: false,
-                federationId: `federation${this.$store.state.federationId}`,
-                tournamentsList: [],
+                tournamentKey: '',
+                federationCollection: `federation${this.$store.state.federationId}`,
             };
         },
         async mounted() {
             try {
-                const fbObj = await firebase.database().ref(this.federationId).once('value');
-                this.tournamentsList = fbObj.val();
-                console.log(this.tournamentsList);
+                const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                this.$store.commit('setTournamentsList', fbObj.val());
             } catch (error) {
                 throw error;
             }
         },
         methods: {
+            openTournament(key){
+                this.tournamentKey = key;
+                this.tournamentsShow = false;
+                this.tournamentPageShow = true;
+            },
+            closeTournament() {
+                this.tournamentPageShow = false;
+                this.tournamentsShow = true;
+            },
             createTournament() {
                 this.modalShow = true;
             },
@@ -65,9 +82,8 @@
             async closeAndUpdate() {
                 this.modalShow = false;
                 try {
-                    const fbObj = await firebase.database().ref(this.federationId).once('value');
-                    this.tournamentsList = fbObj.val();
-                    console.log(this.tournamentsList);
+                    const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                    this.$store.commit('setTournamentsList', fbObj.val());
                 } catch (error) {
                     throw error;
                 }

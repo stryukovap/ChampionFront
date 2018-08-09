@@ -77,12 +77,17 @@
                                v-model="tournament.location">
                     </div>
                 </div>
-                <div class="popup__title-wrapper row">
-                    <h3 class="popup__title col text-left">Categories</h3>
+                <div class="popup__title-wrapper row mt-3">
+                    <h3 class="popup__title col-8 text-left">Categories</h3>
+                    <div class="col-4 text-right">
+                        <button class="btn btn-outline-success" @click.prevent="addNewCategory"
+                        >New category</button>
+                    </div>
                 </div>
-                <div class="popup__title-wrapper row container">
+                <div class="popup__title-wrapper container" style="display: flex;">
                     <table class="cat">
-                        <tr class="cat__row">
+                        <tr class="cat__row"
+                            v-for="(category, key) in tournament.categories">
                             <td class="cat__name-label"><span style="margin-right: 5px">Category</span></td>
                             <td class="category__name">
                                 <input class="form-control" type="text" id="catName"
@@ -131,16 +136,44 @@
                                        autocomplete="off"
                                        v-model="category.weight">
                             </td>
-                            <td class="cat__add"><a class="cat_add-button" style="cursor: pointer">+</a></td>
+                            <td class="cat__add">
+                                <button class="btn btn-outline-danger ml-2"
+                                        @click.prevent="removeCategory(key)"><b>X</b></button>
+                            </td>
                         </tr>
                     </table>
                 </div>
-                <div class="popup__title-wrapper row">
+                <div class="popup__title-wrapper row mt-3">
                     <h3 class="popup__title col text-left">Referees</h3>
+                    <multiselect
+                            id="sportsman"
+                            v-model="value"
+                            :options="options"
+                            :multiple="true"
+                            :close-on-select="true"
+                            :clear-on-select="false"
+                            :hide-selected="true"
+                            :preserve-search="true"
+                            placeholder="Choose referee"
+                            label="last_name"
+                            track-by="id"
+                            :preselect-first="true">
+                        <template slot="tag" slot-scope="props">
+                                <span class="custom__tag">
+                                    <!-- option === coach -->
+                                    <span>{{ props.option.first_name }} {{ props.option.last_name }}</span>
+                                    <span class="custom__remove" @click="props.remove(props.option)">❌</span>
+                                </span>
+                        </template>
+                    </multiselect>
                 </div>
                 <div class="row text-right">
                     <div class="col-12 text-right mb-5">
-                        <button class="popup__save btn btn-success mt-3"
+                        <button v-if="tournamentKey" class="popup__save btn btn-success mt-3"
+                                style="margin-right: 10px;"
+                                @click.prevent="saveTournament">Save tournament
+                        </button>
+                        <button v-else class="popup__save btn btn-success mt-3"
                                 style="margin-right: 10px;"
                                 @click.prevent="createTournament">Create tournament
                         </button>
@@ -155,9 +188,15 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import * as firebase from 'firebase';
+    import Multiselect from 'vue-multiselect';
     export default {
         name: 'tournament-create',
+        components: {
+            Multiselect
+        },
+        props: ['tournamentKey'],
         data: function() {
             return {
                 federationId: `federation${this.$store.state.federationId}`,
@@ -172,27 +211,67 @@
                     },
                     quantityRings: '',
                     location: '',
-                    categories: []
+                    categories: [
+                        {
+                            name: '',
+                            ageFrom: '',
+                            ageTo: '',
+                            gender: '',
+                            weight: ''
+                        }
+                    ],
+                    referees: []
                 },
-                category: {
+                options : [],
+                value: [],
+            }
+        },
+        mounted() {
+            if (this.tournamentKey) {
+                this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+                this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
+            };
+            axios.get('https://champion-api.herokuapp.com/api/sportsman/list')
+                .then(response => {
+                    if ( response.status === 200 ) {
+                        this.options = response.data;
+                    }
+                })
+                .catch(error => window.console.log(error));
+        },
+        methods: {
+            addNewCategory() {
+                this.tournament.categories.push({
                     name: '',
                     ageFrom: '',
                     ageTo: '',
                     gender: '',
                     weight: ''
-                }
-            }
-        },
-        mounted() {
-        },
-        methods: {
+                });
+            },
+            removeCategory(key) {
+                this.tournament.categories.splice(key, 1);
+            },
             async createTournament() {
                 this.tournament.id = this.$store.state.federationId + this.tournament.name;
-                this.tournament.categories.push(this.category);
+                this.tournament.referees = this.value;
                 try {
                     await firebase.database().ref(this.federationId).push(this.tournament)
                         .then(console.log('success'));
 
+                } catch (error) {
+                    throw error;
+                }
+                this.$emit('clicked');
+            },
+            async saveTournament() {
+                this.tournament.referees = this.value;
+                try {
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .update(this.tournament);
                 } catch (error) {
                     throw error;
                 }
@@ -202,6 +281,7 @@
     }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
     .popup {
         display: flex;
@@ -235,5 +315,25 @@
             height: 90%;
             padding: 1rem;
         }
+    }
+
+    .cat__row {
+        border-bottom: 1px solid #dee2e6;
+        height: 100px;
+    }
+
+    .custom__tag {
+        display: inline-block;
+        padding: 3px 12px;
+        background: #d2d7ff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .custom__remove {
+        padding: 0;
+        font-size: 10px;
+        margin-left: 5px;
     }
 </style>
