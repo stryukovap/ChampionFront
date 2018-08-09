@@ -32,7 +32,7 @@
                         <div class="col-9">
                             <nav class="navbar navbar-light">
                                 <form class="form-inline">
-                                    <input class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search">
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search" v-model="search">
                                     <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                                 </form>
                             </nav>
@@ -48,7 +48,8 @@
                     <div class="row ml-2">
                         <table class="table table-hover table-sm">
                             <tbody :list="$store.state.sportsmanList">
-                            <tr class="row" v-for="item in $store.state.sportsmanList" :key="item.id">
+                            <!-- <tr class="row" v-for="item in $store.state.sportsmanList" :key="item.id"> -->   <!--to delete, previous variant without search-->
+                            <tr class="row" v-for="item in this.$store.getters.getFilteredSportsmenList(this.search)" :key="item.id">
                                 <td class="col-2 text-left">{{item.first_name}} {{item.last_name}}</td>
                                 <td class="col-1 text-left">{{item.gender}}</td>
                                 <td class="col-2 text-left">{{item.date_of_birth}}</td>
@@ -67,24 +68,16 @@
     import axios from "axios";
     import {Tabs, Tab} from "vue-tabs-component";
 
+
     export default {
         components: {
             Tab,
             Tabs
         },
         data: function () {
-            return {
-                beforeMount() {
-                    this.$store.state.sportsmanList = {};
-                },
-                mounted() {
-                    axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
-                        .then(response => {
-                            this.$store.commit('setSportsmanList', response.data);
-                            window.console.log(response.data)
-                        })
-                        .catch(error => window.console.log(error));
-                },
+            return {    
+                search: "",
+
                 tournament: {
                     referees: [
                         {
@@ -103,8 +96,22 @@
                     description: "lorem lorem lorem lorem lorem lorem lorem",
                     dateStart: "01.07.2018",
                     dateEnd: "21.07.2018",
-                },
-            }},}
+                }
+            }
+        },
+        beforeMount() {
+            this.$store.state.sportsmanList = {};
+        },
+        mounted() {
+            axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
+                .then(response => {
+                    this.$store.commit('setSportsmanList', response.data);
+                    this.$store.commit('setSportsmenList', response.data);
+                    window.console.log(response.data)
+                })
+                .catch(error => window.console.log(error));
+        }
+    }
 </script>
 
 <style lang="scss">

@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("lbUser"),
     // authUser:localStorage.getItem("lbUser"),
-    authUser: JSON.parse(localStorage.getItem("lbUser")),
+    // authUser: JSON.parse(localStorage.getItem("lbUser")),
+    authUser: {auth_token: 'abc'},
     postLoginUrl: "https://champion-api.herokuapp.com/api/login",
     postRegistrationUserUrl: "https://champion-api.herokuapp.com/api/user",
     postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     getEmailValidation:
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
+    sportsmenList: [],
     sportsmanIds: [],
     selectedSportsmen: [],
       roles: {
@@ -25,7 +27,21 @@ export default new Vuex.Store({
           userIsFederation: true
       },
   },
+  getters: {
+    getFilteredSportsmenList: (state) => (search) => {
+      return state.sportsmenList.filter(sportsman => {
+        return (
+            sportsman.first_name.toLowerCase().includes(search.toLowerCase()) || 
+            sportsman.last_name.toLowerCase().includes(search.toLowerCase()) || 
+            sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
+        )
+      })
+    }
+  },
   mutations: {
+    setSportsmenList(state, sportsmenList) {
+      state.sportsmenList = sportsmenList;
+    },
     setSportsmanList(state, sportsmanList) {
       state.sportsmanList = sportsmanList.reduce((acc, sportsman) =>({
         ...acc,
