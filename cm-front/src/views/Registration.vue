@@ -584,6 +584,7 @@
     };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
     .wrapper {
         margin: 50px auto;
@@ -678,15 +679,20 @@
             padding                : 4em 2em;
             }
         }
-    .multiselect__content {
-        width : 100%;
-        list-style     : none;
-        overflow: scroll;
-        max-height: 300px;
-        position: absolute;
-        z-index: 10;
-        background-color: #fff;
-        }
 
+    .custom__tag {
+        display: inline-block;
+        padding: 3px 12px;
+        background: #d2d7ff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        }
+    .custom__remove {
+        padding: 0;
+        font-size: 10px;
+        margin-left: 5px;
+        }
 
 </style>
