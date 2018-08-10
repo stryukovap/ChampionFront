@@ -210,12 +210,37 @@
                                         <label for="trainer" class="cm-form__label">Coach</label>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" type="text"
-                                               id="trainer"
-                                               placeholder="Coach"
-                                               autocomplete="off"
-                                               v-model="sportsman.trainer">
-                                    </div>
+
+                                     <!--обычный выбор-->
+                                         <!--<input class="form-control" type="text"-->
+                                         <!--id="trainer"-->
+                                         <!--placeholder="Coach"-->
+                                         <!--autocomplete="off"-->
+                                         <!--v-model="sportsman.trainer">-->
+
+                                        <multiselect id = "trainer"
+                                                     v-model = "value"
+                                                     :options = "options"
+                                                     :multiple = "true"
+                                                     :close-on-select = "true"
+                                                     :clear-on-select = "false"
+                                                     :hide-selected = "true"
+                                                     :preserve-search = "true"
+                                                     placeholder = "Choose your coach"
+                                                     label = "last_name"
+                                                     track-by = "id"
+                                                     :preselect-first = "true"
+                                        ><template slot = "tag" slot-scope = "props">
+                                            <span class = "custom__tag">
+                                                <!-- option === coach -->
+                                                <span>{{ props.option.last_name }}</span>
+                                                <span class = "custom__remove" @click = "props.remove(props.option)">❌</span>
+                                            </span>
+                                        </template>
+                                        </multiselect>
+
+                                     </div>
+
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
@@ -308,12 +333,14 @@
     import {Tabs, Tab} from "vue-tabs-component";
     import axios from "axios";
     import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
+    import Multiselect from 'vue-multiselect';
 
     export default {
         name: "registration",
         components: {
             Tabs,
-            Tab
+            Tab,
+            Multiselect
         },
         data() {
             return {
@@ -343,7 +370,9 @@
                 userSportsman: "true",
                 federations:{},
                 sports: {},
-                authUser: {}
+                authUser: {},
+                value : [],
+                options : []
             };
         },
         mounted(){
@@ -376,7 +405,20 @@
                 .catch(function (error) {
                     // handle error
                     window.console.log(error);
+                });
+            axios
+                .get(
+                    'https://champion-api.herokuapp.com/api/sportsman/list'
+                )
+                .then(response => {
+                    // window.console.log(response);
+                    if ( response.status === 200 ) {
+                        this.options = response.data;
+                    }
                 })
+                .catch(function(error) {
+                    window.console.log(error);
+                });
         },
         computed: {
             testInitPassword: function () {
@@ -542,6 +584,7 @@
     };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
     .wrapper {
         margin: 50px auto;
@@ -628,12 +671,28 @@
 
     @media (min-width: 700px) {
         .tabs-component-panels {
-            border-top-left-radius: 0;
-            background-color: #fff;
-            border: solid 1px #ddd;
-            border-radius: 0 6px 6px 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            padding: 4em 2em;
+            border-top-left-radius : 0;
+            background-color       : #FFF;
+            border                 : solid 1px #DDD;
+            border-radius          : 0 6px 6px 6px;
+            box-shadow             : 0 0 10px rgba(0, 0, 0, 0.05);
+            padding                : 4em 2em;
+            }
         }
-    }
+
+    .custom__tag {
+        display: inline-block;
+        padding: 3px 12px;
+        background: #d2d7ff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        }
+    .custom__remove {
+        padding: 0;
+        font-size: 10px;
+        margin-left: 5px;
+        }
+
 </style>
