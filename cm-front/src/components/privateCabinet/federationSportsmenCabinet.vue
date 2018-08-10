@@ -52,8 +52,10 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody name="items" :list="$store.state.sportsmanList">
-                    <tr v-for="item in $store.state.sportsmanList">
+                <!-- <tbody name="items" :list="$store.state.sportsmanList">
+                    <tr v-for="item in $store.state.sportsmanList"> -->        <!--to delete, previous variant without search-->
+                <tbody name="items" :list="this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
+                    <tr v-for="item in this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
                         <td><input
                                 type="checkbox"
                                 v-model="$store.state.selectedSportsmen"
@@ -138,6 +140,7 @@
             axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
                 .then(response => {
                     this.$store.commit('setSportsmanList', response.data);
+                    this.$store.commit('setSportsmenList', response.data);
                 })
                 .catch(error => console.log(error));
         },
