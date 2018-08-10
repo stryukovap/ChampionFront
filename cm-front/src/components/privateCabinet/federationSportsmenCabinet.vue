@@ -140,6 +140,18 @@
                     this.$store.commit('setSportsmanList', response.data);
                 })
                 .catch(error => console.log(error));
+
+            // axios.get("https://champion-api.herokuapp.com/api/federations")
+            //     .then(response => {
+            //         console.log(response.data);
+            //     });
+
+            axios.get("https://champion-api.herokuapp.com/api/sportsman-list/by-federation/72/2")
+                .then(response => {
+                    // this.$store.commit('setSportsmanList', response.data);
+                    console.log(response.data)
+                })
+                .catch(error => console.log(error));
         },
         methods: {
             selectAll() {
