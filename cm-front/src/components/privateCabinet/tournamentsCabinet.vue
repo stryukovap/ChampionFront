@@ -3,7 +3,9 @@
         <div v-if="tournamentsShow">
             <div class="row mt-4 mr-4">
                 <div class="col-12 text-right">
-                    <button class="btn btn-outline-success" @click="createTournament" type="submit">Create</button>
+                    <button class="btn btn-outline-success"
+                            @click="createTournament"
+                            type="submit">Create</button>
                 </div>
             </div>
             <div class="col-xs-12 col-md-9">
