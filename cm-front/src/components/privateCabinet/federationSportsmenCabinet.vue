@@ -126,7 +126,9 @@
                 allSelected: false,
                 searchingSportsman: '',
                 http: axios.create({
-                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
+                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
+                    }
                 })
             }
         },
@@ -187,17 +189,31 @@
                     .catch(error => console.log(error));
             },
             toggleActive(id) {
-                if (this.$store.state.sportsmanList[id].city === 'Kyiv') {
-                    this.$store.state.sportsmanList[id].city = 'Odessa';
-//                    this.$store.state.sportsmanList[id].active = true;
-                } else {
-                    this.$store.state.sportsmanList[id].city = 'Kyiv';
-//                    this.$store.state.sportsmanList[id].active = false;
-                }
-                this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
-                    this.$store.state.sportsmanList[id])
-                    .then(response => console.log('saved successfully'))
-                    .catch(error => console.log(error.message));
+//                 if (this.$store.state.sportsmanList[id].city === 'Kyiv') {
+//                     this.$store.state.sportsmanList[id].city = 'Odessa';
+// //                    this.$store.state.sportsmanList[id].active = true;
+//                 } else {
+//                     this.$store.state.sportsmanList[id].city = 'Kyiv';
+// //                    this.$store.state.sportsmanList[id].active = false;
+//                 }
+//                 this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+//                     this.$store.state.sportsmanList[id])
+//                     .then(response => console.log('saved successfully'))
+//                     .catch(error => console.log(error.message));
+
+                this.http.post(`http://champion-api.herokuapp.com/api/sportsman/${id}`, {
+                    _method: "put",
+                    first_name: "Ivan",
+                    gender: "M",
+                    is_active: 1,
+                    date_of_birth: "2018-07-10",
+                    // first_name: this.$store.state.sportsmanList[id].first_name,
+                    // gender: this.$store.state.sportsmanList[id].gender,
+                    // is_active: 1,
+                    // date_of_birth: this.$store.state.sportsmanList[id].date_of_birth,
+                })
+                    .then(response => console.log(response.data))
+                    .catch(error => console.log(error));
             },
             toggleIsCoach(id) {
                 if (this.$store.state.sportsmanList[id].patronymic_name === 'not a coach') {
@@ -236,7 +252,10 @@
             deleteSportsman() {
                 this.$store.state.selectedSportsmen.map(id => {
                     return axios
-                        .delete(`https://champion-api.herokuapp.com/api/sportsman/${id}`)
+                        .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
+                            {
+                                _method: "delete"
+                            })
                         .then(response => console.log(response))
                         .catch(error => console.log(error.message));
                 });
