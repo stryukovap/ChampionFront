@@ -13,7 +13,7 @@ export default new Vuex.Store({
         postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
         deleteSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
         getSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
-        postSportsman: "https://champion-api.herokuapp.com/api/sportsman",
+        postSportsman: "http://champion-api.herokuapp.com/api/sportsman",
         getEmailValidation:
             "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
         sportsmanList: {},
@@ -35,7 +35,6 @@ export default new Vuex.Store({
             userIsCoach: false,
             userIsFederation: true
         },
-        federationId: 72,
         tournamentsList: []
     },
     mutations: {
@@ -57,6 +56,19 @@ export default new Vuex.Store({
                 state.sportsmanIds.splice(index, 1);
             });
             state.selectedSportsmen = [];
+        },
+        clearSportsmanModel(state) {
+            state.sportsman = {
+                first_name: "",
+                last_name: "",
+                patronymic_name: "",
+                gender: "",
+                date_of_birth: "2018-07-10",
+                degree: "",
+                weight: "",
+                city: "",
+                coaches: ""
+            }
         },
         setTournamentsList(state, tournamentsList) {
             state.tournamentsList = tournamentsList;

@@ -199,9 +199,8 @@
         props: ['tournamentKey'],
         data: function() {
             return {
-                federationId: `federation${this.$store.state.federationId}`,
+                federationId: '',
                 tournament: {
-                    id: '',
                     name: '',
                     description: '',
                     banners: [],
@@ -227,14 +226,15 @@
             }
         },
         mounted() {
+            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
             if (this.tournamentKey) {
                 this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
                 this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
             };
-            axios.get('https://champion-api.herokuapp.com/api/sportsman/list')
+            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${this.federationId}/20`)
                 .then(response => {
                     if ( response.status === 200 ) {
-                        this.options = response.data;
+                        this.options = response.data.data;
                     }
                 })
                 .catch(error => window.console.log(error));
@@ -253,12 +253,10 @@
                 this.tournament.categories.splice(key, 1);
             },
             async createTournament() {
-                this.tournament.id = this.$store.state.federationId + this.tournament.name;
                 this.tournament.referees = this.value;
                 try {
                     await firebase.database().ref(this.federationId).push(this.tournament)
                         .then(console.log('success'));
-
                 } catch (error) {
                     throw error;
                 }
