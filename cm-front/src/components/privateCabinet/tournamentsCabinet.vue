@@ -54,12 +54,15 @@
                 tournamentPageShow: false,
                 modalShow: false,
                 tournamentKey: '',
-                federationCollection: `federation${this.$store.state.federationId}`,
+                federationId: ''
             };
+        },
+        beforeMount() {
+            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
         },
         async mounted() {
             try {
-                const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                const fbObj = await firebase.database().ref(this.federationId).once('value');
                 this.$store.commit('setTournamentsList', fbObj.val());
             } catch (error) {
                 throw error;
@@ -84,7 +87,7 @@
             async closeAndUpdate() {
                 this.modalShow = false;
                 try {
-                    const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                    const fbObj = await firebase.database().ref(this.federationId).once('value');
                     this.$store.commit('setTournamentsList', fbObj.val());
                 } catch (error) {
                     throw error;

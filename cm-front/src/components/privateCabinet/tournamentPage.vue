@@ -68,7 +68,7 @@
 
                 <div class="row ml-2" v-if="'sportsmen' in this.$store.state.tournamentsList[this.tournamentKey]">
                     <table class="table table-hover table-sm">
-                        <tbody :list="$store.state.sportsmanList">
+                        <tbody>
                         <tr class="row"
                             v-for="(item, key) in $store.state.tournamentsList[this.tournamentKey].sportsmen"
                             >
@@ -130,17 +130,17 @@
                 tournament: {},
                 tournamentEditShow: false,
                 sportsmenAddListShow: false,
-                federationCollection: `federation${this.$store.state.federationId}`,
+                federationId: '',
                 http: axios.create({
                     headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
                 })
             }
         },
         beforeMount() {
-            this.$store.state.sportsmanList = {};
             this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
         },
         mounted() {
+            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
         },
         methods: {
             editTournament() {
@@ -156,7 +156,7 @@
                 this.sportsmenAddListShow = false;
                 this.tournamentEditShow = false;
                 try {
-                    const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                    const fbObj = await firebase.database().ref(this.federationId).once('value');
                     this.$store.commit('setTournamentsList', fbObj.val());
                 } catch (error) {
                     throw error;
@@ -167,7 +167,7 @@
                 try {
                     await firebase
                         .database()
-                        .ref(this.federationCollection)
+                        .ref(this.federationId)
                         .child(this.tournamentKey)
                         .child('sportsmen')
                         .child(key)
@@ -175,15 +175,16 @@
                 } catch (error) {
                     throw error;
                 }
-                this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${item.sportsman.id}`,
-                    item.sportsman)
-                    .catch(error => console.log(error.message));
+                // item.sportsman._method = "put";
+                // this.http.post(`https://champion-api.herokuapp.com/api/sportsman/${item.sportsman.id}`,
+                //     item.sportsman)
+                //     .catch(error => console.log(error.message));
             },
             async removeSportsman(key) {
                 try {
                     await firebase
                         .database()
-                        .ref(this.federationCollection)
+                        .ref(this.federationId)
                         .child(this.tournamentKey)
                         .child('sportsmen')
                         .child(key)
@@ -192,7 +193,7 @@
                     throw error;
                 }
                 try {
-                    const fbObj = await firebase.database().ref(this.federationCollection).once('value');
+                    const fbObj = await firebase.database().ref(this.federationId).once('value');
                     this.$store.commit('setTournamentsList', fbObj.val());
                 } catch (error) {
                     throw error;

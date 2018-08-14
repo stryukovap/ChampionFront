@@ -67,19 +67,20 @@
         props: ['tournamentKey'],
         data: function() {
             return {
-                federationCollection: `federation${this.$store.state.federationId}`,
+                federationId: '',
                 options : [],
                 value: [],
             }
         },
         mounted() {
+            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
             if ('sportsmen' in this.$store.state.tournamentsList[this.tournamentKey]) {
                 this.value = this.$store.state.tournamentsList[this.tournamentKey].sportsmen;
             }
-            axios.get('https://champion-api.herokuapp.com/api/sportsman/list')
+            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${this.federationId}/20`)
                 .then(response => {
                     if ( response.status === 200 ) {
-                        response.data.forEach(item => {
+                        response.data.data.forEach(item => {
                             let sportsman = {
                                 sportsman: item,
                                 fullname: `${item.first_name} ${item.last_name}`,
@@ -99,7 +100,7 @@
                try {
                    await firebase
                        .database()
-                       .ref(this.federationCollection)
+                       .ref(this.federationId)
                        .child(this.tournamentKey)
                        .update({sportsmen: this.value});
                } catch (error) {
