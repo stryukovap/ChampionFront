@@ -16,9 +16,9 @@
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
                         <input class="form-control mr-sm-2"
-                                type="search"
-                                placeholder="Enter name"
-                                aria-label="Search">
+                               type="search"
+                               placeholder="Enter name"
+                               aria-label="Search">
                         <button class="btn btn-primary my-2 my-sm-0">
                             Search
                         </button>
@@ -49,36 +49,36 @@
                 </tr>
                 </thead>
                 <tbody name="items" :list="$store.state.sportsmanList">
-                    <tr v-for="item in $store.state.sportsmanList">
-                        <td><input type="checkbox"
-                                    v-model="$store.state.selectedSportsmen"
-                                    @click="selectSportsman"
-                                    :value="item.id" >
-                        </td>
-                        <td>{{item.first_name}} {{item.last_name}}</td>
-                        <td>{{item.patronymic_name}}</td>
-                        <td>{{item.city}}</td>
-                        <td>
-                            <input @click="toggleActive(item.id)"
-                                    type="checkbox"
-                                    v-model="item.federation_sportsmen[0].is_active"
-                                    v-bind:true-value="checkbox.active"
-                                    v-bind:false-value="checkbox.notActive" />
-                        </td>
-                        <td>
-                            <input @click="toggleIsCoach(item.id)"
-                                    type="checkbox"
-                                    v-model="item.federation_sportsmen[0].is_coach"
-                                    v-bind:true-value="checkbox.coach"
-                                    v-bind:false-value="checkbox.notCoach" />
-                        </td>
-                        <td>{{item.date_of_birth}}</td>
-                        <th>
-                            <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
-                                Edit
-                            </button>
-                        </th>
-                    </tr>
+                <tr v-for="item in $store.state.sportsmanList">
+                    <td><input type="checkbox"
+                               v-model="$store.state.selectedSportsmen"
+                               @click="selectSportsman"
+                               :value="item.id" >
+                    </td>
+                    <td>{{item.first_name}} {{item.last_name}}</td>
+                    <td>{{item.patronymic_name}}</td>
+                    <td>{{item.city}}</td>
+                    <td>
+                        <input @click="toggleActive(item.id)"
+                               type="checkbox"
+                               v-model="item.federation_sportsmen[0].is_active"
+                               v-bind:true-value="checkbox.active"
+                               v-bind:false-value="checkbox.notActive" />
+                    </td>
+                    <td>
+                        <input @click="toggleIsCoach(item.id)"
+                               type="checkbox"
+                               v-model="item.federation_sportsmen[0].is_coach"
+                               v-bind:true-value="checkbox.coach"
+                               v-bind:false-value="checkbox.notCoach" />
+                    </td>
+                    <td>{{item.date_of_birth}}</td>
+                    <th>
+                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                            Edit
+                        </button>
+                    </th>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -170,33 +170,8 @@
                     .catch(error => console.log(error));
             },
             toggleActive(id) {
-<<<<<<< HEAD
-//                 if (this.$store.state.sportsmanList[id].city === 'Kyiv') {
-//                     this.$store.state.sportsmanList[id].city = 'Odessa';
-// //                    this.$store.state.sportsmanList[id].active = true;
-//                 } else {
-//                     this.$store.state.sportsmanList[id].city = 'Kyiv';
-// //                    this.$store.state.sportsmanList[id].active = false;
-//                 }
-//                 this.http.put(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
-//                     this.$store.state.sportsmanList[id])
-//                     .then(response => console.log('saved successfully'))
-//                     .catch(error => console.log(error.message));
-
-                this.http.post(`http://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                    _method: "put",
-                    first_name: "Ivan",
-                    gender: "M",
-                    is_active: 1,
-                    date_of_birth: "2018-07-10",
-                    // first_name: this.$store.state.sportsmanList[id].first_name,
-                    // gender: this.$store.state.sportsmanList[id].gender,
-                    // is_active: 1,
-                    // date_of_birth: this.$store.state.sportsmanList[id].date_of_birth,
-                })
-=======
                 if (this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active === 0) {
-                   this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 1;
+                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 1;
                 } else {
                     this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 0;
                 }
@@ -208,8 +183,7 @@
                     is_coach: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach,
                     is_referee: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_referee,
                     belt: this.$store.state.sportsmanList[id].federation_sportsmen[0].belt
-                    })
->>>>>>> feature/cabinet-sportsmen
+                })
                     .then(response => console.log(response.data))
                     .catch(error => console.log(error));
             },
@@ -269,16 +243,9 @@
             deleteSportsman() {
                 this.$store.state.selectedSportsmen.map(id => {
                     return axios
-<<<<<<< HEAD
-                        .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`,
-                            {
-                                _method: "delete"
-                            })
-=======
                         .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
                             _method: "delete"
                         })
->>>>>>> feature/cabinet-sportsmen
                         .then(response => console.log(response))
                         .catch(error => console.log(error.message));
                 });
