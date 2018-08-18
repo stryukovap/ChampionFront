@@ -51,8 +51,7 @@ export default {
       this.activeItem = item;
     }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 

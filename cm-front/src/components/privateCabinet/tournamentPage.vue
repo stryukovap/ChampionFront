@@ -110,106 +110,114 @@
     </div>
 </template>
 <script>
-    import axios from 'axios';
-    import * as firebase from 'firebase';
-    import {Tabs, Tab} from 'vue-tabs-component';
-    import TournamentCreate from './tournamentCreate';
-    import AddSportsmenPopup from './tournamentAddSportsmanPopup';
+import axios from "axios";
+import * as firebase from "firebase";
+import { Tabs, Tab } from "vue-tabs-component";
+import TournamentCreate from "./tournamentCreate";
+import AddSportsmenPopup from "./tournamentAddSportsmanPopup";
 
-    export default {
-        name: 'tournament-page',
-        components: {
-            Tab,
-            Tabs,
-            TournamentCreate,
-            AddSportsmenPopup
-        },
-        props: ['tournamentKey'],
-        data: function () {
-            return {
-                tournament: {},
-                tournamentEditShow: false,
-                sportsmenAddListShow: false,
-                federationId: '',
-                http: axios.create({
-                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
-                })
-            }
-        },
-        beforeMount() {
-            this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
-        },
-        mounted() {
-            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-        },
-        methods: {
-            editTournament() {
-                this.tournamentEditShow = true;
-            },
-            addSportsmen() {
-                this.sportsmenAddListShow = true;
-            },
-            closeModal() {
-                this.sportsmenAddListShow = false;
-            },
-            async closeAndUpdate() {
-                this.sportsmenAddListShow = false;
-                this.tournamentEditShow = false;
-                try {
-                    const fbObj = await firebase.database().ref(this.federationId).once('value');
-                    this.$store.commit('setTournamentsList', fbObj.val());
-                } catch (error) {
-                    throw error;
-                }
-            },
-            async permitParticipation(item, key) {
-                item.isPermit = true;
-                try {
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .child(this.tournamentKey)
-                        .child('sportsmen')
-                        .child(key)
-                        .update(item);
-                } catch (error) {
-                    throw error;
-                }
-                // item.sportsman._method = "put";
-                // this.http.post(`https://champion-api.herokuapp.com/api/sportsman/${item.sportsman.id}`,
-                //     item.sportsman)
-                //     .catch(error => console.log(error.message));
-            },
-            async removeSportsman(key) {
-                try {
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .child(this.tournamentKey)
-                        .child('sportsmen')
-                        .child(key)
-                        .remove();
-                } catch (error) {
-                    throw error;
-                }
-                try {
-                    const fbObj = await firebase.database().ref(this.federationId).once('value');
-                    this.$store.commit('setTournamentsList', fbObj.val());
-                } catch (error) {
-                    throw error;
-                }
-            }
+export default {
+  name: "tournament-page",
+  components: {
+    Tab,
+    Tabs,
+    TournamentCreate,
+    AddSportsmenPopup
+  },
+  props: ["tournamentKey"],
+  data: function() {
+    return {
+      tournament: {},
+      tournamentEditShow: false,
+      sportsmenAddListShow: false,
+      federationId: "",
+      http: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token
         }
+      })
+    };
+  },
+  beforeMount() {
+    this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+  },
+  mounted() {
+    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+  },
+  methods: {
+    editTournament() {
+      this.tournamentEditShow = true;
+    },
+    addSportsmen() {
+      this.sportsmenAddListShow = true;
+    },
+    closeModal() {
+      this.sportsmenAddListShow = false;
+    },
+    async closeAndUpdate() {
+      this.sportsmenAddListShow = false;
+      this.tournamentEditShow = false;
+      try {
+        const fbObj = await firebase
+          .database()
+          .ref(this.federationId)
+          .once("value");
+        this.$store.commit("setTournamentsList", fbObj.val());
+      } catch (error) {
+        throw error;
+      }
+    },
+    async permitParticipation(item, key) {
+      item.isPermit = true;
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .child(this.tournamentKey)
+          .child("sportsmen")
+          .child(key)
+          .update(item);
+      } catch (error) {
+        throw error;
+      }
+      // item.sportsman._method = "put";
+      // this.http.post(`https://champion-api.herokuapp.com/api/sportsman/${item.sportsman.id}`,
+      //     item.sportsman)
+      //     .catch(error => console.log(error.message));
+    },
+    async removeSportsman(key) {
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .child(this.tournamentKey)
+          .child("sportsmen")
+          .child(key)
+          .remove();
+      } catch (error) {
+        throw error;
+      }
+      try {
+        const fbObj = await firebase
+          .database()
+          .ref(this.federationId)
+          .once("value");
+        this.$store.commit("setTournamentsList", fbObj.val());
+      } catch (error) {
+        throw error;
+      }
     }
+  }
+};
 </script>
 
 <style lang="scss">
-    .table {
-        &__head-item {
-            cursor: pointer;
-        }
-    }
-    .navbar-light {
-        margin-top: -8px;
-    }
+.table {
+  &__head-item {
+    cursor: pointer;
+  }
+}
+.navbar-light {
+  margin-top: -8px;
+}
 </style>

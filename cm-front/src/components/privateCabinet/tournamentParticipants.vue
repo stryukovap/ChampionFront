@@ -35,37 +35,35 @@
 </template>
 
 <script>
-    import axios from "axios";
+import axios from "axios";
 
-    export default {
-        name: "tournament-participants",
-        data: function () {
-            return {
-            }
-        },
-        beforeMount() {
-            this.$store.state.sportsmanList = {};
-        },
-        mounted() {
-            axios.get("https://champion-api.herokuapp.com/api/sportsman/list")
-                .then(response => {
-                    this.$store.commit('setSportsmanList', response.data);
-                })
-                .catch(error => console.log(error));
-        },
-        methods: {
-
-        }
-    }
+export default {
+  name: "tournament-participants",
+  data: function() {
+    return {};
+  },
+  beforeMount() {
+    this.$store.state.sportsmanList = {};
+  },
+  mounted() {
+    axios
+      .get("https://champion-api.herokuapp.com/api/sportsman/list")
+      .then(response => {
+        this.$store.commit("setSportsmanList", response.data);
+      })
+      .catch(error => console.log(error));
+  },
+  methods: {}
+};
 </script>
 
 <style lang="scss">
-    .table {
-        &__head-item {
-            cursor: pointer;
-        }
-    }
-    .navbar-light {
-        margin-top: -8px;
-    }
+.table {
+  &__head-item {
+    cursor: pointer;
+  }
+}
+.navbar-light {
+  margin-top: -8px;
+}
 </style>

@@ -21,36 +21,36 @@
 						     alt="logo"
 						     class="nav-logo--img">
 					</router-link>
-				</li>
-				<li class="nav-item checkboxes">
-					<div class="form-check form-check-inline">
-						<label class="form-check-label text-white">
-							<input class="form-check-input"
-							       type="radio" name="role"
-							       @input="setRole($event)"
-							       value="userIsSportsman"
-							       :checked="this.$store.state.roles.userIsSportsman"> Sportsman
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label text-white">
-							<input class="form-check-input"
-							       type="radio" name="role"
-							       @input="setRole($event)"
-							       value="userIsCoach"
-							       :checked="this.$store.state.roles.userIsCoach"> Coach
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label text-white">
-							<input class="form-check-input"
-							       type="radio" name="role"
-							       @input="setRole($event)"
-							       value="userIsFederation"
-							       :checked="this.$store.state.roles.userIsFederation"> Federation
-						</label>
-					</div>
-				</li>
+				<!--</li>-->
+				<!--<li class="nav-item checkboxes">-->
+					<!--<div class="form-check form-check-inline">-->
+						<!--<label class="form-check-label text-white">-->
+							<!--<input class="form-check-input"-->
+							       <!--type="radio" name="role"-->
+							       <!--@input="setRole($event)"-->
+							       <!--value="userIsSportsman"-->
+							       <!--:checked="this.$store.state.roles.userIsSportsman"> Sportsman-->
+						<!--</label>-->
+					<!--</div>-->
+					<!--<div class="form-check form-check-inline">-->
+						<!--<label class="form-check-label text-white">-->
+							<!--<input class="form-check-input"-->
+							       <!--type="radio" name="role"-->
+							       <!--@input="setRole($event)"-->
+							       <!--value="userIsCoach"-->
+							       <!--:checked="this.$store.state.roles.userIsCoach"> Coach-->
+						<!--</label>-->
+					<!--</div>-->
+					<!--<div class="form-check form-check-inline">-->
+						<!--<label class="form-check-label text-white">-->
+							<!--<input class="form-check-input"-->
+							       <!--type="radio" name="role"-->
+							       <!--@input="setRole($event)"-->
+							       <!--value="userIsFederation"-->
+							       <!--:checked="this.$store.state.roles.userIsFederation"> Federation-->
+						<!--</label>-->
+					<!--</div>-->
+				<!--</li>-->
 				<!-- Checkboxes with roles END -->
 				<li class="nav-item nav-item-contacts">
 					<ul class="nav-list nav-list--sub">
@@ -214,531 +214,479 @@
 
 <script>
 export default {
-    name: "Header",
-    data() {
-        return {
-            languages: {
-                selectedLang: 'en',
-                langList: ['en', 'ru', 'ua'],
-                activeClass: false,
-                activeClassMobile: false
-            },
-            contacts: {
-                phone: '+38067000001',
-                email: 'example@example.com'
-            },
-            userData: {
-                id: '',
-                validUntil: '10.10.2020',
-                userName: 'Denis Yermolin',
-                userLogo: 'img/header/user.png'
-            },
-            menu: [
-                {
-                    title: "My Profile",
-                    titleFederation: "Federation"
-                },
-                {
-                    titleCoach: "My Cabinet",
-                    titleSportsman: "Settings"
-                },
-                {
-                    title: "Exit"
-                }
-            ],
-            headerLogo: {
-                logoChampion: 'img/header/logo_champion.png',
-                logoFederation: 'img/header/logo_federation.png'
-            },
-            toggleClass: {
-                hamburger: false,
-                mobileMenu: false
-            }
+  name: "Header",
+  data() {
+    return {
+      languages: {
+        selectedLang: "en",
+        langList: ["en", "ru", "ua"],
+        activeClass: false,
+        activeClassMobile: false
+      },
+      contacts: {
+        phone: "+38067000001",
+        email: "example@example.com"
+      },
+      userData: {
+        id: "",
+        validUntil: "10.10.2020",
+        userName: "Denis Yermolin",
+        userLogo: "img/header/user.png"
+      },
+      menu: [
+        {
+          title: "My Profile",
+          titleFederation: "Federation"
+        },
+        {
+          titleCoach: "My Cabinet",
+          titleSportsman: "Settings"
+        },
+        {
+          title: "Exit"
         }
+      ],
+      headerLogo: {
+        logoChampion: "img/header/logo_champion.png",
+        logoFederation: "img/header/logo_federation.png"
+      },
+      toggleClass: {
+        hamburger: false,
+        mobileMenu: false
+      }
+    };
+  },
+  methods: {
+    logout: function() {
+      localStorage.removeItem("lbUser");
+      this.$store.state.isLoggedIn = false;
+      this.$router.push("/");
+      window.console.log(
+        "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+      );
     },
-    methods: {
-        logout: function () {
-            localStorage.removeItem("lbUser");
-            this.$store.state.isLoggedIn = false;
-            this.$router.push('/');
-            window.console.log(
-                "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-        },
-        getUserId() {
-            if (localStorage.getItem("lbUser")) {
-                const userObj = this.$store.state.authUser;
-                this.userData.id = userObj.id;
-            }
-        },
-        setActiveLang(e) {
-            this.languages.selectedLang = e.target.textContent.trim();
-        },
-        setActiveLangMobile(e) {
-            this.languages.selectedLang = e.target.textContent.trim();
-        },
-        // set user's role with radio button
-        setRole(e) {
-            let role = e.target.value;
-            console.log(role);
-            let roles = this.$store.state.roles;
-            for (let key in roles) {
-                roles[key] = false;
-                if (role) {
-                    roles[role] = true;
-                }
-            }
-        },
-        showMobileNav() {
-            this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
-        },
-	    // method for hiding mobile menu
-        mobileMenu(e) {
-            const logoClass = e.target.parentNode.parentNode.classList.contains('mobile__item-logo');
-            const listClass = e.target.parentNode.classList.contains('mobile__item-hover');
-            const logInClass = e.target.parentNode.classList.contains('btn-user__mobile');
-            const mobileExit = e.target.classList.contains('mobile__link');
-            if (logoClass || listClass || logInClass || mobileExit) {
-                this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
-                this.toggleClass.hamburger = !this.toggleClass.hamburger
-            }
-        }
+    getUserId() {
+      if (localStorage.getItem("lbUser")) {
+        const userObj = this.$store.state.authUser;
+        this.userData.id = userObj.id;
+      }
     },
-    computed: {
-        checkLogin() {
-            if (this.$store.state.isLoggedIn) {
-                this.getUserId();
-            }
-            return this.$store.state.isLoggedIn;
-        }
+    setActiveLang(e) {
+      this.languages.selectedLang = e.target.textContent.trim();
+    },
+    setActiveLangMobile(e) {
+      this.languages.selectedLang = e.target.textContent.trim();
+    },
+    // set user's role with radio button
+    // setRole(e) {
+    //   let role = e.target.value;
+    //   console.log(role);
+    //   let roles = this.$store.state.roles;
+    //   for (let key in roles) {
+    //     roles[key] = false;
+    //     if (role) {
+    //       roles[role] = true;
+    //     }
+    //   }
+    // },
+    showMobileNav() {
+      this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
+    },
+    // method for hiding mobile menu
+    mobileMenu(e) {
+      const logoClass = e.target.parentNode.parentNode.classList.contains(
+        "mobile__item-logo"
+      );
+      const listClass = e.target.parentNode.classList.contains(
+        "mobile__item-hover"
+      );
+      const logInClass = e.target.parentNode.classList.contains(
+        "btn-user__mobile"
+      );
+      const mobileExit = e.target.classList.contains("mobile__link");
+      if (logoClass || listClass || logInClass || mobileExit) {
+        this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
+        this.toggleClass.hamburger = !this.toggleClass.hamburger;
+      }
     }
-}
+  },
+  computed: {
+    checkLogin() {
+      if (this.$store.state.isLoggedIn) {
+        this.getUserId();
+      }
+      return this.$store.state.isLoggedIn;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-	$bg-color: #343a40;
-
-	.header__wrapper {
-		padding: 5px 0;
-		background-color: $bg-color;
-	}
-
-	.c-pointer {
-		cursor: pointer;
-	}
-
-	.nav {
-		&-list {
-			display: flex;
-			list-style-type: none;
-			padding: 0;
-			margin: 0;
-			justify-content: center;
-			align-items: center;
-			&--sub {
-				flex-direction: column;
-				align-items: flex-start;
-			}
-		}
-
-		&-item {
-			margin-right: 10px;
-			margin-left: 10px;
-			position: relative;
-			&--logo {
-				margin-right: auto;
-			}
-		}
-
-		&-logo--img {
-			max-height: 32px;
-		}
-
-		&-link {
-			background: none;
-		}
-	}
-
-	.user {
-		display: inline-flex;
-		flex-direction: column;
-		color: #fff;
-
-		&__name {
-			padding: 8px 0;
-		}
-
-		&__wrap {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		&__photo,
-		&__menu,
-		&__menu-items {
-			display: inline-block;
-			vertical-align: middle;
-		}
-
-		&__menu-items {
-			padding: 0;
-			margin: 0;
-			width: 100%;
-			display: none;
-			position: absolute;
-			background-color: $bg-color;
-			opacity: 0;
-			z-index: 100;
-		}
-
-		&__photo {
-			max-width: 100px;
-		}
-
-		&__menu {
-			padding: 0;
-			margin: 0 0 0 10px;
-			list-style: none;
-			position: relative;
-
-			&:hover .user__menu-items {
-				display: block;
-				animation: showMenu .5s forwards;
-			}
-		}
-
-		&__item {
-			display: block;
-			transition: background-color .1s;
-
-			&:hover {
-				background-color: #c8c8c8;
-			}
-
-			&:hover .user__link {
-				color: #000;
-			}
-		}
-
-		&__link {
-			display: block;
-			color: #fff;
-			padding: 8px 0;
-
-			&:hover {
-				text-decoration: none;
-				color: #fff;
-			}
-		}
-	}
-
-	.list-group {
-		list-style: none;
-
-		&-border-none &-item:first-child {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
-
-		& > &-border-bottom {
-			border-bottom-left-radius: 0.25rem;
-			border-bottom-right-radius: 0.25rem;
-		}
-
-		&-item {
-			cursor: pointer;
-			padding: 0.35rem 0.95rem;
-		}
-
-		&-item-display {
-			display: none;
-			position: absolute;
-			top: 103%;
-			opacity: 0;
-			z-index: 9 !important;
-
-			&-show {
-				display: block;
-				animation: showMenu .5s forwards;
-			}
-		}
-	}
-
-	.list-group-border-bottom {
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
-	@keyframes showMenu {
-		0% {
-			opacity: 0;
-		}
-		100% {
-			opacity: 1;
-		}
-	}
-
-	//HAMBURGER
-
-	.nav-item-hamburger {
-		z-index: 999;
-	}
-
-	.hamburger {
-		display: none;
-		cursor: pointer;
-	}
-
-	.menu-btn {
-		display: inline-block;
-		vertical-align: middle;
-		width: 35px;
-		height: 35px;
-		background-color: #ffffff;
-		border-radius: 50%;
-		position: relative;
-
-		span {
-			position: absolute;
-			top: 50%;
-			margin-top: -1px;
-			left: 50%;
-			width: 20px;
-			height: 2px;
-			background-color: #222;
-			margin-left: -10px;
-
-			&:before, &:after {
-				content: '';
-				position: absolute;
-				top: 50%;
-				margin-top: -1px;
-				left: 50%;
-				width: 20px;
-				height: 2px;
-				background-color: #222;
-				margin-left: -10px;
-				display: block;
-				transition: 0.3s;
-			}
-
-			&:before {
-				transform: translateY(-5px);
-			}
-
-			&:after {
-				transform: translateY(5px);
-			}
-		}
-	}
-
-	.menu-btn_active {
-
-		span {
-			height: 0;
-			&:before {
-				transform: rotate(45deg);
-			}
-
-			&:after {
-				transform: rotate(-45deg);
-			}
-		}
-	}
-
-	.hamburger__fixed {
-		position: fixed;
-		left: 0;
-	}
-
-	//MOBILE MENU
-
-	.mobile {
-		position: fixed;
-		top: 0;
-		box-shadow: initial;
-		height: 100%;
-		width: 400px;
-		left: -600px;
-		transition: left 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-		background-color: #fff;
-		z-index: 9;
-
-		&__nav {
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		&__item {
-			transition: background-color 0.1s linear;
-
-			&-logo {
-				margin-bottom: 10px;
-			}
-
-			&-contacts {
-				margin-bottom: 30px;
-			}
-
-			&-user {
-				padding: 10px 0;
-			}
-
-			.logo-container {
-				width: 65px;
-				height: 65px;
-				margin: 0 auto;
-
-				&-img {
-					display: block;
-					width: 100%;
-					height: auto;
-				}
-			}
-
-			&:last-child {
-				padding: 10px 0;
-			}
-
-			&-hover {
-				cursor: pointer;
-			}
-
-			&-hover:hover {
-				background-color: rgba(0, 0, 0, 0.2);
-			}
-		}
-
-		&__list {
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			text-align: center;
-			width: 100%;
-		}
-
-		&__link {
-			color: #000;
-			display: block;
-			padding: 10px 0;
-
-			&:hover {
-				color: inherit;
-				text-decoration: none;
-			}
-		}
-	}
-
-	.mobile-slideIn {
-		left: 0;
-		box-shadow: 5px 1px 10px 0 rgba(0, 0, 0, 0.3);
-	}
-
-	.list-group {
-		list-style: none;
-
-		&-border-none &-item:first-child {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
-
-		& > &-border-bottom {
-			border-bottom-left-radius: 0.25rem;
-			border-bottom-right-radius: 0.25rem;
-		}
-
-		&-item {
-			cursor: pointer;
-			padding: 0.35rem 0.95rem;
-		}
-
-		&-item-display, &-item-mobile  {
-			display: none;
-			position: absolute;
-			top: 103%;
-			opacity: 0;
-			z-index: 100;
-
-			&-show {
-				display: block;
-				animation: showMenu .5s forwards;
-			}
-		}
-
-		&-item-mobile {
-			top: 45px;
-		}
-	}
-
-	.list-group-border-bottom {
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
-	@keyframes showMenu {
-		0% {
-			opacity: 0;
-		}
-		100% {
-			opacity: 1;
-		}
-	}
-
-	//MEDIA QUERIES
-
-	@media screen and (min-width: 821px) {
-		.mobile {
-			display: none;
-		}
-	}
-
-	@media screen and (max-width: 1140px) {
-		.checkboxes {
-			display: none !important;
-		}
-	}
-
-	@media screen and (max-width: 836px) {
-		.nav-item {
-
-			&-user, &-logout, &-contacts, &-buttons {
-				display: none;
-			}
-
-			&-hamburger {
-				margin-right: auto;
-			}
-
-			&--logo {
-				margin: 0 auto;
-			}
-		}
-
-		.hamburger {
-			display: inline-block;
-		}
-	}
-
-	@media screen and (max-width: 545px) {
-		.nav-item {
-
-			&--logo {
-				margin: 0 auto;
-			}
-		}
-	}
-
-	@media screen and (max-width: 474px) {
-		.nav-item-user {
-			display: none !important;
-		}
-	}
-	@media screen and (max-width: 360px) {
-		.mobile {
-			width: 100%;
-			height: 100%;
-		}
-	}
+$bg-color: #343a40;
+
+.header__wrapper {
+  padding: 5px 0;
+  /*<!--background-color: $bg-color;-->*/
+  background: #373b44; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.c-pointer {
+  cursor: pointer;
+}
+.nav {
+  &-list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    &--sub {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  &-item {
+    margin-right: 10px;
+    margin-left: 10px;
+    position: relative;
+    &--logo {
+      margin-right: auto;
+    }
+  }
+  &-logo--img {
+    max-height: 32px;
+  }
+  &-link {
+    background: none;
+  }
+}
+.user {
+  display: inline-flex;
+  flex-direction: column;
+  color: #fff;
+  &__name {
+    padding: 8px 0;
+  }
+  &__wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__photo,
+  &__menu,
+  &__menu-items {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__menu-items {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: none;
+    position: absolute;
+    background-color: $bg-color;
+    opacity: 0;
+    z-index: 100;
+  }
+  &__photo {
+    max-width: 100px;
+  }
+  &__menu {
+    padding: 0;
+    margin: 0 0 0 10px;
+    list-style: none;
+    position: relative;
+    &:hover .user__menu-items {
+      display: block;
+      animation: showMenu 0.5s forwards;
+    }
+  }
+  &__item {
+    display: block;
+    transition: background-color 0.1s;
+    &:hover {
+      background-color: #c8c8c8;
+    }
+    &:hover .user__link {
+      color: #000;
+    }
+  }
+  &__link {
+    display: block;
+    color: #fff;
+    padding: 8px 0;
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+}
+.list-group {
+  list-style: none;
+  &-border-none &-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  & > &-border-bottom {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  &-item {
+    cursor: pointer;
+    padding: 0.35rem 0.95rem;
+  }
+  &-item-display {
+    display: none;
+    position: absolute;
+    top: 103%;
+    opacity: 0;
+    z-index: 9 !important;
+    &-show {
+      display: block;
+      animation: showMenu 0.5s forwards;
+    }
+  }
+}
+.list-group-border-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+@keyframes showMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+// HAMBURGER
+.nav-item-hamburger {
+  z-index: 999;
+}
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+.menu-btn {
+  display: inline-block;
+  vertical-align: middle;
+  width: 35px;
+  height: 35px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: relative;
+  span {
+    position: absolute;
+    top: 50%;
+    margin-top: -1px;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    background-color: #222;
+    margin-left: -10px;
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      margin-top: -1px;
+      left: 50%;
+      width: 20px;
+      height: 2px;
+      background-color: #222;
+      margin-left: -10px;
+      display: block;
+      transition: 0.3s;
+    }
+    &:before {
+      transform: translateY(-5px);
+    }
+    &:after {
+      transform: translateY(5px);
+    }
+  }
+}
+.menu-btn_active {
+  span {
+    height: 0;
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+.hamburger__fixed {
+  position: fixed;
+  left: 0;
+}
+// MOBILE MENU
+.mobile {
+  position: fixed;
+  top: 0;
+  box-shadow: initial;
+  height: 100%;
+  width: 400px;
+  left: -600px;
+  transition: left 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  background-color: #fff;
+  z-index: 9;
+  &__nav {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__item {
+    transition: background-color 0.1s linear;
+    &-logo {
+      margin-bottom: 10px;
+    }
+    &-contacts {
+      margin-bottom: 30px;
+    }
+    &-user {
+      padding: 10px 0;
+    }
+    .logo-container {
+      width: 65px;
+      height: 65px;
+      margin: 0 auto;
+      &-img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+    &:last-child {
+      padding: 10px 0;
+    }
+    &-hover {
+      cursor: pointer;
+    }
+    &-hover:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    width: 100%;
+  }
+  &__link {
+    color: #000;
+    display: block;
+    padding: 10px 0;
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+.mobile-slideIn {
+  left: 0;
+  box-shadow: 5px 1px 10px 0 rgba(0, 0, 0, 0.3);
+}
+.list-group {
+  list-style: none;
+  &-border-none &-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  & > &-border-bottom {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  &-item {
+    cursor: pointer;
+    padding: 0.35rem 0.95rem;
+  }
+  &-item-display,
+  &-item-mobile {
+    display: none;
+    position: absolute;
+    top: 103%;
+    opacity: 0;
+    z-index: 100;
+    &-show {
+      display: block;
+      animation: showMenu 0.5s forwards;
+    }
+  }
+  &-item-mobile {
+    top: 45px;
+  }
+}
+.list-group-border-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+@keyframes showMenu {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+// MEDIA QUERIES
+@media screen and (min-width: 821px) {
+  .mobile {
+    display: none;
+  }
+}
+@media screen and (max-width: 1140px) {
+  .checkboxes {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 836px) {
+  .nav-item {
+    &-user,
+    &-logout,
+    &-contacts,
+    &-buttons {
+      display: none;
+    }
+    &-hamburger {
+      margin-right: auto;
+    }
+    &--logo {
+      margin: 0 auto;
+    }
+  }
+  .hamburger {
+    display: inline-block;
+  }
+}
+@media screen and (max-width: 545px) {
+  .nav-item {
+    &--logo {
+      margin: 0 auto;
+    }
+  }
+}
+@media screen and (max-width: 474px) {
+  .nav-item-user {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 360px) {
+  .mobile {
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>

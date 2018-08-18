@@ -17,22 +17,22 @@
     </div>
 </template>
 <script>
-    import axios from "axios";
+import axios from "axios";
 
-    export default {
-        name: "buysubscription",
-        data: function () {
-            return {
-                sportsmen: {},
-                sportsmanIds: []
-            }
-        },
-        mounted() {
-            this.sportsmanIds = this.$store.state.selectedSportsmen;
-            this.sportsmen = this.sportsmanIds.map(id => {
-                return this.$store.state.sportsmanList[id]
-            });
-            console.log(this.sportsmen)
-        }
+export default {
+  name: "buysubscription",
+  data: function() {
+    return {
+      sportsmen: {},
+      sportsmanIds: []
     };
+  },
+  mounted() {
+    this.sportsmanIds = this.$store.state.selectedSportsmen;
+    this.sportsmen = this.sportsmanIds.map(id => {
+      return this.$store.state.sportsmanList[id];
+    });
+    console.log(this.sportsmen);
+  }
+};
 </script>

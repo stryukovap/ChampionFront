@@ -5,11 +5,11 @@
 <script>
 // import axios from "axios";
 
-    export default {
-        name: "news-cabinet",
-        data: function() {
-            return {};
-        },
-        mounted() {}
+export default {
+  name: "news-cabinet",
+  data: function() {
+    return {};
+  },
+  mounted() {}
 };
 </script>

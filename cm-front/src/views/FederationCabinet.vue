@@ -19,50 +19,49 @@
 </template>
 
 <script>
-    import Tournaments from "../components/privateCabinet/tournamentsCabinet.vue";
-    import Sportsmen from "../components/privateCabinet/federationSportsmenCabinet.vue";
-    import News from "../components/privateCabinet/newsCabinet.vue";
-    import Settings from "../components/privateCabinet/settingsCabinet.vue";
+import Tournaments from "../components/privateCabinet/tournamentsCabinet.vue";
+import Sportsmen from "../components/privateCabinet/federationSportsmenCabinet.vue";
+import News from "../components/privateCabinet/newsCabinet.vue";
+import Settings from "../components/privateCabinet/settingsCabinet.vue";
 
-    export default {
-        name: "federation-cabinet",
-        components: {
-            Tournaments,
-            Sportsmen,
-            News,
-            Settings
+export default {
+  name: "federation-cabinet",
+  components: {
+    Tournaments,
+    Sportsmen,
+    News,
+    Settings
+  },
+  data: function() {
+    return {
+      activeItem: "Tournaments",
+      menu: [
+        {
+          title: "Tournaments"
         },
-        data: function() {
-            return {
-                activeItem: "Tournaments",
-                menu: [
-                    {
-                        title: "Tournaments"
-                    },
-                    {
-                        title: "Sportsmen"
-                    },
-                    {
-                        title: "News"
-                    },
-                    {
-                        title: "Settings"
-                    }
-                ]
-            };
+        {
+          title: "Sportsmen"
         },
-        methods: {
-            toggleMenuItem(item) {
-                this.activeItem = item;
-            }
+        {
+          title: "News"
         },
-        mounted() {
+        {
+          title: "Settings"
         }
+      ]
     };
+  },
+  methods: {
+    toggleMenuItem(item) {
+      this.activeItem = item;
+    }
+  },
+  mounted() {}
+};
 </script>
 
 <style scoped lang="scss">
-    .federation-cabinet {
-        margin-bottom: 30px;
-    }
+.federation-cabinet {
+  margin-bottom: 30px;
+}
 </style>

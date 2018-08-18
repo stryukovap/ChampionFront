@@ -20,113 +20,104 @@
 </template>
 
 <script>
-    export default {
-        name: "Preloader",
-        data() {
-            return {
-                percentage: 0,
-                images: this.imagesArray(),
-                loadedImages: 0
-            }
-        },
-        methods: {
-            imagesArray() {
-                return document.images;
-            },
-            imageLoaded() {
-                const pagePreload = document.getElementById('preloader');
-                this.loadedImages++;
-                this.percentage = (((100 / this.images.length) * this.loadedImages) << 0);
-                if (this.loadedImages >= this.images.length) {
-                    //set hard delay with setTimeout
-                    // setTimeout(() => {
-                        if (!pagePreload.classList.contains('done')) {
-                            pagePreload.classList.add('done');
-                        }
-                    // }, 700);
-                }
-            }
-        },
-        computed: {
-            circle() {
-                return ((this.percentage / 100) * 100 * Math.PI) + ',9999';
-            }
-        },
-        mounted() {
-            for (let i = 0; i < this.images.length; i++) {
-                let imageClone = new Image();
-                imageClone.addEventListener('load', this.imageLoaded, true);
-                imageClone.addEventListener('error', this.imageLoaded, true);
-                imageClone.src = this.images[i].src;
-            }
+export default {
+  name: "Preloader",
+  data() {
+    return {
+      percentage: 0,
+      images: this.imagesArray(),
+      loadedImages: 0
+    };
+  },
+  methods: {
+    imagesArray() {
+      return document.images;
+    },
+    imageLoaded() {
+      const pagePreload = document.getElementById("preloader");
+      this.loadedImages++;
+      this.percentage = ((100 / this.images.length) * this.loadedImages) << 0;
+      if (this.loadedImages >= this.images.length) {
+        //set hard delay with setTimeout
+        // setTimeout(() => {
+        if (!pagePreload.classList.contains("done")) {
+          pagePreload.classList.add("done");
         }
+        // }, 700);
+      }
     }
+  },
+  computed: {
+    circle() {
+      return (this.percentage / 100) * 100 * Math.PI + ",9999";
+    }
+  },
+  mounted() {
+    for (let i = 0; i < this.images.length; i++) {
+      let imageClone = new Image();
+      imageClone.addEventListener("load", this.imageLoaded, true);
+      imageClone.addEventListener("error", this.imageLoaded, true);
+      imageClone.src = this.images[i].src;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-	.progress-circle {
-		max-width: 200px;
-		max-height: 200px;
-		width: 100%;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%) scaleX(-1) rotate(-55deg);
-		z-index: 999;
+.progress-circle {
+  max-width: 200px;
+  max-height: 200px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleX(-1) rotate(-55deg);
+  z-index: 999;
 
-		&__percent {
-			font-size: 50px;
-			text-shadow: -1px -1px #FFF,
-			-2px -2px #FFF,
-			-1px 1px #FFF,
-			-2px 2px #FFF,
-			1px 1px #FFF,
-			2px 2px #FFF,
-			1px -1px #FFF,
-			2px -2px #FFF,
-			-3px -3px 2px #BBB,
-			-3px 3px 2px #BBB,
-			3px 3px 2px #BBB,
-			3px -3px 2px #BBB;
-			color: #b83721;
-			transition: all 1s;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			z-index: 999;
-		}
+  &__percent {
+    font-size: 50px;
+    text-shadow: -1px -1px #fff, -2px -2px #fff, -1px 1px #fff, -2px 2px #fff,
+      1px 1px #fff, 2px 2px #fff, 1px -1px #fff, 2px -2px #fff,
+      -3px -3px 2px #bbb, -3px 3px 2px #bbb, 3px 3px 2px #bbb, 3px -3px 2px #bbb;
+    color: #b83721;
+    transition: all 1s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+  }
 
-		&__container {
-			display: inline-block;
-			position: absolute;
-			width: 100vw;
-			height: 100vh;
-			z-index: 998;
-			background: rgb(167, 197, 120);
-			opacity: 1;
-			visibility: visible;
-			transition: all 0.5s;
-		}
+  &__container {
+    display: inline-block;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 998;
+    background: rgb(167, 197, 120);
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.5s;
+  }
 
-		&__path {
-			transition: 0.5s ease-in-out all;
-		}
-	}
+  &__path {
+    transition: 0.5s ease-in-out all;
+  }
+}
 
-	.preloader {
-		position: absolute;
-		width: 100vw;
-		height: 100vh;
-		background: #2acd7d;
-		opacity: 1;
-		visibility: visible;
-		transition: all 0.5s;
-		z-index: 999;
-	}
+.preloader {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #2acd7d;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s;
+  z-index: 999;
+}
 
-	.done {
-		opacity: 0;
-		visibility: hidden;
-	}
+.done {
+  opacity: 0;
+  visibility: hidden;
+}
 </style>

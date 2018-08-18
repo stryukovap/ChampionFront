@@ -28,32 +28,33 @@ import axios from "axios";
 // https://champion-api.herokuapp.com/api/federations/{sportId}
 export default {
   name: "Federations",
-    link:"federation",
+  link: "federation",
   components: { Card },
   data() {
     return {
       federations: {},
-        link:"federation"
+      link: "federation"
     };
   },
-    mounted(){
-        axios
-            .get(
-        "https://champion-api.herokuapp.com/api/federations/" + this.$route.params.id
-            )
-            .then(response => {
-                // handle success
-                window.console.log(response);
-                if (response.status === 200) {
-                    this.federations=response.data
-                }
-            })
-            .catch(function (error) {
-                // handle error
-                window.console.log(error);
-                return true;
-            })
-    }
+  mounted() {
+    axios
+      .get(
+        "https://champion-api.herokuapp.com/api/federations/" +
+          this.$route.params.id
+      )
+      .then(response => {
+        // handle success
+        window.console.log(response);
+        if (response.status === 200) {
+          this.federations = response.data;
+        }
+      })
+      .catch(function(error) {
+        // handle error
+        window.console.log(error);
+        return true;
+      });
+  }
 };
 </script>
 

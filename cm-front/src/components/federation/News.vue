@@ -28,7 +28,7 @@
 import axios from "axios";
 export default {
   name: "news",
-  props: ['newsList'],
+  props: ["newsList"],
   data: function() {
     return {
       isAllPostsShown: false

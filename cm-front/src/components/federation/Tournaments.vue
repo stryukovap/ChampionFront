@@ -32,7 +32,7 @@ import axios from "axios";
 
 export default {
   name: "tournaments",
-  props: ['tournamentsList'],
+  props: ["tournamentsList"],
   data: function() {
     return {
       isAllTournamentsShown: false

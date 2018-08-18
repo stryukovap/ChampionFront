@@ -82,21 +82,21 @@ export default new Router({
       component: BuySubscription,
       props: true
     },
-      {
-        path:"/settings",
-          name:"settings",
-          component: Settingscabinet,
-      },
-      {
-          path:"/FederationCabinet",
-          name:"FederationCabinet",
-          component:FederationCabinet
-      },
-      {
-        path:"/tournamentscabinet",
-          name:"tournamentscabinet",
-          component:tournamentsCabinet
-      }
+    {
+      path: "/settings",
+      name: "settings",
+      component: Settingscabinet
+    },
+    {
+      path: "/FederationCabinet",
+      name: "FederationCabinet",
+      component: FederationCabinet
+    },
+    {
+      path: "/tournamentscabinet",
+      name: "tournamentscabinet",
+      component: tournamentsCabinet
+    }
   ],
 
   mode: "history"

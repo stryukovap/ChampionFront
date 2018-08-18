@@ -150,136 +150,151 @@
 <script>
 //    import userCertificates from "../components/userProfile/userCertificates"
 import axios from "axios";
-import AutocompleteCity from '../autocomplete_city';
-import citiesUkrainian from '../../assets/citiesUkrainian';
-import citiesRussian from '../../assets/citiesRussian';
-    export default {
-       name: "modal-form",
-       components: {
-           // userCertificates,
-           AutocompleteCity
-       },
-        props: ['sportsmanId', 'personRole'],
-        data() {
-            return {
-                role : {
-                    is_coach: 0,
-                    is_referee: 0
-                },
-                belts: {},
-                degrees: {},
-                http: axios.create({
-                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
-                }),
-                citiesUkr: [],
-                citiesRus: [],
-                cities: []
-            }
-        },
-        mounted() {
-            if (this.sportsmanId !== '') {
-                this.$store.state.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
-            } else {
-                if (this.personRole === 'Coach') {
-                    this.role.is_coach = 1;
-                } else if (this.personRole === 'Referee') {
-                    this.role.is_referee = 1;
-                }
-            };
-            citiesUkrainian.region.forEach(region => {
-                region.city.forEach(city => {
-                    this.citiesUkr.push(city.name);
-                })
-            });
-            citiesRussian.region.forEach(region => {
-                region.city.forEach(city => {
-                    this.citiesRus.push(city.name);
-                })
-            });
-            if (window.navigator.language === 'ru-RU') {
-                this.cities = this.citiesRus;
-            } else {
-                this.cities = this.citiesUkr;
-            }
-        },
-        methods: {
-            createSportsman() {
-                this.http.post(this.$store.state.postSportsman, this.$store.state.sportsman)
-                    .then(response => {
-                        console.log(response.data);
-                        this.http.post('http://champion-api.herokuapp.com/api/federation-sportsman', {
-                            sportsman_id: response.data.id,
-                            federation_id: this.$store.state.authUser.federation_users[0].federation_id,
-                            is_active: 1,
-                            is_coach: this.role.is_coach,
-                            is_referee: this.role.is_referee,
-                            belt: "belt"
-                        })
-                            .then(this.$emit('clicked'))
-                            .catch(error => console.log(error.message));
-                    })
-                    .catch(error => console.log(error.message));
-            },
-            createOwnCoachSportsman() {
-                this.http.post(this.$store.state.postSportsman, this.$store.state.sportsman)
-                    .then(response => {
-                        console.log(response.data);
-                        this.http.post('http://champion-api.herokuapp.com/api/sportsman-coach', {
-                            sportsman_id: response.data.id,
-                            coach_id: this.$store.state.authUser.my_profile_id,
-                            master_coach: 0
-                        })
-                            .then(this.$emit('clicked'))
-                            .catch(error => console.log(error.message));
-                    })
-                    .catch(error => console.log(error.message));
-            },
-            updateSportsman() {
-                this.$store.state.sportsman._method = "put";
-                this.http.post(`http://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
-                    this.$store.state.sportsman)
-                    .then(response => {
-                        console.log(response);
-                        this.$emit('clicked');
-                    })
-                    .catch(error => console.log(error.message));
-            }
+import AutocompleteCity from "../autocomplete_city";
+import citiesUkrainian from "../../assets/citiesUkrainian";
+import citiesRussian from "../../assets/citiesRussian";
+export default {
+  name: "modal-form",
+  components: {
+    // userCertificates,
+    AutocompleteCity
+  },
+  props: ["sportsmanId", "personRole"],
+  data() {
+    return {
+      role: {
+        is_coach: 0,
+        is_referee: 0
+      },
+      belts: {},
+      degrees: {},
+      http: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token
         }
+      }),
+      citiesUkr: [],
+      citiesRus: [],
+      cities: []
+    };
+  },
+  mounted() {
+    if (this.sportsmanId !== "") {
+      this.$store.state.sportsman = this.$store.state.sportsmanList[
+        this.sportsmanId
+      ];
+    } else {
+      if (this.personRole === "Coach") {
+        this.role.is_coach = 1;
+      } else if (this.personRole === "Referee") {
+        this.role.is_referee = 1;
+      }
     }
+    citiesUkrainian.region.forEach(region => {
+      region.city.forEach(city => {
+        this.citiesUkr.push(city.name);
+      });
+    });
+    citiesRussian.region.forEach(region => {
+      region.city.forEach(city => {
+        this.citiesRus.push(city.name);
+      });
+    });
+    if (window.navigator.language === "ru-RU") {
+      this.cities = this.citiesRus;
+    } else {
+      this.cities = this.citiesUkr;
+    }
+  },
+  methods: {
+    createSportsman() {
+      this.http
+        .post(this.$store.state.postSportsman, this.$store.state.sportsman)
+        .then(response => {
+          console.log(response.data);
+          this.http
+            .post(
+              "http://champion-api.herokuapp.com/api/federation-sportsman",
+              {
+                sportsman_id: response.data.id,
+                federation_id: this.$store.state.authUser.federation_users[0]
+                  .federation_id,
+                is_active: 1,
+                is_coach: this.role.is_coach,
+                is_referee: this.role.is_referee,
+                belt: "belt"
+              }
+            )
+            .then(this.$emit("clicked"))
+            .catch(error => console.log(error.message));
+        })
+        .catch(error => console.log(error.message));
+    },
+    createOwnCoachSportsman() {
+      this.http
+        .post(this.$store.state.postSportsman, this.$store.state.sportsman)
+        .then(response => {
+          console.log(response.data);
+          this.http
+            .post("http://champion-api.herokuapp.com/api/sportsman-coach", {
+              sportsman_id: response.data.id,
+              coach_id: this.$store.state.authUser.my_profile_id,
+              master_coach: 0
+            })
+            .then(this.$emit("clicked"))
+            .catch(error => console.log(error.message));
+        })
+        .catch(error => console.log(error.message));
+    },
+    updateSportsman() {
+      this.$store.state.sportsman._method = "put";
+      this.http
+        .post(
+          `http://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+          this.$store.state.sportsman
+        )
+        .then(response => {
+          console.log(response);
+          this.$emit("clicked");
+        })
+        .catch(error => console.log(error.message));
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-    .popup {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        bottom: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, .80);
-        z-index: 2;
-        overflow: hidden;
-        transition: .64s ease-in-out;
-        &__inner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 800px;
-            max-height: 600px;
-            width: 80%;
-            height: 80%;
-            background-color: #fff;
-            transition: .64s ease-in-out;
-            overflow-y: auto;
-        }
-        &__edit {
-            flex-direction: column;
-            justify-content: center;
-            width: 90%;
-            height: 90%;
-            padding: 1rem;
-        }
-    }
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  overflow: hidden;
+  transition: 0.64s ease-in-out;
+  &__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    max-height: 600px;
+    width: 80%;
+    height: 80%;
+    background-color: #fff;
+    transition: 0.64s ease-in-out;
+    overflow-y: auto;
+  }
+  &__edit {
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    padding: 1rem;
+  }
+}
 </style>

@@ -60,94 +60,104 @@
 </template>
 
 <script>
-    import axios from "axios";
-    import ModalForm from "./modalForm.vue";
+import axios from "axios";
+import ModalForm from "./modalForm.vue";
 
-    export default {
-        name: "coach-my-team",
-        components: {
-            ModalForm
-        },
-        data: function () {
-            return {
-                personRole: 'OwnCoachSportsman',
-                modalShow: false,
-                coach_id: '',
-                sportsmanId: '',
-                sorted: {
-                    name: false,
-                    active: false,
-                    subscription: false
-                },
-                allSelected: false
-            }
-        },
-        beforeMount() {
-            this.$store.state.sportsmanList = {};
-            this.$store.state.selectedSportsmen = [];
-        },
-        mounted() {
-            this.coach_id = this.$store.state.authUser.my_profile_id;
-            // axios.get(`https://champion-api.herokuapp.com/api/sportsman/list`)
-            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-coach/${this.coach_id}`)
-                .then(response => {
-                    this.$store.commit('setSportsmanList', response.data);
-                })
-                .catch(error => console.log(error));
-        },
-        methods: {
-            selectAll() {
-                this.$store.state.selectedSportsmen = [];
-                if (!this.allSelected) {
-                    this.$store.commit('setSelectedSportsmen');
-                }
-            },
-            selectSportsman() {
-                this.allSelected = false;
-            },
-            editSportsman(id) {
-                this.sportsmanId = id;
-                this.modalShow = true;
-            },
-            closeModal() {
-                this.modalShow = false;
-                this.sportsmanId = '';
-                this.$store.commit('clearSportsmanModel');
-            },
-            closeAndUpdate() {
-                this.modalShow = false;
-                this.sportsmanId = '';
-                this.$store.commit('clearSportsmanModel');
-                axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-coach/${this.coach_id}`)
-                    .then(response => {
-                        this.$store.commit('setSportsmanList', response.data);
-                    })
-                    .catch(error => console.log(error));
-            },
-            buySubscription() {
-                this.$router.push({ path: '/buysubscribtion'});
-            },
-            deleteSportsman() {
-                this.$store.state.selectedSportsmen.map(id => {
-                    return axios
-                        .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                            _method: "delete"
-                        })
-                        .then(response => console.log(response));
-                });
-                this.$store.commit('removeSportsman');
-            }
-        }
+export default {
+  name: "coach-my-team",
+  components: {
+    ModalForm
+  },
+  data: function() {
+    return {
+      personRole: "OwnCoachSportsman",
+      modalShow: false,
+      coach_id: "",
+      sportsmanId: "",
+      sorted: {
+        name: false,
+        active: false,
+        subscription: false
+      },
+      allSelected: false
+    };
+  },
+  beforeMount() {
+    this.$store.state.sportsmanList = {};
+    this.$store.state.selectedSportsmen = [];
+  },
+  mounted() {
+    this.coach_id = this.$store.state.authUser.my_profile_id;
+    // axios.get(`https://champion-api.herokuapp.com/api/sportsman/list`)
+    axios
+      .get(
+        `http://champion-api.herokuapp.com/api/sportsman-list/by-coach/${
+          this.coach_id
+        }`
+      )
+      .then(response => {
+        this.$store.commit("setSportsmanList", response.data);
+      })
+      .catch(error => console.log(error));
+  },
+  methods: {
+    selectAll() {
+      this.$store.state.selectedSportsmen = [];
+      if (!this.allSelected) {
+        this.$store.commit("setSelectedSportsmen");
+      }
+    },
+    selectSportsman() {
+      this.allSelected = false;
+    },
+    editSportsman(id) {
+      this.sportsmanId = id;
+      this.modalShow = true;
+    },
+    closeModal() {
+      this.modalShow = false;
+      this.sportsmanId = "";
+      this.$store.commit("clearSportsmanModel");
+    },
+    closeAndUpdate() {
+      this.modalShow = false;
+      this.sportsmanId = "";
+      this.$store.commit("clearSportsmanModel");
+      axios
+        .get(
+          `http://champion-api.herokuapp.com/api/sportsman-list/by-coach/${
+            this.coach_id
+          }`
+        )
+        .then(response => {
+          this.$store.commit("setSportsmanList", response.data);
+        })
+        .catch(error => console.log(error));
+    },
+    buySubscription() {
+      this.$router.push({ path: "/buysubscribtion" });
+    },
+    deleteSportsman() {
+      this.$store.state.selectedSportsmen.map(id => {
+        return axios
+          .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
+            _method: "delete"
+          })
+          .then(response => console.log(response));
+      });
+      this.$store.commit("removeSportsman");
     }
+  }
+};
 </script>
 
 <style lang="scss">
-    .table {
-        &__head-item {
-            cursor: pointer;
-        }
-    }
-    .navbar-light {
-        margin-top: -8px;
-    }
+.table {
+  &__head-item {
+    cursor: pointer;
+  }
+}
+.navbar-light {
+  margin-top: -8px;
+}
 </style>

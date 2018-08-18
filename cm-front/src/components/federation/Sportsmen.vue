@@ -30,7 +30,7 @@
 import axios from "axios";
 export default {
   name: "sportsmen",
-  props: ['sportsmenList'],
+  props: ["sportsmenList"],
   data: function() {
     return {
       isAllSportsmenShown: false

@@ -93,175 +93,243 @@
 </template>
 
 <script>
-    import axios from "axios";
-    import ModalForm from "./modalForm.vue";
-    export default {
-        name: "federation-sportsmen",
-        components: {
-            ModalForm
-        },
-        data: function () {
-            return {
-                federationId: '',
-                modalShow: false,
-                roleOfCreatedPerson: '',
-                sportsmanId: '',
-                checkbox: {
-                    active: 1,
-                    notActive: 0,
-                    coach: 1,
-                    notCoach: 0
-                },
-                allSelected: false,
-                http: axios.create({
-                    headers: {
-                        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
-                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
-                    }
-                })
-            }
-        },
-        beforeMount() {
-            this.$store.state.sportsmanList = {};
-            this.$store.state.selectedSportsmen = [];
-        },
-        mounted() {
-            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/20`)
-                .then(response => {
-                    this.$store.commit('setSportsmanList', response.data.data);
-                    console.log(response.data);
-                })
-                .catch(error => console.log(error));
-        },
-        methods: {
-            selectAll() {
-                this.$store.state.selectedSportsmen = [];
-                if (!this.allSelected) {
-                    this.$store.commit('setSelectedSportsmen');
-                }
-            },
-            selectSportsman() {
-                this.allSelected = false;
-            },
-            createPerson(role) {
-                this.modalShow = true;
-                this.roleOfCreatedPerson = role;
-            },
-            editSportsman(id) {
-                this.sportsmanId = id;
-                this.modalShow = true;
-            },
-            closeModal() {
-                this.modalShow = false;
-                this.sportsmanId = '';
-                this.roleOfCreatedPerson = '';
-                this.$store.commit('clearSportsmanModel');
-            },
-            closeAndUpdate() {
-                this.modalShow = false;
-                this.sportsmanId = '';
-                this.roleOfCreatedPerson = '';
-                this.$store.commit('clearSportsmanModel');
-                axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/20`)
-                    .then(response => {
-                        this.$store.commit('setSportsmanList', response.data.data);
-                    })
-                    .catch(error => console.log(error));
-            },
-            toggleActive(id) {
-                if (this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active === 0) {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 1;
-                } else {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 0;
-                }
-                this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
-                    _method: "put",
-                    sportsman_id: id,
-                    federation_id: this.federationId,
-                    is_active: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active,
-                    is_coach: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach,
-                    is_referee: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_referee,
-                    belt: this.$store.state.sportsmanList[id].federation_sportsmen[0].belt
-                })
-                    .then(response => console.log(response.data))
-                    .catch(error => console.log(error));
-            },
-            toggleIsCoach(id) {
-                if (this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach === 0) {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach = 1;
-                } else {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach = 0;
-                }
-                this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
-                    _method: "put",
-                    sportsman_id: id,
-                    federation_id: this.federationId,
-                    is_active: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active,
-                    is_coach: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach,
-                    is_referee: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_referee,
-                    belt: this.$store.state.sportsmanList[id].federation_sportsmen[0].belt
-                })
-                    .then(response => console.log(response.data))
-                    .catch(error => console.log(error));
-            },
-            activateSelected() {
-                this.$store.state.selectedSportsmen.map(id => {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 1;
-                    return this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
-                        _method: "put",
-                        sportsman_id: id,
-                        federation_id: this.federationId,
-                        is_active: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active,
-                        is_coach: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach,
-                        is_referee: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_referee,
-                        belt: this.$store.state.sportsmanList[id].federation_sportsmen[0].belt
-                    })
-                        .then(response => console.log(response.data))
-                        .catch(error => console.log(error));
-                });
-            },
-            deactivateSelected() {
-                this.$store.state.selectedSportsmen.map(id => {
-                    this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 0;
-                    return this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
-                        _method: "put",
-                        sportsman_id: id,
-                        federation_id: this.federationId,
-                        is_active: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active,
-                        is_coach: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach,
-                        is_referee: this.$store.state.sportsmanList[id].federation_sportsmen[0].is_referee,
-                        belt: this.$store.state.sportsmanList[id].federation_sportsmen[0].belt
-                    })
-                        .then(response => console.log(response.data))
-                        .catch(error => console.log(error));
-                });
-            },
-            buySubscription() {
-                this.$router.push({ path: '/buysubscribtion'});
-            },
-            deleteSportsman() {
-                this.$store.state.selectedSportsmen.map(id => {
-                    return axios
-                        .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
-                            _method: "delete"
-                        })
-                        .then(response => console.log(response))
-                        .catch(error => console.log(error.message));
-                });
-                this.$store.commit('removeSportsman');
-            }
+import axios from "axios";
+import ModalForm from "./modalForm.vue";
+export default {
+  name: "federation-sportsmen",
+  components: {
+    ModalForm
+  },
+  data: function() {
+    return {
+      federationId: "",
+      modalShow: false,
+      roleOfCreatedPerson: "",
+      sportsmanId: "",
+      checkbox: {
+        active: 1,
+        notActive: 0,
+        coach: 1,
+        notCoach: 0
+      },
+      allSelected: false,
+      http: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
         }
+      })
+    };
+  },
+  beforeMount() {
+    this.$store.state.sportsmanList = {};
+    this.$store.state.selectedSportsmen = [];
+  },
+  mounted() {
+    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+    axios
+      .get(
+        `http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${
+          this.federationId
+        }/20`
+      )
+      .then(response => {
+        this.$store.commit("setSportsmanList", response.data.data);
+        console.log(response.data);
+      })
+      .catch(error => console.log(error));
+  },
+  methods: {
+    selectAll() {
+      this.$store.state.selectedSportsmen = [];
+      if (!this.allSelected) {
+        this.$store.commit("setSelectedSportsmen");
+      }
+    },
+    selectSportsman() {
+      this.allSelected = false;
+    },
+    createPerson(role) {
+      this.modalShow = true;
+      this.roleOfCreatedPerson = role;
+    },
+    editSportsman(id) {
+      this.sportsmanId = id;
+      this.modalShow = true;
+    },
+    closeModal() {
+      this.modalShow = false;
+      this.sportsmanId = "";
+      this.roleOfCreatedPerson = "";
+      this.$store.commit("clearSportsmanModel");
+    },
+    closeAndUpdate() {
+      this.modalShow = false;
+      this.sportsmanId = "";
+      this.roleOfCreatedPerson = "";
+      this.$store.commit("clearSportsmanModel");
+      axios
+        .get(
+          `http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${
+            this.federationId
+          }/20`
+        )
+        .then(response => {
+          this.$store.commit("setSportsmanList", response.data.data);
+        })
+        .catch(error => console.log(error));
+    },
+    toggleActive(id) {
+      if (
+        this.$store.state.sportsmanList[id].federation_sportsmen[0]
+          .is_active === 0
+      ) {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_active = 1;
+      } else {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_active = 0;
+      }
+      this.http
+        .post(
+          `http://champion-api.herokuapp.com/api/federation-sportsman/${
+            this.$store.state.sportsmanList[id].federation_sportsmen[0].id
+          }`,
+          {
+            _method: "put",
+            sportsman_id: id,
+            federation_id: this.federationId,
+            is_active: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_active,
+            is_coach: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_coach,
+            is_referee: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_referee,
+            belt: this.$store.state.sportsmanList[id].federation_sportsmen[0]
+              .belt
+          }
+        )
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error));
+    },
+    toggleIsCoach(id) {
+      if (
+        this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach ===
+        0
+      ) {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_coach = 1;
+      } else {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_coach = 0;
+      }
+      this.http
+        .post(
+          `http://champion-api.herokuapp.com/api/federation-sportsman/${
+            this.$store.state.sportsmanList[id].federation_sportsmen[0].id
+          }`,
+          {
+            _method: "put",
+            sportsman_id: id,
+            federation_id: this.federationId,
+            is_active: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_active,
+            is_coach: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_coach,
+            is_referee: this.$store.state.sportsmanList[id]
+              .federation_sportsmen[0].is_referee,
+            belt: this.$store.state.sportsmanList[id].federation_sportsmen[0]
+              .belt
+          }
+        )
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error));
+    },
+    activateSelected() {
+      this.$store.state.selectedSportsmen.map(id => {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_active = 1;
+        return this.http
+          .post(
+            `http://champion-api.herokuapp.com/api/federation-sportsman/${
+              this.$store.state.sportsmanList[id].federation_sportsmen[0].id
+            }`,
+            {
+              _method: "put",
+              sportsman_id: id,
+              federation_id: this.federationId,
+              is_active: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_active,
+              is_coach: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_coach,
+              is_referee: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_referee,
+              belt: this.$store.state.sportsmanList[id].federation_sportsmen[0]
+                .belt
+            }
+          )
+          .then(response => console.log(response.data))
+          .catch(error => console.log(error));
+      });
+    },
+    deactivateSelected() {
+      this.$store.state.selectedSportsmen.map(id => {
+        this.$store.state.sportsmanList[
+          id
+        ].federation_sportsmen[0].is_active = 0;
+        return this.http
+          .post(
+            `http://champion-api.herokuapp.com/api/federation-sportsman/${
+              this.$store.state.sportsmanList[id].federation_sportsmen[0].id
+            }`,
+            {
+              _method: "put",
+              sportsman_id: id,
+              federation_id: this.federationId,
+              is_active: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_active,
+              is_coach: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_coach,
+              is_referee: this.$store.state.sportsmanList[id]
+                .federation_sportsmen[0].is_referee,
+              belt: this.$store.state.sportsmanList[id].federation_sportsmen[0]
+                .belt
+            }
+          )
+          .then(response => console.log(response.data))
+          .catch(error => console.log(error));
+      });
+    },
+    buySubscription() {
+      this.$router.push({ path: "/buysubscribtion" });
+    },
+    deleteSportsman() {
+      this.$store.state.selectedSportsmen.map(id => {
+        return axios
+          .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
+            _method: "delete"
+          })
+          .then(response => console.log(response))
+          .catch(error => console.log(error.message));
+      });
+      this.$store.commit("removeSportsman");
     }
+  }
+};
 </script>
 
 <style lang="scss">
-    .table {
-        &__head-item {
-            cursor: pointer;
-        }
-    }
-    .navbar-light {
-        margin-top: -8px;
-    }
+.table {
+  &__head-item {
+    cursor: pointer;
+  }
+}
+.navbar-light {
+  margin-top: -8px;
+}
 </style>

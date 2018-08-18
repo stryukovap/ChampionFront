@@ -57,7 +57,8 @@ export default {
     axios
       .get(`https://champion-api.herokuapp.com/api/sportsman/${this.userID}`)
       .then(response => {
-        this.userFullName = response.data.first_name + " " + response.data.last_name;
+        this.userFullName =
+          response.data.first_name + " " + response.data.last_name;
         this.userDOB = response.data.date_of_birth;
         this.userGender = response.data.gender;
         this.userPatronymicName = response.data.patronymic_name;

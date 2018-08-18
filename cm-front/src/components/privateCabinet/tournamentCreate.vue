@@ -188,150 +188,161 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import * as firebase from 'firebase';
-    import Multiselect from 'vue-multiselect';
-    export default {
-        name: 'tournament-create',
-        components: {
-            Multiselect
+import axios from "axios";
+import * as firebase from "firebase";
+import Multiselect from "vue-multiselect";
+export default {
+  name: "tournament-create",
+  components: {
+    Multiselect
+  },
+  props: ["tournamentKey"],
+  data: function() {
+    return {
+      federationId: "",
+      tournament: {
+        name: "",
+        description: "",
+        banners: [],
+        dates: {
+          dateStart: "",
+          dateEnd: ""
         },
-        props: ['tournamentKey'],
-        data: function() {
-            return {
-                federationId: '',
-                tournament: {
-                    name: '',
-                    description: '',
-                    banners: [],
-                    dates: {
-                        dateStart: '',
-                        dateEnd: ''
-                    },
-                    quantityRings: '',
-                    location: '',
-                    categories: [
-                        {
-                            name: '',
-                            ageFrom: '',
-                            ageTo: '',
-                            gender: '',
-                            weight: ''
-                        }
-                    ],
-                    referees: []
-                },
-                options : [],
-                value: [],
-            }
-        },
-        mounted() {
-            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-            if (this.tournamentKey) {
-                this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
-                this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
-            };
-            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${this.federationId}/20`)
-                .then(response => {
-                    if ( response.status === 200 ) {
-                        this.options = response.data.data;
-                    }
-                })
-                .catch(error => window.console.log(error));
-        },
-        methods: {
-            addNewCategory() {
-                this.tournament.categories.push({
-                    name: '',
-                    ageFrom: '',
-                    ageTo: '',
-                    gender: '',
-                    weight: ''
-                });
-            },
-            removeCategory(key) {
-                this.tournament.categories.splice(key, 1);
-            },
-            async createTournament() {
-                this.tournament.referees = this.value;
-                try {
-                    await firebase.database().ref(this.federationId).push(this.tournament)
-                        .then(console.log('success'));
-                } catch (error) {
-                    throw error;
-                }
-                this.$emit('clicked');
-            },
-            async saveTournament() {
-                this.tournament.referees = this.value;
-                try {
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .child(this.tournamentKey)
-                        .update(this.tournament);
-                } catch (error) {
-                    throw error;
-                }
-                this.$emit('clicked');
-            }
-        }
+        quantityRings: "",
+        location: "",
+        categories: [
+          {
+            name: "",
+            ageFrom: "",
+            ageTo: "",
+            gender: "",
+            weight: ""
+          }
+        ],
+        referees: []
+      },
+      options: [],
+      value: []
+    };
+  },
+  mounted() {
+    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+    if (this.tournamentKey) {
+      this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+      this.value = this.$store.state.tournamentsList[
+        this.tournamentKey
+      ].referees;
     }
+    axios
+      .get(
+        `http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
+          this.federationId
+        }/20`
+      )
+      .then(response => {
+        if (response.status === 200) {
+          this.options = response.data.data;
+        }
+      })
+      .catch(error => window.console.log(error));
+  },
+  methods: {
+    addNewCategory() {
+      this.tournament.categories.push({
+        name: "",
+        ageFrom: "",
+        ageTo: "",
+        gender: "",
+        weight: ""
+      });
+    },
+    removeCategory(key) {
+      this.tournament.categories.splice(key, 1);
+    },
+    async createTournament() {
+      this.tournament.referees = this.value;
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .push(this.tournament)
+          .then(console.log("success"));
+      } catch (error) {
+        throw error;
+      }
+      this.$emit("clicked");
+    },
+    async saveTournament() {
+      this.tournament.referees = this.value;
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .child(this.tournamentKey)
+          .update(this.tournament);
+      } catch (error) {
+        throw error;
+      }
+      this.$emit("clicked");
+    }
+  }
+};
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+</style>
 <style lang="scss">
-    .popup {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        bottom: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, .80);
-        z-index: 2;
-        overflow: hidden;
-        transition: .64s ease-in-out;
-        &__inner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 800px;
-            max-height: 600px;
-            width: 80%;
-            height: 80%;
-            background-color: #fff;
-            transition: .64s ease-in-out;
-            overflow-y: auto;
-        }
-        &__tournament {
-            flex-direction: column;
-            justify-content: center;
-            width: 90%;
-            height: 90%;
-            padding: 1rem;
-        }
-    }
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  overflow: hidden;
+  transition: 0.64s ease-in-out;
+  &__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    max-height: 600px;
+    width: 80%;
+    height: 80%;
+    background-color: #fff;
+    transition: 0.64s ease-in-out;
+    overflow-y: auto;
+  }
+  &__tournament {
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    padding: 1rem;
+  }
+}
 
-    .cat__row {
-        border-bottom: 1px solid #dee2e6;
-        height: 100px;
-    }
+.cat__row {
+  border-bottom: 1px solid #dee2e6;
+  height: 100px;
+}
 
-    .custom__tag {
-        display: inline-block;
-        padding: 3px 12px;
-        background: #d2d7ff;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .custom__remove {
-        padding: 0;
-        font-size: 10px;
-        margin-left: 5px;
-    }
+.custom__tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: #d2d7ff;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.custom__remove {
+  padding: 0;
+  font-size: 10px;
+  margin-left: 5px;
+}
 </style>

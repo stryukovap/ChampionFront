@@ -30,26 +30,24 @@ export default {
   data() {
     return {
       sports: {},
-        link:"federations"
+      link: "federations"
     };
   },
-  mounted(){
-      axios
-          .get(
-              "https://champion-api.herokuapp.com/api/sports"
-          )
-          .then(response => {
-              // handle success
-              window.console.log(response);
-              if (response.status === 200) {
-                  this.sports=response.data
-              }
-          })
-          .catch(function (error) {
-              // handle error
-              window.console.log(error);
-              return true;
-          })
+  mounted() {
+    axios
+      .get("https://champion-api.herokuapp.com/api/sports")
+      .then(response => {
+        // handle success
+        window.console.log(response);
+        if (response.status === 200) {
+          this.sports = response.data;
+        }
+      })
+      .catch(function(error) {
+        // handle error
+        window.console.log(error);
+        return true;
+      });
   }
 };
 </script>

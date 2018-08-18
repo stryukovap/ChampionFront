@@ -62,115 +62,115 @@
 </template>
 
 <script>
-    import axios from "axios";
-    import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import axios from "axios";
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
 
-    export default {
-        name: "settings",
-        data: function () {
-            return {
-                status: "",
-                subscription: "",
-                oldPassword: "",
-                newPassword: "",
-                confirmNewPassword: ""
-            };
-        },
-        validations:{
-            oldPassword:{
-                required:required
-            },
-            newPassword:{
-                minLength:minLength(6)
-        },
-            confirmNewPassword:{
-                sameAs:sameAs ("newPassword")
-            }
-        },
-        methods: {
-            updatePassword: function () {
-                var HTTP = axios.create({
-                    headers: {
-                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
-                    }
-                });
-                HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
-                    old_password: this.oldPassword,
-                    password: this.newPassword,
-                    password_confirmation: this.confirmNewPassword,
-                })
-                    .then(response => {
-                        window.console.log(response);
-                        localStorage.removeItem("lbUser");
-                        this.$store.state.isLoggedIn = false;
-                        window.console.log(
-                            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-                        );
-                        this.$router.push("/auth");
-                    })
-                    .catch(function (error) {
-                        window.console.log(error);
-                    });
-            }
-        },
-        mounted() {
-            // axios
-            //   .get("https://jsonplaceholder.typicode.com/todos/1")
-            //   .then(response => {
-            //     this.status = response.data.completed;
-            //     this.subscription = response.data.id;
-            //   })
-            //   .catch(error => window.console.log(error));
-        }
+export default {
+  name: "settings",
+  data: function() {
+    return {
+      status: "",
+      subscription: "",
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: ""
     };
+  },
+  validations: {
+    oldPassword: {
+      required: required
+    },
+    newPassword: {
+      minLength: minLength(6)
+    },
+    confirmNewPassword: {
+      sameAs: sameAs("newPassword")
+    }
+  },
+  methods: {
+    updatePassword: function() {
+      var HTTP = axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token
+        }
+      });
+      HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
+        old_password: this.oldPassword,
+        password: this.newPassword,
+        password_confirmation: this.confirmNewPassword
+      })
+        .then(response => {
+          window.console.log(response);
+          localStorage.removeItem("lbUser");
+          this.$store.state.isLoggedIn = false;
+          window.console.log(
+            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+          );
+          this.$router.push("/auth");
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    }
+  },
+  mounted() {
+    // axios
+    //   .get("https://jsonplaceholder.typicode.com/todos/1")
+    //   .then(response => {
+    //     this.status = response.data.completed;
+    //     this.subscription = response.data.id;
+    //   })
+    //   .catch(error => window.console.log(error));
+  }
+};
 </script>
 
 <style scoped lang="scss">
-    .info {
-        &__str {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+.info {
+  &__str {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-
-        &__wrap-text {
-            display: flex;
-            align-items: center;
-        }
-
-        &__btn {
-            margin-left: 20px;
-        }
+    &:last-child {
+      margin-bottom: 0;
     }
+  }
 
-    .info-form {
-        padding-top: 50px;
-    }
+  &__wrap-text {
+    display: flex;
+    align-items: center;
+  }
 
-    .form {
-        margin-top: 50px;
+  &__btn {
+    margin-left: 20px;
+  }
+}
 
-        &__header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+.info-form {
+  padding-top: 50px;
+}
 
-        &__field {
-            width: 270px;
-            margin: 0 auto 10px auto;
-        }
+.form {
+  margin-top: 50px;
 
-        &__input {
-            width: 100%;
-        }
+  &__header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
 
-        &__btn-wrap {
-            display: flex;
-            justify-content: center;
-        }
-    }
+  &__field {
+    width: 270px;
+    margin: 0 auto 10px auto;
+  }
+
+  &__input {
+    width: 100%;
+  }
+
+  &__btn-wrap {
+    display: flex;
+    justify-content: center;
+  }
+}
 </style>
