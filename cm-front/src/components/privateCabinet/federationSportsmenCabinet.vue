@@ -114,12 +114,8 @@
                 },
                 allSelected: false,
                 http: axios.create({
-<<<<<<< HEAD
-                    headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token,
-=======
                     headers: {
                         Authorization: "Bearer " + this.$store.state.authUser.auth_token,
->>>>>>> feature/cabinet-sportsmen
                         "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
                     }
                 })
