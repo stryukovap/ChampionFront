@@ -15,7 +15,9 @@
             <div class="col-4">
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
-                        <input class="form-control mr-sm-2"
+                        <input 
+                               v-model="searchingSportsman"
+                               class="form-control mr-sm-2"
                                type="search"
                                placeholder="Enter name"
                                aria-label="Search">
@@ -48,8 +50,10 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody name="items" :list="$store.state.sportsmanList">
-                <tr v-for="item in $store.state.sportsmanList">
+                <!-- <tbody name="items" :list="$store.state.sportsmanList"> -->
+                <!-- <tr v-for="item in $store.state.sportsmanList"> --> <!--to delete, previous variant without search-->
+                <tbody name="items" :list="this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
+                  <tr v-for="item in this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
                     <td><input type="checkbox"
                                v-model="$store.state.selectedSportsmen"
                                @click="selectSportsman"
@@ -113,6 +117,7 @@ export default {
         notCoach: 0
       },
       allSelected: false,
+      searchingSportsman: '',
       http: axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token,
@@ -135,6 +140,7 @@ export default {
       )
       .then(response => {
         this.$store.commit("setSportsmanList", response.data.data);
+        this.$store.commit('setSportsmenList', response.data.data);
         console.log(response.data);
       })
       .catch(error => console.log(error));

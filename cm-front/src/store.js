@@ -17,6 +17,7 @@ export default new Vuex.Store({
     getEmailValidation:
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
+    sportsmenList: [],
     sportsmanIds: [],
     selectedSportsmen: [],
     sportsman: {
@@ -37,7 +38,21 @@ export default new Vuex.Store({
     },
     tournamentsList: []
   },
+  getters: {
+    getFilteredSportsmenList: (state) => (search) => {
+      return state.sportsmenList.filter(sportsman => {
+        return (
+            sportsman.first_name.toLowerCase().includes(search.toLowerCase()) || 
+            sportsman.last_name.toLowerCase().includes(search.toLowerCase()) || 
+            sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
+        )
+      })
+    }
+  },
   mutations: {
+    setSportsmenList(state, sportsmenList) {
+      state.sportsmenList = sportsmenList;
+    },
     setSportsmanList(state, sportsmanList) {
       state.sportsmanList = sportsmanList.reduce(
         (acc, sportsman) => ({
