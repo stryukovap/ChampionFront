@@ -84,8 +84,8 @@
                         <select class="form-control" name="belt" id="belt"
                                 v-model="$store.state.sportsman.belt">
                             <option v-for="belt in belts"
-                                    v-bind:value="belt.color"
-                                    :key="belt.id">{{belt.color}}
+                                    v-bind:value="belt.id"
+                                    :key="belt.id">{{belt.name}}
                             </option>
                         </select>
                     </div>
@@ -98,8 +98,8 @@
                         <select class="form-control" name="degree" id="degree"
                                 v-model="$store.state.sportsman.degree">
                             <option v-for="degree in degrees"
-                                    v-bind:value="degree.value"
-                                    :key="degree.id">{{degree.value}}
+                                    v-bind:value="degree.id"
+                                    :key="degree.id">{{degree.title}}
                             </option>
                         </select>
                     </div>
@@ -205,6 +205,21 @@ export default {
     } else {
       this.cities = this.citiesUkr;
     }
+    this.http
+      .get("https://champion-api.herokuapp.com/api/belts/" + this.$store.state.authUser.federation_users[0]
+          .federation_id)
+      .then(response => {
+        window.console.log(response.data);
+        this.belts = response.data;
+      })
+      .catch(error => window.console.log(error.message));
+    this.http
+      .get("https://champion-api.herokuapp.com/api/titles/list")
+      .then(response => {
+        window.console.log(response.data);
+        this.degrees = response.data;
+      })
+      .catch(error => window.console.log(error.message));
   },
   methods: {
     createSportsman() {
