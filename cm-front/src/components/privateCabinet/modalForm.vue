@@ -19,7 +19,7 @@
                 <div class="cm-form__wrapper popup__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Name"
-                           autofocus
+                           autofocus required
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                            v-model="$store.state.sportsman.first_name">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
-                           placeholder="Surname"
+                           placeholder="Surname" required
                            autocomplete="off"
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                            v-model="$store.state.sportsman.last_name">
@@ -47,7 +47,7 @@
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Patronymic"
-                           autocomplete="off"
+                           autocomplete="off" required
                            title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                            v-model="$store.state.sportsman.patronymic_name">
                     <!--@input="$v.sportsman.patronymic_name.$touch()"-->
@@ -57,6 +57,18 @@
                     <!--$v.sportsman.sportsman.patronymic_name.$params.minLength.min }}. Now it-->
                     <!--is {{ sportsman.patronymic_name.length }}.-->
                     <!--</div>-->
+                </div>
+                <div class="cm-form__wrapper">
+                    <div class="row align-items-end">
+                        <div class="col align-self-center">
+                            <label class="cm-form__label" for="s-bdate">Date of Birth</label>
+                        </div>
+                        <div class="col">
+                            <input class="form-control" type="date" name="s-bdate" id="s-bdate"
+                                   title="Date of Birth" required
+                                   v-model="$store.state.sportsman.date_of_birth">
+                        </div>
+                    </div>
                 </div>
                 <div class="row cm-form__wrapper">
                     <div class="col">
