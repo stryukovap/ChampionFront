@@ -1,190 +1,104 @@
 <template>
-	<div class="header__wrapper">
-		<nav class="main-nav">
-			<ul class="nav-list"
-				@click="mobileMenu($event)">
-				<li class="nav-item nav-item-hamburger" :class="{'hamburger__fixed': toggleClass.hamburger}">
-					<div class="hamburger">
-						<div class="menu-btn" :class="{'menu-btn_active': toggleClass.hamburger}"
-						     @click="[showMobileNav(), toggleClass.hamburger = !toggleClass.hamburger]">
-							<span></span>
-						</div>
-					</div>
-				</li>
-				<li class="nav-item nav-item--logo">
-					<router-link class="nav-link" to="/">
-						<img v-if="checkLogin"
-						     :src="headerLogo.logoFederation"
-						     alt="logo" class="nav-logo--img">
-						<img v-else
-						     :src="headerLogo.logoChampion"
-						     alt="logo"
-						     class="nav-logo--img">
-					</router-link>
-				<li class="nav-item nav-item-contacts">
-					<ul class="nav-list nav-list--sub">
-						<li class="nav-item">
-							<a v-if="checkLogin" :href="'tel:' + userObj.contact_telephone">Phone: {{ userObj.contact_telephone }}</a>
-							<a v-else :href="'tel:' +38067000001">Phone: +38067000001</a>
-						</li>
-						<li class="nav-item">
-							<a v-if="checkLogin" :href="'mailto:' + userObj.contact_email">E-mail: {{ userObj.contact_email }}</a>
-							<a v-else :href="'mailto:'+ 'admin@champion.com'">E-mail: admin@champion.com</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item d-flex align-items-center nav-item-user" v-if="checkLogin">
-					<div class="user">
-						<div class="user__date">Valid until
-							<time class="user__time">{{ userData.validUntil }}</time>
-						</div>
-						<div class="user__wrap">
-							<div class="user__wrap-inner">
-								<img :src="userData.userLogo" alt="User" class="user__photo">
-								<div class="user__menu">
-									<div class="user__name">{{ userData.userName }}</div>
-									<ul class="user__menu-items">
-										<router-link tag="li" :to="'/federation'" class="user__item"
-										             v-if="this.$store.state.roles.userIsFederation === true"><a
-												class="user__link">{{ menu[0].titleFederation }}</a>
-										</router-link>
-										<router-link tag="li" :to="'/userprofile/' + userData.id"
-										             class="user__item"
-										             v-if="this.$store.state.roles.userIsFederation === false"><a
-												class="user__link">{{ menu[0].title }}</a>
-										</router-link>
-										<router-link tag="li" :to="'/coachcabinet/' + userData.id"
-										             class="user__item"
-										             v-if="this.$store.state.roles.userIsCoach"><a
-												class="user__link">{{ menu[1].titleCoach }}</a>
-										</router-link>
-										<router-link tag="li" :to="'/settingscabinet'" class="user__item"
-										             v-else-if="this.$store.state.roles.userIsSportsman"><a
-												class="user__link">{{ menu[1].titleSportsman }}</a>
-										</router-link>
-										<li @click="logout()" class="user__item user__link c-pointer">{{
-											menu[2].title }}
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="nav-item nav-item-logout" v-if="checkLogin">
-					<button class="btn btn-primary btn-user" v-on:click="logout">Logout</button>
-				</li>
-				<li class="nav-item nav-item-buttons" v-else>
-					<router-link tag="button" class="btn btn-primary btn-user" to="/auth">Log in</router-link>
-					<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration
-					</router-link>
-				</li>
-				<li class="nav-item nav-item-lang">
-					<ul class="list-group list-group-show">
-						<li class="list-group-item" :class="{'list-group-border-bottom': languages.selectedLang}"
-						    @click="languages.activeClass = !languages.activeClass">{{
-							languages.selectedLang }}
-						</li>
-						<li class="list-group-item-display" :class="{'list-group-item-display-show': languages.activeClass}">
-							<ul class="list-group list-group-border-none">
-								<li class="list-group-item"
-								    v-for="lang in languages.langList"
-								    :key="lang"
-								    v-if="lang !== languages.selectedLang"
-								    @click="[setActiveLang($event), languages.activeClass = !languages.activeClass]">
-									{{ lang }}
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
-		<div class="mobile" :class="{'mobile-slideIn': toggleClass.mobileMenu}">
-			<div class="d-flex justify-content-end mt-2 mr-2">
-				<ul class="list-group list-group-show">
-					<li class="list-group-item"
-					    :class="{'list-group-border-bottom': languages.selectedLang}"
-					    @click="languages.activeClassMobile = !languages.activeClassMobile">{{ languages.selectedLang }}
-					</li>
-					<li class="list-group-item-mobile"
-					    :class="{'list-group-item-display-show': languages.activeClassMobile}">
-						<ul class="list-group list-group-border-none">
-							<li class="list-group-item"
-							    v-for="lang in languages.langList"
-							    :key="lang"
-							    v-if="lang !== languages.selectedLang"
-							    @click="[setActiveLangMobile($event), languages.activeClassMobile = !languages.activeClassMobile]">
-								{{ lang }}
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			<nav class="mobile__nav">
-				<ul class="mobile__list"
-					@click="mobileMenu($event)">
-					<li class="mobile__item mobile__item-logo">
-						<router-link class="nav-link" to="/">
-							<img v-if="checkLogin"
-							     :src="headerLogo.logoFederation"
-							     alt="logo" class="nav-logo--img">
-							<img v-else
-							     :src="headerLogo.logoChampion"
-							     alt="logo"
-							     class="nav-logo--img">
-						</router-link>
-					</li>
-					<li class="mobile__item"><a href="tel:+3809645813" class="mobile__link p-0">+3809645813</a></li>
-					<li class="mobile__item mobile__item-contacts"><a href="mailto:exmple@gmail.com"
-					                                                  class="mobile__link p-0">exmple@gmail.com</a></li>
-					<li v-if="checkLogin"
-					    class="mobile__item">{{ userData.userName }}</li>
-					<li class="mobile__item mobile__item-user">
-						<div v-if="checkLogin"
-						     class="logo-container">
-							<img :src="userData.userLogo" alt="User" class="logo-container-img">
-						</div>
-					</li>
-					<li v-if="checkLogin"
-					    class="mobile__item">Valid until
-						<time class="mobile-user__time">{{ userData.validUntil }}</time>
-					</li>
-					<router-link tag="li" :to="'/federation'" class="mobile__item mobile__item-hover"
-					             v-if="checkLogin && this.$store.state.roles.userIsFederation === true"><a
-							class="mobile__link">{{ menu[0].titleFederation }}</a>
-					</router-link>
-					<router-link tag="li" :to="'/userprofile/' + userData.id"
-					             class="mobile__item mobile__item-hover"
-					             v-if="checkLogin && this.$store.state.roles.userIsFederation === false"><a
-							class="mobile__link">{{ menu[0].title }}</a>
-					</router-link>
-					<router-link tag="li" :to="'/coachcabinet/' + userData.id"
-					             class="mobile__item mobile__item-hover"
-					             v-if="checkLogin && this.$store.state.roles.userIsCoach"><a
-							class="mobile__link">{{ menu[1].titleCoach }}</a>
-					</router-link>
-					<router-link tag="li" :to="'/settingscabinet'" class="mobile__item mobile__item-hover"
-					             v-else-if="checkLogin && this.$store.state.roles.userIsSportsman"><a
-							class="mobile__link">{{ menu[1].titleSportsman }}</a>
-					</router-link>
-					<li @click="logout()"
-					    v-if="checkLogin"
-					    class="mobile__item mobile__item-hover mobile__link c-pointer">{{
-						menu[2].title }}
-					</li>
-					<li class="nav-item btn-user__mobile" v-if="!checkLogin">
-						<router-link tag="button" class="btn btn-primary btn-user" to="/auth">Log in</router-link>
-						<router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration</router-link>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
+    <div class="header__wrapper">
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item nav-item--logo">
+                    <router-link class="nav-link" to="/">
+                        <img v-if="checkLogin"
+                             :src="headerLogo.logoFederation"
+                             alt="logo" class="nav-logo--img">
+                        <img v-else
+                             :src="headerLogo.logoChampion"
+                             alt="logo"
+                             class="nav-logo--img">
+                    </router-link>
+                <li class="nav-item nav-item-contacts">
+                    <ul class="nav-list nav-list--sub">
+                        <li class="nav-item">
+                            <a v-if="checkLogin" :href="'tel:' + userObj.contact_telephone">Phone: {{
+                                userObj.contact_telephone }}</a>
+                            <a v-else href="tel:38067000001">Phone: +38067000001</a>
+                        </li>
+                        <li class="nav-item">
+                            <a v-if="checkLogin" :href="'mailto:' + userObj.contact_email">E-mail: {{
+                                userObj.contact_email }}</a>
+                            <a v-else href="mailto:admin@champion.com">E-mail: admin@champion.com</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item d-flex align-items-center nav-item-user" v-if="checkLogin">
+                    <div class="user">
+                        <div class="user__date">Valid until
+                            <time class="user__time">{{ userData.validUntil }}</time>
+                        </div>
+                        <div class="user__wrap">
+                            <div class="user__wrap-inner">
+                                <img src="img/user-photo.png" alt="User" class="user__photo">
+                                <div class="user__menu">
+                                    <div class="user__name">userName</div>
+                                    <ul class="user__menu-items">
+                                        <router-link tag="li" to="/federationcabinet" class="user__item btn btn-primary btn-user"
+                                                     v-if="this.role ==='federation'">
+                                            <a class="user__link">Cabinet</a></router-link>
+                                        <router-link tag="li" to="/coachcabinet"
+                                                     class="user__item btn btn-primary btn-user"
+                                                     v-else-if="this.role==='coach'">
+                                            <a class="user__link">Cabinet</a>
+                                        </router-link>
+                                        <router-link tag="li" to="/userprofile" class="user__item btn btn-primary btn-user"
+                                                     v-else-if="this.role==='sportsman'">
+                                            <a class="user__link">Profile</a>
+                                        </router-link>
+                                        <router-link tag="li" to="/settings"
+                                                     class="user__item btn btn-primary btn-user"
+                                                     v-if="this.role==='coach' || this.role==='sportsman'">
+                                            <a class="user__link">Settings</a>
+                                        </router-link>
+                                        <li @click="logout()" class="user__item c-pointer btn btn-primary btn-user">
+                                            <a class="user__link">Exit {{this.role}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item nav-item-logout" v-if="checkLogin">
+                    <button class="btn btn-primary btn-user" v-on:click="logout">Logout</button>
+                </li>
+                <li class="nav-item nav-item-buttons" v-else>
+                    <router-link tag="button" class="btn btn-primary btn-user" to="/auth">Log in</router-link>
+                    <router-link tag="button" class="btn btn-primary btn-user" to="/registration">Registration
+                    </router-link>
+                </li>
+                <!--<li class="nav-item nav-item-lang">-->
+                    <!--<ul class="list-group list-group-show">-->
+                        <!--<li class="list-group-item" :class="{'list-group-border-bottom': languages.selectedLang}"-->
+                            <!--@click="languages.activeClass = !languages.activeClass">{{-->
+                            <!--languages.selectedLang }}-->
+                        <!--</li>-->
+                        <!--<li class="list-group-item-display"-->
+                            <!--:class="{'list-group-item-display-show': languages.activeClass}">-->
+                            <!--<ul class="list-group list-group-border-none">-->
+                                <!--<li class="list-group-item"-->
+                                    <!--v-for="lang in languages.langList"-->
+                                    <!--:key="lang"-->
+                                    <!--v-if="lang !== languages.selectedLang"-->
+                                    <!--@click="[setActiveLang($event), languages.activeClass = !languages.activeClass]">-->
+                                    <!--{{ lang }}-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </nav>
+    </div>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+
 export default {
   name: "Header",
   data: function() {
@@ -195,10 +109,7 @@ export default {
         activeClass: false,
         activeClassMobile: false
       },
-      // contacts: {
-      //   phone: "+38067000001",
-      //   email: "example@example.com"
-      // },
+      role: "",
       userObj: {},
       userData: {
         id: "",
@@ -230,6 +141,27 @@ export default {
     };
   },
   methods: {
+    checkRole: function() {
+      // var role;
+      if (this.$store.state.authUser.federation_users.length !== 0) {
+        this.role = "federation";
+        window.console.log(this.role);
+        // return role;
+      } else if (this.$store.state.authUser.my_sportsmen_profile) {
+        if (
+          this.$store.state.authUser.my_sportsmen_profile
+            .federation_sportsmen[0].is_coach === true
+        ) {
+          this.role = "coach";
+          window.console.log(this.role);
+          // return role;
+        }
+      } else {
+        this.role = "sportsman";
+        window.console.log(this.role);
+        // return role;
+      }
+    },
     logout: function() {
       localStorage.removeItem("lbUser");
       this.$store.state.isLoggedIn = false;
@@ -239,60 +171,17 @@ export default {
       );
     },
     getUserId: function() {
-      if (localStorage.getItem("lbUser")) {
-        var userObj = this.$store.state.authUser;
-        axios
-          .get(
-            `https://champion-api.herokuapp.com/api/federation/${
-              userObj.federation_users[0].federation_id
-            }`
-          )
-          .then(response => {
-            // handle success
-            window.console.log(response);
-            if (response.status === 200) {
-              this.userObj = response.data;
-            }
-          })
-          .catch(function(error) {
-            // handle error
-            window.console.log(error);
-            return true;
-          });
-      }
-      return userObj;
+      window.console.log("getUserId");
     },
     setActiveLang(e) {
       this.languages.selectedLang = e.target.textContent.trim();
-    },
-    setActiveLangMobile(e) {
-      this.languages.selectedLang = e.target.textContent.trim();
-    },
-    showMobileNav() {
-      this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
-    },
-    // method for hiding mobile menu
-    mobileMenu(e) {
-      const logoClass = e.target.parentNode.parentNode.classList.contains(
-        "mobile__item-logo"
-      );
-      const listClass = e.target.parentNode.classList.contains(
-        "mobile__item-hover"
-      );
-      const logInClass = e.target.parentNode.classList.contains(
-        "btn-user__mobile"
-      );
-      const mobileExit = e.target.classList.contains("mobile__link");
-      if (logoClass || listClass || logInClass || mobileExit) {
-        this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
-        this.toggleClass.hamburger = !this.toggleClass.hamburger;
-      }
     }
   },
   computed: {
     checkLogin() {
       if (this.$store.state.isLoggedIn) {
         this.getUserId();
+        this.checkRole();
       }
       return this.$store.state.isLoggedIn;
     }
@@ -312,11 +201,8 @@ $bg-color: #343a40;
     #4286f4,
     #373b44
   ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #4286f4,
-    #373b44
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #4286f4, #373b44);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .c-pointer {
   cursor: pointer;
