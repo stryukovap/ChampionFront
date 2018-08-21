@@ -213,7 +213,7 @@ import citiesRussian from '../../assets/citiesRussian';
                             is_active: 1,
                             is_coach: this.role.is_coach,
                             is_referee: this.role.is_referee,
-                            belt: "belt"
+                            federation_belt_id: 5
                         })
                             .then(this.$emit('clicked'))
                             .catch(error => console.log(error.message));
@@ -229,7 +229,19 @@ import citiesRussian from '../../assets/citiesRussian';
                             coach_id: this.$store.state.authUser.my_profile_id,
                             master_coach: 0
                         })
-                            .then(this.$emit('clicked'))
+                            .then(response => {
+                                console.log(response.data);
+                                this.http.post('http://champion-api.herokuapp.com/api/federation-sportsman', {
+                                    sportsman_id: response.data.sportsman_id,
+                                    federation_id: this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id,
+                                    is_active: 1,
+                                    is_coach: 0,
+                                    is_referee: 0,
+                                    federation_belt_id: 78
+                                })
+                                    .then(this.$emit('clicked'))
+                                    .catch(error => console.log(error.message));
+                            })
                             .catch(error => console.log(error.message));
                     })
                     .catch(error => console.log(error.message));

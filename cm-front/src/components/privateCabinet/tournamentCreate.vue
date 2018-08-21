@@ -77,71 +77,101 @@
                                v-model="tournament.location">
                     </div>
                 </div>
+                <div class="cm-form__wrapper popup__wrapper row">
+                    <div class="col-2"><label for="location">Max participants</label></div>
+                    <div class="col-10">
+                        <input class="form-control" type="text" id="maxParticipants"
+                               placeholder="Max participants"
+                               autocomplete="off"
+                               v-model="tournament.maxParticipants">
+                    </div>
+                </div>
                 <div class="popup__title-wrapper row mt-3">
                     <h3 class="popup__title col-8 text-left">Categories</h3>
                     <div class="col-4 text-right">
                         <button class="btn btn-outline-success" @click.prevent="addNewCategory"
-                        >New category</button>
+                        >Add age category</button>
                     </div>
                 </div>
-                <div class="popup__title-wrapper container" style="display: flex;">
-                    <table class="cat">
-                        <tr class="cat__row"
-                            v-for="(category, key) in tournament.categories">
-                            <td class="cat__name-label"><span style="margin-right: 5px">Category</span></td>
-                            <td class="category__name">
-                                <input class="form-control" type="text" id="catName"
-                                       placeholder="Name"
-                                       autocomplete="off"
-                                       v-model="category.name">
-                            </td>
-                            <td class="cat__age-label"><span class="mr-1 ml-2">Age</span></td>
-                            <td class="cat__age-label">
-                                <label class="ml-3 mt-1" for="catAgeFrom">from</label>
-                                <label class="ml-3" for="catAgeTo">to</label>
-                            </td>
-                            <td class="category__name">
-                                <input class="form-control form-control-sm ml-2" id="catAgeFrom"
-                                       type="text"
-                                       placeholder="year"
-                                       autocomplete="off"
-                                       v-model="category.ageFrom">
-                                <input class="form-control form-control-sm ml-2 mt-1" id="catAgeTo"
-                                       type="text"
-                                       placeholder="year"
-                                       autocomplete="off"
-                                       v-model="category.ageTo">
-                            </td>
-                            <td class="cat__gender text-left" width="110px">
-                                <div class="col">
-                                    <input type="radio" name="gender" id="male"
-                                           checked
-                                           v-model="category.gender"
-                                           value="M">
-                                    <label style="margin-left: 5px" for="male"> Male</label>
+                <div class="popup__title-wrapper category-wrapper container mt-3"
+                     v-for="(category, key) in tournament.categories">
+                    <div class="form-group row">
+                        <label for="catName" class="col-2 col-form-label"> Category</label>
+                        <div class="col-2"><input class="form-control" type="text" id="catName"
+                                                  placeholder="Name"
+                                                  autocomplete="off"
+                                                  v-model="category.name">
+                        </div>
+                        <label for="catName" class="col-1 col-form-label">Age:</label>
+                        <label class="col-1 col-form-label" for="catAgeFrom">from</label>
+                        <div class="col-2">
+                            <input class="form-control" id="catAgeFrom"
+                                   type="text"
+                                   placeholder="year"
+                                   autocomplete="off"
+                                   v-model="category.ageFrom">
+                        </div>
+                        <label class="col-1 col-form-label" for="catAgeTo">to</label>
+                        <div class="col-2">
+                            <input class="form-control" id="catAgeTo"
+                                   type="text"
+                                   placeholder="year"
+                                   autocomplete="off"
+                                   v-model="category.ageTo">
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-outline-danger"
+                                    @click.prevent="removeCategory(key)"><b>X</b></button>
+                        </div>
+                    </div>
+                    <div class="cat__row row mt-3">
+                        <div class="col-12">
+                            <div class="row">
+                                <span class="col-8 mr-1 ml-2">Male:</span>
+                                <button class="btn btn-sm btn-outline-success ml-2"
+                                        @click.prevent="addWeightCategory(key, 'male')">
+                                    Add weight category
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div v-model="category.male" class="col-3 mt-2" v-for="(weightCategory, weightKey) in category.male">
+                                    <input class="form-control form-control-sm col-6" type="text"
+                                           style="display: inline;"
+                                           placeholder="weight"
+                                           autocomplete="off"
+                                           v-model="weightCategory.weight">
+                                    <button class="btn btn-sm btn-outline-danger ml-2"
+                                            @click.prevent="removeWeightCategory(key, 'male', weightKey)">
+                                        <b>X</b>
+                                    </button>
                                 </div>
-                                <div class="col">
-                                    <input type="radio" name="gender" id="female"
-                                           v-model="category.gender"
-                                           value="F">
-                                    <label style="margin-left: 5px" for="female"> Female</label>
-                                </div>
-                            </td>
-                            <td class="cat__weight">
-                                <span class="mr-1">Weight</span>
-                            </td>
-                            <td class="cat__WeightNum" width="80px">
-                                <input class="form-control" type="text" id="weight"
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cat__row row mt-3">
+                        <div class="col-12">
+                            <div class="row mb-2">
+                                <span class="col-8 mr-1 ml-2">Female:</span>
+                                <button class="btn btn-sm btn-outline-success ml-2"
+                                        @click.prevent="addWeightCategory(key, 'female')">
+                                    Add weight category
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 mb-2" v-for="(weightCategory, weightKey) in category.female">
+                                <input class="form-control form-control-sm col-6" type="text"
+                                       style="display: inline;"
                                        placeholder="weight"
                                        autocomplete="off"
-                                       v-model="category.weight">
-                            </td>
-                            <td class="cat__add">
-                                <button class="btn btn-outline-danger ml-2"
-                                        @click.prevent="removeCategory(key)"><b>X</b></button>
-                            </td>
-                        </tr>
-                    </table>
+                                       v-model="weightCategory.weight">
+                                <button class="btn btn-sm btn-outline-danger ml-2"
+                                        @click.prevent="removeWeightCategory(key, 'female', weightKey)">
+                                    <b>X</b>
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="popup__title-wrapper row mt-3">
                     <h3 class="popup__title col text-left">Referees</h3>
@@ -210,19 +240,18 @@
                     },
                     quantityRings: '',
                     location: '',
-                    categories: [
-                        {
-                            name: '',
-                            ageFrom: '',
-                            ageTo: '',
-                            gender: '',
-                            weight: ''
-                        }
-                    ],
+                    maxParticipants: '',
+                    categories: [],
                     referees: []
                 },
                 options : [],
                 value: [],
+                http: axios.create({
+                    headers: {
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
+                    }
+                })
             }
         },
         mounted() {
@@ -236,21 +265,46 @@
                     if ( response.status === 200 ) {
                         this.options = response.data.data;
                     }
-                })
-                .catch(error => window.console.log(error));
+                }).catch(error => window.console.log(error));
         },
         methods: {
             addNewCategory() {
+                if (this.tournament.hasOwnProperty('categories') === false) {
+                    this.$set(this.tournament, 'categories', []);
+                }
                 this.tournament.categories.push({
                     name: '',
                     ageFrom: '',
                     ageTo: '',
-                    gender: '',
-                    weight: ''
+                    male: [],
+                    female: []
                 });
             },
             removeCategory(key) {
                 this.tournament.categories.splice(key, 1);
+            },
+            addWeightCategory(key, gender) {
+                const weightCategory = {
+                    weight: ''
+                };
+                if (gender === 'male' ) {
+                    if (this.tournament.categories[key].hasOwnProperty('male') === false) {
+                        this.$set(this.tournament.categories[key], 'male', []);
+                    }
+                    this.tournament.categories[key].male.push(weightCategory);
+                } else if (gender === 'female') {
+                    if (this.tournament.categories[key].hasOwnProperty('female') === false) {
+                        this.$set(this.tournament.categories[key], 'female', []);
+                    }
+                    this.tournament.categories[key].female.push(weightCategory);
+                }
+            },
+            removeWeightCategory(key, gender, weightKey) {
+                if (gender === 'male') {
+                    this.tournament.categories[key].male.splice(weightKey, 1);
+                } else if (gender === 'female') {
+                    this.tournament.categories[key].female.splice(weightKey, 1);
+                }
             },
             async createTournament() {
                 this.tournament.referees = this.value;
@@ -315,9 +369,9 @@
         }
     }
 
-    .cat__row {
+    .category-wrapper {
         border-bottom: 1px solid #dee2e6;
-        height: 100px;
+        /*height: 100px;*/
     }
 
     .custom__tag {

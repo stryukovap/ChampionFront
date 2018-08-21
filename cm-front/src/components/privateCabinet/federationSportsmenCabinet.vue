@@ -56,7 +56,7 @@
                                     :value="item.id" >
                         </td>
                         <td>{{item.first_name}} {{item.last_name}}</td>
-                        <td>{{item.patronymic_name}}</td>
+                        <td></td>
                         <td>{{item.city}}</td>
                         <td>
                             <input @click="toggleActive(item.id)"

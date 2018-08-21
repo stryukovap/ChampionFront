@@ -5,6 +5,7 @@
                 <div class="col-12 text-right">
                     <button class="btn btn-outline-success"
                             @click="createTournament"
+                            v-if="createButtonShow"
                             type="submit">Create</button>
                 </div>
             </div>
@@ -52,13 +53,19 @@
             return {
                 tournamentsShow: true,
                 tournamentPageShow: false,
+                createButtonShow: true,
                 modalShow: false,
                 tournamentKey: '',
                 federationId: ''
             };
         },
         beforeMount() {
-            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+            if (this.$store.state.authUser.federation_users.length !== 0) {
+                this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+            } else {
+                this.federationId = this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id;
+                this.createButtonShow = false;
+            }
         },
         async mounted() {
             try {

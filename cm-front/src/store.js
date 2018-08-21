@@ -63,7 +63,7 @@ export default new Vuex.Store({
                 last_name: "",
                 patronymic_name: "",
                 gender: "",
-                date_of_birth: "2018-07-10",
+                date_of_birth: "1997-07-10",
                 degree: "",
                 weight: "",
                 city: "",
