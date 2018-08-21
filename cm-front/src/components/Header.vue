@@ -21,44 +21,15 @@
 						     alt="logo"
 						     class="nav-logo--img">
 					</router-link>
-				<!--</li>-->
-				<!--<li class="nav-item checkboxes">-->
-					<!--<div class="form-check form-check-inline">-->
-						<!--<label class="form-check-label text-white">-->
-							<!--<input class="form-check-input"-->
-							       <!--type="radio" name="role"-->
-							       <!--@input="setRole($event)"-->
-							       <!--value="userIsSportsman"-->
-							       <!--:checked="this.$store.state.roles.userIsSportsman"> Sportsman-->
-						<!--</label>-->
-					<!--</div>-->
-					<!--<div class="form-check form-check-inline">-->
-						<!--<label class="form-check-label text-white">-->
-							<!--<input class="form-check-input"-->
-							       <!--type="radio" name="role"-->
-							       <!--@input="setRole($event)"-->
-							       <!--value="userIsCoach"-->
-							       <!--:checked="this.$store.state.roles.userIsCoach"> Coach-->
-						<!--</label>-->
-					<!--</div>-->
-					<!--<div class="form-check form-check-inline">-->
-						<!--<label class="form-check-label text-white">-->
-							<!--<input class="form-check-input"-->
-							       <!--type="radio" name="role"-->
-							       <!--@input="setRole($event)"-->
-							       <!--value="userIsFederation"-->
-							       <!--:checked="this.$store.state.roles.userIsFederation"> Federation-->
-						<!--</label>-->
-					<!--</div>-->
-				<!--</li>-->
-				<!-- Checkboxes with roles END -->
 				<li class="nav-item nav-item-contacts">
 					<ul class="nav-list nav-list--sub">
 						<li class="nav-item">
-							<a :href="'tel:' + contacts.phone">Phone: {{ contacts.phone }}</a>
+							<a v-if="checkLogin" :href="'tel:' + userObj.contact_telephone">Phone: {{ userObj.contact_telephone }}</a>
+							<a v-else :href="'tel:' +38067000001">Phone: +38067000001</a>
 						</li>
 						<li class="nav-item">
-							<a :href="'mailto:' + contacts.email">E-mail: {{ contacts.email }}</a>
+							<a v-if="checkLogin" :href="'mailto:' + userObj.contact_email">E-mail: {{ userObj.contact_email }}</a>
+							<a v-else :href="'mailto:'+ 'admin@champion.com'">E-mail: admin@champion.com</a>
 						</li>
 					</ul>
 				</li>
@@ -213,9 +184,10 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Header",
-  data() {
+  data: function() {
     return {
       languages: {
         selectedLang: "en",
@@ -223,10 +195,11 @@ export default {
         activeClass: false,
         activeClassMobile: false
       },
-      contacts: {
-        phone: "+38067000001",
-        email: "example@example.com"
-      },
+      // contacts: {
+      //   phone: "+38067000001",
+      //   email: "example@example.com"
+      // },
+      userObj: {},
       userData: {
         id: "",
         validUntil: "10.10.2020",
@@ -265,11 +238,29 @@ export default {
         "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
       );
     },
-    getUserId() {
+    getUserId: function() {
       if (localStorage.getItem("lbUser")) {
-        const userObj = this.$store.state.authUser;
-        this.userData.id = userObj.id;
+        var userObj = this.$store.state.authUser;
+        axios
+          .get(
+            `https://champion-api.herokuapp.com/api/federation/${
+              userObj.federation_users[0].federation_id
+            }`
+          )
+          .then(response => {
+            // handle success
+            window.console.log(response);
+            if (response.status === 200) {
+              this.userObj = response.data;
+            }
+          })
+          .catch(function(error) {
+            // handle error
+            window.console.log(error);
+            return true;
+          });
       }
+      return userObj;
     },
     setActiveLang(e) {
       this.languages.selectedLang = e.target.textContent.trim();
@@ -277,18 +268,6 @@ export default {
     setActiveLangMobile(e) {
       this.languages.selectedLang = e.target.textContent.trim();
     },
-    // set user's role with radio button
-    // setRole(e) {
-    //   let role = e.target.value;
-    //   console.log(role);
-    //   let roles = this.$store.state.roles;
-    //   for (let key in roles) {
-    //     roles[key] = false;
-    //     if (role) {
-    //       roles[role] = true;
-    //     }
-    //   }
-    // },
     showMobileNav() {
       this.toggleClass.mobileMenu = !this.toggleClass.mobileMenu;
     },

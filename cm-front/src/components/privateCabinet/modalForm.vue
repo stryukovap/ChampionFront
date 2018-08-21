@@ -222,7 +222,7 @@ export default {
                 is_active: 1,
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
-                belt: "belt"
+                belt: null
               }
             )
             .then(this.$emit("clicked"))

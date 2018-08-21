@@ -446,7 +446,7 @@ export default {
               })
               .catch(function(error) {
                 // handle error
-                window.console.log(error);
+                // window.console.log(error);
                 return true;
               })
           );
@@ -542,7 +542,7 @@ export default {
         patronymic_name: this.sportsman.patronymic,
         gender: this.sportsman.gender,
         date_of_birth: this.sportsman.dateOfBirth,
-        federation_sportsmen: this.sportsman.federation
+        federation_id: this.sportsman.federation
       })
         .then(function(response) {
           window.console.log(response);
