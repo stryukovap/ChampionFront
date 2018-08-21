@@ -98,7 +98,7 @@ export default {
               "lbUser",
               JSON.stringify(this.$store.state.authUser)
             );
-            this.$router.push("/settings");
+            this.$router.push("/");
           } else {
             this.$store.state.isLoggedIn = false;
             window.console.log(

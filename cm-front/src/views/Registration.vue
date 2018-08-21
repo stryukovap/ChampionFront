@@ -78,8 +78,8 @@
                                        v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error  || testInitPassword}"
-                                       @click="sendUserDataOnServer">Next</a>
+                                       $v.user.passwordConfirm.$error  || testInitPassword}">Next</a>
+                                       <!--@click="sendUserDataOnServer">Next</a>-->
                                     <!--<div>{{$v.user.email.$error}}</div>-->
                                     <!--<div>{{$v.user.password.$error}}</div>-->
                                     <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
@@ -446,7 +446,7 @@ export default {
               })
               .catch(function(error) {
                 // handle error
-                // window.console.log(error);
+                window.console.log(error);
                 return true;
               })
           );
@@ -531,6 +531,7 @@ export default {
     },
     sendSportsmanDataOnServer: function() {
       window.console.log(this.sportsman);
+      this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token
@@ -553,6 +554,7 @@ export default {
     },
     sendFederationDataOnServer: function() {
       window.console.log(this.federation);
+      this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token
