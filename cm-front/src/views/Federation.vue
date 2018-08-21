@@ -6,7 +6,8 @@
           <news v-bind:newsList="newsList" class="col-lg-3"></news>
         </div>
       </div>
-      <sportsmen v-bind:sportsmenList="sportsmenList"></sportsmen>
+      <!-- <sportsmen v-bind:sportsmenList="sportsmenList"></sportsmen> -->
+      <sportsmen></sportsmen>
     </div>
 </template>
 <script>
@@ -25,26 +26,41 @@ export default {
   data: function() {
     return {
       newsList: [],
-      sportsmenList: [],
+      // sportsmenList: [],
       tournamentsList: []
     };
   },
   async mounted() {
     axios
       .get(
-        "https://champion-api.herokuapp.com/api/federation/" +
-          this.$route.params.id
+        // "https://champion-api.herokuapp.com/api/federation/" +
+        "http://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/6"
+          // this.$route.params.id
       )
       .then(response => {
-        for (let i = 0; i < response.data.sportsmen.length; i++) {
-          this.sportsmenList.push({
-            name: response.data.sportsmen[i].name,
-            role: response.data.sportsmen[i].role,
-            avatar: response.data.sportsmen[i].ava,
-            dan: response.data.sportsmen[i].rank,
-            link: response.data.sportsmen[i].link
-          });
-        }
+        // window.console.log(response.data.data)
+        // for (let i = 0; i < response.data.data.length; i++) {
+        //   window.console.log(response.data.data[i])
+        //   this.sportsmenList.push({
+        //     name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
+        //     role: "coach",
+        //     belt: "../img/pos.png",
+        //     dan: 3,
+        //     link: "#",
+        //     avatar: "../img/user-photo.PNG"
+        //   });
+        // }
+      // .then(response => {
+      //   window.console.log(response.data.data)
+      //   for (let i = 0; i < response.data.sportsmen.length; i++) {
+      //     this.sportsmenList.push({
+      //       name: response.data.sportsmen[i].name,
+      //       role: response.data.sportsmen[i].role,
+      //       avatar: response.data.sportsmen[i].ava,
+      //       dan: response.data.sportsmen[i].rank,
+      //       link: response.data.sportsmen[i].link
+      //     });
+      //   }
         // for (let i = 0; i < response.data.news.length; i++) {
         //   this.newsList.push({
         //     name: response.data.news[i].name
@@ -58,16 +74,16 @@ export default {
       })
       .catch(error => {
         window.console.log(error);
-        for (let i = 0; i < 10; i++) {
-          this.sportsmenList.push({
-            avatar: "../img/user-photo.PNG",
-            name: "sp1",
-            role: "coach",
-            belt: "../img/pos.png",
-            dan: 3,
-            link: "#"
-          });
-        }
+        // for (let i = 0; i < 10; i++) {
+        //   this.sportsmenList.push({
+        //     avatar: "../img/user-photo.PNG",
+        //     name: "sp1",
+        //     role: "coach",
+        //     belt: "../img/pos.png",
+        //     dan: 3,
+        //     link: "#"
+        //   });
+        // }
         // for (let i = 0; i < 5; i++) {
         //   this.newsList.push({
         //     name: "post name",
