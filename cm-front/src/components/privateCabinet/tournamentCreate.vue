@@ -241,6 +241,8 @@
                     quantityRings: '',
                     location: '',
                     maxParticipants: '',
+                    isStarted: false,
+                    isFinished: false,
                     categories: [],
                     referees: []
                 },

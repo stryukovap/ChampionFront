@@ -88,7 +88,6 @@
         },
         mounted() {
             this.coach_id = this.$store.state.authUser.my_profile_id;
-            // axios.get(`https://champion-api.herokuapp.com/api/sportsman/list`)
             axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-coach/${this.coach_id}`)
                 .then(response => {
                     this.$store.commit('setSportsmanList', response.data);

@@ -69,14 +69,16 @@
                         <input
                                 class="form-control mr-sm-2"
                                 type="search"
-                                placeholder="Enter name"
+                                placeholder="Search participant"
                                 aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </nav>
             </div>
             <div class="col-1">
-                <button type="button" @click.prevent="addSportsmen" class="btn btn-success">Add</button>
+                <button type="button"
+                        @click.prevent="addSportsmen"
+                        :disabled="tournament.isStarted == 1"
+                        class="btn btn-success">Add</button>
             </div>
         </div>
 
@@ -97,12 +99,14 @@
                         <button type="button"
                                 v-if="item.isPermit === false"
                                 class="btn btn-outline-success btn-sm"
-                                @click.prevent="permitParticipation(item, key)">Submit</button>
+                                @click.prevent="permitParticipation(item, key)"
+                                :disabled="tournament.isStarted == 1">Submit</button>
                     </td>
                     <td class="col-1 text-left">
                         <button type="button"
                                 class="btn btn-outline-success btn-sm"
-                                @click.prevent="removeSportsman(key)">Delete</button>
+                                @click.prevent="removeSportsman(key)"
+                                :disabled="tournament.isStarted == 1">Delete</button>
                     </td>
                 </tr>
                 </tbody>
