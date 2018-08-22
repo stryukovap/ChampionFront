@@ -9,7 +9,6 @@
     <div class="row">
       <div class="col-sm-6 col-md-3 col-lg-2"
         v-for='(sportsman, index) in sportsmenList'
-        v-if='index < 6 || isAllSportsmenShown'
         :key='sportsman.index'>
         <a v-bind:href="sportsman.link" class="text-secondary">
           <div class="thumbnail">
@@ -20,9 +19,28 @@
         </a>
       </div>
     </div>
-    <div class="text-right">
-      <a v-on:click.prevent="togleSportsmenState" href="#">{{ linkText }}</a>
-    </div>
+    <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item"
+        v-bind:class="{ 'disabled': pagination.currentPage === 1 }"
+        @click="updateSportsmen(pagination.currentPage - 1)"
+      >
+        <a class="page-link" href="#" tabindex="-1">Previous</a>
+      </li>
+      <li v-for="page in pagination.pages" class="page-item"
+        v-bind:class="{ 'active': pagination.currentPage === page }"
+        @click="updateSportsmen(page)"
+      >
+        <span class="page-link">{{page}}</span>
+      </li>
+      <li class="page-item"
+        v-bind:class="{ 'disabled': pagination.currentPage ===  pagination.pages}"
+        @click="updateSportsmen(pagination.currentPage + 1)"
+      >
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
   </div>
 </div>
 </template>
@@ -30,22 +48,47 @@
 import axios from "axios";
 export default {
   name: "sportsmen",
-  props: ["sportsmenList"],
   data: function() {
     return {
-      isAllSportsmenShown: false
+      sportsmenList: [],
+      pagination: {
+        currentPage: 1
+      }
     };
   },
-  methods: {
-    togleSportsmenState() {
-      this.isAllSportsmenShown = !this.isAllSportsmenShown;
-    }
+  mounted() {
+    this.updateSportsmen("");
+    this.pagination.pages = 2;
+    this.pagination.currentPage = 1;
   },
-  computed: {
-    linkText: function() {
-      return this.isAllSportsmenShown ? "Less..." : "More...";
+  methods: {
+    updateSportsmen(page) {
+      if(page !== 0 && page !== this.pagination.pages + 1) this.pagination.currentPage = page;
+
+      axios
+      .get(
+        "http://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/12?page=" + page
+      )
+      .then(response => {
+        for (let i = 0; i < response.data.data.length; i++) {
+          window.console.log(response.data.data[i])
+          if(page !== "") this.sportsmenList.shift();
+          this.sportsmenList.push({
+            name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
+            role: "coach",
+            belt: "../img/pos.png",
+            dan: 3,
+            link: "#",
+            avatar: "../img/user-photo.PNG"
+          });
+        }
+      })
+      .catch(error => {
+        window.console.log(error);
+      })
     }
-  }
+
+  },
 };
 </script>
 <style>
