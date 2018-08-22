@@ -57,30 +57,13 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get(
-        "http://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/12"
-      )
-      .then(response => {
-        for (let i = 0; i < response.data.data.length; i++) {
-          this.sportsmenList.push({
-            name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
-            role: "coach",
-            belt: "../img/pos.png",
-            dan: 3,
-            link: "#",
-            avatar: "../img/user-photo.PNG"
-          });
-        }
-        this.pagination.pages = response.data.last_page;
-      })
-      .catch(error => {
-        window.console.log(error);
-      })
+    this.updateSportsmen("");
+    this.pagination.pages = 2;
+    this.pagination.currentPage = 1;
   },
   methods: {
     updateSportsmen(page) {
-      if(page !== 0 && page !== this.pagination.pages +1) this.pagination.currentPage = page;
+      if(page !== 0 && page !== this.pagination.pages + 1) this.pagination.currentPage = page;
 
       axios
       .get(
@@ -89,7 +72,7 @@ export default {
       .then(response => {
         for (let i = 0; i < response.data.data.length; i++) {
           window.console.log(response.data.data[i])
-          this.sportsmenList.shift();
+          if(page !== "") this.sportsmenList.shift();
           this.sportsmenList.push({
             name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
             role: "coach",
