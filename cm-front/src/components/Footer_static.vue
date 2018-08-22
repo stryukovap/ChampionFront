@@ -28,7 +28,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../../node_modules/bootstrap/scss/bootstrap";
+/*@import "../../node_modules/bootstrap/scss/bootstrap";*/
 
 body {
   text-align: center;
@@ -53,9 +53,9 @@ footer {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .nav-link {
-  background-image: url(../assets/logo.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
+  /*background-image: url(../assets/logo.png);*/
+  /*background-size: contain;*/
+  /*background-repeat: no-repeat;*/
+  /*background-position: center center;*/
 }
 </style>

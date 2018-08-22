@@ -78,8 +78,8 @@
                                        v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error  || testInitPassword}"
-                                       @click="sendUserDataOnServer">Next</a>
+                                       $v.user.passwordConfirm.$error  || testInitPassword}">Next</a>
+                                       <!--@click="sendUserDataOnServer">Next</a>-->
                                     <!--<div>{{$v.user.email.$error}}</div>-->
                                     <!--<div>{{$v.user.password.$error}}</div>-->
                                     <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
@@ -517,6 +517,11 @@ export default {
               JSON.stringify(this.$store.state.authUser)
             );
             // this.$router.push("/");
+            if (this.userSportsman === true) {
+              this.sendSportsmanDataOnServer();
+            } else {
+              this.sendFederationDataOnServer();
+            }
           } else {
             this.$store.state.isLoggedIn = false;
             window.console.log(
@@ -531,6 +536,7 @@ export default {
     },
     sendSportsmanDataOnServer: function() {
       window.console.log(this.sportsman);
+      // this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token
@@ -542,7 +548,7 @@ export default {
         patronymic_name: this.sportsman.patronymic,
         gender: this.sportsman.gender,
         date_of_birth: this.sportsman.dateOfBirth,
-        federation_sportsmen: this.sportsman.federation
+        federation_id: this.sportsman.federation
       })
         .then(function(response) {
           window.console.log(response);
@@ -553,6 +559,7 @@ export default {
     },
     sendFederationDataOnServer: function() {
       window.console.log(this.federation);
+      this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token

@@ -10,7 +10,7 @@
     </div>
 </template>
 <!--<style scoped lang="scss">-->
-<style lang="scss">
+<style scoped lang="scss">
 .card {
   margin: 25px 0;
   text-align: center;

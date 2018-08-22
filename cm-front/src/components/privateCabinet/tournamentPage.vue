@@ -46,6 +46,7 @@
                         Weight - {{category.weight}}
                     </div>
                 </div>
+
             </Tab>
             <Tab name="Participants">
                 <div class="row mt-2">
