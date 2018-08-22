@@ -30,10 +30,30 @@ export default new Vuex.Store({
       city: "",
       coaches: ""
     },
-    roles: {
-      userIsSportsman: false,
-      userIsCoach: false,
-      userIsFederation: true
+    roles: {},
+    federationInfo: {
+      id: 62,
+      name: "front end",
+      president_name: "notebook",
+      logo_id: null,
+      sub_domain: "end",
+      contact_telephone: "+122223333333",
+      contact_email: "stryukovap1981@gmail.com",
+      sport_id: 2,
+      is_active: 0,
+      created_at: "2018-08-06T12:39:43+00:00",
+      updated_at: "2018-08-06T12:39:43+00:00",
+      belts: [
+        {
+          id: 21,
+          name: "1 DAN",
+          federation_id: 62,
+          icon_id: null,
+          created_at: null,
+          updated_at: null
+        }
+      ],
+      logo: null
     },
     tournamentsList: []
   },

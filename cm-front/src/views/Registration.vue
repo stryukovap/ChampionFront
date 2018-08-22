@@ -517,6 +517,11 @@ export default {
               JSON.stringify(this.$store.state.authUser)
             );
             // this.$router.push("/");
+            if (this.userSportsman === true) {
+              this.sendSportsmanDataOnServer();
+            } else {
+              this.sendFederationDataOnServer();
+            }
           } else {
             this.$store.state.isLoggedIn = false;
             window.console.log(
@@ -531,7 +536,7 @@ export default {
     },
     sendSportsmanDataOnServer: function() {
       window.console.log(this.sportsman);
-      this.sendUserDataOnServer();
+      // this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token

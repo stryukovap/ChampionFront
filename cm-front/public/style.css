@@ -1,3 +1,6 @@
-body,a{
+*{
+    font-family: 'Nova Square', cursive;
+}
+a{
     font-family: 'Roboto', sans-serif;
 }
