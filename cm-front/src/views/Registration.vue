@@ -256,7 +256,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            @click="sendSportsmanDataOnServer">Registration sportsman
+                                            @click="sendUserDataOnServer">Registration sportsman
                                     </button>
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            @click="sendFederationDataOnServer">Registration federation
+                                            @click="sendUserDataOnServer">Registration federation
                                     </button>
                                 </div>
                             </div>
@@ -498,7 +498,7 @@ export default {
     sendUserDataOnServer: function() {
       window.console.log(this.user);
       axios
-        .post(this.$store.state.postRegistrationUserUrl, {
+        .post("https://champion-api.herokuapp.com/api/user", {
           email: this.user.email,
           password: this.user.password,
           password_confirmation: this.user.passwordConfirm
@@ -507,19 +507,27 @@ export default {
           window.console.log("response.status " + response.status);
           if (response.status === 201) {
             this.$store.state.authUser = response.data;
+            this.authUser = response.data;
+            window.console.log(this.authUser);
             window.console.log("response.status " + response.data);
-            this.$store.state.isLoggedIn = true;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
             window.localStorage.setItem(
               "lbUser",
               JSON.stringify(this.$store.state.authUser)
             );
+            this.$store.state.isLoggedIn = true;
+            window.console.log(
+              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            );
             // this.$router.push("/");
-            if (this.userSportsman === true) {
+            if (
+              this.userSportsman === true &&
+              this.$store.state.isLoggedIn === true && this.authUser
+            ) {
               this.sendSportsmanDataOnServer();
-            } else {
+            } else if (
+              this.userSportsman === false &&
+              this.$store.state.isLoggedIn === true && this.authUser
+            ) {
               this.sendFederationDataOnServer();
             }
           } else {
@@ -536,10 +544,11 @@ export default {
     },
     sendSportsmanDataOnServer: function() {
       window.console.log(this.sportsman);
+      window.console.log(this.authUser.auth_token);
       // this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
+          Authorization: "Bearer " + this.authUser.auth_token
         }
       });
       HTTP.post(this.$store.state.postSportsman, {
@@ -559,10 +568,10 @@ export default {
     },
     sendFederationDataOnServer: function() {
       window.console.log(this.federation);
-      this.sendUserDataOnServer();
+      // this.sendUserDataOnServer();
       var HTTP = axios.create({
         headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
+          Authorization: "Bearer " + this.authUser.auth_token
         }
       });
       HTTP.post("https://champion-api.herokuapp.com/api/federations", {

@@ -13,7 +13,7 @@ export default new Vuex.Store({
     postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
     deleteSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
     getSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
-    postSportsman: "http://champion-api.herokuapp.com/api/sportsman",
+    postSportsman: "https://champion-api.herokuapp.com/api/sportsman",
     getEmailValidation:
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
