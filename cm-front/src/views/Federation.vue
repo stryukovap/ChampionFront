@@ -34,7 +34,7 @@ export default {
     axios
       .get(
         // "https://champion-api.herokuapp.com/api/federation/" +
-        "http://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/6"
+        "https://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/6"
           // this.$route.params.id
       )
       .then(response => {

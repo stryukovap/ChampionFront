@@ -291,7 +291,7 @@
             deactivateSelected() {
                 this.$store.state.selectedSportsmen.map(id => {
                     this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 0;
-                    return this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
+                    return this.http.post(`https://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
                         _method: "put",
                         sportsman_id: id,
                         federation_id: this.federationId,
