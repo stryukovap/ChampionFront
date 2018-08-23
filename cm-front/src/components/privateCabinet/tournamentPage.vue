@@ -7,14 +7,25 @@
         </div>
         <div class="row text-left mt-3 mb-3">
             <div class="col-6">
-                <h2 class="title">{{tournament.name}}</h2>
+                <h2 class="title">{{tournament.name}}
+                    <span v-if="tournament.isStarted && !tournament.isFinished" class="badge badge-success">Started</span>
+                    <span v-if="tournament.isFinished" class="badge badge-danger">Finished</span>
+                </h2>
             </div>
-            <div class="col-4">
-                <button class="col btn btn-success pl-4 pr-4">Start</button>
+            <div class="col-2">
+                <button @click="startTournament"
+                        :disabled="tournament.isStarted == 1"
+                        class="col btn btn-success pl-4 pr-4">Start</button>
+            </div>
+            <div class="col-2">
+                <button @click="finishTournament"
+                        :disabled="tournament.isStarted == 0 || tournament.isFinished == 1"
+                        class="col btn btn-success pl-4 pr-4">Finish</button>
             </div>
             <div class="col-2 text-right">
                 <button
                         @click.prevent="editTournament"
+                        :disabled="tournament.isStarted == 1"
                         v-if="editButtonShow"
                         class="btn btn-outline-success">Edit</button>
             </div>
@@ -47,7 +58,8 @@
             </Tab>
             <Tab name="Participants">
                 <participants v-bind:tournament-key="tournamentKey"
-                              v-bind:federation-id="federationId"></participants>
+                              v-bind:federation-id="federationId"
+                ></participants>
             </Tab>
         </Tabs>
         <tournament-create
@@ -108,6 +120,58 @@
                 try {
                     const fbObj = await firebase.database().ref(this.federationId).once('value');
                     this.$store.commit('setTournamentsList', fbObj.val());
+                } catch (error) {
+                    throw error;
+                }
+            },
+            async startTournament() {
+                this.tournament.referees.map(referee => {
+                    referee.federation_sportsmen[0].is_referee = 1;
+                    return this.http
+                        .post(`http://champion-api.herokuapp.com/api/federation-sportsman/${referee.federation_sportsmen[0].id}`, {
+                        _method: "put",
+                        sportsman_id: referee.id,
+                        federation_id: this.federationId,
+                        is_active: referee.federation_sportsmen[0].is_active,
+                        is_coach: referee.federation_sportsmen[0].is_coach,
+                        is_referee: referee.federation_sportsmen[0].is_referee
+                    })
+                        .then(response => console.log(response.data))
+                        .catch(error => console.log(error));
+                });
+                this.tournament.isStarted = true;
+                try {
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .update({'isStarted': this.tournament.isStarted});
+                } catch (error) {
+                    throw error;
+                }
+            },
+            async finishTournament() {
+                this.tournament.referees.map(referee => {
+                    referee.federation_sportsmen[0].is_referee = 0;
+                    return this.http
+                        .post(`http://champion-api.herokuapp.com/api/federation-sportsman/${referee.federation_sportsmen[0].id}`, {
+                            _method: "put",
+                            sportsman_id: referee.id,
+                            federation_id: this.federationId,
+                            is_active: referee.federation_sportsmen[0].is_active,
+                            is_coach: referee.federation_sportsmen[0].is_coach,
+                            is_referee: referee.federation_sportsmen[0].is_referee
+                        })
+                        .then(response => console.log(response.data))
+                        .catch(error => console.log(error));
+                });
+               this.tournament.isFinished = true;
+                try {
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .update({'isFinished': this.tournament.isFinished});
                 } catch (error) {
                     throw error;
                 }
