@@ -52,13 +52,14 @@ export default {
     return {
       sportsmenList: [],
       pagination: {
-        currentPage: 1
+        currentPage: 1,
+        pages: 0
       }
     };
   },
   mounted() {
     this.updateSportsmen("");
-    this.pagination.pages = 2;
+    
     this.pagination.currentPage = 1;
   },
   methods: {
@@ -71,7 +72,6 @@ export default {
       )
       .then(response => {
         for (let i = 0; i < response.data.data.length; i++) {
-          window.console.log(response.data.data[i])
           if(page !== "") this.sportsmenList.shift();
           this.sportsmenList.push({
             name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
@@ -82,6 +82,7 @@ export default {
             avatar: "../img/user-photo.PNG"
           });
         }
+        this.pagination.pages = response.data.last_page;
       })
       .catch(error => {
         window.console.log(error);
