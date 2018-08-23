@@ -31,6 +31,7 @@ export default new Vuex.Store({
       city: "",
       coaches: ""
     },
+    // <<<<<<< HEAD
     roles: {},
     federationInfo: {
       id: 62,
@@ -52,6 +53,9 @@ export default new Vuex.Store({
           icon_id: null,
           created_at: null,
           updated_at: null
+          // =======
+
+          // >>>>>>> feature/tournaments-categories
         }
       ],
       logo: null
@@ -59,20 +63,17 @@ export default new Vuex.Store({
     tournamentsList: []
   },
   getters: {
-    getFilteredSportsmenList: (state) => (search) => {
+    getFilteredSportsmenList: state => search => {
       return state.sportsmenList.filter(sportsman => {
         return (
-            sportsman.first_name.toLowerCase().includes(search.toLowerCase()) || 
-            sportsman.last_name.toLowerCase().includes(search.toLowerCase()) || 
-            sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
-        )
-      })
+          sportsman.first_name.toLowerCase().includes(search.toLowerCase()) ||
+          sportsman.last_name.toLowerCase().includes(search.toLowerCase()) ||
+          sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
+        );
+      });
     }
   },
   mutations: {
-    setSportsmenList(state, sportsmenList) {
-      state.sportsmenList = sportsmenList;
-    },
     setSportsmanList(state, sportsmanList) {
       state.sportsmanList = sportsmanList.reduce(
         (acc, sportsman) => ({
@@ -82,7 +83,7 @@ export default new Vuex.Store({
         {}
       );
       state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
-      console.log(state.sportsmanList);
+      window.console.log(state.sportsmanList);
     },
     setSelectedSportsmen(state) {
       state.selectedSportsmen = state.sportsmanIds;
@@ -110,8 +111,10 @@ export default new Vuex.Store({
     },
     setTournamentsList(state, tournamentsList) {
       state.tournamentsList = tournamentsList;
-      console.log(state.tournamentsList);
+      window.console.log(state.tournamentsList);
     }
   },
+  // },
+
   actions: {}
 });

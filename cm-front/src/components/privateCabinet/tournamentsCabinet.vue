@@ -5,6 +5,7 @@
                 <div class="col-12 text-right">
                     <button class="btn btn-outline-success"
                             @click="createTournament"
+                            v-if="createButtonShow"
                             type="submit">Create</button>
                 </div>
             </div>
@@ -38,67 +39,67 @@
     </div>
 </template>
 <script>
-import axios from "axios";
-import * as firebase from "firebase";
-import TournamentPage from "./tournamentPage";
-import TournamentCreate from "./tournamentCreate";
-export default {
-  name: "tournaments-cabinet",
-  components: {
-    TournamentPage,
-    TournamentCreate
-  },
-  data: function() {
-    return {
-      tournamentsShow: true,
-      tournamentPageShow: false,
-      modalShow: false,
-      tournamentKey: "",
-      federationId: ""
-    };
-  },
-  beforeMount() {
-    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-  },
-  async mounted() {
-    try {
-      const fbObj = await firebase
-        .database()
-        .ref(this.federationId)
-        .once("value");
-      this.$store.commit("setTournamentsList", fbObj.val());
-    } catch (error) {
-      throw error;
+    import axios from "axios";
+    import * as firebase from 'firebase';
+    import TournamentPage from './tournamentPage';
+    import TournamentCreate from './tournamentCreate';
+    export default {
+        name: "tournaments-cabinet",
+        components: {
+            TournamentPage,
+            TournamentCreate
+        },
+        data: function () {
+            return {
+                tournamentsShow: true,
+                tournamentPageShow: false,
+                createButtonShow: true,
+                modalShow: false,
+                tournamentKey: '',
+                federationId: ''
+            };
+        },
+        beforeMount() {
+            if (this.$store.state.authUser.federation_users.length !== 0) {
+                this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+            } else {
+                this.federationId = this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id;
+                this.createButtonShow = false;
+            }
+        },
+        async mounted() {
+            try {
+                const fbObj = await firebase.database().ref(this.federationId).once('value');
+                this.$store.commit('setTournamentsList', fbObj.val());
+            } catch (error) {
+                throw error;
+            }
+        },
+        methods: {
+            openTournament(key){
+                this.tournamentKey = key;
+                this.tournamentsShow = false;
+                this.tournamentPageShow = true;
+            },
+            closeTournament() {
+                this.tournamentPageShow = false;
+                this.tournamentsShow = true;
+            },
+            createTournament() {
+                this.modalShow = true;
+            },
+            closeModal() {
+                this.modalShow = false;
+            },
+            async closeAndUpdate() {
+                this.modalShow = false;
+                try {
+                    const fbObj = await firebase.database().ref(this.federationId).once('value');
+                    this.$store.commit('setTournamentsList', fbObj.val());
+                } catch (error) {
+                    throw error;
+                }
+            },
+        }
     }
-  },
-  methods: {
-    openTournament(key) {
-      this.tournamentKey = key;
-      this.tournamentsShow = false;
-      this.tournamentPageShow = true;
-    },
-    closeTournament() {
-      this.tournamentPageShow = false;
-      this.tournamentsShow = true;
-    },
-    createTournament() {
-      this.modalShow = true;
-    },
-    closeModal() {
-      this.modalShow = false;
-    },
-    async closeAndUpdate() {
-      this.modalShow = false;
-      try {
-        const fbObj = await firebase
-          .database()
-          .ref(this.federationId)
-          .once("value");
-        this.$store.commit("setTournamentsList", fbObj.val());
-      } catch (error) {
-        throw error;
-      }
-    }
-  }
-};
 </script>

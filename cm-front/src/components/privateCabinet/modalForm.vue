@@ -218,8 +218,10 @@ export default {
       this.cities = this.citiesUkr;
     }
     this.http
-      .get("https://champion-api.herokuapp.com/api/belts/" + this.$store.state.authUser.federation_users[0]
-          .federation_id)
+      .get(
+        "https://champion-api.herokuapp.com/api/belts/" +
+          this.$store.state.authUser.federation_users[0].federation_id
+      )
       .then(response => {
         window.console.log(response.data);
         this.belts = response.data;
@@ -233,6 +235,7 @@ export default {
       })
       .catch(error => window.console.log(error.message));
   },
+  // },
   methods: {
     createSportsman() {
       this.http
@@ -249,7 +252,7 @@ export default {
                 is_active: 1,
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
-                belt: null
+                federation_belt_id: this.$store.state.sportsman.belt
               }
             )
             .then(this.$emit("clicked"))
@@ -268,7 +271,25 @@ export default {
               coach_id: this.$store.state.authUser.my_profile_id,
               master_coach: 0
             })
-            .then(this.$emit("clicked"))
+            .then(response => {
+              console.log(response.data);
+              this.http
+                .post(
+                  "http://champion-api.herokuapp.com/api/federation-sportsman",
+                  {
+                    sportsman_id: response.data.sportsman_id,
+                    federation_id: this.$store.state.authUser
+                      .my_sportsmen_profile.federation_sportsmen[0]
+                      .federation_id,
+                    is_active: 1,
+                    is_coach: 0,
+                    is_referee: 0,
+                    federation_belt_id: this.$store.state.sportsman.belt
+                  }
+                )
+                .then(this.$emit("clicked"))
+                .catch(error => console.log(error.message));
+            })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
@@ -290,7 +311,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .popup {
   display: flex;
   align-items: center;

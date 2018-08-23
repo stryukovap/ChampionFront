@@ -50,39 +50,37 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <!-- <tbody name="items" :list="$store.state.sportsmanList"> -->
-                <!-- <tr v-for="item in $store.state.sportsmanList"> --> <!--to delete, previous variant without search-->
-                <tbody name="items" :list="this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
-                  <tr v-for="item in this.$store.getters.getFilteredSportsmenList(this.searchingSportsman)">
-                    <td><input type="checkbox"
-                               v-model="$store.state.selectedSportsmen"
-                               @click="selectSportsman"
-                               :value="item.id" >
-                    </td>
-                    <td>{{item.first_name}} {{item.last_name}}</td>
-                    <td>{{item.patronymic_name}}</td>
-                    <td>{{item.city}}</td>
-                    <td>
-                        <input @click="toggleActive(item.id)"
-                               type="checkbox"
-                               v-model="item.federation_sportsmen[0].is_active"
-                               v-bind:true-value="checkbox.active"
-                               v-bind:false-value="checkbox.notActive" />
-                    </td>
-                    <td>
-                        <input @click="toggleIsCoach(item.id)"
-                               type="checkbox"
-                               v-model="item.federation_sportsmen[0].is_coach"
-                               v-bind:true-value="checkbox.coach"
-                               v-bind:false-value="checkbox.notCoach" />
-                    </td>
-                    <td>{{item.date_of_birth}}</td>
-                    <th>
-                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
-                            Edit
-                        </button>
-                    </th>
-                </tr>
+                <tbody name="items" :list="$store.state.sportsmanList">
+                    <tr v-for="item in $store.state.sportsmanList" :key="item">
+                        <td><input type="checkbox"
+                                    v-model="$store.state.selectedSportsmen"
+                                    @click="selectSportsman"
+                                    :value="item.id" >
+                        </td>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
+                        <td></td>
+                        <td>{{item.city}}</td>
+                        <td>
+                            <input @click="toggleActive(item.id)"
+                                    type="checkbox"
+                                    v-model="item.federation_sportsmen[0].is_active"
+                                    v-bind:true-value="checkbox.active"
+                                    v-bind:false-value="checkbox.notActive" />
+                        </td>
+                        <td>
+                            <input @click="toggleIsCoach(item.id)"
+                                    type="checkbox"
+                                    v-model="item.federation_sportsmen[0].is_coach"
+                                    v-bind:true-value="checkbox.coach"
+                                    v-bind:false-value="checkbox.notCoach" />
+                        </td>
+                        <td>{{item.date_of_birth}}</td>
+                        <th>
+                            <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                                Edit
+                            </button>
+                        </th>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -141,9 +139,9 @@ export default {
       .then(response => {
         this.$store.commit("setSportsmanList", response.data.data);
         this.$store.commit('setSportsmenList', response.data.data);
-        console.log(response.data);
+        window.console.log(response.data);
       })
-      .catch(error => console.log(error));
+      .catch(error => window.console.log(error));
   },
   methods: {
     selectAll() {
@@ -183,7 +181,7 @@ export default {
         .then(response => {
           this.$store.commit("setSportsmanList", response.data.data);
         })
-        .catch(error => console.log(error));
+        .catch(error => window.console.log(error));
     },
     toggleActive(id) {
       if (
@@ -217,8 +215,8 @@ export default {
               .belt
           }
         )
-        .then(response => console.log(response.data))
-        .catch(error => console.log(error));
+        .then(response => window.console.log(response.data))
+        .catch(error => window.console.log(error));
     },
     toggleIsCoach(id) {
       if (
@@ -252,8 +250,8 @@ export default {
               .belt
           }
         )
-        .then(response => console.log(response.data))
-        .catch(error => console.log(error));
+        .then(response => window.console.log(response.data))
+        .catch(error => window.console.log(error));
     },
     activateSelected() {
       this.$store.state.selectedSportsmen.map(id => {
@@ -279,8 +277,8 @@ export default {
                 .belt
             }
           )
-          .then(response => console.log(response.data))
-          .catch(error => console.log(error));
+          .then(response => window.console.log(response.data))
+          .catch(error => window.console.log(error));
       });
     },
     deactivateSelected() {
@@ -307,8 +305,8 @@ export default {
                 .belt
             }
           )
-          .then(response => console.log(response.data))
-          .catch(error => console.log(error));
+          .then(response => window.console.log(response.data))
+          .catch(error => window.console.log(error));
       });
     },
     buySubscription() {
@@ -320,8 +318,8 @@ export default {
           .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
             _method: "delete"
           })
-          .then(response => console.log(response))
-          .catch(error => console.log(error.message));
+          .then(response => window.console.log(response))
+          .catch(error => window.console.log(error.message));
       });
       this.$store.commit("removeSportsman");
     }
