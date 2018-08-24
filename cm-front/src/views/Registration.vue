@@ -480,14 +480,9 @@ export default {
           }
           var today = new Date(); // сегодняшнеяя дата и время
           var inputDate = new Date(val);
-          window.console.log("today " + today);
-          window.console.log("val " + val);
-          window.console.log("inputDate " + inputDate);
           if (today >= inputDate) {
-            window.console.log("true");
             return true;
           } else {
-            window.console.log("false");
             return false;
           }
         }
@@ -496,7 +491,7 @@ export default {
   },
   methods: {
     sendUserDataOnServer: function() {
-      window.console.log(this.user);
+      window.console.log("posting user - " + this.user);
       axios
         .post("https://champion-api.herokuapp.com/api/user", {
           email: this.user.email,
@@ -505,91 +500,103 @@ export default {
         })
         .then(response => {
           window.console.log("response.status " + response.status);
-          if (response.status === 201) {
-            this.$store.state.authUser = response.data;
-            this.authUser = response.data;
-            window.console.log(this.authUser);
-            window.console.log("response.status " + response.data);
-            window.localStorage.setItem(
-              "lbUser",
-              JSON.stringify(this.$store.state.authUser)
-            );
-            this.$store.state.isLoggedIn = true;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            // this.$router.push("/");
-            if (
-              this.userSportsman === true &&
-              this.$store.state.isLoggedIn === true && this.authUser
-            ) {
-              this.sendSportsmanDataOnServer();
-            } else if (
-              this.userSportsman === false &&
-              this.$store.state.isLoggedIn === true && this.authUser
-            ) {
-              this.sendFederationDataOnServer();
+          // if (response.status === 201) {
+          this.$store.state.authUser = response.data;
+          this.authUser = response.data;
+          window.console.log("authUser - " + this.authUser);
+          window.localStorage.setItem(
+            "lbUser",
+            JSON.stringify(this.$store.state.authUser)
+          );
+          this.$store.state.isLoggedIn = true;
+          window.console.log(
+            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+          );
+          this.$router.push("/");
+          window.console.log(this.userSportsman);
+          window.console.log(this.authUser.auth_token);
+          let HTTP = axios.create({
+            headers: {
+              Authorization: "Bearer " + this.authUser.auth_token
             }
+          });
+          if (!!this.userSportsman === true) {
+            window.console.log("sendSportsmanDataOnServer sending");
+            HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
+              first_name: this.sportsman.name,
+              last_name: this.sportsman.surname,
+              patronymic_name: this.sportsman.patronymic,
+              gender: this.sportsman.gender,
+              date_of_birth: this.sportsman.dateOfBirth,
+              federation_id: this.sportsman.federation
+            })
+              .then(function(response) {
+                window.console.log(response);
+              })
+              .catch(function(error) {
+                window.console.log(error);
+              });
           } else {
-            this.$store.state.isLoggedIn = false;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            this.$router.push("/auth");
+            window.console.log("sendFederationDataOnServer sending");
+            HTTP.post("https://champion-api.herokuapp.com/api/federations", {
+              name: this.federation.name,
+              president_name: this.federation.presidentName,
+              logo_id: "1234567",
+              sub_domain: this.federation.subDomain,
+              contact_telephone: this.federation.phone,
+              contact_email: this.federation.email,
+              sport_id: this.federation.sport
+            })
+              .then(function(response) {
+                window.console.log(response);
+              })
+              .catch(function(error) {
+                window.console.log(error);
+              });
           }
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    },
-    sendSportsmanDataOnServer: function() {
-      window.console.log(this.sportsman);
-      window.console.log(this.authUser.auth_token);
-      // this.sendUserDataOnServer();
-      var HTTP = axios.create({
-        headers: {
-          Authorization: "Bearer " + this.authUser.auth_token
-        }
-      });
-      HTTP.post(this.$store.state.postSportsman, {
-        first_name: this.sportsman.name,
-        last_name: this.sportsman.surname,
-        patronymic_name: this.sportsman.patronymic,
-        gender: this.sportsman.gender,
-        date_of_birth: this.sportsman.dateOfBirth,
-        federation_id: this.sportsman.federation
-      })
-        .then(function(response) {
-          window.console.log(response);
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    },
-    sendFederationDataOnServer: function() {
-      window.console.log(this.federation);
-      // this.sendUserDataOnServer();
-      var HTTP = axios.create({
-        headers: {
-          Authorization: "Bearer " + this.authUser.auth_token
-        }
-      });
-      HTTP.post("https://champion-api.herokuapp.com/api/federations", {
-        name: this.federation.name,
-        president_name: this.federation.presidentName,
-        logo_id: "1234567",
-        sub_domain: this.federation.subDomain,
-        contact_telephone: this.federation.phone,
-        contact_email: this.federation.email,
-        sport_id: this.federation.sport
-      })
-        .then(function(response) {
-          window.console.log(response);
+          /* **/
+          localStorage.removeItem("lbUser");
+          this.$store.state.isLoggedIn = false;
+          axios
+            .post("https://champion-api.herokuapp.com/api/login", {
+              email: this.user.email,
+              password: this.user.password
+            })
+            .then(response => {
+              window.console.log("response.status " + response.status);
+              if (response.status === 200) {
+                this.$store.state.authUser = response.data;
+                window.console.log(
+                  "this.$store.state.authUser " + this.$store.state.authUser
+                );
+                this.$store.state.isLoggedIn = true;
+                window.console.log(
+                  "store.state.isLoggedIn value - " +
+                    this.$store.state.isLoggedIn
+                );
+                window.localStorage.setItem(
+                  "lbUser",
+                  JSON.stringify(this.$store.state.authUser)
+                );
+                this.$router.push("/");
+              } else {
+                this.$store.state.isLoggedIn = false;
+                window.console.log(
+                  "store.state.isLoggedIn value - " +
+                    this.$store.state.isLoggedIn
+                );
+              }
+            })
+            .catch(function(error) {
+              window.console.log(error);
+            });
         })
         .catch(function(error) {
           window.console.log(error);
         });
     }
+    // sendSportsmanDataOnServer: function() {},
+    // sendFederationDataOnServer: function() {}
   }
 };
 </script>
