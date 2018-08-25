@@ -1,9 +1,9 @@
 <template>
 	<div id="app">
 		<body>
-		<preloader></preloader>
+		<!--<preloader></preloader>-->
 		<header>
-			<Header></Header>
+			<Header class="header"></Header>
 		</header>
 		<main>
 			<router-view/>
@@ -17,7 +17,6 @@
 
 <style lang="scss">
 @import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
-
 body {
   text-align: center;
   display: flex;
