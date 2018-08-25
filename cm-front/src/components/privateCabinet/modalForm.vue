@@ -12,11 +12,11 @@
                 </div>
                 <div class="popup__wrapper mt-1 row">
                     <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
-                        <img v-if="$store.state.sportsman.documents[0].media.url"
-                             :src="$store.state.sportsman.documents[0].media.url"
-                             width="150px"
-                             alt="Sportsman photo"
-                             class="popup__photo">
+                        <!--<img v-if="$store.state.sportsman.documents[0].media.url"-->
+                        <!--     :src="$store.state.sportsman.documents[0].media.url"-->
+                        <!--     width="150px"-->
+                        <!--     alt="Sportsman photo"-->
+                        <!--     class="popup__photo">-->
                         <img v-else-if="sportsmanImage"
                              :src="sportsmanImage"
                              width="150px"
