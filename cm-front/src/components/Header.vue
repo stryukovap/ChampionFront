@@ -67,16 +67,18 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="nav-item nav-item-logout" v-if="checkLogin">
-                        <button v-on:click="logout">Logout</button>
-                    </div>
-                    <div class="nav-item nav-item-buttons" v-else>
-                        <router-link tag="button" to="/auth">Log in</router-link>
-                        <router-link tag="button" to="/registration">Registration
-                        </router-link>
-                    </div>
-                    </li>
+                                        </li>
+<li>
+    <div class="nav-item nav-item-logout" v-if="checkLogin">
+        <button v-on:click="logout">Logout</button>
+    </div>
+    <div class="nav-item nav-item-buttons" v-else>
+        <router-link tag="button" to="/auth">Log in</router-link>
+        <router-link tag="button" to="/registration">Registration
+        </router-link>
+    </div>
 
+</li>
                 </ul>
             </div>
         </nav>
