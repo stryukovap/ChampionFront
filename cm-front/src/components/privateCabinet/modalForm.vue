@@ -217,16 +217,16 @@ export default {
     } else {
       this.cities = this.citiesUkr;
     }
-    this.http
-      .get(
-        "https://champion-api.herokuapp.com/api/belts/" +
-          this.$store.state.authUser.federation_users[0].federation_id
-      )
-      .then(response => {
-        window.console.log(response.data);
-        this.belts = response.data;
-      })
-      .catch(error => window.console.log(error.message));
+    // this.http
+    //   .get(
+    //     "https://champion-api.herokuapp.com/api/belts/" +
+    //       this.$store.state.authUser.federation_users[0].federation_id
+    //   )
+    //   .then(response => {
+    //     window.console.log(response.data);
+    //     this.belts = response.data;
+    //   })
+    //   .catch(error => window.console.log(error.message));
     this.http
       .get("https://champion-api.herokuapp.com/api/titles/list")
       .then(response => {

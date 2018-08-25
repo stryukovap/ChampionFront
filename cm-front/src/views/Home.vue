@@ -1,25 +1,12 @@
 <template>
-    <div class="home">
         <div class="container">
-            <div class="col-12">
-                <!--<div class="row card-list">-->
-                <!--<div class="row card-list" v-for="sportName in sports" :key="sportId">-->
-                <div class="row card-list">
-                    <!--<card class="col-12 col-md-6 col-lg-4 col-xl-4"-->
-                          <!--v-for="sport in sports"-->
-                          <!--v-bind:Name="sport.Name"-->
-                          <!--v-bind:Image="sport.Image"-->
-                          <!--:key="sport.Id"/>-->
-                    <card class="col-12 col-md-6 col-lg-4 col-xl-4"
-                          v-for="sport in sports"
-                          v-bind:Name="sport.name"
-                          v-bind:link_to="link + '/' + sport.id"
-                          :key="sport.id"/>
-                </div>
-                <!--<card_sport/>-->
+            <div class="cards">
+                <card class="cards__item" v-for="sport in sports"
+                      v-bind:Name="sport.name"
+                      v-bind:link_to="link + '/' + sport.id"
+                      :key="sport.id"/>
             </div>
         </div>
-    </div>
 </template>
 <script>
 import Card from "../components/Card";
@@ -51,3 +38,19 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+    .cards{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 30px;
+        &__item{
+            margin-top: 30px;
+            margin-right: 34px;
+            &:nth-child(4n){
+                margin-right: 0;
+            }
+        }
+    }
+</style>
