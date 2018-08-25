@@ -230,7 +230,7 @@
                 this.sportsmanId = '';
                 this.roleOfCreatedPerson = '';
                 this.$store.commit('clearSportsmanModel');
-                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/20`)
+                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/3?page=${this.currentPage}`)
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data.data);
                     })

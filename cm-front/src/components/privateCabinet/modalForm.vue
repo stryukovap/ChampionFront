@@ -10,11 +10,40 @@
                     <button class="popup__exit btn btn-danger"
                             v-on="$listeners">X</button>
                 </div>
-                <div class="popup__wrapper" style="display: flex; flex-direction: column; align-items: center">
-                    <img src="../../assets/github-mark_560x560.png" width="150px" height="150px" alt="sportsman foto"
-                         class="popup__foto">
-                    <label class="mt-3" for="foto" style="cursor: pointer">Upload new foto</label>
-                    <input type="file" name="foto" id="foto" style="display: none">
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
+                        <img v-if="$store.state.sportsman.documents[0].media.url"
+                             :src="$store.state.sportsman.documents[0].media.url"
+                             width="150px"
+                             alt="Sportsman photo"
+                             class="popup__photo">
+                        <img v-else-if="sportsmanImage"
+                             :src="sportsmanImage"
+                             width="150px"
+                             alt="Sportsman photo"
+                             class="popup__photo">
+                    </div>
+                </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12">
+                        <label class="btn btn-outline-success btn-sm mt-3 mr-3"
+                               for="photo" style="cursor: pointer; margin-bottom: 0;">
+                            Choose photo
+                        </label>
+                        <input type="file"
+                               @change="onFileChange"
+                               name="photo" id="photo"
+                               style="display: none">
+                        <button
+                                v-if="sportsmanImage"
+                                class="btn btn-outline-success btn-sm mt-3 mr-3"
+                                @click.prevent="uploadImage">Upload</button>
+                        <button
+                                v-if="$store.state.sportsman.photo_id"
+                                class="btn btn-outline-danger btn-sm mt-3"
+                                @click.prevent="removeImage">Remove</button>
+
+                    </div>
                 </div>
                 <div class="cm-form__wrapper popup__wrapper">
                     <input class="form-control" type="text"
@@ -180,9 +209,19 @@ export default {
       },
       belts: {},
       degrees: {},
+      sportsmanImageForUpload: '',
+      sportsmanImage: '',
+      sportsmanImageId: '',
       http: axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token
+        }
+      }),
+      httpUpload: axios.create({
+      headers: {
+        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+        "Content-Type":"application/x-www-form-urlencoded",
+        Accept: "application/json"
         }
       }),
       citiesUkr: [],
@@ -193,8 +232,8 @@ export default {
   mounted() {
     if (this.sportsmanId !== "") {
       this.$store.state.sportsman = this.$store.state.sportsmanList[
-        this.sportsmanId
-      ];
+          this.sportsmanId
+          ];
     } else {
       if (this.personRole === "Coach") {
         this.role.is_coach = 1;
@@ -235,8 +274,35 @@ export default {
       })
       .catch(error => window.console.log(error.message));
   },
-  // },
   methods: {
+      onFileChange(e) {
+          const files = e.target.files || e.dataTransfer.files;
+          if (!files.length)
+              return;
+          this.createImage(files[0]);
+      },
+      createImage(file) {
+          this.sportsmanImageForUpload = file;
+          this.sportsmanImage = new Image();
+          const reader = new FileReader();
+          reader.onload = (e) => {
+              this.sportsmanImage = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      },
+      uploadImage() {
+          const formData = new FormData();
+          formData.append('file', this.sportsmanImageForUpload);
+          this.httpUpload
+              .post('https://champion-api.herokuapp.com/api/upload', formData)
+              .then(response => {
+                  console.log(response.data);
+                  this.sportsmanImageId = response.data.id;
+              });
+      },
+      removeImage() {
+
+      },
     createSportsman() {
       this.http
         .post(this.$store.state.postSportsman, this.$store.state.sportsman)
@@ -244,29 +310,42 @@ export default {
           console.log(response.data);
           this.http
             .post(
-              "http://champion-api.herokuapp.com/api/federation-sportsman",
+              "https://champion-api.herokuapp.com/api/federation-sportsman",
               {
                 sportsman_id: response.data.id,
-                federation_id: this.$store.state.authUser.federation_users[0]
-                  .federation_id,
+                federation_id: this.$store.state.authUser.federation_users[0].federation_id,
                 is_active: 1,
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
                 federation_belt_id: this.$store.state.sportsman.belt
               }
             )
-            .then(this.$emit("clicked"))
+            .then(response => {
+                console.log(response.data);
+                this.http
+                    .post("https://champion-api.herokuapp.com/api/sportsman-document", {
+                        sportsman_id: response.data.sportsman_id,
+                        media_id: this.sportsmanImageId,
+                        name: 1
+                    })
+                    .then(response => {
+                            console.log(response.data);
+                        this.$emit("clicked");
+                    })
+                    .catch(error => console.log(error.message));
+            })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
     },
+
     createOwnCoachSportsman() {
       this.http
         .post(this.$store.state.postSportsman, this.$store.state.sportsman)
         .then(response => {
           console.log(response.data);
           this.http
-            .post("http://champion-api.herokuapp.com/api/sportsman-coach", {
+            .post("https://champion-api.herokuapp.com/api/sportsman-coach", {
               sportsman_id: response.data.id,
               coach_id: this.$store.state.authUser.my_profile_id,
               master_coach: 0
@@ -275,7 +354,7 @@ export default {
               console.log(response.data);
               this.http
                 .post(
-                  "http://champion-api.herokuapp.com/api/federation-sportsman",
+                  "https://champion-api.herokuapp.com/api/federation-sportsman",
                   {
                     sportsman_id: response.data.sportsman_id,
                     federation_id: this.$store.state.authUser
@@ -294,11 +373,12 @@ export default {
         })
         .catch(error => console.log(error.message));
     },
+
     updateSportsman() {
       this.$store.state.sportsman._method = "put";
       this.http
         .post(
-          `http://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+          `https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
           this.$store.state.sportsman
         )
         .then(response => {

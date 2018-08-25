@@ -31,13 +31,40 @@
                     </div>
                 </div>
                 <div class="popup__wrapper mt-1 row">
-                    <div class="col-2 text-left"><span>Banners</span></div>
+                    <div class="col-2 text-left"><span>Tournament banner</span></div>
                     <div class="col-10" style="display: flex; flex-direction: column; align-items: center;">
-                        <img src="../../assets/github-mark_560x560.png" width="150px" height="150px"
-                             alt="sportsman foto"
+                        <img v-if="tournament.imageUrl"
+                             :src="tournament.imageUrl"
+                             width="150px"
+                             alt="tournament foto"
                              class="popup__foto">
-                        <label class="mt-3" for="foto" style="cursor: pointer">Upload new foto</label>
-                        <input type="file" name="foto" id="foto" style="display: none">
+                        <img v-else-if="tournamentImage"
+                             :src="tournamentImage"
+                             width="150px"
+                             alt="tournament foto"
+                             class="popup__foto">
+                    </div>
+                </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-2"></div>
+                    <div class="col-10">
+                        <label class="btn btn-outline-success btn-sm mt-3 mr-3"
+                               for="photo" style="cursor: pointer; margin-bottom: 0;">
+                                Choose photo
+                        </label>
+                        <input type="file"
+                               @change="onFileChange"
+                               name="photo" id="photo"
+                               style="display: none">
+                        <button
+                                v-if="tournamentImage"
+                                class="btn btn-outline-success btn-sm mt-3 mr-3"
+                                @click.prevent="uploadImage">Upload</button>
+                        <button
+                                v-if="tournament.imageUrl"
+                                class="btn btn-outline-danger btn-sm mt-3"
+                                @click.prevent="removeImage">Remove</button>
+
                     </div>
                 </div>
                 <div class="cm-form__wrapper">
@@ -233,7 +260,7 @@
                 tournament: {
                     name: '',
                     description: '',
-                    banners: [],
+                    imageUrl: '',
                     dates: {
                         dateStart: '',
                         dateEnd: ''
@@ -246,12 +273,21 @@
                     categories: [],
                     referees: []
                 },
+                tournamentImageForUpload: '',
+                tournamentImage: '',
                 options : [],
                 value: [],
                 http: axios.create({
                     headers: {
                         Authorization: "Bearer " + this.$store.state.authUser.auth_token,
                         "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
+                    }
+                }),
+                httpUpload: axios.create({
+                    headers: {
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+                        "Content-Type":"application/x-www-form-urlencoded",
+                        Accept: "application/json"
                     }
                 })
             }
@@ -270,6 +306,36 @@
                 }).catch(error => window.console.log(error));
         },
         methods: {
+            onFileChange(e) {
+                const files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                this.tournamentImageForUpload = file;
+                this.tournamentImage = new Image();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.tournamentImage = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            uploadImage() {
+                const formData = new FormData();
+                formData.append('file', this.tournamentImageForUpload);
+                this.httpUpload
+                    .post('https://champion-api.herokuapp.com/api/upload', formData)
+                    .then(response => {
+                        console.log(response.data);
+                        this.tournament.imageUrl = response.data.url;
+                        console.log(this.tournament.imageUrl);
+                    });
+            },
+            removeImage() {
+                this.tournamentImage = '';
+                this.tournament.imageUrl = '';
+            },
             addNewCategory() {
                 if (this.tournament.hasOwnProperty('categories') === false) {
                     this.$set(this.tournament, 'categories', []);
@@ -310,9 +376,14 @@
             },
             async createTournament() {
                 this.tournament.referees = this.value;
+                if (this.tournamentImageForUpload) {
+                    this.uploadImage()
+                }
                 try {
-                    await firebase.database().ref(this.federationId).push(this.tournament)
-                        .then(console.log('success'));
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .push(this.tournament)
                 } catch (error) {
                     throw error;
                 }
@@ -320,6 +391,9 @@
             },
             async saveTournament() {
                 this.tournament.referees = this.value;
+                if (this.tournamentImageForUpload) {
+                    this.uploadImage()
+                }
                 try {
                     await firebase
                         .database()

@@ -31,12 +31,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-2">
+                <img :src="tournament.imageUrl"
+                     width="150px"
+                     alt="tournament photo">
+            </div>
+            <div class="col-4">
                 <p>{{tournament.description}}</p>
                 <p>{{tournament.dates.dateStart}} - {{tournament.dates.dateEnd}}</p>
                 <p>Max amount of Participants: {{tournament.maxParticipants}}</p>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <h3>Referees</h3>
                 <div class="col" style="display: flex; flex-wrap: wrap; justify-content: flex-start">
                     <div class="card__referee"

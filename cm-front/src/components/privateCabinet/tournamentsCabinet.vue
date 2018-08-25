@@ -14,8 +14,9 @@
                     <div class="col-xs-12 col-sm-4"
                          v-for='(tournament, key) in $store.state.tournamentsList'>
                         <div class="thumbnail">
-                            <img class="card-img-top"
-                                 src="../../assets/github-mark_560x560.png"
+                            <img :src="tournament.imageUrl"
+                                 class="mb-2"
+                                 width="200px"
                                  alt="Card image cap">
                             <div class="caption mb-3">
                                 <h4 @click="openTournament(key)" class="text-center">{{ tournament.name }}</h4>
@@ -69,7 +70,10 @@
         },
         async mounted() {
             try {
-                const fbObj = await firebase.database().ref(this.federationId).once('value');
+                const fbObj = await firebase
+                    .database()
+                    .ref(this.federationId)
+                    .once('value');
                 this.$store.commit('setTournamentsList', fbObj.val());
             } catch (error) {
                 throw error;

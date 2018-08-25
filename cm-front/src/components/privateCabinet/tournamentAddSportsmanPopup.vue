@@ -136,7 +136,7 @@ export default {
     }
     axios
       .get(
-        `http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
+        `https://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
           this.federationId
         }/20`
       )
@@ -261,7 +261,7 @@ export default {
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css">
 </style>
-<style lang="scss">
+<style lang="scss" scoped>
 .popup {
   display: flex;
   align-items: center;
