@@ -17,11 +17,11 @@
                         <!--     width="150px"-->
                         <!--     alt="Sportsman photo"-->
                         <!--     class="popup__photo">-->
-                        <img v-else-if="sportsmanImage"
-                             :src="sportsmanImage"
-                             width="150px"
-                             alt="Sportsman photo"
-                             class="popup__photo">
+                        <!--<img v-else-if="sportsmanImage"-->
+                        <!--     :src="sportsmanImage"-->
+                        <!--     width="150px"-->
+                        <!--     alt="Sportsman photo"-->
+                        <!--     class="popup__photo">-->
                     </div>
                 </div>
                 <div class="popup__wrapper mt-1 row">
