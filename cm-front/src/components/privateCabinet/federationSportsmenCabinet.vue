@@ -164,7 +164,7 @@
         },
         methods: {
             getSportsmenPage(page) {
-                axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/3?page=${page}`)
+                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/3?page=${page}`)
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data.data);
                         this.pagination.pageAmount = response.data.last_page;
@@ -230,7 +230,7 @@
                 this.sportsmanId = '';
                 this.roleOfCreatedPerson = '';
                 this.$store.commit('clearSportsmanModel');
-                axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/20`)
+                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/20`)
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data.data);
                     })
@@ -242,7 +242,7 @@
                 } else {
                     this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 0;
                 }
-                this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
+                this.http.post(`https://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
                     _method: "put",
                     sportsman_id: id,
                     federation_id: this.federationId,
@@ -260,7 +260,7 @@
                 } else {
                     this.$store.state.sportsmanList[id].federation_sportsmen[0].is_coach = 0;
                 }
-                this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
+                this.http.post(`https://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
                     _method: "put",
                     sportsman_id: id,
                     federation_id: this.federationId,
@@ -275,7 +275,7 @@
             activateSelected() {
                 this.$store.state.selectedSportsmen.map(id => {
                     this.$store.state.sportsmanList[id].federation_sportsmen[0].is_active = 1;
-                    return this.http.post(`http://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
+                    return this.http.post(`https://champion-api.herokuapp.com/api/federation-sportsman/${this.$store.state.sportsmanList[id].federation_sportsmen[0].id}`, {
                         _method: "put",
                         sportsman_id: id,
                         federation_id: this.federationId,
