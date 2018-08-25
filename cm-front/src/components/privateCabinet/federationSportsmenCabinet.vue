@@ -164,7 +164,7 @@
         },
         methods: {
             getSportsmenPage(page) {
-                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/3?page=${page}`)
+                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/10?page=${page}`)
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data.data);
                         this.pagination.pageAmount = response.data.last_page;
@@ -230,7 +230,7 @@
                 this.sportsmanId = '';
                 this.roleOfCreatedPerson = '';
                 this.$store.commit('clearSportsmanModel');
-                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/3?page=${this.currentPage}`)
+                axios.get(`https://champion-api.herokuapp.com/api/sportsman-list/all-by-federation/${this.federationId}/10?page=${this.pagination.currentPage}`)
                     .then(response => {
                         this.$store.commit('setSportsmanList', response.data.data);
                     })

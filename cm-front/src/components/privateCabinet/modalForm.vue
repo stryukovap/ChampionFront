@@ -12,13 +12,13 @@
                 </div>
                 <div class="popup__wrapper mt-1 row">
                     <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
-                        <img v-if="$store.state.sportsman.documents[0].media.url"
-                             :src="$store.state.sportsman.documents[0].media.url"
+                        <img v-if="image.sportsmanImageUrl"
+                             :src="image.sportsmanImageUrl"
                              width="150px"
                              alt="Sportsman photo"
                              class="popup__photo">
-                        <img v-else-if="sportsmanImage"
-                             :src="sportsmanImage"
+                        <img v-else-if="image.sportsmanImage"
+                             :src="image.sportsmanImage"
                              width="150px"
                              alt="Sportsman photo"
                              class="popup__photo">
@@ -35,11 +35,11 @@
                                name="photo" id="photo"
                                style="display: none">
                         <button
-                                v-if="sportsmanImage"
+                                v-if="image.sportsmanImage"
                                 class="btn btn-outline-success btn-sm mt-3 mr-3"
                                 @click.prevent="uploadImage">Upload</button>
                         <button
-                                v-if="$store.state.sportsman.photo_id"
+                                v-if="image.sportsmanImageUrl"
                                 class="btn btn-outline-danger btn-sm mt-3"
                                 @click.prevent="removeImage">Remove</button>
 
@@ -194,200 +194,241 @@ import axios from "axios";
 import AutocompleteCity from "../autocomplete_city";
 import citiesUkrainian from "../../assets/citiesUkrainian";
 import citiesRussian from "../../assets/citiesRussian";
-export default {
-  name: "modal-form",
-  components: {
-    // userCertificates,
-    AutocompleteCity
-  },
-  props: ["sportsmanId", "personRole"],
-  data() {
-    return {
-      role: {
-        is_coach: 0,
-        is_referee: 0
-      },
-      belts: {},
-      degrees: {},
-      sportsmanImageForUpload: '',
-      sportsmanImage: '',
-      sportsmanImageId: '',
-      http: axios.create({
-        headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
-        }
-      }),
-      httpUpload: axios.create({
-      headers: {
-        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
-        "Content-Type":"application/x-www-form-urlencoded",
-        Accept: "application/json"
-        }
-      }),
-      citiesUkr: [],
-      citiesRus: [],
-      cities: []
-    };
-  },
-  mounted() {
-    if (this.sportsmanId !== "") {
-      this.$store.state.sportsman = this.$store.state.sportsmanList[
-          this.sportsmanId
-          ];
-    } else {
-      if (this.personRole === "Coach") {
-        this.role.is_coach = 1;
-      } else if (this.personRole === "Referee") {
-        this.role.is_referee = 1;
-      }
-    }
-    citiesUkrainian.region.forEach(region => {
-      region.city.forEach(city => {
-        this.citiesUkr.push(city.name);
-      });
-    });
-    citiesRussian.region.forEach(region => {
-      region.city.forEach(city => {
-        this.citiesRus.push(city.name);
-      });
-    });
-    if (window.navigator.language === "ru-RU") {
-      this.cities = this.citiesRus;
-    } else {
-      this.cities = this.citiesUkr;
-    }
-    this.http
-      .get(
-        "https://champion-api.herokuapp.com/api/belts/" +
-          this.$store.state.authUser.federation_users[0].federation_id
-      )
-      .then(response => {
-        window.console.log(response.data);
-        this.belts = response.data;
-      })
-      .catch(error => window.console.log(error.message));
-    this.http
-      .get("https://champion-api.herokuapp.com/api/titles/list")
-      .then(response => {
-        window.console.log(response.data);
-        this.degrees = response.data;
-      })
-      .catch(error => window.console.log(error.message));
-  },
-  methods: {
-      onFileChange(e) {
-          const files = e.target.files || e.dataTransfer.files;
-          if (!files.length)
-              return;
-          this.createImage(files[0]);
-      },
-      createImage(file) {
-          this.sportsmanImageForUpload = file;
-          this.sportsmanImage = new Image();
-          const reader = new FileReader();
-          reader.onload = (e) => {
-              this.sportsmanImage = e.target.result;
-          };
-          reader.readAsDataURL(file);
-      },
-      uploadImage() {
-          const formData = new FormData();
-          formData.append('file', this.sportsmanImageForUpload);
-          this.httpUpload
-              .post('https://champion-api.herokuapp.com/api/upload', formData)
-              .then(response => {
-                  console.log(response.data);
-                  this.sportsmanImageId = response.data.id;
-              });
-      },
-      removeImage() {
 
-      },
-    createSportsman() {
-      this.http
-        .post(this.$store.state.postSportsman, this.$store.state.sportsman)
-        .then(response => {
-          console.log(response.data);
-          this.http
-            .post(
-              "https://champion-api.herokuapp.com/api/federation-sportsman",
-              {
-                sportsman_id: response.data.id,
-                federation_id: this.$store.state.authUser.federation_users[0].federation_id,
-                is_active: 1,
-                is_coach: this.role.is_coach,
-                is_referee: this.role.is_referee,
-                federation_belt_id: this.$store.state.sportsman.belt
-              }
+export default {
+    name: "modal-form",
+    components: {
+        // userCertificates,
+        AutocompleteCity
+    },
+    props: ["sportsmanId", "personRole"],
+    data() {
+        return {
+            role: {
+                is_coach: 0,
+                is_referee: 0
+            },
+            belts: {},
+            degrees: {},
+            image: {
+                sportsmanImageForUpload: '',
+                sportsmanImage: '',
+                sportsmanImageId: '',
+                sportsmanImageUrl: '',
+                sportsmanImageConnectionId: ''
+            },
+            http: axios.create({
+                headers: {
+                    Authorization: "Bearer " + this.$store.state.authUser.auth_token
+                }
+            }),
+            httpUpload: axios.create({
+                headers: {
+                    Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    Accept: "application/json"
+                }
+            }),
+            citiesUkr: [],
+            citiesRus: [],
+            cities: []
+        };
+    },
+    mounted() {
+        if (this.sportsmanId !== "") {
+            this.$store.state.sportsman = this.$store.state.sportsmanList[
+                this.sportsmanId
+                ];
+            this.http
+                .get(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`)
+                .then(response => {
+                    this.image.sportsmanImageUrl = response.data.documents[0].media.url;
+                    this.image.sportsmanImageConnectionId = response.data.documents[0].id;
+                })
+                .catch(error => console.log(error.message));
+        } else {
+            if (this.personRole === "Coach") {
+                this.role.is_coach = 1;
+            } else if (this.personRole === "Referee") {
+                this.role.is_referee = 1;
+            }
+        }
+        citiesUkrainian.region.forEach(region => {
+            region.city.forEach(city => {
+                this.citiesUkr.push(city.name);
+            });
+        });
+        citiesRussian.region.forEach(region => {
+            region.city.forEach(city => {
+                this.citiesRus.push(city.name);
+            });
+        });
+        if (window.navigator.language === "ru-RU") {
+            this.cities = this.citiesRus;
+        } else {
+            this.cities = this.citiesUkr;
+        }
+        this.http
+            .get(
+                "https://champion-api.herokuapp.com/api/belts/" +
+                this.$store.state.authUser.federation_users[0].federation_id
             )
             .then(response => {
-                console.log(response.data);
-                this.http
-                    .post("https://champion-api.herokuapp.com/api/sportsman-document", {
-                        sportsman_id: response.data.sportsman_id,
-                        media_id: this.sportsmanImageId,
-                        name: 1
-                    })
-                    .then(response => {
-                            console.log(response.data);
-                        this.$emit("clicked");
-                    })
-                    .catch(error => console.log(error.message));
+                window.console.log(response.data);
+                this.belts = response.data;
             })
-            .catch(error => console.log(error.message));
-        })
-        .catch(error => console.log(error.message));
-    },
-
-    createOwnCoachSportsman() {
-      this.http
-        .post(this.$store.state.postSportsman, this.$store.state.sportsman)
-        .then(response => {
-          console.log(response.data);
-          this.http
-            .post("https://champion-api.herokuapp.com/api/sportsman-coach", {
-              sportsman_id: response.data.id,
-              coach_id: this.$store.state.authUser.my_profile_id,
-              master_coach: 0
-            })
+            .catch(error => window.console.log(error.message));
+        this.http
+            .get("https://champion-api.herokuapp.com/api/titles/list")
             .then(response => {
-              console.log(response.data);
-              this.http
-                .post(
-                  "https://champion-api.herokuapp.com/api/federation-sportsman",
-                  {
-                    sportsman_id: response.data.sportsman_id,
-                    federation_id: this.$store.state.authUser
-                      .my_sportsmen_profile.federation_sportsmen[0]
-                      .federation_id,
-                    is_active: 1,
-                    is_coach: 0,
-                    is_referee: 0,
-                    federation_belt_id: this.$store.state.sportsman.belt
-                  }
-                )
-                .then(this.$emit("clicked"))
-                .catch(error => console.log(error.message));
+                window.console.log(response.data);
+                this.degrees = response.data;
             })
-            .catch(error => console.log(error.message));
-        })
-        .catch(error => console.log(error.message));
+            .catch(error => window.console.log(error.message));
     },
+    methods: {
+        onFileChange(e) {
+            const files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
+        },
+        createImage(file) {
+            this.image.sportsmanImageUrl = '';
+            this.image.sportsmanImageForUpload = file;
+            this.image.sportsmanImage = new Image();
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.image.sportsmanImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        uploadImage() {
+            if (this.image.sportsmanImageConnectionId && this.image.sportsmanImageForUpload) {
+                this.removeImage();
+            }
+            const formData = new FormData();
+            formData.append('file', this.image.sportsmanImageForUpload);
+            this.httpUpload
+                .post('https://champion-api.herokuapp.com/api/upload', formData)
+                .then(response => {
+                    console.log(response.data);
+                    this.image.sportsmanImageId = response.data.id;
+                });
+        },
+        removeImage() {
+            this.http
+                .post(`https://champion-api.herokuapp.com/api/sportsman-document/${
+                    this.image.sportsmanImageConnectionId}`, {
+                    _method: "delete"
+                })
+                .then(response => {
+                    console.log('deleted');
+                    this.image.sportsmanImageUrl = '';
+                    this.image.portsmanImageConnectionId = '';
+                    this.image.sportsmanImageId = '';
+                })
+                .catch(error => console.log(error));
+        },
+        createConnectSportsmanImage(id) {
+            this.http
+                .post("https://champion-api.herokuapp.com/api/sportsman-document", {
+                    sportsman_id: id,
+                    media_id: this.image.sportsmanImageId,
+                    name: 1
+                })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => console.log(error.message));
+        },
+        createSportsman() {
+            this.http
+                .post(this.$store.state.postSportsman, this.$store.state.sportsman)
+                .then(response => {
+                    console.log(response.data);
+                    this.http
+                        .post(
+                            "https://champion-api.herokuapp.com/api/federation-sportsman",
+                            {
+                                sportsman_id: response.data.id,
+                                federation_id: this.$store.state.authUser.federation_users[0].federation_id,
+                                is_active: 1,
+                                is_coach: this.role.is_coach,
+                                is_referee: this.role.is_referee,
+                                federation_belt_id: this.$store.state.sportsman.belt
+                            }
+                        )
+                        .then(response => {
+                            console.log(response.data);
+                            if (this.image.sportsmanImageId) {
+                                this.createConnectSportsmanImage(response.data.sportsman_id);
+                            }
+                            this.$emit("clicked");
+                        })
+                        .catch(error => console.log(error.message));
+                })
+                .catch(error => console.log(error.message));
+        },
 
-    updateSportsman() {
-      this.$store.state.sportsman._method = "put";
-      this.http
-        .post(
-          `https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
-          this.$store.state.sportsman
-        )
-        .then(response => {
-          console.log(response);
-          this.$emit("clicked");
-        })
-        .catch(error => console.log(error.message));
+        createOwnCoachSportsman() {
+            this.http
+                .post(this.$store.state.postSportsman, this.$store.state.sportsman)
+                .then(response => {
+                    console.log(response.data);
+                    this.http
+                        .post("https://champion-api.herokuapp.com/api/sportsman-coach", {
+                            sportsman_id: response.data.id,
+                            coach_id: this.$store.state.authUser.my_profile_id,
+                            master_coach: 0
+                        })
+                        .then(response => {
+                            console.log(response.data);
+                            if (this.image.sportsmanImageId) {
+                                this.createConnectSportsmanImage(response.data.sportsman_id);
+                            }
+                            this.http
+                              .post(
+                                "https://champion-api.herokuapp.com/api/federation-sportsman",
+                                {
+                                  sportsman_id: response.data.sportsman_id,
+                                  federation_id: this.$store.state.authUser
+                                    .my_sportsmen_profile.federation_sportsmen[0]
+                                    .federation_id,
+                                  is_active: 1,
+                                  is_coach: 0,
+                                  is_referee: 0,
+                                  federation_belt_id: this.$store.state.sportsman.belt
+                                }
+                              )
+                              .then(reaponse => {
+                                  console.log(reaponse.data);
+                              })
+                              .catch(error => console.log(error.message));
+                            this.$emit("clicked");
+                        })
+                        .catch(error => console.log(error.message));
+                })
+                .catch(error => console.log(error.message));
+        },
+
+        updateSportsman() {
+            this.$store.state.sportsman._method = "put";
+            this.http
+                .post(
+                    `https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+                    this.$store.state.sportsman
+                )
+                .then(response => {
+                    console.log(response.data);
+                    if (this.image.sportsmanImageId) {
+                        this.createConnectSportsmanImage(this.sportsmanId);
+                    }
+                    this.$emit("clicked");
+                })
+                .catch(error => console.log(error.message));
+        }
     }
-  }
 };
 </script>
 
