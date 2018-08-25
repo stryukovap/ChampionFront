@@ -26,69 +26,64 @@
                         <router-link class="menu__link" to="/">
                             <img class="menu__logo" src="../assets/logo.svg" alt="Logo" width="103" height="58.2">
                         </router-link>
-                    <li class="menu__item" v-if="checkLogin">
-                        <div class="user">
-                            <div class="user__date">Valid until
-                                <time class="user__time">{{ userData.validUntil }}</time>
-                            </div>
-                            <div class="user__wrap">
-                                <div class="user__wrap-inner">
-                                    <img src="img/user-photo.png" alt="User" class="user__photo">
-                                    <div class="user__menu">
-                                        <!--<div class="user__name">-->
-                                        <!--<span v-if="this.role ==='federation'"></span>-->
-                                        <!--<span v-else-if="this.role==='coach' || this.role==='sportsman'"></span>-->
-                                        <!--</div>-->
-                                        <ul class="user__menu-items"
-                                            style="list-style: none; display: flex; justify-content: space-between;">
-                                            <router-link tag="li" to="/federationcabinet" class="user__item"
-                                                         v-if="this.role ==='federation'">
-
-                                                <!--v-if="this.$store.state.authUser.federation_users.length !== 0">-->
-                                                <a class="user__link">Cabinet</a></router-link>
-                                            <router-link tag="li" to="/coachcabinet"
-                                                         class="user__item"
-                                                         v-else-if="this.role==='coach'">
-
-                                                <!--v-else-if="!!this.$store.state.authUser.my_sportsmen_profile-->
-                                                <!--.federation_sportsmen[0].is_coach">-->
-                                                <a class="user__link">Cabinet</a>
-                                            </router-link>
-                                            <router-link tag="li" to="/userprofile" class="user__item"
-                                                         v-else-if="this.role==='sportsman'">
-                                                <a class="user__link">Profile</a>
-                                            </router-link>
-                                            <router-link tag="li" to="/settings"
-                                                         class="user__item">
-                                                <a class="user__link">Settings</a>
-                                            </router-link>
-                                            <li class="user__item">
-                                                <a @click="logout()" class="user__link">Exit</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </li>
-                    <li>
-                        <!--<div class="nav-item nav-item-logout" v-if="checkLogin">-->
-                        <!--<button v-on:click="logout">Logout</button>-->
-                        <!--</div>-->
-                        <ul v-if="!checkLogin" class="menu__list menu__list--auth">
+                    <li v-if="!checkLogin" class="menu__item">
+                        <ul class="menu__list menu__list--auth">
                             <li class="menu__item menu__item--auth">
                                 <router-link class="menu__link menu__link--auth" tag="a" to="/auth">Log in</router-link>
                             </li>
                             <li class="user__nav-item menu__item--auth">
-                                <router-link class="menu__link menu__link--auth" tag="a" to="/registration">Register</router-link>
+                                <router-link class="menu__link menu__link--auth" tag="a" to="/registration">Register
+                                </router-link>
                             </li>
                         </ul>
-                        <!--<div class="nav-item nav-item-" v-else>-->
-                        <!--<router-link tag="a" to="/auth">Log in</router-link>-->
-                        <!--<router-link tag="a" to="/registration">Registration-->
-                        <!--</router-link>-->
-                        <!--</div>-->
-
+                    </li>
+                    <li class="menu__item" v-if="checkLogin">
+                        <div class="user">
+                        <!--<div @click="showMenu" class="user">-->
+                            <img class="user__photo" src="../assets/345x345_26.jpg" alt="user" width="44">
+                            <div class="user__info">
+                                <h4 class="user__title">{{this.role}}</h4>
+                                <p class="user__valid">Valid until 10.10.2020</p>
+                            </div>
+                            <ul class="user__list">
+                                <li class="user__item"
+                                    v-if="this.role ==='federation'">
+                                    <router-link tag="a"
+                                                 to="/federationcabinet"
+                                                 class="user__link">
+                                        Cabinet
+                                    </router-link>
+                                </li>
+                                <li class="user__item"
+                                    v-if="this.role==='coach'">
+                                    <router-link tag="a"
+                                                 to="/coachcabinet"
+                                                 class="user__link">
+                                        Cabinet
+                                    </router-link>
+                                </li>
+                                <li class="user__item"
+                                    v-if="this.role==='sportsman'">
+                                    <router-link tag="a"
+                                                 to="/userprofile"
+                                                 class="user__link">
+                                        Profile
+                                    </router-link>
+                                </li>
+                                <li class="user__item">
+                                    <router-link tag="a"
+                                                 to="/settings"
+                                                 class="user__link">
+                                        Settings
+                                    </router-link>
+                                </li>
+                                <li class="user__item">
+                                    <!--<a class="user__link">Exit</a>-->
+                                    <a @click="logout()" class="user__link">Exit</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -244,13 +239,13 @@
     .menu {
         background-color: #ffffff;
         box-shadow: 0 2px 10px 0 #e9e9e9;
-        &__item{
-            &--logo{
+        &__item {
+            &--logo {
                 margin-right: auto;
                 margin-top: 10px;
                 margin-bottom: 8.7px;
             }
-            &--auth{
+            &--auth {
                 margin-right: 30px;
             }
         }
@@ -262,10 +257,10 @@
                 justify-content: center;
                 background-color: #f5f5f5;
             }
-            &--bottom{
+            &--bottom {
                 justify-content: flex-end;
             }
-            &--auth{
+            &--auth {
                 margin-right: 90px;
             }
         }
@@ -307,11 +302,11 @@
                 background-size: 23px 23px;
                 background-position: center left;
             }
-            &--auth{
+            &--auth {
                 color: #333333;
                 text-decoration: none;
                 padding-bottom: 6.8px;
-                &:hover{
+                &:hover {
                     padding-bottom: 4.8px;
                     border-bottom: 2px solid #f77f00;
                 }
@@ -319,40 +314,106 @@
         }
     }
 
-    /*.header__svg {*/
-    /*margin-right: 10px;*/
-    /*}*/
+    .user {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 175px;
+        padding-right: 15px;
+        background-image: url("../assets/group.svg");
+        background-repeat: no-repeat;
+        background-size: 7px 3.6px;
+        background-position: right center;
+        position: relative;
+        &:hover{
+            cursor: pointer;
+        }
+        &:hover .user__list{
+            display: flex;
+        }
+        &__list{
+            position: absolute;
+            z-index: 5;
+            top: 45px;
+            right: 0;
+            @include reset-ul();
+            border-radius: 5px;
+            background-color: #ffffff;
+            -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            /*display: flex;*/
+            display: none;
+            flex-direction: column;
+            align-content: center;
+            justify-content: flex-end;
+            width: 100%;
+            text-align: center;
+            padding: 5px;
+        }
+        &__link{
+            font-family: "Roboto", sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #333333;
+            padding: 4px;
+            text-decoration: none;
+            display: block;
+            &:hover {
+                /*padding-bottom: 2px;*/
+                /*border-bottom: 2px solid #f77f00;*/
+                border-radius: 4px;
+                background-color: #f77f00;
+            }
+        }
+        &__photo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        &__info {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin-top: auto;
+        }
+        &__title, &__valid {
+            text-align: left;
+        }
+        &__title {
+            margin: 0;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #262626;
+        }
+        &__valid {
+            margin: 0;
+            font-size: 11px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #c4c4c4;
+        }
+    }
 
-    /*.header__wrapper {*/
-    /*background-color: #ffffff;*/
-    /*box-shadow: 0 2px 10px 0 #e9e9e9;*/
-    /*}*/
-    /*.nav-list {*/
-    /*outline: 1px solid green;*/
-    /*display: flex;*/
-    /*list-style: none;*/
-    /*!*min-height: 80px;*!*/
-    /*justify-content: flex-end;*/
-    /*align-items: center;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-
-    /*&--bottom {*/
-    /*}*/
-    /*}*/
-    /*.nav-item {*/
-    /*&--logo {*/
-    /*margin-right: auto;*/
-    /*}*/
-    /*}*/
     /*a {*/
-        /*outline: 1px solid red;*/
+    /*outline: 1px solid red;*/
     /*}*/
-
     /*li {*/
-        /*outline: 1px solid blue;*/
+    /*outline: 1px solid blue;*/
     /*}*/
     /*ul{*/
-        /*outline: 1px solid orangered;*/
+    /*outline: 1px solid orangered;*/
     /*}*/
 </style>
