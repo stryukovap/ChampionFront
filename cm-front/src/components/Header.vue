@@ -1,29 +1,32 @@
 <template>
     <div class="header__wrapper">
-        <nav class="main-nav">
-            <ul class="nav-list nav-list--top">
-                <li class="nav-item">
+        <nav class="header__menu menu">
+            <ul class="menu__list menu__list--top">
+                <li class="menu__item">
                     <a v-if="this.role==='federation' || this.role==='coach' || this.role==='sportsman'"
-                       :href="'mailto:' + this.$store.state.federationInfo.contact_email" class="header__toplink header__toplink--email">
+                       :href="'mailto:' + this.$store.state.federationInfo.contact_email"
+                       class="menu__link menu__link--email">
                         {{this.$store.state.federationInfo.contact_email }}
                     </a>
-                    <a v-else href="mailto:admin@champion.com" class="header__toplink header__toplink--email">admin@champion.com</a>
+                    <a v-else href="mailto:admin@champion.com"
+                       class="menu__link menu__link--email">admin@champion.com</a>
                 </li>
-                <li class="nav-item">
+                <li class="menu__item">
                     <a v-if="this.role==='federation' || this.role==='coach' || this.role==='sportsman'"
-                       :href="'tel:' + this.$store.state.federationInfo.contact_telephone" class="header__toplink header__toplink--tel">
+                       :href="'tel:' + this.$store.state.federationInfo.contact_telephone"
+                       class="menu__link menu__link--tel">
                         {{this.$store.state.federationInfo.contact_telephone }}
                     </a>
-                    <a v-else href="tel:38067000001" class="header__toplink header__toplink--tel">+38067000001</a>
+                    <a v-else href="tel:38067000001" class="menu__link menu__link--tel">+38067000001</a>
                 </li>
             </ul>
             <div class="container">
-                <ul class="nav-list nav-list--bottom">
-                    <li class="nav-item nav-item--logo">
-                        <router-link class="nav-link" to="/">
-                            <img class="header__logo" src="../assets/logo.svg" alt="Logo" width="103" height="58.2">
+                <ul class="menu__list menu__list--bottom">
+                    <li class="menu__item menu__item--logo">
+                        <router-link class="menu__link" to="/">
+                            <img class="menu__logo" src="../assets/logo.svg" alt="Logo" width="103" height="58.2">
                         </router-link>
-                    <li class="nav-item" v-if="checkLogin">
+                    <li class="menu__item" v-if="checkLogin">
                         <div class="user">
                             <div class="user__date">Valid until
                                 <time class="user__time">{{ userData.validUntil }}</time>
@@ -67,18 +70,26 @@
                                 </div>
                             </div>
                         </div>
-                                        </li>
-<li>
-    <div class="nav-item nav-item-logout" v-if="checkLogin">
-        <button v-on:click="logout">Logout</button>
-    </div>
-    <div class="nav-item nav-item-buttons" v-else>
-        <router-link tag="button" to="/auth">Log in</router-link>
-        <router-link tag="button" to="/registration">Registration
-        </router-link>
-    </div>
+                    </li>
+                    <li>
+                        <!--<div class="nav-item nav-item-logout" v-if="checkLogin">-->
+                        <!--<button v-on:click="logout">Logout</button>-->
+                        <!--</div>-->
+                        <ul v-if="!checkLogin" class="menu__list menu__list--auth">
+                            <li class="menu__item menu__item--auth">
+                                <router-link class="menu__link menu__link--auth" tag="a" to="/auth">Log in</router-link>
+                            </li>
+                            <li class="user__nav-item menu__item--auth">
+                                <router-link class="menu__link menu__link--auth" tag="a" to="/registration">Register</router-link>
+                            </li>
+                        </ul>
+                        <!--<div class="nav-item nav-item-" v-else>-->
+                        <!--<router-link tag="a" to="/auth">Log in</router-link>-->
+                        <!--<router-link tag="a" to="/registration">Registration-->
+                        <!--</router-link>-->
+                        <!--</div>-->
 
-</li>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -86,206 +97,262 @@
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
 
-export default {
-  name: "Header",
-  data: function() {
-    return {
-      languages: {
-        selectedLang: "en",
-        langList: ["en", "ru", "ua"],
-        activeClass: false,
-        activeClassMobile: false
-      },
-      role: "",
-      // userObj: {},
-      userData: {
-        id: "",
-        validUntil: "10.10.2020",
-        userName: "Denis Yermolin",
-        userLogo: "img/header/user.png"
-      },
-      user: {},
-      menu: [
-        {
-          title: "My Profile",
-          titleFederation: "Federation"
+    export default {
+        name: "Header",
+        data: function () {
+            return {
+                languages: {
+                    selectedLang: "en",
+                    langList: ["en", "ru", "ua"],
+                    activeClass: false,
+                    activeClassMobile: false
+                },
+                role: "",
+                // userObj: {},
+                userData: {
+                    id: "",
+                    validUntil: "10.10.2020",
+                    userName: "Denis Yermolin",
+                    userLogo: "img/header/user.png"
+                },
+                user: {},
+                menu: [
+                    {
+                        title: "My Profile",
+                        titleFederation: "Federation"
+                    },
+                    {
+                        titleCoach: "My Cabinet",
+                        titleSportsman: "Settings"
+                    },
+                    {
+                        title: "Exit"
+                    }
+                ],
+                headerLogo: {
+                    logoChampion: "img/header/logo_champion.png",
+                    logoFederation: "img/header/logo_federation.png"
+                },
+                toggleClass: {
+                    hamburger: false,
+                    mobileMenu: false
+                }
+            };
         },
-        {
-          titleCoach: "My Cabinet",
-          titleSportsman: "Settings"
+        mounted() {
+            // this.getRole();
         },
-        {
-          title: "Exit"
+        methods: {
+            logout: function () {
+                localStorage.removeItem("lbUser");
+                this.$store.state.isLoggedIn = false;
+                // this.getRole();
+                this.role = "";
+                this.$router.push("/");
+                window.console.log(
+                    "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+                );
+            },
+            getUserId: function () {
+                window.console.log("getUserId");
+            },
+            setActiveLang(e) {
+                this.languages.selectedLang = e.target.textContent.trim();
+            },
+            getFederationInfo: function () {
+                window.console.log("getFederationInfo");
+                axios
+                    .get(
+                        "https://champion-api.herokuapp.com/api/federation/" +
+                        this.$store.state.authUser.federation_users[0].federation_id
+                    )
+                    .then(response => {
+                        window.console.log(response.data);
+                        this.$store.federationInfo = response.data;
+                    })
+                    .catch(function (error) {
+                        //     // handle error
+                        window.console.log(error);
+                    });
+            },
+            getSportsmanInfo: function () {
+                window.console.log("getSportsmanInfo");
+                axios
+                    .get(
+                        "https://champion-api.herokuapp.com/api/federation/" +
+                        this.$store.state.authUser.my_sportsmen_profile
+                            .federation_sportsmen[0].federation_id
+                    )
+                    .then(response => {
+                        window.console.log(response.data);
+                        this.$store.federationInfo = response.data;
+                    })
+                    .catch(function (error) {
+                        //     // handle error
+                        window.console.log(error);
+                    });
+            },
+            getRole: function () {
+                if (this.$store.state.authUser.federation_users.length !== 0) {
+                    this.role = "federation";
+                    window.console.log(this.role);
+                    this.getFederationInfo();
+                    // return role;
+                } else if (
+                    this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0]
+                        .is_coach
+                ) {
+                    // if (
+                    //   this.$store.state.authUser.my_sportsmen_profile
+                    //     .federation_sportsmen[0].is_coach === true
+                    // ) {
+                    this.role = "coach";
+                    this.getSportsmanInfo();
+                    window.console.log(this.role);
+                    // return role;
+                    // }
+                } else {
+                    this.role = "sportsman";
+                    this.getSportsmanInfo();
+                    window.console.log(this.role);
+                }
+            }
+        },
+
+        computed: {
+            checkLogin() {
+                if (this.$store.state.isLoggedIn) {
+                    this.getUserId();
+                    this.getRole();
+                    // this.getFederationInfo();
+                }
+                return this.$store.state.isLoggedIn;
+            }
         }
-      ],
-      headerLogo: {
-        logoChampion: "img/header/logo_champion.png",
-        logoFederation: "img/header/logo_federation.png"
-      },
-      toggleClass: {
-        hamburger: false,
-        mobileMenu: false
-      }
     };
-  },
-  mounted() {
-    // this.getRole();
-  },
-  methods: {
-    logout: function() {
-      localStorage.removeItem("lbUser");
-      this.$store.state.isLoggedIn = false;
-      // this.getRole();
-      this.role = "";
-      this.$router.push("/");
-      window.console.log(
-        "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-      );
-    },
-    getUserId: function() {
-      window.console.log("getUserId");
-    },
-    setActiveLang(e) {
-      this.languages.selectedLang = e.target.textContent.trim();
-    },
-    getFederationInfo: function() {
-      window.console.log("getFederationInfo");
-      axios
-        .get(
-          "https://champion-api.herokuapp.com/api/federation/" +
-            this.$store.state.authUser.federation_users[0].federation_id
-        )
-        .then(response => {
-          window.console.log(response.data);
-          this.$store.federationInfo = response.data;
-        })
-        .catch(function(error) {
-          //     // handle error
-          window.console.log(error);
-        });
-    },
-    getSportsmanInfo: function() {
-      window.console.log("getSportsmanInfo");
-      axios
-        .get(
-          "https://champion-api.herokuapp.com/api/federation/" +
-            this.$store.state.authUser.my_sportsmen_profile
-              .federation_sportsmen[0].federation_id
-        )
-        .then(response => {
-          window.console.log(response.data);
-          this.$store.federationInfo = response.data;
-        })
-        .catch(function(error) {
-          //     // handle error
-          window.console.log(error);
-        });
-    },
-    getRole: function() {
-      if (this.$store.state.authUser.federation_users.length !== 0) {
-        this.role = "federation";
-        window.console.log(this.role);
-        this.getFederationInfo();
-        // return role;
-      } else if (
-        this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0]
-          .is_coach
-      ) {
-        // if (
-        //   this.$store.state.authUser.my_sportsmen_profile
-        //     .federation_sportsmen[0].is_coach === true
-        // ) {
-        this.role = "coach";
-        this.getSportsmanInfo();
-        window.console.log(this.role);
-        // return role;
-        // }
-      } else {
-        this.role = "sportsman";
-        this.getSportsmanInfo();
-        window.console.log(this.role);
-      }
-    }
-  },
-
-  computed: {
-    checkLogin() {
-      if (this.$store.state.isLoggedIn) {
-        this.getUserId();
-        this.getRole();
-        // this.getFederationInfo();
-      }
-      return this.$store.state.isLoggedIn;
-    }
-  }
-};
 </script>
 
 <style lang="scss" scoped>
-.header__toplink {
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #757373;
-  margin-right: 40px;
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 6px;
-  padding-bottom: 7.5px;
-  padding-left: 33px;
-  &--email {
-    background-image: url("../assets/e-moil_icon.svg");
-    background-repeat: no-repeat;
-    background-size: 23px 23px;
-    background-position: center left;
-  }
-  &--tel {
-    background-image: url("../assets/phone_icon.svg");
-    background-repeat: no-repeat;
-    background-size: 23px 23px;
-    background-position: center left;
-  }
-}
-
-.header__svg {
-  margin-right: 10px;
-}
-
-.header__wrapper {
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px 0 #e9e9e9;
-}
-.nav-list {
-  outline: 1px solid green;
-    display: flex;
-    list-style: none;
-    /*min-height: 80px;*/
-    justify-content: flex-start;
-    margin: 0;
-    padding: 0;
-    &--top{
-        background-color: #f5f5f5;
-        display:flex;
+    @mixin reset-ul {
+        padding: 0;
+        margin: 0;
         list-style: none;
-        align-items: center;
-        justify-content: center;
     }
-    &--bottom{
 
+    .menu {
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px 0 #e9e9e9;
+        &__item{
+            &--logo{
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 8.7px;
+            }
+            &--auth{
+                margin-right: 30px;
+            }
+        }
+        &__list {
+            @include reset-ul();
+            display: flex;
+            align-items: center;
+            &--top {
+                justify-content: center;
+                background-color: #f5f5f5;
+            }
+            &--bottom{
+                justify-content: flex-end;
+            }
+            &--auth{
+                margin-right: 90px;
+            }
+        }
+        &__link {
+            font-family: "Roboto", sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            &--email {
+                color: #757373;
+                margin-right: 40px;
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 6px;
+                padding-bottom: 7.5px;
+                padding-left: 33px;
+                background-image: url("../assets/e-moil_icon.svg");
+                background-repeat: no-repeat;
+                background-size: 23px 23px;
+                background-position: center left;
+            }
+            &--tel {
+                color: #757373;
+                margin-right: 40px;
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 6px;
+                padding-bottom: 7.5px;
+                padding-left: 33px;
+                background-image: url("../assets/phone_icon.svg");
+                background-repeat: no-repeat;
+                background-size: 23px 23px;
+                background-position: center left;
+            }
+            &--auth{
+                color: #333333;
+                text-decoration: none;
+                padding-bottom: 6.8px;
+                &:hover{
+                    padding-bottom: 4.8px;
+                    border-bottom: 2px solid #f77f00;
+                }
+            }
+        }
     }
-}
-a {
-  outline: 1px solid red;
-}
-    li{
-        outline: 1px solid blue;
-    }
+
+    /*.header__svg {*/
+    /*margin-right: 10px;*/
+    /*}*/
+
+    /*.header__wrapper {*/
+    /*background-color: #ffffff;*/
+    /*box-shadow: 0 2px 10px 0 #e9e9e9;*/
+    /*}*/
+    /*.nav-list {*/
+    /*outline: 1px solid green;*/
+    /*display: flex;*/
+    /*list-style: none;*/
+    /*!*min-height: 80px;*!*/
+    /*justify-content: flex-end;*/
+    /*align-items: center;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+
+    /*&--bottom {*/
+    /*}*/
+    /*}*/
+    /*.nav-item {*/
+    /*&--logo {*/
+    /*margin-right: auto;*/
+    /*}*/
+    /*}*/
+    /*a {*/
+        /*outline: 1px solid red;*/
+    /*}*/
+
+    /*li {*/
+        /*outline: 1px solid blue;*/
+    /*}*/
+    /*ul{*/
+        /*outline: 1px solid orangered;*/
+    /*}*/
 </style>
