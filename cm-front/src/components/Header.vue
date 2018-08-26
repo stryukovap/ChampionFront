@@ -44,7 +44,11 @@
                             <!--<div @click="showMenu" class="user">-->
                             <img class="user__photo" src="../assets/345x345_26.jpg" alt="user" width="44">
                             <div class="user__info">
-                                <h4 class="user__title">{{this.$store.state.role}}</h4>
+                                <!--<h4 class="user__title">{{this.$store.state.role}}</h4>-->
+                                <h4 v-if="this.$store.state.role==='federation'"
+                                    class="user__title">{{this.$store.state.federationInfo.name}}</h4>
+                                <h4 v-else class="user__title">{{this.$store.state.authUser.my_sportsmen_profile.first_name}}
+                                    {{this.$store.state.authUser.my_sportsmen_profile.last_name}}</h4>
                                 <p class="user__valid">Valid until 10.10.2020</p>
                             </div>
                             <ul class="user__list">
