@@ -69,7 +69,7 @@
                                     </router-link>
                                 </li>
                                 <li class="user__item"
-                                    v-if="this.$store.state.role==='sportsman'">
+                                    v-if="this.$store.state.role==='sportsman' || this.$store.state.role==='coach'">
                                     <router-link tag="a"
                                                  to="/userprofile"
                                                  class="user__link">
@@ -327,7 +327,7 @@
         align-items: center;
         margin-right: 175px;
         padding-right: 15px;
-        background-image: url("../assets/group.svg");
+        background-image: url("../assets/Group.svg");
         background-repeat: no-repeat;
         background-size: 7px 3.6px;
         background-position: right center;

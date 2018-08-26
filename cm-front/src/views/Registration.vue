@@ -79,7 +79,7 @@
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
                                        $v.user.passwordConfirm.$error  || testInitPassword}">Next</a>
-                                       <!--@click="sendUserDataOnServer">Next</a>-->
+                                    <!--@click="sendUserDataOnServer">Next</a>-->
                                     <!--<div>{{$v.user.email.$error}}</div>-->
                                     <!--<div>{{$v.user.password.$error}}</div>-->
                                     <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
@@ -97,8 +97,8 @@
                                        $v.user.password.$error ||
                                        $v.user.passwordConfirm.$error || testInitPassword">
                             <!--включено для отладки-->
-                        <!--<tab name="Second step">-->
-                        <div class="cm-form__wrapper text-left">
+                            <!--<tab name="Second step">-->
+                            <div class="cm-form__wrapper text-left">
                                 <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
@@ -191,11 +191,11 @@
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
                                     <!--<div class="col">-->
-                                        <!--<input class="form-control" type="text"-->
-                                               <!--id="federation"-->
-                                               <!--placeholder="Federation"-->
-                                               <!--disabled-->
-                                               <!--v-model="sportsman.federation">-->
+                                    <!--<input class="form-control" type="text"-->
+                                    <!--id="federation"-->
+                                    <!--placeholder="Federation"-->
+                                    <!--disabled-->
+                                    <!--v-model="sportsman.federation">-->
                                     <!--</div>-->
                                     <select class="form-control" name="federation" id="federation"
                                             v-model="sportsman.federation">
@@ -211,35 +211,37 @@
                                     </div>
                                     <div class="col">
 
-                                     <!--обычный выбор-->
-                                         <!--<input class="form-control" type="text"-->
-                                         <!--id="trainer"-->
-                                         <!--placeholder="Coach"-->
-                                         <!--autocomplete="off"-->
-                                         <!--v-model="sportsman.trainer">-->
+                                        <!--обычный выбор-->
+                                        <!--<input class="form-control" type="text"-->
+                                        <!--id="trainer"-->
+                                        <!--placeholder="Coach"-->
+                                        <!--autocomplete="off"-->
+                                        <!--v-model="sportsman.trainer">-->
 
-                                        <multiselect id = "trainer"
-                                                     v-model = "value"
-                                                     :options = "options"
-                                                     :multiple = "true"
-                                                     :close-on-select = "true"
-                                                     :clear-on-select = "false"
-                                                     :hide-selected = "true"
-                                                     :preserve-search = "true"
-                                                     placeholder = "Choose your coach"
-                                                     label = "last_name"
-                                                     track-by = "id"
-                                                     :preselect-first = "true"
-                                        ><template slot = "tag" slot-scope = "props">
-                                            <span class = "custom__tag">
+                                        <multiselect id="trainer"
+                                                     v-model="value"
+                                                     :options="options"
+                                                     :multiple="true"
+                                                     :close-on-select="true"
+                                                     :clear-on-select="false"
+                                                     :hide-selected="true"
+                                                     :preserve-search="true"
+                                                     placeholder="Choose your coach"
+                                                     label="last_name"
+                                                     track-by="id"
+                                                     :preselect-first="true"
+                                        >
+                                            <template slot="tag" slot-scope="props">
+                                            <span class="custom__tag">
                                                 <!-- option === coach -->
                                                 <span>{{ props.option.last_name }}</span>
-                                                <span class = "custom__remove" @click = "props.remove(props.option)">❌</span>
+                                                <span class="custom__remove"
+                                                      @click="props.remove(props.option)">❌</span>
                                             </span>
-                                        </template>
+                                            </template>
                                         </multiselect>
 
-                                     </div>
+                                    </div>
 
                                 </div>
                                 <div class="cm-form__wrapper row">
@@ -330,356 +332,382 @@
 </template>
 
 <script>
-import { Tabs, Tab } from "vue-tabs-component";
-import axios from "axios";
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-import Multiselect from "vue-multiselect";
+    import {Tabs, Tab} from "vue-tabs-component";
+    import axios from "axios";
+    import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
+    import Multiselect from "vue-multiselect";
 
-export default {
-  name: "registration",
-  components: {
-    Tabs,
-    Tab,
-    Multiselect
-  },
-  data() {
-    return {
-      user: {
-        email: "",
-        password: "",
-        passwordConfirm: ""
-      },
-      sportsman: {
-        name: "",
-        surname: "",
-        patronymic: "",
-        gender: "M",
-        dateOfBirth: "",
-        federation: "2", //по умолчанию, чтобы показывалось значение
-        trainer: "",
-        city: ""
-      },
-      federation: {
-        name: "",
-        sport: "2", //по умолчанию, чтобы показывалось значение
-        presidentName: "",
-        subDomain: "",
-        phone: "",
-        email: ""
-      },
-      userSportsman: "true",
-      federations: {},
-      sports: {},
-      authUser: {},
-      value: [],
-      options: []
-    };
-  },
-  mounted() {
-    axios
-      .get("https://champion-api.herokuapp.com/api/federations")
-      .then(response => {
-        // handle success
-        window.console.log(response);
-        if (response.status === 200) {
-          this.federations = response.data;
-        }
-      })
-      .catch(function(error) {
-        // handle error
-        window.console.log(error);
-      });
-    axios
-      .get("https://champion-api.herokuapp.com/api/sports")
-      .then(response => {
-        // handle success
-        window.console.log(response);
-        if (response.status === 200) {
-          this.sports = response.data;
-        }
-      })
-      .catch(function(error) {
-        // handle error
-        window.console.log(error);
-      });
-    axios
-      .get("https://champion-api.herokuapp.com/api/sportsman/list")
-      .then(response => {
-        // window.console.log(response);
-        if (response.status === 200) {
-          this.options = response.data;
-        }
-      })
-      .catch(function(error) {
-        window.console.log(error);
-      });
-  },
-  computed: {
-    testInitPassword: function() {
-      if (this.user.password === "" || this.user.passwordConfirm === "") {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  },
-
-  validations: {
-    user: {
-      email: {
-        required: required,
-        email: email,
-        unique: val => {
-          // if (val === "") return true;
-          return (
+    export default {
+        name: "registration",
+        components: {
+            Tabs,
+            Tab,
+            Multiselect
+        },
+        data() {
+            return {
+                user: {
+                    email: "",
+                    password: "",
+                    passwordConfirm: ""
+                },
+                sportsman: {
+                    name: "",
+                    surname: "",
+                    patronymic: "",
+                    gender: "M",
+                    dateOfBirth: "",
+                    federation: "2", //по умолчанию, чтобы показывалось значение
+                    trainer: "",
+                    city: ""
+                },
+                federation: {
+                    name: "",
+                    sport: "2", //по умолчанию, чтобы показывалось значение
+                    presidentName: "",
+                    subDomain: "",
+                    phone: "",
+                    email: ""
+                },
+                userSportsman: "true",
+                federations: {},
+                sports: {},
+                authUser: {},
+                value: [],
+                options: []
+            };
+        },
+        mounted() {
             axios
-              .get(
-                "https://champion-api.herokuapp.com/api/user/find?email=" + val
-              ) //+userEmail, 200 true, 404 false)
-              // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
-              .then(response => {
-                // handle success
-                window.console.log(response);
-                if (response.status === 200) {
-                  return false;
+                .get("https://champion-api.herokuapp.com/api/federations")
+                .then(response => {
+                    // handle success
+                    window.console.log(response);
+                    if (response.status === 200) {
+                        this.federations = response.data;
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    window.console.log(error);
+                });
+            axios
+                .get("https://champion-api.herokuapp.com/api/sports")
+                .then(response => {
+                    // handle success
+                    window.console.log(response);
+                    if (response.status === 200) {
+                        this.sports = response.data;
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    window.console.log(error);
+                });
+            axios
+                .get("https://champion-api.herokuapp.com/api/sportsman/list")
+                .then(response => {
+                    // window.console.log(response);
+                    if (response.status === 200) {
+                        this.options = response.data;
+                    }
+                })
+                .catch(function (error) {
+                    window.console.log(error);
+                });
+        },
+        computed: {
+            testInitPassword: function () {
+                if (this.user.password === "" || this.user.passwordConfirm === "") {
+                    return true;
+                } else {
+                    return false;
                 }
-              })
-              .catch(function(error) {
-                // handle error
-                window.console.log(error);
-                return true;
-              })
-          );
-        }
-      },
-      password: {
-        required: required,
-        minLength: minLength(6)
-      },
-      passwordConfirm: {
-        required: required,
-        sameAs: sameAs("password")
-      }
-    },
-    sportsman: {
-      name: {
-        required: required,
-        minLength: minLength(1)
-      },
-      surname: {
-        minLength: minLength(1)
-      },
-      patronymic: {
-        minLength: minLength(1)
-      },
-      dateOfBirth: {
-        required: required,
-        checkFutureData: val => {
-          if (val == "") {
-            return true;
-          }
-          var today = new Date(); // сегодняшнеяя дата и время
-          var inputDate = new Date(val);
-          if (today >= inputDate) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
-    }
-  },
-  methods: {
-    sendUserDataOnServer: function() {
-      window.console.log("posting user - " + this.user);
-      axios
-        .post("https://champion-api.herokuapp.com/api/user", {
-          email: this.user.email,
-          password: this.user.password,
-          password_confirmation: this.user.passwordConfirm
-        })
-        .then(response => {
-          window.console.log("response.status " + response.status);
-          // if (response.status === 201) {
-          this.$store.state.authUser = response.data;
-          this.authUser = response.data;
-          window.console.log("authUser - " + this.authUser);
-          window.localStorage.setItem(
-            "lbUser",
-            JSON.stringify(this.$store.state.authUser)
-          );
-          this.$store.state.isLoggedIn = true;
-          window.console.log(
-            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-          );
-          // this.$router.push("/");
-          window.console.log(this.userSportsman);
-          window.console.log(this.authUser.auth_token);
-          let HTTP = axios.create({
-            headers: {
-              Authorization: "Bearer " + this.authUser.auth_token
             }
-          });
-          if (this.userSportsman === "true") {
-            window.console.log("sendSportsmanDataOnServer sending");
-            HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
-              first_name: this.sportsman.name,
-              last_name: this.sportsman.surname,
-              patronymic_name: this.sportsman.patronymic,
-              gender: this.sportsman.gender,
-              date_of_birth: this.sportsman.dateOfBirth,
-              federation_id: this.sportsman.federation
-            })
-              .then(function(response) {
-                window.console.log(response);
-                  localStorage.removeItem("lbUser");
-                  this.$store.state.isLoggedIn = false;
-                  this.$router.push("/auth");
-              })
-              .catch(function(error) {
-                window.console.log(error);
-              });
-          } else {
-            window.console.log("sendFederationDataOnServer sending");
-            HTTP.post("https://champion-api.herokuapp.com/api/federations", {
-              name: this.federation.name,
-              president_name: this.federation.presidentName,
-              logo_id: "",
-              sub_domain: this.federation.subDomain,
-              contact_telephone: this.federation.phone,
-              contact_email: this.federation.email,
-              sport_id: this.federation.sport
-            })
-              .then(function(response) {
-                window.console.log(response);
-                  localStorage.removeItem("lbUser");
-                  this.$store.state.isLoggedIn = false;
-                  this.$router.push("/auth");
-              })
-              .catch(function(error) {
-                window.console.log(error);
-              });
-          }
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    }
-    // sendSportsmanDataOnServer: function() {},
-    // sendFederationDataOnServer: function() {}
-  }
-};
+        },
+
+        validations: {
+            user: {
+                email: {
+                    required: required,
+                    email: email,
+                    unique: val => {
+                        // if (val === "") return true;
+                        return (
+                            axios
+                                .get(
+                                    "https://champion-api.herokuapp.com/api/user/find?email=" + val
+                                ) //+userEmail, 200 true, 404 false)
+                                // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
+                                .then(response => {
+                                    // handle success
+                                    window.console.log(response);
+                                    if (response.status === 200) {
+                                        return false;
+                                    }
+                                })
+                                .catch(error=> {
+                                    // handle error
+                                    window.console.log(error);
+                                    return true;
+                                })
+                        );
+                    }
+                },
+                password: {
+                    required: required,
+                    minLength: minLength(6)
+                },
+                passwordConfirm: {
+                    required: required,
+                    sameAs: sameAs("password")
+                }
+            },
+            sportsman: {
+                name: {
+                    required: required,
+                    minLength: minLength(1)
+                },
+                surname: {
+                    minLength: minLength(1)
+                },
+                patronymic: {
+                    minLength: minLength(1)
+                },
+                dateOfBirth: {
+                    required: required,
+                    checkFutureData: val => {
+                        if (val == "") {
+                            return true;
+                        }
+                        var today = new Date(); // сегодняшнеяя дата и время
+                        var inputDate = new Date(val);
+                        if (today >= inputDate) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        },
+        methods: {
+            sendUserDataOnServer: function () {
+                localStorage.removeItem("lbUser");
+                window.console.log("sendUserDataOnServer sending");
+                axios
+                    .post("https://champion-api.herokuapp.com/api/user", {
+                        email: this.user.email,
+                        password: this.user.password,
+                        password_confirmation: this.user.passwordConfirm
+                    })
+                    .then(response => {
+                        window.console.log(response);
+                        this.authUser = response.data;
+                        let HTTP = axios.create({
+                            headers: {
+                                Authorization: "Bearer " + this.authUser.auth_token
+                            }
+                        });
+                        if (this.userSportsman === "true") {
+                            window.console.log("sendSportsmanDataOnServer sending");
+                            HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
+                                first_name: this.sportsman.name,
+                                last_name: this.sportsman.surname,
+                                patronymic_name: this.sportsman.patronymic,
+                                gender: this.sportsman.gender,
+                                date_of_birth: this.sportsman.dateOfBirth,
+                                federation_id: this.sportsman.federation
+                            })
+                                .then(response => {
+                                    window.console.log(response);
+                                    this.$router.push("/");
+                                    //
+                                    axios
+                                        .post(this.$store.state.postLoginUrl, {
+                                            email: this.user.email,
+                                            password: this.user.password
+                                        })
+                                        .then(response => {
+                                            if (response.status === 200) {
+                                                this.$store.state.authUser = response.data;
+                                                this.$store.state.isLoggedIn = true;
+                                                window.localStorage.setItem(
+                                                    "lbUser",
+                                                    JSON.stringify(this.$store.state.authUser)
+                                                );
+                                            } else {
+                                                this.$store.state.isLoggedIn = false;
+                                            }
+                                        })
+                                        .catch(function(error) {
+                                            window.console.log(error);
+                                        });
+                                    //
+                                })
+                                .catch(error => {
+                                    window.console.log(error);
+                                });
+                        } else {
+                            window.console.log("sendFederationDataOnServer sending");
+                            HTTP.post("https://champion-api.herokuapp.com/api/federations", {
+                                name: this.federation.name,
+                                president_name: this.federation.presidentName,
+                                logo_id: "",
+                                sub_domain: this.federation.subDomain,
+                                contact_telephone: this.federation.phone,
+                                contact_email: this.federation.email,
+                                sport_id: this.federation.sport
+                            })
+                                .then(response => {
+                                    window.console.log(response);
+                                    this.$router.push("/");
+                                    //
+                                    axios
+                                        .post(this.$store.state.postLoginUrl, {
+                                            email: this.user.email,
+                                            password: this.user.password
+                                        })
+                                        .then(response => {
+                                            if (response.status === 200) {
+                                                this.$store.state.authUser = response.data;
+                                                this.$store.state.isLoggedIn = true;
+                                                window.localStorage.setItem(
+                                                    "lbUser",
+                                                    JSON.stringify(this.$store.state.authUser)
+                                                );
+                                            } else {
+                                                this.$store.state.isLoggedIn = false;
+                                            }
+                                        })
+                                        .catch(function(error) {
+                                            window.console.log(error);
+                                        });
+                                    //
+                                })
+                                .catch(error => {
+                                    window.console.log(error);
+                                });
+                        }
+                    })
+                    .catch(error => {
+                        window.console.log(error);
+                    });
+            }
+        }
+    };
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css">
 </style>
 <style lang="scss">
-.wrapper {
-  margin: 50px auto;
-}
+    .wrapper {
+        margin: 50px auto;
+    }
 
-.cm-form__wrapper {
-  margin-top: 10px;
-  text-align: left;
-}
+    .cm-form__wrapper {
+        margin-top: 10px;
+        text-align: left;
+    }
 
-.tabs-component {
-  margin: 4em 0;
-}
+    .tabs-component {
+        margin: 4em 0;
+    }
 
-.tabs-component-tabs {
-  border: solid 1px #ddd;
-  border-radius: 6px;
-  margin-bottom: 5px;
-}
+    .tabs-component-tabs {
+        border: solid 1px #ddd;
+        border-radius: 6px;
+        margin-bottom: 5px;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-tabs {
-    border: 0;
-    align-items: stretch;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: -1px;
-  }
-}
+    @media (min-width: 700px) {
+        .tabs-component-tabs {
+            border: 0;
+            align-items: stretch;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: -1px;
+        }
+    }
 
-.tabs-component-tab {
-  color: #999;
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 0;
-  list-style: none;
-}
+    .tabs-component-tab {
+        color: #999;
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 0;
+        list-style: none;
+    }
 
-.tabs-component-tab:not(:last-child) {
-  border-bottom: dotted 1px #ddd;
-}
+    .tabs-component-tab:not(:last-child) {
+        border-bottom: dotted 1px #ddd;
+    }
 
-.tabs-component-tab:hover {
-  color: #666;
-}
+    .tabs-component-tab:hover {
+        color: #666;
+    }
 
-.tabs-component-tab.is-active {
-  color: #000;
-}
+    .tabs-component-tab.is-active {
+        color: #000;
+    }
 
-.tabs-component-tab.is-disabled * {
-  color: #cdcdcd;
-  cursor: not-allowed !important;
-}
+    .tabs-component-tab.is-disabled * {
+        color: #cdcdcd;
+        cursor: not-allowed !important;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-tab {
-    background-color: #fff;
-    border: solid 1px #ddd;
-    border-radius: 3px 3px 0 0;
-    margin-right: 0.5em;
-    transform: translateY(2px);
-    transition: transform 0.3s ease;
-  }
+    @media (min-width: 700px) {
+        .tabs-component-tab {
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 3px 3px 0 0;
+            margin-right: 0.5em;
+            transform: translateY(2px);
+            transition: transform 0.3s ease;
+        }
 
-  .tabs-component-tab.is-active {
-    border-bottom: solid 1px #fff;
-    z-index: 2;
-    transform: translateY(0);
-  }
-}
+        .tabs-component-tab.is-active {
+            border-bottom: solid 1px #fff;
+            z-index: 2;
+            transform: translateY(0);
+        }
+    }
 
-.tabs-component-tab-a {
-  align-items: center;
-  color: inherit;
-  display: flex;
-  padding: 0.75em 1em;
-  text-decoration: none;
-}
+    .tabs-component-tab-a {
+        align-items: center;
+        color: inherit;
+        display: flex;
+        padding: 0.75em 1em;
+        text-decoration: none;
+    }
 
-.tabs-component-panels {
-  padding: 4em 0;
-}
+    .tabs-component-panels {
+        padding: 4em 0;
+    }
 
-@media (min-width: 700px) {
-  .tabs-component-panels {
-    border-top-left-radius: 0;
-    background-color: #fff;
-    border: solid 1px #ddd;
-    border-radius: 0 6px 6px 6px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    padding: 4em 2em;
-  }
-}
+    @media (min-width: 700px) {
+        .tabs-component-panels {
+            border-top-left-radius: 0;
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 0 6px 6px 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            padding: 4em 2em;
+        }
+    }
 
-.custom__tag {
-  display: inline-block;
-  padding: 3px 12px;
-  background: #d2d7ff;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.custom__remove {
-  padding: 0;
-  font-size: 10px;
-  margin-left: 5px;
-}
+    .custom__tag {
+        display: inline-block;
+        padding: 3px 12px;
+        background: #d2d7ff;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .custom__remove {
+        padding: 0;
+        font-size: 10px;
+        margin-left: 5px;
+    }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="container cm-co-profile">
 
-    <user-info v-bind:userIsCoach="userIsCoach"></user-info>
+    <user-info class="user-info" v-bind:userIsCoach="userIsCoach"></user-info>
     <user-certificates></user-certificates>
 
     <user-team v-if="userIsCoach"></user-team>
@@ -29,20 +29,11 @@ export default {
       userIsCoach: false
     };
   },
-  mounted() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/todos")
-    //   .then(response => {
-    //     this.userIsCoach = response.data[3].completed;
-    //   })
-    //   .catch(error => {
-    //     window.console.log(error);
-    //   });
-  }
+  mounted() {}
 };
 </script>
-<style>
-.container {
-  text-align: left;
-}
+<style scoped lang="scss">
+  .user-info{
+    margin-top: 40px;
+  }
 </style>
