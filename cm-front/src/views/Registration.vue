@@ -78,14 +78,8 @@
                                        v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error  || testInitPassword}">Next</a>
-                                    <!--@click="sendUserDataOnServer">Next</a>-->
-                                    <!--<div>{{$v.user.email.$error}}</div>-->
-                                    <!--<div>{{$v.user.password.$error}}</div>-->
-                                    <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
-                                    <!--<div style="color:red">{{$v.user.email.$error ||-->
-                                    <!--$v.user.password.$error ||-->
-                                    <!--$v.user.passwordConfirm.$error}}</div>-->
+                                       $v.user.passwordConfirm.$error  ||
+                                       testInitPassword}">Next</a>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -95,7 +89,8 @@
                         <tab name="Second step"
                              :is-disabled="$v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error || testInitPassword">
+                                       $v.user.passwordConfirm.$error ||
+                                       testInitPassword">
                             <!--включено для отладки-->
                             <!--<tab name="Second step">-->
                             <div class="cm-form__wrapper text-left">
@@ -109,41 +104,59 @@
                                            placeholder="Name"
                                            autofocus
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.name"
                                            @input="$v.sportsman.name.$touch()"
+                                           @blur="$v.sportsman.name.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.name.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.name.minLength">
                                         Min length of Name is {{ $v.sportsman.name.$params.minLength.min }}. Now it
                                         is {{ sportsman.name.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.alpha">
+                                        Field for only alphabet characters
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Surname"
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.surname"
                                            @input="$v.sportsman.surname.$touch()"
+                                           @blur="$v.sportsman.surname.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.surname.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.surname.minLength">
-                                        Min length of Surname is {{ $v.sportsman.sportsman.surname.$params.minLength.min
+                                        Min length of Surname is {{ $v.sportsman.surname.$params.minLength.min
                                         }}. Now it
                                         is {{ sportsman.surname.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.alpha">
+                                        Field for only alphabet characters
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Patronymic"
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.patronymic"
                                            @input="$v.sportsman.patronymic.$touch()"
+                                           @blur="$v.sportsman.patronymic.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.patronymic.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">
                                         Min length of Patronymic is {{
                                         $v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it
                                         is {{ sportsman.patronymic.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.alpha">
+                                        Field for only alphabet characters
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -190,13 +203,6 @@
                                     <div class="col">
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
-                                    <!--<div class="col">-->
-                                    <!--<input class="form-control" type="text"-->
-                                    <!--id="federation"-->
-                                    <!--placeholder="Federation"-->
-                                    <!--disabled-->
-                                    <!--v-model="sportsman.federation">-->
-                                    <!--</div>-->
                                     <select class="form-control" name="federation" id="federation"
                                             v-model="sportsman.federation">
                                         <option v-for="federation in federations"
@@ -253,11 +259,27 @@
                                                id="city"
                                                placeholder="City"
                                                autocomplete="off"
+                                               @input="$v.sportsman.city.$touch()"
+                                               @blur="$v.sportsman.city.$touch()"
+                                               :class="{'is-invalid' :$v.sportsman.city.$error}"
                                                v-model="sportsman.city">
+                                        <div class="invalid-feedback" v-if="!$v.sportsman.city.required">
+                                            Field is required
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
+                                            v-bind:class="{'disabled':
+                                            $v.sportsman.patronymic.$error ||
+                                            $v.user.email.$error ||
+                                            $v.user.password.$error ||
+                                            $v.user.passwordConfirm.$error  ||
+                                            testInitPassword ||
+                                            $v.sportsman.surname.$error ||
+                                            $v.sportsman.name.$error ||
+                                            $v.sportsman.dateOfBirth.$error ||
+                                            $v.sportsman.city.$error}"
                                             @click="sendUserDataOnServer">Registration sportsman
                                     </button>
                                 </div>
@@ -269,8 +291,21 @@
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
                                            autofocus
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                                           v-model="federation.name">
+                                           v-model="federation.name"
+                                           @input="$v.federation.name.$touch()"
+                                           @blur="$v.federation.name.$touch()"
+                                           :class="{'is-invalid' :$v.federation.name.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.minLength">
+                                        Min length of Federation Name is {{ $v.federation.name.$params.minLength.min
+                                        }}. Now it
+                                        is {{ federation.name.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.alpha">
+                                        Field for only alphabet characters
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
@@ -289,39 +324,76 @@
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-presidentName" id="f-presidentName"
                                            placeholder="President Name"
-                                           v-model="federation.presidentName">
+                                           v-model="federation.presidentName"
+                                           @input="$v.federation.presidentName.$touch()"
+                                           @blur="$v.federation.presidentName.$touch()"
+                                           :class="{'is-invalid' :$v.federation.presidentName.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                        Min length of President Name is {{ $v.federation.presidentName.$params.minLength.min
+                                        }}. Now it
+                                        is {{ presidentName.name.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">
+                                        Field for only alphabet characters
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
                                            id="f-subDomain"
                                            placeholder="Subdomain"
-                                           v-model="federation.subDomain">
+                                           v-model="federation.subDomain"
+                                           @input="$v.federation.subDomain.$touch()"
+                                           @blur="$v.federation.subDomain.$touch()"
+                                           :class="{'is-invalid' :$v.federation.subDomain.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
+                                        Field is required
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
                                            placeholder="Contact Phone"
+                                           @input="$v.federation.phone.$touch()"
+                                           @blur="$v.federation.phone.$touch()"
+                                           :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
+                                        Field for only numeric characters
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="email" name="f-email"
                                            id="f-email"
                                            placeholder="Contact Email"
+                                           @input="$v.federation.email.$touch()"
+                                           @blur="$v.federation.email.$touch()"
+                                           :class="{'is-invalid' :$v.federation.email.$error}"
                                            v-model="federation.email">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.federation.email.required">Email field is required
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.federation.email.email">This field should be an email
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
+                                            v-bind:class="{'disabled':
+                                       $v.user.email.$error ||
+                                       $v.user.password.$error ||
+                                       $v.user.passwordConfirm.$error  ||
+                                       testInitPassword ||
+                                       $v.federation.phone.$error ||
+                                       $v.federation.email.$error ||
+                                       $v.federation.name.$error ||
+                                       $v.federation.presidentName.$error ||
+                                       $v.federation.subDomain.$error}"
                                             @click="sendUserDataOnServer">Registration federation
                                     </button>
                                 </div>
                             </div>
-                            <!--<div class="cm-form__wrapper text-center">-->
-                            <!--<button v-if="userSportsman" class="btn btn-primary"-->
-                            <!--@click="sendSportsmanDataOnServer">Registration sportsman-->
-                            <!--</button>-->
-                            <!--<button class="btn btn-primary"-->
-                            <!--@click="sendFederationDataOnServer">Registration federation-->
-                            <!--</button>-->
-                            <!--</div>-->
                         </tab>
                     </tabs>
                 </form>
@@ -334,7 +406,7 @@
 <script>
     import {Tabs, Tab} from "vue-tabs-component";
     import axios from "axios";
-    import {required, email, minLength, sameAs} from "vuelidate/lib/validators";
+    import {required, email, minLength, sameAs, numeric, alpha} from "vuelidate/lib/validators";
     import Multiselect from "vue-multiselect";
 
     export default {
@@ -466,13 +538,21 @@
             sportsman: {
                 name: {
                     required: required,
-                    minLength: minLength(1)
+                    alpha:alpha,
+                    minLength: minLength(2)
                 },
                 surname: {
-                    minLength: minLength(1)
+                    required: required,
+                    alpha:alpha,
+                    minLength: minLength(2)
                 },
                 patronymic: {
-                    minLength: minLength(1)
+                    required: required,
+                    alpha:alpha,
+                    minLength: minLength(2)
+                },
+                city:{
+                    required: required
                 },
                 dateOfBirth: {
                     required: required,
@@ -488,6 +568,29 @@
                             return false;
                         }
                     }
+                }
+            },
+            federation:{
+                phone:{
+                    required: required,
+                    numeric:numeric
+                },
+                email:{
+                    required:required,
+                    email:email
+                },
+                name:{
+                    required:required,
+                    alpha:alpha,
+                    minLength: minLength(3)
+                },
+                presidentName:{
+                    required:required,
+                    alpha:alpha,
+                    minLength: minLength(3)
+                },
+                subDomain:{
+                    required:required
                 }
             }
         },
@@ -517,7 +620,8 @@
                                 patronymic_name: this.sportsman.patronymic,
                                 gender: this.sportsman.gender,
                                 date_of_birth: this.sportsman.dateOfBirth,
-                                federation_id: this.sportsman.federation
+                                federation_id: this.sportsman.federation,
+                                city:this.sportsman.city
                             })
                                 .then(response => {
                                     window.console.log(response);
