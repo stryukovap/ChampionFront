@@ -106,12 +106,13 @@
                 },
                 role: "",
                 // userObj: {},
-                userData: {
-                    id: "",
-                    validUntil: "10.10.2020",
-                    userName: "Denis Yermolin",
-                    userLogo: "img/header/user.png"
-                },
+                federationInfo:{},
+                // userData: {
+                //     id: "",
+                //     validUntil: "10.10.2020",
+                //     userName: "Denis Yermolin",
+                //     userLogo: "img/header/user.png"
+                // },
                 user: {},
                 menu: [
                     {
@@ -165,7 +166,7 @@
                     )
                     .then(response => {
                         window.console.log(response.data);
-                        this.$store.federationInfo = response.data;
+                        this.$store.state.federationInfo = response.data;
                     })
                     .catch(function (error) {
                         //     // handle error
@@ -182,7 +183,7 @@
                     )
                     .then(response => {
                         window.console.log(response.data);
-                        this.$store.federationInfo = response.data;
+                        this.$store.state.federationInfo = response.data;
                     })
                     .catch(function (error) {
                         //     // handle error
