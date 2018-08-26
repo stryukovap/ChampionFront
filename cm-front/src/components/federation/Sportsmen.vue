@@ -14,7 +14,10 @@
           <div class="thumbnail">
             <img v-bind:src="sportsman.avatar" class="mx-auto d-block">
             <h4 class="text-center">{{ sportsman.name }}</h4>
-            <p class="text-center">{{ sportsman.role }}<img v-bind:src="sportsman.belt">{{ sportsman.dan }}</p>
+            <!-- <p class="text-center">{{ sportsman.role }}<img v-bind:src="sportsman.belt">{{ sportsman.dan }}</p> -->
+            <p class="text-center">{{ sportsman.role }}</p>
+            <p class="text-center">belt - {{ sportsman.belt }}</p>
+            <p class="text-center">title - {{ sportsman.title }}</p>
           </div>
         </a>
       </div>
@@ -75,9 +78,10 @@ export default {
           if(page !== "") this.sportsmenList.shift();
           this.sportsmenList.push({
             name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
-            role: "coach",
-            belt: "../img/pos.png",
-            dan: 3,
+            role: response.data.data[i].federation_sportsmen[0].is_coach ? "coach" : "sportsman",
+            // belt: "../img/pos.png",
+            belt: response.data.data[i].federation_sportsmen[0].federation_belt_id || "no",
+            title: response.data.data[i].federation_sportsmen[0].title || "no",
             link: "#",
             avatar: "../img/user-photo.PNG"
           });
