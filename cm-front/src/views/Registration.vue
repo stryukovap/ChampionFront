@@ -520,7 +520,7 @@ export default {
               Authorization: "Bearer " + this.authUser.auth_token
             }
           });
-          if (!!this.userSportsman === true) {
+          if (this.userSportsman === true) {
             window.console.log("sendSportsmanDataOnServer sending");
             HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
               first_name: this.sportsman.name,
@@ -541,7 +541,7 @@ export default {
             HTTP.post("https://champion-api.herokuapp.com/api/federations", {
               name: this.federation.name,
               president_name: this.federation.presidentName,
-              logo_id: "1234567",
+              logo_id: "",
               sub_domain: this.federation.subDomain,
               contact_telephone: this.federation.phone,
               contact_email: this.federation.email,
