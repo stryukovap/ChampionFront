@@ -33,6 +33,7 @@ export default new Vuex.Store({
     },
     // <<<<<<< HEAD
     roles: {},
+      role:"",
     federationInfo: {
       id: 62,
       name: "front end",

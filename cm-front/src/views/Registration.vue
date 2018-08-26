@@ -512,7 +512,7 @@ export default {
           window.console.log(
             "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
           );
-          this.$router.push("/");
+          // this.$router.push("/");
           window.console.log(this.userSportsman);
           window.console.log(this.authUser.auth_token);
           let HTTP = axios.create({
@@ -520,7 +520,7 @@ export default {
               Authorization: "Bearer " + this.authUser.auth_token
             }
           });
-          if (this.userSportsman === true) {
+          if (this.userSportsman === "true") {
             window.console.log("sendSportsmanDataOnServer sending");
             HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
               first_name: this.sportsman.name,
@@ -532,6 +532,9 @@ export default {
             })
               .then(function(response) {
                 window.console.log(response);
+                  localStorage.removeItem("lbUser");
+                  this.$store.state.isLoggedIn = false;
+                  this.$router.push("/auth");
               })
               .catch(function(error) {
                 window.console.log(error);
@@ -549,47 +552,14 @@ export default {
             })
               .then(function(response) {
                 window.console.log(response);
+                  localStorage.removeItem("lbUser");
+                  this.$store.state.isLoggedIn = false;
+                  this.$router.push("/auth");
               })
               .catch(function(error) {
                 window.console.log(error);
               });
           }
-          /* **/
-          localStorage.removeItem("lbUser");
-          this.$store.state.isLoggedIn = false;
-          axios
-            .post("https://champion-api.herokuapp.com/api/login", {
-              email: this.user.email,
-              password: this.user.password
-            })
-            .then(response => {
-              window.console.log("response.status " + response.status);
-              if (response.status === 200) {
-                this.$store.state.authUser = response.data;
-                window.console.log(
-                  "this.$store.state.authUser " + this.$store.state.authUser
-                );
-                this.$store.state.isLoggedIn = true;
-                window.console.log(
-                  "store.state.isLoggedIn value - " +
-                    this.$store.state.isLoggedIn
-                );
-                window.localStorage.setItem(
-                  "lbUser",
-                  JSON.stringify(this.$store.state.authUser)
-                );
-                this.$router.push("/");
-              } else {
-                this.$store.state.isLoggedIn = false;
-                window.console.log(
-                  "store.state.isLoggedIn value - " +
-                    this.$store.state.isLoggedIn
-                );
-              }
-            })
-            .catch(function(error) {
-              window.console.log(error);
-            });
         })
         .catch(function(error) {
           window.console.log(error);

@@ -3,7 +3,8 @@
         <nav class="header__menu menu">
             <ul class="menu__list menu__list--top">
                 <li class="menu__item">
-                    <a v-if="this.role==='federation' || this.role==='coach' || this.role==='sportsman'"
+                    <!--<a v-if="this.role==='federation' || this.role==='coach' || this.role==='sportsman'"-->
+                    <a v-if="this.$store.state.role==='federation' || this.$store.state.role==='coach' || this.$store.state.role==='sportsman'"
                        :href="'mailto:' + this.$store.state.federationInfo.contact_email"
                        class="menu__link menu__link--email">
                         {{this.$store.state.federationInfo.contact_email }}
@@ -12,7 +13,7 @@
                        class="menu__link menu__link--email">admin@champion.com</a>
                 </li>
                 <li class="menu__item">
-                    <a v-if="this.role==='federation' || this.role==='coach' || this.role==='sportsman'"
+                    <a v-if="this.$store.state.role==='federation' || this.$store.state.role==='coach' || this.$store.state.role==='sportsman'"
                        :href="'tel:' + this.$store.state.federationInfo.contact_telephone"
                        class="menu__link menu__link--tel">
                         {{this.$store.state.federationInfo.contact_telephone }}
@@ -40,15 +41,15 @@
                     </li>
                     <li class="menu__item" v-if="checkLogin">
                         <div class="user">
-                        <!--<div @click="showMenu" class="user">-->
+                            <!--<div @click="showMenu" class="user">-->
                             <img class="user__photo" src="../assets/345x345_26.jpg" alt="user" width="44">
                             <div class="user__info">
-                                <h4 class="user__title">{{this.role}}</h4>
+                                <h4 class="user__title">{{this.$store.state.role}}</h4>
                                 <p class="user__valid">Valid until 10.10.2020</p>
                             </div>
                             <ul class="user__list">
                                 <li class="user__item"
-                                    v-if="this.role ==='federation'">
+                                    v-if="this.$store.state.role ==='federation'">
                                     <router-link tag="a"
                                                  to="/federationcabinet"
                                                  class="user__link">
@@ -56,7 +57,7 @@
                                     </router-link>
                                 </li>
                                 <li class="user__item"
-                                    v-if="this.role==='coach'">
+                                    v-if="this.$store.state.role==='coach'">
                                     <router-link tag="a"
                                                  to="/coachcabinet"
                                                  class="user__link">
@@ -64,7 +65,7 @@
                                     </router-link>
                                 </li>
                                 <li class="user__item"
-                                    v-if="this.role==='sportsman'">
+                                    v-if="this.$store.state.role==='sportsman'">
                                     <router-link tag="a"
                                                  to="/userprofile"
                                                  class="user__link">
@@ -106,7 +107,7 @@
                 },
                 role: "",
                 // userObj: {},
-                federationInfo:{},
+                federationInfo: {},
                 // userData: {
                 //     id: "",
                 //     validUntil: "10.10.2020",
@@ -138,7 +139,9 @@
             };
         },
         mounted() {
-            // this.getRole();
+            if (this.$store.state.isLoggedIn) {
+                this.getRole()
+            }
         },
         methods: {
             logout: function () {
@@ -146,6 +149,7 @@
                 this.$store.state.isLoggedIn = false;
                 // this.getRole();
                 this.role = "";
+                this.$store.state.role = "";
                 this.$router.push("/");
                 window.console.log(
                     "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
@@ -193,41 +197,39 @@
             getRole: function () {
                 if (this.$store.state.authUser.federation_users.length !== 0) {
                     this.role = "federation";
+                    this.$store.state.role = this.role;
                     window.console.log(this.role);
                     this.getFederationInfo();
                     // return role;
-                } else if (
-                    this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0]
-                        .is_coach
-                ) {
-                    // if (
-                    //   this.$store.state.authUser.my_sportsmen_profile
-                    //     .federation_sportsmen[0].is_coach === true
-                    // ) {
-                    this.role = "coach";
+                } else if (this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0]
+                    .is_coach === 0) {
+                    this.role = "sportsman";
+                    this.$store.state.role = this.role;
                     this.getSportsmanInfo();
                     window.console.log(this.role);
-                    // return role;
-                    // }
-                } else {
-                    this.role = "sportsman";
+                }
+                else if (this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0]
+                    .is_coach === 1) {
+                    this.role = "coach";
+                    this.$store.state.role = this.role;
                     this.getSportsmanInfo();
                     window.console.log(this.role);
                 }
             }
         },
-
-        computed: {
-            checkLogin() {
-                if (this.$store.state.isLoggedIn) {
-                    this.getUserId();
-                    this.getRole();
-                    // this.getFederationInfo();
-                }
-                return this.$store.state.isLoggedIn;
+    computed: {
+        checkLogin()
+        {
+            if (this.$store.state.isLoggedIn) {
+                this.getUserId();
+                this.getRole();
+                // this.getFederationInfo();
             }
+            return this.$store.state.isLoggedIn;
         }
-    };
+    }
+    }
+    ;
 </script>
 
 <style lang="scss" scoped>
@@ -326,13 +328,13 @@
         background-size: 7px 3.6px;
         background-position: right center;
         position: relative;
-        &:hover{
+        &:hover {
             cursor: pointer;
         }
-        &:hover .user__list{
+        &:hover .user__list {
             display: flex;
         }
-        &__list{
+        &__list {
             position: absolute;
             z-index: 5;
             top: 45px;
@@ -340,9 +342,9 @@
             @include reset-ul();
             border-radius: 5px;
             background-color: #ffffff;
-            -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
-            -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
-            box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            -webkit-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+            -moz-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+            box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
             /*display: flex;*/
             display: none;
             flex-direction: column;
@@ -352,7 +354,7 @@
             text-align: center;
             padding: 5px;
         }
-        &__link{
+        &__link {
             font-family: "Roboto", sans-serif;
             font-size: 14px;
             font-weight: normal;
