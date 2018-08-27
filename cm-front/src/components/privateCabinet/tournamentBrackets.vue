@@ -60,13 +60,22 @@
             </div>
         </div>
         <hr>
+        <tournament-bracket
+                v-if="activeGenderCategory in tournament.categories[activeCategory] &&
+                        'bracket' in tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory]">
+
+        ></tournament-bracket>
     </div>
-</template>
+    </template>
 
 <script>
     import * as firebase from 'firebase';
+    import TournamentBracket from './tournamentBracket.vue';
     export default {
         name: "tournament-brackets",
+        components: {
+            TournamentBracket
+        },
         props: ['tournamentKey', 'federationId'],
         data: function () {
             return {

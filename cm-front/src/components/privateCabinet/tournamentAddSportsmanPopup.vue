@@ -177,10 +177,7 @@ export default {
   methods: {
     async saveSportsmen() {
       if (
-        this.tournament.categories[this.activeCategory][
-          this.activeGenderCategory
-        ][this.activeWeightCategory].hasOwnProperty("sportsmen") === false
-      ) {
+        this.tournament.categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].hasOwnProperty("sportsmen") === false) {
         this.$set(
           this.tournament.categories[this.activeCategory][
             this.activeGenderCategory

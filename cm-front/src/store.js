@@ -31,7 +31,6 @@ export default new Vuex.Store({
       city: "",
       coaches: ""
     },
-    // <<<<<<< HEAD
     roles: {},
     federationInfo: {
       id: 62,
@@ -53,15 +52,22 @@ export default new Vuex.Store({
           icon_id: null,
           created_at: null,
           updated_at: null
-          // =======
-
-          // >>>>>>> feature/tournaments-categories
         }
       ],
       logo: null
     },
-    tournamentsList: []
-  },
+    tournamentsList: [],
+     bracket: [],
+    tournamentParticipants: [
+                              [[{},{}, {}, {}, {}, {}, {}, {}],[{}, {}, {}, {}],[{}, {}],[{}]],
+                              [[{}, {}, {}, {}],[{}, {}],[{}]],
+                            ]
+
+
+      // window.console.log(this.$store.state.tournamentsList[ this.tournamentKey ].categories[0].male[1].sportsmen[0].fullname)
+
+
+                              },
   getters: {
     getFilteredSportsmenList: state => search => {
       return state.sportsmenList.filter(sportsman => {
@@ -74,47 +80,45 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setSportsmanList(state, sportsmanList) {
-      state.sportsmanList = sportsmanList.reduce(
-        (acc, sportsman) => ({
-          ...acc,
-          [sportsman.id]: sportsman
-        }),
-        {}
-      );
-      state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
-      window.console.log(state.sportsmanList);
-    },
-    setSelectedSportsmen(state) {
-      state.selectedSportsmen = state.sportsmanIds;
-    },
-    removeSportsman(state) {
-      state.selectedSportsmen.map(id => {
-        delete state.sportsmanList[id];
-        let index = state.sportsmanIds.indexOf(id);
-        state.sportsmanIds.splice(index, 1);
-      });
-      state.selectedSportsmen = [];
-    },
-    clearSportsmanModel(state) {
-      state.sportsman = {
-        first_name: "",
-        last_name: "",
-        patronymic_name: "",
-        gender: "",
-        date_of_birth: "",
-        degree: "",
-        weight: "",
-        city: "",
-        coaches: ""
-      };
-    },
-    setTournamentsList(state, tournamentsList) {
-      state.tournamentsList = tournamentsList;
-      window.console.log(state.tournamentsList);
-    }
+      setSportsmanList(state, sportsmanList) {
+          state.sportsmanList = sportsmanList.reduce(
+              (acc, sportsman) => ( {
+                  ...acc,
+                  [ sportsman.id ] : sportsman
+              } ),
+              {}
+          );
+          state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
+          window.console.log(state.sportsmanList);
+      },
+      setSelectedSportsmen(state) {
+          state.selectedSportsmen = state.sportsmanIds;
+      },
+      removeSportsman(state) {
+          state.selectedSportsmen.map(id => {
+              delete state.sportsmanList[ id ];
+              let index = state.sportsmanIds.indexOf(id);
+              state.sportsmanIds.splice(index, 1);
+          });
+          state.selectedSportsmen = [];
+      },
+      clearSportsmanModel(state) {
+          state.sportsman = {
+              first_name : "",
+              last_name : "",
+              patronymic_name : "",
+              gender : "",
+              date_of_birth : "",
+              degree : "",
+              weight : "",
+              city : "",
+              coaches : ""
+          };
+      },
+      setTournamentsList(state, tournamentsList) {
+          state.tournamentsList = tournamentsList;
+          // window.console.log(state.tournamentsList);
+      },
   },
-  // },
-
-  actions: {}
+      actions : {}
 });
