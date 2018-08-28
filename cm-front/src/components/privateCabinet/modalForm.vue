@@ -8,7 +8,8 @@
                         {{personRole === 'Coach' ? 'Coach' : (personRole === 'Referee' ? 'Referee' : 'Sportsman')}}
                     </h2>
                     <button class="popup__exit btn btn-danger"
-                            v-on="$listeners">X</button>
+                            v-on="$listeners">X
+                    </button>
                 </div>
                 <div class="popup__wrapper mt-1 row">
                     <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
@@ -37,11 +38,13 @@
                         <button
                                 v-if="image.sportsmanImage"
                                 class="btn btn-outline-success btn-sm mt-3 mr-3"
-                                @click.prevent="uploadImage">Upload</button>
+                                @click.prevent="uploadImage">Upload
+                        </button>
                         <button
                                 v-if="image.sportsmanImageUrl"
                                 class="btn btn-outline-danger btn-sm mt-3"
-                                @click.prevent="removeImage">Remove</button>
+                                @click.prevent="removeImage">Remove
+                        </button>
 
                     </div>
                 </div>
@@ -50,42 +53,59 @@
                            placeholder="Name"
                            autofocus required
                            autocomplete="off"
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.first_name">
-                    <!--@input="$v.sportsman.first_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.first_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.first_name.minLength">-->
-                    <!--Min length of Name is {{ $v.sportsman.first_name.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.first_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.first_name"
+                           @input="setName($event.target.value)"
+                           @blur="setName($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.name.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.name.$params.minLength.min }}. Now it
+                        is {{ tempSportsmanForValidations.name.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Surname" required
                            autocomplete="off"
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.last_name">
-                    <!--@input="$v.sportsman.last_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.last_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.last_name.minLength">-->
-                    <!--Min length of Surname is {{ $v.sportsman.sportsman.surname.last_name.minLength.min-->
-                    <!--}}. Now it-->
-                    <!--is {{ sportsman.last_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.last_name"
+                           @input="setSurname($event.target.value)"
+                           @blur="setSurname($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.surname.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.surname.$params.minLength.min }}. Now it
+                        is {{ tempSportsmanForValidations.surname.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Patronymic"
                            autocomplete="off" required
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.patronymic_name">
-                    <!--@input="$v.sportsman.patronymic_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.patronymic_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.patronymic_name.minLength">-->
-                    <!--Min length of Patronymic is {{-->
-                    <!--$v.sportsman.sportsman.patronymic_name.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.patronymic_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.patronymic_name"
+                           @input="setPatronymic($event.target.value)"
+                           @blur="setPatronymic($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.patronymic.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.patronymic.$params.minLength.min }}. Now
+                        it
+                        is {{ tempSportsmanForValidations.patronymic.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <div class="row align-items-end">
@@ -95,7 +115,18 @@
                         <div class="col">
                             <input class="form-control" type="date" name="s-bdate" id="s-bdate"
                                    title="Date of Birth" required
-                                   v-model="$store.state.sportsman.date_of_birth">
+                                   v-model="$store.state.sportsman.date_of_birth"
+                                   @input="setDateOfBirth($event.target.value)"
+                                   @blur="setDateOfBirth($event.target.value)"
+                                   :class="{'is-invalid' :$v.tempSportsmanForValidations.dateOfBirth.$error}">
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tempSportsmanForValidations.dateOfBirth.required">
+                                Date of Birth field is required
+                            </div>
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tempSportsmanForValidations.dateOfBirth.checkFutureData">
+                                Date of Birth choose the future date, check Date
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,7 +180,16 @@
                     <input class="form-control" type="text"
                            placeholder="Weight"
                            autocomplete="off"
-                           v-model="$store.state.sportsman.weight">
+                           v-model="$store.state.sportsman.weight"
+                           @input="setWeight($event.target.value)"
+                           @blur="setWeight($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.weight.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.weight.checkNumeric">
+                        Field for only numeric characters
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.weight.required">
+                        Field is required
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <!--<input class="form-control" type="text"-->
@@ -171,17 +211,42 @@
                 </section>
                 <button v-if="personRole === 'OwnCoachSportsman' && sportsmanId === ''"
                         class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="createOwnCoachSportsman">Create
+                        @click.prevent="createOwnCoachSportsman"
+                        v-bind:class="{'disabled': testInitValues ||
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Create
                 </button>
                 <button v-else-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="createSportsman">Create
+                        @click.prevent="createSportsman"
+                        v-bind:class="{'disabled': testInitValues ||
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">
+                    Create
                 </button>
                 <button v-else-if="personRole === 'OwnCoachSportsman' && sportsmanId !== ''"
                         class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="updateSportsman">Save
+                        @click.prevent="updateSportsman"
+                        v-bind:class="{'disabled':
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Save
                 </button>
                 <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="updateSportsman">Save
+                        @click.prevent="updateSportsman"
+                        v-bind:class="{'disabled':
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Save
                 </button>
             </form>
         </div>
@@ -194,6 +259,12 @@
     import AutocompleteCity from "../autocomplete_city";
     import citiesUkrainian from "../../assets/citiesUkrainian";
     import citiesRussian from "../../assets/citiesRussian";
+    import {
+        required,
+        minLength,
+        numeric,
+        alpha
+    } from "vuelidate/lib/validators";
 
     export default {
         name: "modal-form",
@@ -231,8 +302,28 @@
                 }),
                 citiesUkr: [],
                 citiesRus: [],
-                cities: []
+                cities: [],
+                tempSportsmanForValidations: {
+                    weight: "",
+                    dateOfBirth: "",
+                    name: "",
+                    surname: "",
+                    patronymic: "",
+                }
             };
+        },
+        computed: {
+            testInitValues: function () {
+                if (this.tempSportsmanForValidations.weight === "" ||
+                    this.tempSportsmanForValidations.dateOfBirth === "" ||
+                    this.tempSportsmanForValidations.name === "" ||
+                    this.tempSportsmanForValidations.surname === "" ||
+                    this.tempSportsmanForValidations.patronymic === "") {
+                    return true
+                } else {
+                    return false
+                }
+            },
         },
         mounted() {
             if (this.sportsmanId !== "") {
@@ -268,16 +359,16 @@
             } else {
                 this.cities = this.citiesUkr;
             }
-            this.http
-                .get(
-                    "https://champion-api.herokuapp.com/api/belts/" +
-                    this.$store.state.authUser.federation_users[0].federation_id
-                )
-                .then(response => {
-                    window.console.log(response.data);
-                    this.belts = response.data;
-                })
-                .catch(error => window.console.log(error.message));
+            // this.http
+            //     .get(
+            //         "https://champion-api.herokuapp.com/api/belts/" +
+            //         this.$store.state.authUser.federation_users[0].federation_id
+            //     )
+            //     .then(response => {
+            //         window.console.log(response.data);
+            //         this.belts = response.data;
+            //     })
+            //     .catch(error => window.console.log(error.message));
             this.http
                 .get("https://champion-api.herokuapp.com/api/titles/list")
                 .then(response => {
@@ -287,6 +378,31 @@
                 .catch(error => window.console.log(error.message));
         },
         methods: {
+            setWeight(value) {
+                window.console.log(value);
+                this.tempSportsmanForValidations.weight = value;
+                this.$v.tempSportsmanForValidations.weight.$touch();
+            },
+            setDateOfBirth(value) {
+                window.console.log(value);
+                this.tempSportsmanForValidations.dateOfBirth = value;
+                this.$v.tempSportsmanForValidations.dateOfBirth.$touch();
+            },
+            setName(value) {
+                window.console.log(value);
+                this.tempSportsmanForValidations.name = value;
+                this.$v.tempSportsmanForValidations.name.$touch();
+            },
+            setSurname(value) {
+                window.console.log(value);
+                this.tempSportsmanForValidations.surname = value;
+                this.$v.tempSportsmanForValidations.surname.$touch();
+            },
+            setPatronymic(value) {
+                window.console.log(value);
+                this.tempSportsmanForValidations.patronymic = value;
+                this.$v.tempSportsmanForValidations.patronymic.$touch();
+            },
             onFileChange(e) {
                 const files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
@@ -427,6 +543,46 @@
                         this.$emit("clicked");
                     })
                     .catch(error => console.log(error.message));
+            }
+        },
+        validations: {
+            tempSportsmanForValidations: {
+                weight: {
+                    checkNumeric: val => {
+                        return (!isNaN(parseFloat(val)) && isFinite(val)) ? true : false;
+                    },
+                    required: required
+                },
+                dateOfBirth: {
+                    required: required,
+                    checkFutureData: val => {
+                        if (val == "") {
+                            return true;
+                        }
+                        var today = new Date(); // сегодняшнеяя дата и время
+                        var inputDate = new Date(val);
+                        if (today >= inputDate) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                },
+                name: {
+                    required: required,
+                    alpha: alpha,
+                    minLength: minLength(2)
+                },
+                surname: {
+                    required: required,
+                    alpha: alpha,
+                    minLength: minLength(2)
+                },
+                patronymic: {
+                    required: required,
+                    alpha: alpha,
+                    minLength: minLength(2)
+                },
             }
         }
     };

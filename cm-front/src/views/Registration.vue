@@ -361,8 +361,8 @@
                                            :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
-                                        Field for only numeric characters
-                                    </div>
+                                    Field for only numeric characters
+                                </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="email" name="f-email"
@@ -507,7 +507,7 @@ export default {
         return false;
       }
     },
-    testInitValuesFederation: function(){
+    testInitValuesFederation: function() {
         if (this.federation.phone === "" ||
             this.federation.email === "" ||
             this.federation.name === "" ||
