@@ -27,7 +27,7 @@
                         </li>
                     </ul>
                     <ul class="user__coaches">
-                        <h4 class="user__coaches-title">coaches</h4>
+                        <h4 class="user__coaches-title">Coaches</h4>
                         <li class="user__coach">is not specified</li>
                     </ul>
                 </div>
