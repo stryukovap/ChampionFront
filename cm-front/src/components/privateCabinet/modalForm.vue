@@ -362,6 +362,7 @@
                 }
             };
         },
+
         computed: {
             testInitValues: function () {
                 if (this.tempSportsmanForValidations.weight === "" ||
