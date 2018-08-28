@@ -20,6 +20,7 @@ export default new Vuex.Store({
     sportsmenList: [],
     sportsmanIds: [],
     selectedSportsmen: [],
+    federationBelts: {},
     sportsman: {
       first_name: "",
       last_name: "",

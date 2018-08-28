@@ -51,6 +51,22 @@ export default {
           throw error;
       }
 
+      axios
+      .get(
+        "http://champion-api.herokuapp.com/api/belts/" + this.$route.params.id
+      )
+      .then(response => {
+        // window.console.log(response.data);
+        for(let i = 0; i < response.data.length; i++) {
+          // window.console.log(response.data[i]);
+          this.$store.state.federationBelts[response.data[i].id] = response.data[i].name;
+        }
+        window.console.log(this.$store.state.federationBelts);
+      })
+      .catch(error => {
+        window.console.log(error);
+      })
+
   }
 };
 </script>

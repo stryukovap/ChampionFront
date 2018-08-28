@@ -79,8 +79,7 @@ export default {
           this.sportsmenList.push({
             name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
             role: response.data.data[i].federation_sportsmen[0].is_coach ? "coach" : "sportsman",
-            // belt: "../img/pos.png",
-            belt: response.data.data[i].federation_sportsmen[0].federation_belt_id || "no",
+            belt: this.$store.state.federationBelts[response.data.data[i].federation_sportsmen[0].federation_belt_id] || "no",
             title: response.data.data[i].federation_sportsmen[0].title || "no",
             link: "#",
             avatar: "../img/user-photo.PNG"
