@@ -256,6 +256,7 @@
                 <button v-if="personRole === 'OwnCoachSportsman' && sportsmanId === ''"
                         class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createOwnCoachSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
                         v-bind:class="{'disabled': testInitValues ||
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -265,6 +266,7 @@
                 </button>
                 <button v-else-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
                         v-bind:class="{'disabled': testInitValues ||
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -276,6 +278,7 @@
                 <button v-else-if="personRole === 'OwnCoachSportsman' && sportsmanId !== ''"
                         class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -285,6 +288,7 @@
                 </button>
                 <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -364,6 +368,17 @@
         },
 
         computed: {
+            testForClick: function(){
+                if (this.$v.tempSportsmanForValidations.name.$error ||
+                    this.$v.tempSportsmanForValidations.surname.$error ||
+                    this.$v.tempSportsmanForValidations.patronymic.$error ||
+                    this.$v.tempSportsmanForValidations.dateOfBirth.$error ||
+                    this.$v.tempSportsmanForValidations.weight.$error){
+                    return true;
+                } else {
+                    return false;
+                }
+            },
             testInitValues: function () {
                 if (this.tempSportsmanForValidations.weight === "" ||
                     this.tempSportsmanForValidations.dateOfBirth === "" ||

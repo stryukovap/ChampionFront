@@ -270,7 +270,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testStepSportsman || !testInitPassword || !testInitValuesSportsman"
+                                            v-bind:disabled="testStepSportsman || testInitPassword || testInitValuesSportsman"
                                             v-bind:class="{'disabled':
                                             $v.user.email.$error ||
                                             $v.user.password.$error ||
@@ -383,7 +383,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testStepFederation || !testInitPassword || !testInitValuesFederation"
+                                            v-bind:disabled="testStepFederation || testInitPassword || testInitValuesFederation"
                                             v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
