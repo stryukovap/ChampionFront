@@ -71,7 +71,7 @@ export default {
 
       axios
       .get(
-        "http://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/12?page=" + page
+        "https://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/12?page=" + page
       )
       .then(response => {
         for (let i = 0; i < response.data.data.length; i++) {
