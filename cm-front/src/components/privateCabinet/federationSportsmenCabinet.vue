@@ -16,12 +16,10 @@
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
                         <input class="form-control mr-sm-2"
+                               v-model="searchingSportsman"
                                type="search"
                                placeholder="Enter name"
                                aria-label="Search">
-                        <button class="btn btn-primary my-2 my-sm-0">
-                            Search
-                        </button>
                     </form>
                 </nav>
             </div>
@@ -48,9 +46,12 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <tbody name="items" :list="$store.state.sportsmanList">
-                <tr v-for="item in $store.state.sportsmanList">
-                    <td><input type="checkbox"
+                <tbody>
+                <tr v-for="item in $store.state.sportsmanList"
+                    v-if="item.first_name.toLowerCase().includes(searchingSportsman.toLowerCase()) ||
+                         item.last_name.toLowerCase().includes(searchingSportsman.toLowerCase())">
+                    <td>
+                        <input type="checkbox"
                                v-model="$store.state.selectedSportsmen"
                                @click="selectSportsman"
                                :value="item.id" >
@@ -130,6 +131,7 @@
         },
         data: function () {
             return {
+                searchingSportsman: "",
                 federationId: '',
                 modalShow: false,
                 roleOfCreatedPerson: '',
@@ -313,10 +315,13 @@
                         .post(`https://champion-api.herokuapp.com/api/sportsman/${id}`, {
                             _method: "delete"
                         })
-                        .then(response => console.log(response))
+                        .then(response => {
+                            console.log(response);
+                            this.$store.commit('removeSportsman');
+                        })
                         .catch(error => console.log(error.message));
                 });
-                this.$store.commit('removeSportsman');
+
             }
         }
     }

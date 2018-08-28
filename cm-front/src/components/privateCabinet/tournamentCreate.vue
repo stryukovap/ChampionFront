@@ -64,7 +64,7 @@
                                 v-if="tournament.imageUrl"
                                 class="btn btn-outline-danger btn-sm mt-3"
                                 @click.prevent="removeImage">Remove</button>
-
+                        <span v-if="isUploaded" class="badge badge-success mt-3">Uploaded!</span>
                     </div>
                 </div>
                 <div class="cm-form__wrapper">
@@ -275,6 +275,7 @@
                 },
                 tournamentImageForUpload: '',
                 tournamentImage: '',
+                isUploaded: false,
                 options : [],
                 value: [],
                 http: axios.create({
@@ -296,7 +297,9 @@
             this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
             if (this.tournamentKey) {
                 this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
-                this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
+                if (this.$store.state.tournamentsList[this.tournamentKey].referees) {
+                    this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
+                }
             };
             axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${this.federationId}/20`)
                 .then(response => {
@@ -329,6 +332,7 @@
                     .then(response => {
                         console.log(response.data);
                         this.tournament.imageUrl = response.data.url;
+                        this.isUploaded = true;
                         console.log(this.tournament.imageUrl);
                     });
             },
