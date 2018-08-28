@@ -17,8 +17,8 @@ export default new Vuex.Store({
     getEmailValidation:
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
-    sportsmenList: [],
     sportsmanIds: [],
+    searchingSportsman: "",
     selectedSportsmen: [],
     federationBelts: {},
     sportsman: {
@@ -55,25 +55,11 @@ export default new Vuex.Store({
           icon_id: null,
           created_at: null,
           updated_at: null
-          // =======
-
-          // >>>>>>> feature/tournaments-categories
         }
       ],
       logo: null
     },
     tournamentsList: []
-  },
-  getters: {
-    getFilteredSportsmenList: state => search => {
-      return state.sportsmenList.filter(sportsman => {
-        return (
-          sportsman.first_name.toLowerCase().includes(search.toLowerCase()) ||
-          sportsman.last_name.toLowerCase().includes(search.toLowerCase()) ||
-          sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
-        );
-      });
-    }
   },
   mutations: {
     setSportsmanList(state, sportsmanList) {
@@ -116,7 +102,6 @@ export default new Vuex.Store({
       window.console.log(state.tournamentsList);
     }
   },
-  // },
 
   actions: {}
 });

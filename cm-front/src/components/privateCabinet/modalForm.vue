@@ -13,8 +13,8 @@
                 </div>
                 <div class="popup__wrapper mt-1 row">
                     <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
-                        <img v-if="image.sportsmanImageUrl"
-                             :src="image.sportsmanImageUrl"
+                        <img v-if="$store.state.sportsman.photo_id"
+                             :src="$store.state.sportsman.photo.url"
                              width="150px"
                              alt="Sportsman photo"
                              class="popup__photo">
@@ -41,11 +41,13 @@
                                 @click.prevent="uploadImage">Upload
                         </button>
                         <button
-                                v-if="image.sportsmanImageUrl"
+                                v-if="$store.state.sportsman.photo_id"
                                 class="btn btn-outline-danger btn-sm mt-3"
                                 @click.prevent="removeImage">Remove
                         </button>
-
+                        <span v-if="image.isUploaded"
+                              class="badge badge-success mt-3">Uploaded!
+                        </span>
                     </div>
                 </div>
                 <div class="cm-form__wrapper popup__wrapper">
@@ -206,6 +208,48 @@
                            autocomplete="off"
                            v-model="$store.state.sportsman.coaches">
                 </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
+                        <div>
+                            <label class="cm-form__label">Documents</label>
+                        </div>
+                        <div class="mb-3" v-if="documents.list">
+                            <div v-for="document in documents.list" style="display: inline;">
+                                <img :src="document.media.url"
+                                     width="150px"
+                                     alt="Sportsman document"
+                                     class="popup__photo mt-2 mr-2 ml-2"
+                                    style="display: inline;">
+                                <button
+                                    class="btn btn-outline-danger btn-sm"
+                                    @click.prevent="removeDocument(document.id)">X</button>
+                            </div>
+                        </div>
+                        <img v-if="documents.chosenDocument"
+                             :src="documents.chosenDocument"
+                             width="150px"
+                             alt="Sportsman document mt-3"
+                             class="popup__photo ">
+                    </div>
+                </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12">
+                        <label class="btn btn-outline-success btn-sm mt-3 mr-3"
+                               for="document" style="cursor: pointer; margin-bottom: 0;">
+                            Choose document
+                        </label>
+                        <input type="file"
+                               @change="onDocumentChange"
+                               name="photo" id="document"
+                               style="display: none">
+                        <button
+                                v-if="documents.chosenDocument"
+                                class="btn btn-outline-success btn-sm mt-3 mr-3"
+                                @click.prevent="uploadDocument">Upload</button>
+                        <span v-if="documents.isUploaded" class="badge badge-success mt-3">Uploaded!</span>
+                    </div>
+                </div>
+                <hr>
                 <section class="popup__sertificates">
                     <!--<userCertificates></userCertificates>-->
                 </section>
@@ -285,8 +329,14 @@
                     sportsmanImageForUpload: '',
                     sportsmanImage: '',
                     sportsmanImageId: '',
-                    sportsmanImageUrl: '',
-                    sportsmanImageConnectionId: ''
+                    isUploaded: false
+                },
+                documents: {
+                    list: [],
+                    documentForUpload: '',
+                    chosenDocument: '',
+                    documentId: '',
+                    isUploaded: false
                 },
                 http: axios.create({
                     headers: {
@@ -327,16 +377,8 @@
         },
         mounted() {
             if (this.sportsmanId !== "") {
-                this.$store.state.sportsman = this.$store.state.sportsmanList[
-                    this.sportsmanId
-                    ];
-                this.http
-                    .get(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`)
-                    .then(response => {
-                        this.image.sportsmanImageUrl = response.data.documents[0].media.url;
-                        this.image.sportsmanImageConnectionId = response.data.documents[0].id;
-                    })
-                    .catch(error => console.log(error.message));
+                this.$store.state.sportsman = this.$store.state.sportsmanList[this.sportsmanId];
+                this.updateDocuments();
             } else {
                 if (this.personRole === "Coach") {
                     this.role.is_coach = 1;
@@ -403,14 +445,32 @@
                 this.tempSportsmanForValidations.patronymic = value;
                 this.$v.tempSportsmanForValidations.patronymic.$touch();
             },
+            updateDocuments() {
+                this.http
+                    .get(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`)
+                    .then(response => {
+                        if (response.data.documents) {
+                            this.documents.list = response.data.documents;
+                        }
+                    })
+                    .catch(error => console.log(error.message));
+            },
             onFileChange(e) {
                 const files = e.target.files || e.dataTransfer.files;
                 if (!files.length)
                     return;
                 this.createImage(files[0]);
             },
+            onDocumentChange(e) {
+                const files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createDocument(files[0]);
+            },
             createImage(file) {
-                this.image.sportsmanImageUrl = '';
+                if (this.$store.state.sportsman.photo_id) {
+                    this.$store.state.sportsman.photo_id = '';
+                }
                 this.image.sportsmanImageForUpload = file;
                 this.image.sportsmanImage = new Image();
                 const reader = new FileReader();
@@ -419,10 +479,16 @@
                 };
                 reader.readAsDataURL(file);
             },
+            createDocument(file) {
+                this.documents.documentForUpload = file;
+                this.documents.chosenDocument = new Image();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.documents.chosenDocument = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
             uploadImage() {
-                if (this.image.sportsmanImageConnectionId && this.image.sportsmanImageForUpload) {
-                    this.removeImage();
-                }
                 const formData = new FormData();
                 formData.append('file', this.image.sportsmanImageForUpload);
                 this.httpUpload
@@ -430,27 +496,56 @@
                     .then(response => {
                         console.log(response.data);
                         this.image.sportsmanImageId = response.data.id;
+                        this.image.isUploaded = true;
+                    });
+            },
+            uploadDocument() {
+                const formData = new FormData();
+                formData.append('file', this.documents.documentForUpload);
+                this.httpUpload
+                    .post('https://champion-api.herokuapp.com/api/upload', formData)
+                    .then(response => {
+                        console.log(response.data);
+                        this.documents.documentId = response.data.id;
+                        this.documents.isUploaded = true;
                     });
             },
             removeImage() {
+                this.$store.state.sportsman._method = "put";
+                this.$store.state.sportsman.photo_id = '';
                 this.http
-                    .post(`https://champion-api.herokuapp.com/api/sportsman-document/${
-                        this.image.sportsmanImageConnectionId}`, {
+                    .post(`https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+                        this.$store.state.sportsman
+                    )
+                    .then(response => console.log(response.data))
+                    .catch(error => console.log(error.message));
+            },
+            removeDocument(id) {
+                this.http
+                    .post(`https://champion-api.herokuapp.com/api/sportsman-document/${id}`, {
                         _method: "delete"
                     })
                     .then(response => {
                         console.log('deleted');
-                        this.image.sportsmanImageUrl = '';
-                        this.image.portsmanImageConnectionId = '';
-                        this.image.sportsmanImageId = '';
+                        this.updateDocuments();
                     })
                     .catch(error => console.log(error));
             },
-            createConnectSportsmanImage(id) {
+            createImageConnection(sportsmanId) {
+                this.$store.state.sportsman._method = "put";
+                this.$store.state.sportsman.photo_id = this.image.sportsmanImageId;
+                this.http
+                    .post(`https://champion-api.herokuapp.com/api/sportsman/${sportsmanId}`,
+                        this.$store.state.sportsman
+                    )
+                    .then(response => console.log(response.data))
+                    .catch(error => console.log(error.message));
+            },
+            createDocumentConnection(id) {
                 this.http
                     .post("https://champion-api.herokuapp.com/api/sportsman-document", {
                         sportsman_id: id,
-                        media_id: this.image.sportsmanImageId,
+                        media_id: this.documents.documentId,
                         name: 1
                     })
                     .then(response => {
@@ -478,7 +573,10 @@
                             .then(response => {
                                 console.log(response.data);
                                 if (this.image.sportsmanImageId) {
-                                    this.createConnectSportsmanImage(response.data.sportsman_id);
+                                    this.createImageConnection(response.data.sportsman_id);
+                                }
+                                if (this.documents.documentId) {
+                                    this.createDocumentConnection(response.data.sportsman_id);
                                 }
                                 this.$emit("clicked");
                             })
@@ -501,7 +599,10 @@
                             .then(response => {
                                 console.log(response.data);
                                 if (this.image.sportsmanImageId) {
-                                    this.createConnectSportsmanImage(response.data.sportsman_id);
+                                    this.createImageConnection(response.data.sportsman_id);
+                                }
+                                if (this.documents.documentId) {
+                                    this.createDocumentConnection(response.data.sportsman_id);
                                 }
                                 this.http
                                     .post(
@@ -538,7 +639,10 @@
                     .then(response => {
                         console.log(response.data);
                         if (this.image.sportsmanImageId) {
-                            this.createConnectSportsmanImage(this.sportsmanId);
+                            this.createImageConnection(this.sportsmanId);
+                        }
+                        if (this.documents.documentId) {
+                            this.createDocumentConnection(this.sportsmanId);
                         }
                         this.$emit("clicked");
                     })

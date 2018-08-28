@@ -13,8 +13,12 @@
             <div class="col-4">
                 <nav class="navbar navbar-light">
                     <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Enter name" aria-label="Search">
-                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                        <input
+                                class="form-control mr-sm-2"
+                                type="search"
+                                v-model="searchingSportsman"
+                                placeholder="Enter name"
+                                aria-label="Search">
                     </form>
                 </nav>
             </div>
@@ -35,10 +39,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="item in $store.state.sportsmanList">
-                    <td><input type="checkbox" v-model="$store.state.selectedSportsmen" @click="selectSportsman" :value="item.id" ></td>
+                <tr v-for="item in $store.state.sportsmanList"
+                    v-if="item.first_name.toLowerCase().includes(searchingSportsman.toLowerCase()) ||
+                         item.last_name.toLowerCase().includes(searchingSportsman.toLowerCase())">
+                    <td>
+                        <input type="checkbox"
+                               v-model="$store.state.selectedSportsmen"
+                               @click="selectSportsman"
+                               :value="item.id">
+                    </td>
                     <td>{{item.first_name}} {{item.last_name}}</td>
-                    <td>{{item.patronymic_name}}</td>
+                    <!--<td>{{item.federation_sportsmen[0].is_active ? 'Yes': 'No'}}</td>-->
+                    <td>Yes</td>
                     <td>{{item.date_of_birth}}</td>
                     <th>
                         <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
@@ -70,6 +82,7 @@
         },
         data: function () {
             return {
+                searchingSportsman: '',
                 personRole: 'OwnCoachSportsman',
                 modalShow: false,
                 coach_id: '',

@@ -235,28 +235,6 @@ export default {
     }
   }
 };
-// >>>>>>> feature/tournaments-categories
-//         }
-//       })
-//       .catch(function(error) {
-//         window.console.log(error);
-//       });
-//   },
-//   methods: {
-//     async saveSportsmen() {
-//       try {
-//         await firebase
-//           .database()
-//           .ref(this.federationId)
-//           .child(this.tournamentKey)
-//           .update({ sportsmen: this.value });
-//       } catch (error) {
-//         throw error;
-//       }
-//       this.$emit("clicked");
-//     }
-//   }
-// };
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css">

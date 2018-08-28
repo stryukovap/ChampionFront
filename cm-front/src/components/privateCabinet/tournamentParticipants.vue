@@ -69,6 +69,7 @@
                         <input
                                 class="form-control mr-sm-2"
                                 type="search"
+                                v-model="searchingSportsman"
                                 placeholder="Search participant"
                                 aria-label="Search">
                     </form>
@@ -87,7 +88,10 @@
             <table class="table table-hover table-sm">
                 <tbody>
                 <tr class="row"
+
                     v-for="(item, key) in tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory].sportsmen"
+                    v-if="item.sportsman.first_name.toLowerCase().includes(searchingSportsman.toLowerCase()) ||
+                         item.sportsman.last_name.toLowerCase().includes(searchingSportsman.toLowerCase())"
                 >
                     <td class="col-2 text-left">{{item.sportsman.first_name}} {{item.sportsman.last_name}}</td>
                     <td class="col-1 text-left">{{item.sportsman.gender}}</td>
@@ -138,6 +142,7 @@
         props: ['tournamentKey', 'federationId'],
         data: function () {
             return {
+                searchingSportsman: "",
                 sportsmenAddListShow: false,
                 activeCategory: 0,
                 activeGenderCategory: 'male',
