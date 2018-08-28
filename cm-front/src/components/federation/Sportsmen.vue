@@ -62,37 +62,51 @@ export default {
   },
   mounted() {
     this.updateSportsmen("");
-    
+
     this.pagination.currentPage = 1;
   },
   methods: {
     updateSportsmen(page) {
-      if(page !== 0 && page !== this.pagination.pages + 1) this.pagination.currentPage = page;
+      if (page !== 0 && page !== this.pagination.pages + 1)
+        this.pagination.currentPage = page;
 
       axios
-      .get(
-        "https://champion-api.herokuapp.com/api/sportsman-list/by-federation/" + this.$route.params.id + "/12?page=" + page
-      )
-      .then(response => {
-        for (let i = 0; i < response.data.data.length; i++) {
-          if(page !== "") this.sportsmenList.shift();
-          this.sportsmenList.push({
-            name: response.data.data[i].first_name + " " + response.data.data[i].last_name,
-            role: response.data.data[i].federation_sportsmen[0].is_coach ? "coach" : "sportsman",
-            belt: this.$store.state.federationBelts[response.data.data[i].federation_sportsmen[0].federation_belt_id] || "no",
-            title: response.data.data[i].federation_sportsmen[0].title || "no",
-            link: "#",
-            avatar: "../img/user-photo.PNG"
-          });
-        }
-        this.pagination.pages = response.data.last_page;
-      })
-      .catch(error => {
-        window.console.log(error);
-      })
+        .get(
+          "https://champion-api.herokuapp.com/api/sportsman-list/by-federation/" +
+            this.$route.params.id +
+            "/12?page=" +
+            page
+        )
+        .then(response => {
+          for (let i = 0; i < response.data.data.length; i++) {
+            if (page !== "") this.sportsmenList.shift();
+            this.sportsmenList.push({
+              name:
+                response.data.data[i].first_name +
+                " " +
+                response.data.data[i].last_name,
+              role: response.data.data[i].federation_sportsmen[0].is_coach
+                ? "coach"
+                : "sportsman",
+              belt:
+                this.$store.state.federationBelts[
+                  response.data.data[i].federation_sportsmen[0]
+                    .federation_belt_id
+                ] || "no",
+              title:
+                response.data.data[i].federation_sportsmen[0].title || "no",
+              link: `https://champion-front-test.herokuapp.com/userprofile/${response.data.data[i].id}`,
+              avatar: ""
+              // avatar: `"${response.data.data[i].photo.url}"` || ""
+            });
+          }
+          this.pagination.pages = response.data.last_page;
+        })
+        .catch(error => {
+          window.console.log(error);
+        });
     }
-
-  },
+  }
 };
 </script>
 <style>

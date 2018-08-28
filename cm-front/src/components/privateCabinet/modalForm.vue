@@ -256,7 +256,7 @@
                 <button v-if="personRole === 'OwnCoachSportsman' && sportsmanId === ''"
                         class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createOwnCoachSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick || !testInitValues"
                         v-bind:class="{'disabled': testInitValues ||
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -266,7 +266,7 @@
                 </button>
                 <button v-else-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="createSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick || !testInitValues"
                         v-bind:class="{'disabled': testInitValues ||
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -278,23 +278,23 @@
                 <button v-else-if="personRole === 'OwnCoachSportsman' && sportsmanId !== ''"
                         class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick || !testInitValues"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
                         $v.tempSportsmanForValidations.patronymic.$error ||
                         $v.tempSportsmanForValidations.dateOfBirth.$error ||
-                        $v.tempSportsmanForValidations.weight.$error}">Save
+                        $v.tempSportsmanForValidations.weight.$error}">Save {{testForClick}} {{testInitValues}}
                 </button>
                 <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick || !testInitValues"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
                         $v.tempSportsmanForValidations.patronymic.$error ||
                         $v.tempSportsmanForValidations.dateOfBirth.$error ||
-                        $v.tempSportsmanForValidations.weight.$error}">Save
+                        $v.tempSportsmanForValidations.weight.$error}">Save {{testForClick}} {{testInitValues}}
                 </button>
             </form>
         </div>

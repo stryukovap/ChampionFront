@@ -2,15 +2,17 @@
     <div class="container">
         <div class="user">
             <div class="user__social-info">
-                <img class="user__photo" src="../../assets/competition_medium.jpg" alt="photo" width="185" height="185">
+                <!--<img class="user__photo" src="../../assets/competition_medium.jpg" alt="photo" width="185" height="185"-->
+                <img class="user__photo" alt="photo" width="185" height="185"
+                v-bind:src="this.sportsman.photo.url">
                 <div class="user__social">
                     <a href="#" class="user__link user__link--in"></a>
                     <a href="#" class="user__link user__link--fa"></a>
                 </div>
             </div>
             <div class="user__info">
-                <h4 class="user__title">{{this.$store.state.authUser.my_sportsmen_profile.first_name}}
-                    {{this.$store.state.authUser.my_sportsmen_profile.last_name}}</h4>
+                <h4 class="user__title">{{this.sportsman.first_name}}
+                    {{this.sportsman.last_name}}</h4>
                 <div class="user__wrapper">
                     <ul class="user__list">
                         <h4 class="user__role">{{this.$store.state.role}}</h4>
@@ -19,10 +21,10 @@
                             <p class="user__degree">is not specified</p>
                         </li>
                         <li class="user__item">
-                            <p class="user__weight">{{this.$store.state.authUser.my_sportsmen_profile.weight}} kg</p>
+                            <p class="user__weight">{{this.sportsman.weight}} kg</p>
                         </li>
                         <li class="user__item">
-                            <p class="user__city">{{this.$store.state.authUser.my_sportsmen_profile.city}}</p>
+                            <p class="user__city">{{this.sportsman.city}}</p>
                             <p class="user__federation">{{this.$store.state.federationInfo.name}}</p>
                         </li>
                     </ul>
@@ -74,23 +76,36 @@
         props: ["userIsCoach"],
         data: function () {
             return {
-                userID: "22",
-                userAvatar: "img/user-photo.PNG",
-                userFullName: "userFullName",
-                userPatronymicName: "userPatronymicName",
-                userDOB: "DOB",
-                userGender: "userGender",
-                userRole: "userRole",
-                userLevel: "userLevel",
-                userRank: "userRank",
-                userWeight: "userWeight",
-                userCity: "userCity",
-                userFederation: "userFederation",
-                federationLocation: "federationLocation"
+                sportsman:{
+                    photo:{
+                        url:""
+                    }
+                }
+                // userID: "22",
+                // userAvatar: "img/user-photo.PNG",
+                // userFullName: "userFullName",
+                // userPatronymicName: "userPatronymicName",
+                // userDOB: "DOB",
+                // userGender: "userGender",
+                // userRole: "userRole",
+                // userLevel: "userLevel",
+                // userRank: "userRank",
+                // userWeight: "userWeight",
+                // userCity: "userCity",
+                // userFederation: "userFederation",
+                // federationLocation: "federationLocation"
             };
         },
-        mounted() {
-            // axios
+        beforeCreate() {
+            axios
+                .get("https://champion-api.herokuapp.com/api/sportsman/" + this.$store.state.authUser.my_profile_id)
+                .then(response => {
+                    console.log(response.data);
+                    if (response.data) {
+                        this.sportsman = response.data;
+                    }
+                })
+                .catch(error => console.log(error.message));
             //     .get(`https://champion-api.herokuapp.com/api/sportsman/${this.userID}`)
             //     .then(response => {
             //         this.userFullName =
