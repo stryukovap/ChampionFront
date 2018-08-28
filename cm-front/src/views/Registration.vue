@@ -270,6 +270,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
+                                            v-bind:disabled="testStepSportsman || !testInitPassword || !testInitValuesSportsman"
                                             v-bind:class="{'disabled':
                                             $v.user.email.$error ||
                                             $v.user.password.$error ||
@@ -330,7 +331,8 @@
                                            @blur="$v.federation.presidentName.$touch()"
                                            :class="{'is-invalid' :$v.federation.presidentName.$error}">
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
-                                        Min length of President Name is {{ $v.federation.presidentName.$params.minLength.min
+                                        Min length of President Name is {{
+                                        $v.federation.presidentName.$params.minLength.min
                                         }}. Now it
                                         is {{ presidentName.name.length }}.
                                     </div>
@@ -361,8 +363,8 @@
                                            :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
-                                    Field for only numeric characters
-                                </div>
+                                        Field for only numeric characters
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="email" name="f-email"
@@ -381,6 +383,7 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
+                                            v-bind:disabled="testStepFederation || !testInitPassword || !testInitValuesFederation"
                                             v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
@@ -468,8 +471,8 @@ export default {
           this.federations = response.data;
         }
       })
-        // .then(this.handleSuccess)
-        // .then(this.handleCreated);
+      // .then(this.handleSuccess)
+      // .then(this.handleCreated);
       .catch(function(error) {
         // handle error
         window.console.log(error);
@@ -488,7 +491,10 @@ export default {
         window.console.log(error);
       });
     axios
-      .get("https://champion-api.herokuapp.com/api/coach-list/by-federation/" + this.sportsman.federation)
+      .get(
+        "https://champion-api.herokuapp.com/api/coach-list/by-federation/" +
+          this.sportsman.federation
+      )
       .then(response => {
         // window.console.log(response);
         if (response.status === 200) {
@@ -500,6 +506,38 @@ export default {
       });
   },
   computed: {
+    testStepFederation: function() {
+      if (
+        this.$v.user.email.$error ||
+        this.$v.user.password.$error ||
+        this.$v.user.passwordConfirm.$error ||
+        this.$v.federation.phone.$error ||
+        this.$v.federation.email.$error ||
+        this.$v.federation.name.$error ||
+        this.$v.federation.presidentName.$error ||
+        this.$v.federation.subDomain.$error
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    testStepSportsman: function() {
+      if (
+        this.$v.user.email.$error ||
+        this.$v.user.password.$error ||
+        this.$v.user.passwordConfirm.$error ||
+        this.$v.sportsman.patronymic.$error ||
+        this.$v.sportsman.surname.$error ||
+        this.$v.sportsman.name.$error ||
+        this.$v.sportsman.dateOfBirth.$error ||
+        this.$v.sportsman.city.$error
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     testInitPassword: function() {
       if (this.user.password === "" || this.user.passwordConfirm === "") {
         return true;
@@ -508,27 +546,31 @@ export default {
       }
     },
     testInitValuesFederation: function() {
-        if (this.federation.phone === "" ||
-            this.federation.email === "" ||
-            this.federation.name === "" ||
-            this.federation.presidentName === "" ||
-            this.federation.subDomain === ""){
-            return true;
-        } else {
-            return false;
-        }
-    },
-      testInitValuesSportsman:function () {
-          if(this.sportsman.patronymic === "" ||
-              this.sportsman.surname === "" ||
-              this.sportsman.name === "" ||
-              this.sportsman.dateOfBirth === "" ||
-              this.sportsman.city === ""){
-              return true;
-          }else {
-              return false;
-          }
+      if (
+        this.federation.phone === "" ||
+        this.federation.email === "" ||
+        this.federation.name === "" ||
+        this.federation.presidentName === "" ||
+        this.federation.subDomain === ""
+      ) {
+        return true;
+      } else {
+        return false;
       }
+    },
+    testInitValuesSportsman: function() {
+      if (
+        this.sportsman.patronymic === "" ||
+        this.sportsman.surname === "" ||
+        this.sportsman.name === "" ||
+        this.sportsman.dateOfBirth === "" ||
+        this.sportsman.city === ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
 
   validations: {
