@@ -51,9 +51,10 @@ export default new Router({
       component: Restorepassword
     },
     {
-      path: "/userprofile",
+      path: "/userprofile/:sportsman_id",
       name: "userprofile",
-      component: Userprofile
+      component: Userprofile,
+        // props:true
     },
     {
       path: "/federations/:id",

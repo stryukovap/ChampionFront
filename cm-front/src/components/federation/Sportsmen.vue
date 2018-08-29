@@ -10,14 +10,29 @@
       <div class="col-sm-6 col-md-3 col-lg-2"
         v-for='(sportsman, index) in sportsmenList'
         :key='sportsman.index'>
-        <a v-bind:href="sportsman.link" class="text-secondary">
+        <router-link tag="a"
+                     :to="'/userprofile' + '/' + sportsman.federation_sportsmen[0].sportsman_id"
+                     class="user__link">
+          Profile
+        </router-link>
+        <!--<a :href="'https://champion-front-test.herokuapp.com/userprofile/' + sportsman.federation_sportsmen[0].sportsman_id" class="text-secondary">-->
           <div class="thumbnail">
-            <img v-bind:src="sportsman.avatar" class="mx-auto d-block">
-            <h4 class="text-center">{{ sportsman.name }}</h4>
-            <!-- <p class="text-center">{{ sportsman.role }}<img v-bind:src="sportsman.belt">{{ sportsman.dan }}</p> -->
-            <p class="text-center">{{ sportsman.role }}</p>
-            <p class="text-center">belt - {{ sportsman.belt }}</p>
-            <p class="text-center">title - {{ sportsman.title }}</p>
+              <img v-if="sportsman.photo_id"
+                   :src="sportsman.photo.url"
+                   class="user__photo mx-auto d-block"
+                   width="150" height="150" alt="photo">
+              <img v-else
+                   class="user__photo mx-auto d-block"
+                   src="../../assets/345x345_26.jpg"
+                   width="150" height="150" alt="photo">
+            <h4 class="text-center">{{ sportsman.first_name }} {{sportsman.last_name}}</h4>
+              <p v-if="sportsman.federation_sportsmen[0].is_coach === 0">sportsmen</p>
+              <p v-else>coach</p>
+              <!--<p class="text-center">{{ sportsman.role }}</p>-->
+            <!--<img v-bind:src="sportsman.belt">{{ sportsman.dan }}</p>-->
+            <!--<p class="text-center">{{ sportsman.role }}</p>-->
+            <!--<p class="text-center">belt - {{ sportsman.belt }}</p>-->
+            <!--<p class="text-center">title - {{ sportsman.title }}</p>-->
           </div>
         </a>
       </div>
@@ -57,7 +72,8 @@ export default {
       pagination: {
         currentPage: 1,
         pages: 0
-      }
+      },
+        sportsmanTest:[],
     };
   },
   mounted() {
@@ -74,33 +90,20 @@ export default {
         .get(
           "https://champion-api.herokuapp.com/api/sportsman-list/by-federation/" +
             this.$route.params.id +
-            "/12?page=" +
+            "/6?page=" +
             page
         )
         .then(response => {
-          for (let i = 0; i < response.data.data.length; i++) {
-            if (page !== "") this.sportsmenList.shift();
-            this.sportsmenList.push({
-              name:
-                response.data.data[i].first_name +
-                " " +
-                response.data.data[i].last_name,
-              role: response.data.data[i].federation_sportsmen[0].is_coach
-                ? "coach"
-                : "sportsman",
-              belt:
-                this.$store.state.federationBelts[
-                  response.data.data[i].federation_sportsmen[0]
-                    .federation_belt_id
-                ] || "no",
-              title:
-                response.data.data[i].federation_sportsmen[0].title || "no",
-              link: `https://champion-front-test.herokuapp.com/userprofile/${response.data.data[i].id}`,
-              avatar: ""
-              // avatar: `"${response.data.data[i].photo.url}"` || ""
-            });
-          }
+          // for (let i = 0; i < response.data.data.length; i++) {
+              // this.sportsmanTest[i] = response.data;
+              console.log(response.data.data);
+            // if (page !== "") this.sportsmenList.shift();
+            this.sportsmenList = response.data.data;
+              // link: `https://champion-front-test.herokuapp.com/userprofile/${response.data.data[i].id}`,
+            // });
+          // }
           this.pagination.pages = response.data.last_page;
+          console.log(this.sportsmenList);
         })
         .catch(error => {
           window.console.log(error);
@@ -109,5 +112,14 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped lang="scss">
+    .user{
+        &__photo{
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 2px 10px 0 #e9e9e9;
+        }
+    }
 </style>

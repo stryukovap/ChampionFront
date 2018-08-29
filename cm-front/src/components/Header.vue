@@ -70,8 +70,13 @@
                                 </li>
                                 <li class="user__item"
                                     v-if="this.$store.state.role==='sportsman' || this.$store.state.role==='coach'">
+                                    <!--<router-link tag="a"-->
+                                                 <!--to="/userprofile"-->
+                                                 <!--class="user__link">-->
+                                        <!--Profile-->
+                                    <!--</router-link>-->
                                     <router-link tag="a"
-                                                 to="/userprofile"
+                                                 :to="'/userprofile' + '/' + this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].sportsman_id"
                                                  class="user__link">
                                         Profile
                                     </router-link>

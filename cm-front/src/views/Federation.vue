@@ -26,7 +26,7 @@ export default {
   },
   data: function() {
     return {
-      newsList: [],
+      newsList: []
     };
   },
   async mounted() {
