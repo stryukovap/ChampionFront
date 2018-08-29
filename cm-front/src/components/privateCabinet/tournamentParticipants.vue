@@ -139,7 +139,7 @@
         components: {
             AddSportsmenPopup
         },
-        props: ['tournamentKey', 'federationId'],
+        props: ['tournamentKey', 'federationId', 'tournament'],
         data: function () {
             return {
                 searchingSportsman: "",
@@ -155,7 +155,7 @@
             }
         },
         beforeMount() {
-            this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+            // this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
         },
         methods: {
             activateCategory(key) {

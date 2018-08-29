@@ -58,12 +58,14 @@
         <Tabs>
             <Tab name="Brackets">
                 <brackets v-bind:tournament-key="tournamentKey"
-                          v-bind:federation-id="federationId"></brackets>
+                          v-bind:federation-id="federationId"
+                          v-bind:tournament="tournament"></brackets>
 
             </Tab>
             <Tab name="Participants">
                 <participants v-bind:tournament-key="tournamentKey"
                               v-bind:federation-id="federationId"
+                              v-bind:tournament="tournament"
                 ></participants>
             </Tab>
         </Tabs>
@@ -83,6 +85,7 @@
     import Brackets from './tournamentBrackets';
     import Participants from './tournamentParticipants';
     import TournamentCreate from './tournamentCreate';
+    import bracketModule from './bracketModule'
 
     export default {
         name: 'tournament-page',
@@ -91,8 +94,9 @@
             Tabs,
             Brackets,
             Participants,
-            TournamentCreate,
+            TournamentCreate
         },
+        mixins: [bracketModule],
         props: ['tournamentKey'],
         data: function () {
             return {
@@ -151,6 +155,60 @@
                         .ref(this.federationId)
                         .child(this.tournamentKey)
                         .update({'isStarted': this.tournament.isStarted});
+                } catch (error) {
+                    throw error;
+                }
+                this.createBrackets();
+            },
+            createBrackets() {
+                this.tournament.categories.forEach((category, categoryKey) => {
+                    if ("male" in category) {
+                        category.male.forEach((weightCategory, key) => {
+                            if ("sportsmen" in weightCategory) {
+                                weightCategory.bracket = this.createBracket(weightCategory.sportsmen);
+                                console.log(weightCategory.bracket);
+                                firebase
+                                    .database()
+                                    .ref(this.federationId)
+                                    .child(this.tournamentKey)
+                                    .child("categories")
+                                    .child(categoryKey)
+                                    .child('male')
+                                    .child(key)
+                                    .update({ bracket: weightCategory.bracket});
+                                console.log(this.tournament);
+                            }
+                        });
+                    }
+                    if ("female" in category) {
+                        category.female.forEach((weightCategory, key) => {
+                            if ("sportsmen" in weightCategory) {
+                                weightCategory.bracket = this.createBracket(weightCategory.sportsmen);
+                                console.log(weightCategory.bracket);
+                                firebase
+                                    .database()
+                                    .ref(this.federationId)
+                                    .child(this.tournamentKey)
+                                    .child("categories")
+                                    .child(categoryKey)
+                                    .child('female')
+                                    .child(key)
+                                    .update({ bracket: weightCategory.bracket});
+                                console.log(this.tournament);
+                            }
+                        });
+                    }
+                });
+                this.refreshTournaments();
+            },
+            async refreshTournaments() {
+                try {
+                    const fbObj = await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .once('value');
+                    this.$store.commit('setTournamentsList', fbObj.val());
+                    this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
                 } catch (error) {
                     throw error;
                 }
