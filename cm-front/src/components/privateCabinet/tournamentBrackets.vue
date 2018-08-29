@@ -60,14 +60,25 @@
             </div>
         </div>
         <hr>
+        <div class="row ml-2" v-if="activeGenderCategory in tournament.categories[activeCategory] &&
+         'bracket' in tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory]">
+            <tour-bracket
+                    v-bind:bracket="
+                    tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory].bracket">
+            </tour-bracket>
+        </div>
     </div>
 </template>
 
 <script>
     import * as firebase from 'firebase';
+    import tourBracket from './tourBrack'
     export default {
         name: "tournament-brackets",
-        props: ['tournamentKey', 'federationId'],
+        components: {
+            tourBracket
+        },
+        props: ['tournamentKey', 'federationId', 'tournament'],
         data: function () {
             return {
                 activeCategory: 0,
@@ -78,7 +89,7 @@
             }
         },
         beforeMount() {
-            this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+            // this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
         },
         methods: {
             activateCategory(key) {

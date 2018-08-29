@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-sm-3 col-xs-6">
-                    <img  class="img" src="../assets/img.png" alt="participant_1">
+                    <img  class="img" alt="participant_1">
                     <h3 class="text-center">
                         Denis Yermolin
                     </h3>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-3 col-sm-3 col-xs-6">
-                    <img  class="img" src="../assets/img.png" alt="participant_1">
+                    <img  class="img"  alt="participant_1">
                     <h3 class="text-center">
                         Denis Yermolin
                     </h3>
