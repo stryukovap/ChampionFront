@@ -66,6 +66,7 @@
                 <participants v-bind:tournament-key="tournamentKey"
                               v-bind:federation-id="federationId"
                               v-bind:tournament="tournament"
+                              @clicked="closeAndUpdate"
                 ></participants>
             </Tab>
         </Tabs>
@@ -132,6 +133,7 @@
                 } catch (error) {
                     throw error;
                 }
+                this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
             },
             async startTournament() {
                 this.tournament.referees.map(referee => {

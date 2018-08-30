@@ -186,13 +186,14 @@
             },
             async closeAndUpdate() {
                 this.sportsmenAddListShow = false;
-                try {
-                    const fbObj = await firebase.database().ref(this.federationId).once('value');
-                    this.$store.commit('setTournamentsList', fbObj.val());
-                } catch (error) {
-                    throw error;
-                }
-                this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+                // try {
+                //     const fbObj = await firebase.database().ref(this.federationId).once('value');
+                //     this.$store.commit('setTournamentsList', fbObj.val());
+                // } catch (error) {
+                //     throw error;
+                // }
+                // this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+                this.$emit("clicked");
             },
             async permitParticipation(item, key) {
                 item.isPermit = true;
