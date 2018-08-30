@@ -64,7 +64,7 @@
                                 v-if="tournament.imageUrl"
                                 class="btn btn-outline-danger btn-sm mt-3"
                                 @click.prevent="removeImage">Remove</button>
-                        <span v-if="isUploaded" class="badge badge-success mt-3">Uploaded!</span>
+                        <span v-if="isUploaded" class="badge badge-success mt-3 ml-2">Uploaded!</span>
                     </div>
                 </div>
                 <div class="cm-form__wrapper">
@@ -162,7 +162,7 @@
                             </div>
                             <div class="row">
                                 <div v-model="category.male" class="col-3 mt-2" v-for="(weightCategory, weightKey) in category.male">
-                                    <input class="form-control form-control-sm col-6" type="text"
+                                    <input class="form-control form-control-sm col-6 p-1" type="text"
                                            style="display: inline;"
                                            placeholder="weight"
                                            autocomplete="off"
@@ -186,7 +186,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-3 mb-2" v-for="(weightCategory, weightKey) in category.female">
-                                    <input class="form-control form-control-sm col-6" type="text"
+                                    <input class="form-control form-control-sm col-6 p-1" type="text"
                                            style="display: inline;"
                                            placeholder="weight"
                                            autocomplete="off"
@@ -323,6 +323,7 @@
                     this.tournamentImage = e.target.result;
                 };
                 reader.readAsDataURL(file);
+                this.isUploaded = false;
             },
             uploadImage() {
                 const formData = new FormData();
@@ -339,6 +340,7 @@
             removeImage() {
                 this.tournamentImage = '';
                 this.tournament.imageUrl = '';
+                this.isUploaded = false;
             },
             addNewCategory() {
                 if (this.tournament.hasOwnProperty('categories') === false) {
