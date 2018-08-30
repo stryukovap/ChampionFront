@@ -1,11 +1,10 @@
 <template>
     <div>
       <div class="container">
-        <div class="row">
+          <h2>Nearest tournaments</h2>
           <card class="col-lg-9"></card>
           <news v-bind:newsList="newsList" class="col-lg-3"></news>
         </div>
-      </div>
       <sportsmen></sportsmen>
     </div>
 </template>

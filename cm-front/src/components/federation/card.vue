@@ -1,105 +1,216 @@
 <template>
-    <section>
-        <div class="container">
-            <h2>Nearest tournaments</h2>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4"
-                    v-for='(tournament, key) in $store.state.tournamentsList'>
-                    <div class="thumbnail">
-                        <img class="card-img-top"
-                             src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16345a6903e%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16345a6903e%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.203125%22%20y%3D%2296.3%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                             alt="Card image cap">
-                        <div class="caption">
-                            <h4 class="text-center" >{{ tournament.name }}</h4>
-                            <p class="text-center">Start date: {{ tournament.dates.dateStart }}</p>
-                            <p class="text-center">Registration starts/finishes : {{tournament.dates.dateStart}}/{{tournament.dates.dateEnd}}</p>
-                            <p class="text-center">{{ tournament.maxParticipants }} Members</p>
-                        </div>
+    <ul class="tournament__list">
+        <li class="tournament__item" v-for='(tournament) in $store.state.tournamentsList'>
+            <div class="tournament__info">
+                <!--<img class="tournament__img"-->
+                     <!--src="../../assets/345x345_26.jpg" width="100%" height="100%">-->
+                <img class="tournament__img"
+                     :src="tournament.imageUrl">
+                <div class="tournament__info-wrapper">
+                    <h3 class="tournament__title">{{ tournament.name }}</h3>
+                    <div class="tournament__subinfo">
+                        <p class="tournament__desc">Start date:</p>
+                        <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
                 </div>
+                <router-link tag="div" class="tournament__mask" v-bind:to="'/'">
+                    <h3 class="tournament__title">{{ tournament.name }}</h3>
+                    <div class="tournament__subinfo">
+                        <p class="tournament__desc">Start date:</p>
+                        <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
+                    </div>
+                </router-link>
             </div>
-        </div>
-    </section>
+            <div class="tournament__wrapper">
+                <p class="tournament__registration">Registration</p>
+                <div class="tournament__wrap">
+                    <div class="tournament__date">
+                        <p class="tournament__text">Starts:</p>
+                        <p class="tournament__subtext">{{tournament.dates.dateStart}}</p>
+                    </div>
+                    <div class="tournament__date">
+                        <p class="tournament__text">Finishes:</p>
+                        <p class="tournament__subtext">{{tournament.dates.dateEnd}}</p>
+                    </div>
+                </div>
+                <p class="tournament__participants">2/{{ tournament.maxParticipants }} Members</p>
+            </div>
+        </li>
+    </ul>
 </template>
 
 <script>
-import axios from "axios";
-import * as firebase from "firebase";
-// import TournamentPage from "./tournamentPage";
-// import TournamentCreate from "./tournamentCreate";
-export default {
-    name: "card",
-
-    data: function () {
-        // console.log(tournamentKey);
-        return {
-            tournamentsShow: true,
-            tournamentPageShow: false,
-            // tournamentKey: "",
-            federationId: this.$route.params.id,
-        };
-    },
-
-    // beforeMount: function () {
-    //     this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-    // },
-
-    async mounted() {
-        try {
-            const fbObj = await firebase
-                .database()
-                .ref(this.federationId)
-                .once("value");
-            this.$store.commit("setTournamentsList", fbObj.val());
-        } catch (error) {
-            throw error;
+    // import axios from "axios";
+    import * as firebase from "firebase";
+    export default {
+        name: "card",
+        data: function () {
+            // console.log(tournamentKey);
+            return {
+                tournamentsShow: true,
+                tournamentPageShow: false,
+                // tournamentKey: "",
+                federationId: this.$route.params.id,
+            };
+        },
+        async mounted() {
+            try {
+                const fbObj = await firebase
+                    .database()
+                    .ref(this.federationId)
+                    .once("value");
+                this.$store.commit("setTournamentsList", fbObj.val());
+            } catch (error) {
+                throw error;
+            }
         }
     }
-}
-  // {
- //       openTournament(key) {
-  //          this.tournamentKey = key;
-  //          this.tournamentsShow = false;
-  //          this.tournamentPageShow = true;
-  //      },
-  //      closeTournament() {
-  //          this.tournamentPageShow = false;
-  //          this.tournamentsShow = true;
-  //      },
-  //      createTournament() {
-   //         this.modalShow = true;
-   //     },
-   //     closeModal() {
-   //         this.modalShow = false;
-   //     },
-   //     async closeAndUpdate() {
-         //   this.modalShow = false;
-   //         try {
-   //             const fbObj = await firebase
-   //                .database()
-   //                 .ref(this.federationId)
-   //                  .once("value");
-   //              this.$store.commit("setTournamentsList", fbObj.val());
-   //          } catch (error) {
-   //              throw error;
-   //         }
-   //      }
-   //  };
-   //  .then(response => {
-   //      for (let i = 0; i < response.data.data.length; i++) {
-   //          window.console.log(response.data.data[i]);
-   //          if(page !== "") this.sportsmenList.shift();
-   //          this.sportsmenList.push({
-   //              name: response.tournament.name,
-   //              dateStart: "tournament.dates.dateStart",
-   //              dateEnd: "tournament.dates.dateEnd",
-   //              Members: tournament.maxParticipants,
-   //          });
-   //      }
-   //  })
-
-
 </script>
-
-<style scoped>
+<style scoped lang="scss">
+    p, h3{
+        margin: 0;
+        padding: 0;
+    }
+    .tournament {
+        font-family: "Roboto", sans-serif;
+        &__list{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        &__wrap{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        &__wrapper{
+            padding-right: 20px;
+            padding-left: 20px;
+            width: 100%;
+        }
+        &__registration{
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #262626;
+            text-align: left;
+            margin-top: 17px;
+        }
+        &__date{
+            font-size: 12px;
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #262626;
+            margin-top: 10px;
+            text-align: left;
+        }
+        &__subtext{
+            font-size: 12px;
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #757373;
+            margin-top: 3px;
+        }
+        &__participants{
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #8d8b8b;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
+        &__img{
+            width: 250px;
+            height: 175px;
+        }
+        &__item{
+            display: flex;;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-right: 20px;
+            height: 270px;
+            width: 250px;
+            border-radius: 5px;
+            overflow: hidden;
+            -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+            &:hover{
+                cursor:pointer;
+            }
+            &:hover .tournament__mask{
+                display: flex;
+            }
+        }
+        &__info{
+            position: relative;
+        }
+        &__info-wrapper{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            font-family: "Roboto", sans-serif;
+        }
+        &__mask{
+            font-family: "Roboto", sans-serif;
+            display: flex;
+            /*display: none;*/
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(196, 196, 196, 0), rgba(117, 115, 115, 0.6) 52%, #262626 96%);
+        }
+        &__title{
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #ffffff;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        &__subinfo{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 4px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 9px;
+        }
+        &__desc{
+            font-size: 12px;
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #ffffff;
+        }
+    }
 </style>

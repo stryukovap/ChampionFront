@@ -60,7 +60,7 @@
         align-items: center;
         border-radius: 5px;
         background-color: #ffffff;
-        border: solid 1px #e9e9e9;
+        /*border: solid 1px #e9e9e9;*/
         width: 224px;
         text-align: center;
         position: relative;
@@ -73,9 +73,9 @@
         &:hover .card__mask{
             display: flex;
         }
-        &:hover{
-            border: none;
-        }
+        /*&:hover{*/
+            /*border: none;*/
+        /*}*/
     }
     &__mask{
         /*display: flex;*/
