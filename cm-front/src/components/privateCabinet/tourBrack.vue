@@ -10,6 +10,19 @@
                      v-for = 'fight in round'
                      :key = 'fight.index'>
                     <div class = 'player'>{{ fight.fighter1 ? fight.fighter1.fullname : '' }}</div>
+                    <div>
+                        <form>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                <label class="form-check-label" for="inlineRadio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                <label class="form-check-label" for="inlineRadio2">2</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
                     <div class = 'player'>{{ fight.fighter2 ? fight.fighter2.fullname : '' }}</div>
                 </div>
             </div>
