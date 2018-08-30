@@ -278,7 +278,7 @@
                 <button v-else-if="personRole === 'OwnCoachSportsman' && sportsmanId !== ''"
                         class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
@@ -288,7 +288,7 @@
                 </button>
                 <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
                         @click.prevent="updateSportsman"
-                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:disabled="testForClick"
                         v-bind:class="{'disabled':
                         $v.tempSportsmanForValidations.name.$error ||
                         $v.tempSportsmanForValidations.surname.$error ||
