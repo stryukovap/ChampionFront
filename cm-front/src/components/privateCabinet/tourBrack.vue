@@ -4,23 +4,24 @@
             <div class='round'
                  v-for = '(round, index) in bracket'
                  :key = 'round.index'
-                 v-bind:class='`round-${index}`'>
+                 v-bind:class='`round-${index}`'
+                 v-bind:title="index">
                 <p class='round-name'>Раунд {{ index+1 }}</p>
                 <div class = 'game'
-                     v-for = 'fight in round'
+                     v-for = '(fight, index) in round'
                      :key = 'fight.index'>
                     <div class = 'player'>{{ fight.fighter1 ? fight.fighter1.fullname : '' }}</div>
                     <div>
                         <form>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1 || 'empty'">
                                 <label class="form-check-label" for="inlineRadio1">1</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2 || 'empty'">
                                 <label class="form-check-label" for="inlineRadio2">2</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                     <div class = 'player'>{{ fight.fighter2 ? fight.fighter2.fullname : '' }}</div>
@@ -32,16 +33,42 @@
 
 <script>
     import Result from './result';
+    import bracketModule from './bracketModule'
+
     export default {
         name: 'tour-brack',
         components: {
-            Result
+            Result        
         },
+        mixins: [bracketModule],
         props: ['bracket'],
         data: function () {
             return {
-
+                // test: this.$store.state.tournamentsList["-LJroEHi_YHVui6Cq_L6"]["categories"][1]["male"][0]["bracket"]
+                // test: this.$store.state.tournamentsList["-LKGMyTA7ZUvgxaIm8Xa"]["categories"][0]["male"][0]["bracket"]
+                // test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
             }
+        },
+        methods: {
+            submitWinner(e) {
+                let winner = {};
+                let fightNumber = 0;
+                let roundNumber = 0;
+                if(e.target.parentNode[0].checked) {
+                    winner = e.target.parentNode[0]["_value"];
+                    roundNumber = Number(e.target.parentNode.parentNode.parentNode.parentNode.title);
+                    fightNumber = Number(e.target.parentElement[0].name);
+                } else if(e.target.parentNode[1].checked) {
+                    winner = e.target.parentNode[1]["_value"];
+                    roundNumber =  Number(e.target.parentNode.parentNode.parentNode.parentNode.title);
+                    fightNumber = Number(e.target.parentElement[1].name);
+                } else {
+                    return;
+                }
+                this.test = this.isWinner(this.test, roundNumber, fightNumber, winner);
+                window.console.log("after", this.test);
+            },
+
         }
 
     }
