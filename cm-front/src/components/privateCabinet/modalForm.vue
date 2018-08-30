@@ -307,6 +307,7 @@
     import AutocompleteCity from "../autocomplete_city";
     import citiesUkrainian from "../../assets/citiesUkrainian";
     import citiesRussian from "../../assets/citiesRussian";
+    import citiesEnglish from "../../assets/citiesEnglish";
     import {
         required,
         minLength,
@@ -356,6 +357,7 @@
                 }),
                 citiesUkr: [],
                 citiesRus: [],
+                citiesEng: [],
                 cities: [],
                 tempSportsmanForValidations: {
                     weight: "",
@@ -402,21 +404,21 @@
                     this.role.is_referee = 1;
                 }
             }
-            citiesUkrainian.region.forEach(region => {
+            // citiesUkrainian.region.forEach(region => {
+            //     region.city.forEach(city => {
+            //         this.citiesUkr.push(city.name);
+            //     });
+            // });
+            // citiesRussian.region.forEach(region => {
+            //     region.city.forEach(city => {
+            //         this.citiesRus.push(city.name);
+            //     });
+            // });
+            citiesEnglish.region.forEach(region => {
                 region.city.forEach(city => {
-                    this.citiesUkr.push(city.name);
+                    this.cities.push(city.name);
                 });
             });
-            citiesRussian.region.forEach(region => {
-                region.city.forEach(city => {
-                    this.citiesRus.push(city.name);
-                });
-            });
-            if (window.navigator.language === "ru-RU") {
-                this.cities = this.citiesRus;
-            } else {
-                this.cities = this.citiesUkr;
-            }
             // this.http
             //     .get(
             //         "https://champion-api.herokuapp.com/api/belts/" +

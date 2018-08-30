@@ -114,8 +114,7 @@ export default {
       value: [],
       valueAmount: "",
       amountOfParticipants: 0,
-      errorMessage: false,
-      // federationId: ""
+      errorMessage: false
     };
   },
   beforeMount() {
@@ -143,6 +142,7 @@ export default {
       .then(response => {
         if (response.status === 200) {
           response.data.data.forEach(item => {
+              console.log(item.weight);
             if (
               item.date_of_birth.slice(0, 4) >=
                 this.tournament.categories[this.activeCategory].ageFrom &&
@@ -154,6 +154,7 @@ export default {
                   this.activeGenderCategory
                 ][this.activeWeightCategory].weight
             ) {
+                console.log(this.tournament.categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].weight);
               let isExist = this.value.some(elem => {
                 return elem.sportsman.id === item.id;
               });
@@ -167,7 +168,6 @@ export default {
               }
             }
           });
-          // this.options = response.data;
         }
       })
       .catch(function(error) {
