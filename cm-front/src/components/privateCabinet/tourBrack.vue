@@ -10,21 +10,21 @@
                 <div class = 'game'
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'>
-                    <div class = 'player'>{{ fight.fighter1 ? fight.fighter1.fullname : '' }}</div>
+                    <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
                     <div>
                         <form>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1 || 'empty'">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1">
                                 <label class="form-check-label" for="inlineRadio1">1</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2 || 'empty'">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2">
                                 <label class="form-check-label" for="inlineRadio2">2</label>
                             </div>
                             <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
-                    <div class = 'player'>{{ fight.fighter2 ? fight.fighter2.fullname : '' }}</div>
+                    <div class = 'player'>{{ fight.fighter2.fullname ? fight.fighter2.fullname : fight.fighter2 }}</div>
                 </div>
             </div>
         </div>
@@ -47,6 +47,7 @@
                 // test: this.$store.state.tournamentsList["-LJroEHi_YHVui6Cq_L6"]["categories"][1]["male"][0]["bracket"]
                 // test: this.$store.state.tournamentsList["-LKGMyTA7ZUvgxaIm8Xa"]["categories"][0]["male"][0]["bracket"]
                 // test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
+                test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
             }
         },
         methods: {

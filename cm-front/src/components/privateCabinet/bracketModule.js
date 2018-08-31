@@ -22,17 +22,18 @@ export default {
           listOfPlayers.length / Math.pow(2, i + 1)
         );
         for (var j = 0; j < numberOfFightsInRound; j++) {
+          var f1, f2;
           if (i === 0) {
-            var f1 = listOfPlayers[j * 2];
-            var f2 = listOfPlayers[j * 2 + 1];
+            f1 = listOfPlayers[j * 2];
+            f2 = listOfPlayers[j * 2 + 1];
           } else {
-            var f1 = "empty";
-            var f2 = "empty";
+            f1 = " ";
+            f2 = " ";
           }
           var fight = {
             fighter1: f1,
             fighter2: f2,
-            winner: "empty"
+            winner: " "
           };
           round.push(fight);
         }
@@ -48,18 +49,19 @@ export default {
       var numberOfDummies = neededLength - length;
       for (var i = 0; i < numberOfDummies; i++) {
         if (i % 2 === 0) {
-          listOfPlayers.splice(i, 0, "empty");
+          listOfPlayers.splice(i, 0, "dummy");
         } else {
-          listOfPlayers.splice(listOfPlayers.length - i, 0, "empty");
+          listOfPlayers.splice(listOfPlayers.length - i, 0, "dummy");
         }
       }
       return listOfPlayers;
     },
 
     isWinner(bracket, roundNumber, fightNumber, winner) {
+      window.console.log(bracket);
       var ourBracket = bracket.slice();
       ourBracket[roundNumber][fightNumber].winner = winner;
-      if (roundNumber >= ourBracket.length - 2) return;
+      if (roundNumber >= ourBracket.length - 2) return ourBracket;
       var nextRound = this.getNextFight(
         ourBracket,
         roundNumber,
@@ -84,7 +86,7 @@ export default {
     },
 
     forwardFighterToNextRound(nextFight, fighter) {
-      if (nextFight.fighter1 === "empty") {
+      if (nextFight.fighter1 === " ") {
         nextFight.fighter1 = fighter;
       } else {
         nextFight.fighter2 = fighter;
