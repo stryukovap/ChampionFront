@@ -1,11 +1,19 @@
 <template>
-    <div>
       <div class="container">
-          <h2>Nearest tournaments</h2>
-          <card class="col-lg-9"></card>
-          <news v-bind:newsList="newsList" class="col-lg-3"></news>
-        </div>
-      <sportsmen></sportsmen>
+          <div class="federation">
+              <section class="federation__info">
+                  <h2 class="tournaments__title">Nearest tournaments</h2>
+                  <card class="tournaments__list"></card>
+              </section>
+              <article class="federation__news">
+                  <h2 class="news__desc">News</h2>
+                  <news class="news__list" v-bind:newsList="newsList"></news>
+              </article>
+          </div>
+          <section class="federation__sportsman">
+              <h2 class="sportsman__title">Our Sportmen</h2>
+              <sportsmen class="sportsman__list"></sportsmen>
+          </section>
     </div>
 </template>
 <script>
@@ -70,27 +78,30 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.h2 {
-  display: inline-block;
-  margin-left: 30px;
-}
-
-.h2-2 {
-  display: inline-block;
-  margin-left: 525px;
-}
-
-.line {
-  border: none;
-  background-color: #5a5a5a;
-  color: #5a5a5a;
-  height: 1px;
-}
-
-@media (min-width: 992px) {
-  .main-content {
-    border-right: 1px solid;
-  }
-}
+<style scoped lang="scss">
+    .container{
+        width: 1200px;
+    }
+    .federation{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 30px;
+        min-width: 900px;
+        &__info{min-width: 900px;}
+    }
+    /*.sportsman__list, .tournaments__list{*/
+        /*align-self: stretch;*/
+    /*}*/
+    .tournaments__title, .sportsman__title, .news__desc{
+        text-align: left;
+        font-family: "Nova Square", cursive;
+        font-size: 32px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #262626;
+    }
 </style>

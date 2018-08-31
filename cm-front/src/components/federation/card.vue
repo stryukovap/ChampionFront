@@ -2,8 +2,6 @@
     <ul class="tournament__list">
         <li class="tournament__item" v-for='(tournament) in $store.state.tournamentsList'>
             <div class="tournament__info">
-                <!--<img class="tournament__img"-->
-                     <!--src="../../assets/345x345_26.jpg" width="100%" height="100%">-->
                 <img class="tournament__img"
                      :src="tournament.imageUrl">
                 <div class="tournament__info-wrapper">
@@ -13,12 +11,14 @@
                         <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
                 </div>
-                <router-link tag="div" class="tournament__mask" v-bind:to="'/'">
+                <router-link tag="div" class="tournament__mask" v-bind:to="'/about'">
+                    <div class="tournament__top"></div>
                     <h3 class="tournament__title">{{ tournament.name }}</h3>
                     <div class="tournament__subinfo">
                         <p class="tournament__desc">Start date:</p>
                         <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
+                    <div class="tournament__subtitle">{{tournament.description}}</div>
                 </router-link>
             </div>
             <div class="tournament__wrapper">
@@ -130,12 +130,12 @@
             line-height: normal;
             letter-spacing: normal;
             color: #8d8b8b;
-            margin-top: 20px;
+            margin-top: 15px;
             padding-bottom: 10px;
         }
         &__img{
-            width: 250px;
-            height: 175px;
+            width: 100%;
+            height: auto;
         }
         &__item{
             display: flex;;
@@ -144,10 +144,11 @@
             margin-top: 30px;
             margin-bottom: 30px;
             margin-right: 20px;
-            height: 270px;
+            height: 300px;
             width: 250px;
             border-radius: 5px;
             overflow: hidden;
+            background-color: #ffffff;
             -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
             -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
             box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
@@ -157,20 +158,48 @@
             &:hover .tournament__mask{
                 display: flex;
             }
+            &:hover .tournament__info-wrapper{
+                display: none;
+            }
+        }
+        &__subtitle{
+            font-size: 12px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.05;
+            letter-spacing: normal;
+            color: #ffffff;
+            padding-bottom: 10px;
+            padding-right: 20px;
+            padding-left: 20px;
         }
         &__info{
             position: relative;
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+            &:before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-image: linear-gradient(to bottom, rgba(196, 196, 196, 0), rgba(117, 115, 115, 0.6) 52%, #262626 96%);
+            }
         }
         &__info-wrapper{
             position: absolute;
             width: 100%;
             bottom: 0;
             font-family: "Roboto", sans-serif;
+            /*background-image: linear-gradient(to bottom, rgba(196, 196, 196, 0), rgba(117, 115, 115, 0.6) 52%, #262626 96%);*/
         }
         &__mask{
             font-family: "Roboto", sans-serif;
-            display: flex;
-            /*display: none;*/
+            /*display: flex;*/
+            display: none;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
@@ -179,7 +208,17 @@
             left:0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(to bottom, rgba(196, 196, 196, 0), rgba(117, 115, 115, 0.6) 52%, #262626 96%);
+            background-color: rgba(0,0,0,0.65);
+        }
+        &__top{
+                height: 5px;
+                width: 100%;
+                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(4px);
+                background-color: #f77f00;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                margin-bottom: auto;
         }
         &__title{
             font-family: "Roboto", sans-serif;
