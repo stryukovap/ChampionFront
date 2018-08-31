@@ -15,6 +15,7 @@ import BuySubscription from "./components/privateCabinet/buySubscribtion.vue";
 import Federation from "./views/Federation.vue";
 import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
 import tournamentsCabinet from "./components/privateCabinet/tournamentsCabinet.vue";
+import Erroronlogin from "./views/Erroronlogin.vue";
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ export default new Router({
       name: "about",
       component: About
     },
+      {
+        path:"/erroronlogin",
+          name:"erroronlogin",
+          component: Erroronlogin
+      },
     {
       path: "/registration",
       name: "registration",

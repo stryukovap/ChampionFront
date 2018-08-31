@@ -27,7 +27,7 @@ export default {
   name: "footer_static"
 };
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 /*@import "../../node_modules/bootstrap/scss/bootstrap";*/
 
 

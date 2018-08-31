@@ -1,30 +1,30 @@
 <template>
     <div>
-        <h2 class="h2-1 ml-5 news__desc">News</h2>
-        <div class="row">
-            <div class="col-md-6 col-lg-12 news__content"
+        <!--<div class="row">-->
+            <div class="news__content"
                  v-for='(post, index) in newsList'
                  v-if='index < 2 || isAllPostsShown'
                  :key='post.index'>
-                <a v-bind:href="post.link" class="text-secondary">
+                <router-link tag="div" v-bind:to="'/about'" class="text-secondary">
                     <img src="../../assets/345x345_26.jpg"  class="news__img">
                     <!--v-bind:src="post.avatar"-->
                     <!--alt="Card image cap">-->
                     <div>
-                        <h4 class="text-center news__desk">{{ post.name }}</h4>
-                        <p class="text-center">{{ post.date }}</p>
+                        <h4 class="news__desc">{{ post.name }}</h4>
+                        <!--<p class="text-center">{{ post.date }}</p>-->
                     </div>
-                </a>
+                </router-link>
                 <!--<router-link tag="div" class="news__mask" v-bind:to="'/' + link_to">-->
-                <router-link tag="div" class="news__mask" v-bind:to="'/'">
+                <router-link tag="a" v-bind:to="'/about'" class="news__mask">
                     <div class="news__top"></div>
                     <h3 class="news__title">{{post.name}}</h3>
+                    <p class="news__date">{{ post.date }}</p>
                     <p class="news__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere pulvinar blandit...</p>
                 </router-link>
-            </div>
+            <!--</div>-->
         </div>
-        <div class="text-right">
-            <a v-on:click.prevent="togleNewsState" href="#">{{ linkText }}...</a>
+        <div class="news__wrapper">
+            <a class="news__more" v-on:click.prevent="togleNewsState" href="#">{{ linkText }}...</a>
         </div>
     </div>
 </template>
@@ -53,6 +53,20 @@
 <style scoped lang="scss">
 
     .news {
+        &__wrapper{
+            margin-top: 34px;
+            text-align: right;
+        }
+        &__more{
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #3f88c5;
+        }
         &__top{
             height: 5px;
             width: 100%;
@@ -75,10 +89,13 @@
             line-height: normal;
             letter-spacing: normal;
             color: #262626;
-            padding: 6.2px 0 13.9px 0;
+            margin-top: 12.4px;
+            margin-bottom: 12.4px;
+            padding-left: 19px;
+            text-align: left;
         }
         &__title{
-            font-size: 25px;
+            font-size: 20px;
             font-weight: 500;
             font-style: normal;
             font-stretch: normal;
@@ -96,14 +113,18 @@
             color: #ffffff;
             padding: 10px;
         }
+        &__date{
+            color: #ffffff;
+        }
         &__content{
+            margin-top: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             border-radius: 5px;
+            overflow: hidden;
             background-color: #ffffff;
-            border: solid 1px #e9e9e9;
-            width: 100%;
+            width: 213px;
             height: 100%;
             text-align: center;
             position: relative;
@@ -121,6 +142,7 @@
             }
         }
         &__mask{
+            text-decoration: none;
             /*display: flex;*/
             display: none;
             flex-direction: column;
@@ -140,9 +162,9 @@
             box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
         }
         &__img{
-            width: 285px;
+            width: 100%;
             height: 200px;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
         }
     }
 </style>
