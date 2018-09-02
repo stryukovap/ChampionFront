@@ -1,5 +1,5 @@
 <template>
-    <div class='bracket'>
+    <div class='bracket' v-on:click="showPopUp">
         <div class = 'bracket-wrapper'>
             <div class='round'
                  v-for = '(round, index) in bracket'
@@ -11,17 +11,23 @@
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'>
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
-                    <div>
-                        <form>
+                    <div class='result'>
+                        <form class='game-info'>
                             <div class="form-check form-check-inline">
+                                <div class='user-avatar'>
+                                    <img src='https://via.placeholder.com/100' alt='user-avatar' width='100' height='100'>
+                                </div>
                                 <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1">
-                                <label class="form-check-label" for="inlineRadio1">1</label>
+                                <label class="form-check-label" for="inlineRadio1">{{ fight.fighter1.fullname }}</label>
                             </div>
                             <div class="form-check form-check-inline">
+                                <div class='user-avatar'>
+                                    <img src='https://via.placeholder.com/100' alt='user-avatar' width='100' height='100'>
+                                </div>
                                 <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2">
-                                <label class="form-check-label" for="inlineRadio2">2</label>
+                                <label class="form-check-label" for="inlineRadio2">{{ fight.fighter2.fullname }}</label>
                             </div>
-                            <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary">Submit</button>
+                            <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary">Choose winner</button>
                         </form>
                     </div>
                     <div class = 'player'>{{ fight.fighter2.fullname ? fight.fighter2.fullname : fight.fighter2 }}</div>
@@ -76,10 +82,26 @@
                     return;
                 }
 
+                e.target.parentNode[0].setAttribute('disabled', 'disabled');
+                e.target.parentNode[1].setAttribute('disabled', 'disabled');
+                e.target.setAttribute('disabled', 'disabled');
+
                 this.bracketNew = this.isWinner(this.bracket, roundNumber, fightNumber, winner);
                 this.updateBracket();
                 window.console.log("after", this.bracket);
             },
+
+            showPopUp(e) {
+                console.log(e);
+                if(e.target.type !== "radio") {
+                    document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+                }
+                if(e.target.className == "player") {
+                    console.log(e.target.className);
+                    e.target.parentNode.querySelector('.result').classList.add("open");
+                }
+            },
+
             async updateBracket() {
                 try{
                     await firebase
@@ -115,9 +137,55 @@
 </script>
 
 <style lang="scss">
+
+.result {
+    display : none;
+    box-sizing: border-box;
+    position : absolute;
+    top : -2px;
+    left : -2px;
+    width : 400px;
+    /*border: 2px solid #5CB85C;*/
+    /*border-radius: 5px;*/
+    background-color : #5CB85C;
+    z-index : 10;
+    }
+
+.open {
+    display : block;
+}
+
+.game-info {
+    display : flex;
+    flex-wrap: wrap;
+    width : 100%;
+    height : 200px;
+    }
+
+.game-info button {
+    width : 100%;
+    border-radius: 0;
+    }
+
+.user-avatar {
+    margin : 10px auto;
+    width : 100px;
+    height : 100px;
+    border-radius: 50%;
+    background-color : blue;
+    }
+
+.form-check {
+    display : flex;
+    flex-direction : column;
+    width : 50%;
+    margin : 0;
+    }
+
 .bracket {
     display    : flex;
     overflow-x : auto;
+    overflow-y: visible;
 }
 
 .bracket-wrapper {
@@ -227,7 +295,7 @@ display : none;
     overflow: hidden;
     }
 
-.player:nth-of-type(odd) {
+.player:nth-of-type(1) {
     border-bottom: 1px solid #5CB85C;
     }
 
