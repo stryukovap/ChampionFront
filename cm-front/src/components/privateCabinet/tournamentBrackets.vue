@@ -23,6 +23,7 @@
             </div>
             <div v-for="(weightCategory, weightKey) in tournament.categories[activeCategory].male"
                  @click="activateWeightMaleCategory(weightKey)"
+
                  class="card border-success mb-3 ml-4"
                  v-bind:class="{ 'text-white': activeWeightMaleCategory === weightKey,
                                          'bg-success': activeWeightMaleCategory === weightKey }"
@@ -63,8 +64,11 @@
         <div class="row ml-2" v-if="activeGenderCategory in tournament.categories[activeCategory] &&
          'bracket' in tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory]">
             <tour-bracket
-                    v-bind:bracket="
-                    tournament.categories[activeCategory][activeGenderCategory][activeWeightCategory].bracket">
+                    v-bind:federation-id="federationId"
+                    v-bind:tournament-key="tournamentKey"
+                    v-bind:active-category="activeCategory"
+                    v-bind:active-gender-category="activeGenderCategory"
+                    v-bind:active-weight-category="activeWeightCategory">
             </tour-bracket>
         </div>
     </div>
@@ -98,7 +102,6 @@
                 this.activeWeightCategory = 0;
                 this.activeWeightMaleCategory = 0;
                 this.activeWeightFemaleCategory = '';
-
             },
             activateWeightMaleCategory(key) {
                 this.activeWeightMaleCategory = key;

@@ -32,6 +32,7 @@
 </template>
 
 <script>
+    import * as firebase from 'firebase';
     import Result from './result';
     import bracketModule from './bracketModule'
 
@@ -40,14 +41,22 @@
         components: {
             Result        
         },
-        mixins: [bracketModule],
-        props: ['bracket'],
-        data: function () {
+        data() {
             return {
-                // test: this.$store.state.tournamentsList["-LJroEHi_YHVui6Cq_L6"]["categories"][1]["male"][0]["bracket"]
-                // test: this.$store.state.tournamentsList["-LKGMyTA7ZUvgxaIm8Xa"]["categories"][0]["male"][0]["bracket"]
-                // test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
-                test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
+                bracketNew: []
+            }
+        },
+        mixins: [bracketModule],
+        props: ['federationId', 'tournamentKey', 'activeCategory', 'activeGenderCategory', 'activeWeightCategory'],
+        computed: {
+            bracket: {
+                get: function () {
+                    return this.$store.state.tournamentsList[this.tournamentKey]
+                        .categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].bracket;
+                    },
+                set: function () {
+                    return this.bracketNew;
+                }
             }
         },
         methods: {
@@ -66,9 +75,39 @@
                 } else {
                     return;
                 }
-                this.test = this.isWinner(this.test, roundNumber, fightNumber, winner);
-                window.console.log("after", this.test);
+
+                this.bracketNew = this.isWinner(this.bracket, roundNumber, fightNumber, winner);
+                this.updateBracket();
+                window.console.log("after", this.bracket);
             },
+            async updateBracket() {
+                try{
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .child("categories")
+                        .child(this.activeCategory)
+                        .child(this.activeGenderCategory)
+                        .child(this.activeWeightCategory)
+                        .update({ bracket: this.bracket});
+                } catch (error) {
+                    throw error;
+                }
+                this.updateTournaments();
+            },
+            async updateTournaments() {
+                try {
+                    const fbObj = await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .once('value');
+                    this.$store.commit('setTournamentsList', fbObj.val());
+                    console.log(fbObj.val());
+                } catch (error) {
+                    throw error;
+                }
+            }
 
         }
 
