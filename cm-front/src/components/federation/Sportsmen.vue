@@ -121,13 +121,13 @@ export default {
   }
 .sportsman {
   &__item{
-    width: 175px;
+    width: 225px;
     height: 261px;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 #e9e9e9;
     background-color: #ffffff;
     border: solid 1px #e9e9e9;
-    margin-right: 81.25px;
+    margin-right: 15px;
     -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
     -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
     box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);

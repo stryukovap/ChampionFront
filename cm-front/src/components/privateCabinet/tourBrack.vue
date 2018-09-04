@@ -1,6 +1,6 @@
 <template>
     <div class='bracket' v-on:click="showPopUp">
-        <div class = 'bracket-wrapper' >
+        <div class = 'bracket-wrapper'>
             <div class='round'
                  v-for = '(round, index) in bracket'
                  :key = 'round.index'
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+    import * as firebase from 'firebase';
     import Result from './result';
     import bracketModule from './bracketModule'
 
@@ -47,14 +48,22 @@
         components: {
             Result        
         },
-        mixins: [bracketModule],
-        props: ['bracket'],
-        data: function () {
+        data() {
             return {
-                // test: this.$store.state.tournamentsList["-LJroEHi_YHVui6Cq_L6"]["categories"][1]["male"][0]["bracket"]
-                // test: this.$store.state.tournamentsList["-LKGMyTA7ZUvgxaIm8Xa"]["categories"][0]["male"][0]["bracket"]
-                // test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
-                test: this.$store.state.tournamentsList["-LKvvKJ5RrEKM3bF6jMk"]["categories"][0]["male"][0]["bracket"]
+                bracketNew: []
+            }
+        },
+        mixins: [bracketModule],
+        props: ['federationId', 'tournamentKey', 'activeCategory', 'activeGenderCategory', 'activeWeightCategory'],
+        computed: {
+            bracket: {
+                get: function () {
+                    return this.$store.state.tournamentsList[this.tournamentKey]
+                        .categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].bracket;
+                    },
+                set: function () {
+                    return this.bracketNew;
+                }
             }
         },
         methods: {
@@ -73,12 +82,55 @@
                 } else {
                     return;
                 }
+
                 e.target.parentNode[0].setAttribute('disabled', 'disabled');
                 e.target.parentNode[1].setAttribute('disabled', 'disabled');
                 e.target.setAttribute('disabled', 'disabled');
-                this.test = this.isWinner(this.test, roundNumber, fightNumber, winner);
-                window.console.log("after", this.test);
+
+                this.bracketNew = this.isWinner(this.bracket, roundNumber, fightNumber, winner);
+                this.updateBracket();
+                window.console.log("after", this.bracket);
             },
+
+            showPopUp(e) {
+                console.log(e);
+                if(e.target.type !== "radio") {
+                    document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+                }
+                if(e.target.className == "player") {
+                    console.log(e.target.className);
+                    e.target.parentNode.querySelector('.result').classList.add("open");
+                }
+            },
+
+            async updateBracket() {
+                try{
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .child("categories")
+                        .child(this.activeCategory)
+                        .child(this.activeGenderCategory)
+                        .child(this.activeWeightCategory)
+                        .update({ bracket: this.bracket});
+                } catch (error) {
+                    throw error;
+                }
+                this.updateTournaments();
+            },
+            async updateTournaments() {
+                try {
+                    const fbObj = await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .once('value');
+                    this.$store.commit('setTournamentsList', fbObj.val());
+                    console.log(fbObj.val());
+                } catch (error) {
+                    throw error;
+                }
+            }
 
             showPopUp(e) {
                 // console.log(e.target.className);
@@ -94,6 +146,7 @@
 </script>
 
 <style lang="scss">
+
 .result {
     display : none;
     box-sizing: border-box;
@@ -107,13 +160,9 @@
     z-index : 10;
     }
 
-/*.game:hover .result {*/
-    /*display : block;*/
-    /*}*/
 .open {
-display : block;
+    display : block;
 }
-
 
 .game-info {
     display : flex;
