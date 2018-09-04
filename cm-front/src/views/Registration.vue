@@ -448,7 +448,7 @@ import {
   required,
   email,
   minLength,
-    maxLength,
+  maxLength,
   sameAs,
   numeric,
   alpha
@@ -490,9 +490,8 @@ export default {
       userSportsman: "true",
       sports: {},
       authUser: {},
-        value : [],
-        options : []
-
+      value: [],
+      options: []
     };
   },
   mounted() {
@@ -525,7 +524,11 @@ export default {
         window.console.log(error);
       });
     axios
-      .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
+      .get(
+        `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+          this.sportsman.federation
+        }`
+      )
       .then(response => {
         if (response.status === 200) {
           this.coaches = response.data;
@@ -607,7 +610,7 @@ export default {
     user: {
       email: {
         required: required,
-          maxLength:maxLength(100),
+        maxLength: maxLength(100),
         email: email,
         unique: val => {
           // if (val === "") return true;
@@ -634,7 +637,7 @@ export default {
       password: {
         required: required,
         minLength: minLength(6),
-          maxLength:maxLength(16)
+        maxLength: maxLength(16)
       },
       passwordConfirm: {
         required: required,
@@ -646,19 +649,19 @@ export default {
         required: required,
         alpha: alpha,
         minLength: minLength(2),
-          maxLength:maxLength(36)
+        maxLength: maxLength(36)
       },
       surname: {
         required: required,
         alpha: alpha,
         minLength: minLength(2),
-          maxLength:maxLength(36)
+        maxLength: maxLength(36)
       },
       patronymic: {
         required: required,
         alpha: alpha,
         minLength: minLength(2),
-          maxLength:maxLength(36)
+        maxLength: maxLength(36)
       },
       city: {
         required: required
@@ -683,30 +686,30 @@ export default {
       phone: {
         required: required,
         numeric: numeric,
-          minLength: minLength(15),
-          maxLength:maxLength(15)
+        minLength: minLength(15),
+        maxLength: maxLength(15)
       },
       email: {
         required: required,
         email: email,
-          maxLength:maxLength(100)
+        maxLength: maxLength(100)
       },
       name: {
         required: required,
         alpha: alpha,
         minLength: minLength(3),
-          maxLength:maxLength(42)
+        maxLength: maxLength(42)
       },
       presidentName: {
         required: required,
         alpha: alpha,
         minLength: minLength(3),
-          maxLength:maxLength(42)
+        maxLength: maxLength(42)
       },
       subDomain: {
         required: required,
-          minLength: minLength(2),
-          maxLength:maxLength(8)
+        minLength: minLength(2),
+        maxLength: maxLength(8)
       }
     }
   },
@@ -815,18 +818,22 @@ export default {
         });
     },
     getCoaches: function() {
-        this.sportsman.coaches = []; //clearing list of coaches
-        axios
-          .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
-          .then(response => {
-              if (response.status === 200) {
-                  this.options = response.data;
-              }
-          })
-          .catch(function(error) {
-              window.console.log(error);
-          });
-    },
+      this.sportsman.coaches = []; //clearing list of coaches
+      axios
+        .get(
+          `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+            this.sportsman.federation
+          }`
+        )
+        .then(response => {
+          if (response.status === 200) {
+            this.options = response.data;
+          }
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    }
   }
 };
 </script>
