@@ -2,8 +2,8 @@
     <div class="container">
         <div class="user">
             <div class="user__social-info">
-                <img v-if="this.sportsman.photo_id" class="user__photo" alt="photo" width="185" height="185"
-                v-bind:src="this.sportsman.photo.url">
+                <img v-if="sportsman.photo_id" class="user__photo" alt="photo" width="185" height="185"
+                v-bind:src="sportsman.photo.url">
                 <img v-else class="user__photo" src="../../assets/345x345_26.jpg" alt="photo" width="185" height="auto">
                 <div class="user__social">
                     <a href="#" class="user__link user__link--in"></a>
@@ -11,38 +11,40 @@
                 </div>
             </div>
             <div class="user__info">
-                <h4 class="user__title">{{this.sportsman.first_name}}
-                    {{this.sportsman.last_name}}</h4>
+                <h4 class="user__title">{{sportsman.first_name}}
+                    {{sportsman.last_name}}</h4>
                 <div class="user__wrapper">
                     <ul class="user__list">
                         <!--<h4 class="user__role">{{this.$store.state.role}}</h4>-->
-                        <h4 v-if="this.sportsman.federation_sportsmen[0].is_coach === 1" class="user__role">Coach</h4>
+                        <h4 v-if="sportsman.federation_sportsmen[0].is_coach === 1" class="user__role">Coach</h4>
                         <h4 v-else class="user__role">Sportsman</h4>
                         <li class="user__item">
-                            <p v-if="this.sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">need get belts</p>
+                            <p v-if="sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">need get belts</p>
                             <p v-else class="user__belt">is not specified</p>
-                            <p v-if="this.sportsman.federation_sportsmen[0].title" class="user__degree u-title">{{this.sportsman.federation_sportsmen[0].title}}</p>
+                            <p v-if="sportsman.federation_sportsmen[0].title" class="user__degree u-title">{{sportsman.federation_sportsmen[0].title}}</p>
                             <p v-else class="user__degree u-title">is not specified</p>
                         </li>
                         <li class="user__item">
-                            <p v-if="this.sportsman.weight" class="user__weight">{{this.sportsman.weight}} kg</p>
+                            <p v-if="sportsman.weight" class="user__weight">{{sportsman.weight}} kg</p>
                             <p v-else class="user__weight">is not specified</p>
                         </li>
                         <li class="user__item">
-                            <p v-if="this.sportsman.city" class="user__city">{{this.sportsman.city}}</p>
+                            <p v-if="sportsman.city" class="user__city">{{sportsman.city}}</p>
                             <p v-else class="user__city">is not specified</p>
-                            <p v-if="this.sportsman.federation_sportsmen[0].federations.name" class="user__federation">{{this.sportsman.federation_sportsmen[0].federations.name}}</p>
+                            <p v-if="sportsman.federation_sportsmen[0].federations.name" class="user__federation">{{sportsman.federation_sportsmen[0].federations.name}}</p>
                             <p v-else class="user__federation">is not specified</p>
                         </li>
                     </ul>
                     <ul class="user__coaches">
                         <h4 class="user__coaches-title">Coaches</h4>
                         <!--{{this.sportsman.my_coaches}}-->
-                        <li v-for="coach in this.sportsman.my_coaches">
-                            <h4 class="user__coach">{{coach.coaches.first_name}} {{coach.coaches.last_name}}</h4>
-                            <img class="user__photo user__photo--coach mx-auto d-block"
-                                 src="../../assets/345x345_26.jpg"
-                                 width="50" height="50" alt="photo">
+                        <li v-for="coach in sportsman.my_coaches">
+                            <a v-bind:href="coach.coach_id">
+                              <h4 class="user__coach">{{coach.coaches.first_name}} {{coach.coaches.last_name}}</h4>
+                              <img class="user__photo user__photo--coach mx-auto d-block"
+                                  src="../../assets/345x345_26.jpg"
+                                  width="50" height="50" alt="photo">
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -60,33 +62,55 @@ export default {
   data: function() {
     return {
       sportsman: {
-        first_name: "",
-        last_name: "",
-        documents: [{ media: { url: "" } }],
-        federation_sportsmen: [
-          { federation_belt_id: 0 },
-          { is_coach: 0 },
-          { title: "" },
-          {
-            federations: { name: "" },
-            belts: [{ name: "" }, { id: 0 }]
-          }
+        "first_name": "",
+        "last_name": "",
+        "photo_id": null,
+        "my_user_profile": null,
+        "weight": 0,
+        "city": "",
+        "federation_sportsmen": [
+            {
+                "is_coach": 1,
+                "federation_belt_id": null,
+                "title": null,
+                "federations": {
+                    "name": "",
+                    "belts": [
+                    ]
+                }
+            }
         ],
-        my_coaches: [
-          { sportsmen_id: "" },
-          { coaches: { first_name: "", last_name: "", photo_id: "" } }
-        ],
-        photo_id: "",
-        photo: {
-          url: ""
-        },
-        weight: ""
+        "my_sportsmen": [],
+        "my_coaches": [],
+        "photo": null,
+        "documents": []
+
+        // first_name: "",
+        // last_name: "",
+        // documents: [{ media: { url: "" } }],
+        // federation_sportsmen: [
+        //   { federation_belt_id: 0 },
+        //   { is_coach: 0 },
+        //   { title: "" },
+        //   {
+        //     federations: { name: "" },
+        //     belts: [{ name: "" }, { id: 0 }]
+        //   }
+        // ],
+        // my_coaches: [
+        //   { sportsmen_id: "" },
+        //   { coaches: { first_name: "", last_name: "", photo_id: "" } }
+        // ],
+        // photo_id: "",
+        // photo: {
+        //   url: ""
+        // },
+        // weight: ""
       }
     };
   },
   // props:["sportsman_id"],
-  beforeCreate() {
-    console.log(this.$route.params.sportsman_id);
+  mounted() {
     axios
       .get(
         `https://champion-api.herokuapp.com/api/sportsman/${
@@ -94,8 +118,8 @@ export default {
         }`
       )
       .then(response => {
-          console.log(response.data);
-          console.log(response.data.federation_sportsmen[0].federations.name);
+          // console.log("response", response.data);
+          // console.log("response: ",response.data.federation_sportsmen[0].federations.name);
         // if (response.data) {
           this.sportsman = response.data;
         // }
