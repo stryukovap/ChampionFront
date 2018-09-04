@@ -9,7 +9,8 @@
                 <p class='round-name'>Раунд {{ index+1 }}</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
-                     :key = 'fight.index'>
+                     :key = 'fight.index'
+                >
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
                     <div class='result'>
                         <form class='game-info'>
@@ -131,6 +132,14 @@
                 }
             }
 
+            showPopUp(e) {
+                // console.log(e.target.className);
+                document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+                if(e.target.className == "player") {
+                    console.log(e.target.className);
+                    e.target.parentNode.querySelector('.result').classList.add("open");
+                }
+            }
         }
 
     }
