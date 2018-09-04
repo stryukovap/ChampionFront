@@ -39,7 +39,7 @@
             <div class="col-4">
                 <p>{{tournament.description}}</p>
                 <p>{{tournament.dates.dateStart}} - {{tournament.dates.dateEnd}}</p>
-                <p>Max amount of Participants: {{tournament.maxParticipants}}</p>
+                <p>Amount of Participants: {{tournament.amountOfParticipants}}/{{tournament.maxParticipants}}</p>
             </div>
             <div class="col-6">
                 <h3>Referees</h3>
@@ -102,6 +102,7 @@
         data: function () {
             return {
                 tournament: {},
+                amountOfParticipants: 0,
                 tournamentEditShow: false,
                 editButtonShow: true,
                 federationId: '',
