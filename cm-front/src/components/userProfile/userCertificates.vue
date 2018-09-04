@@ -7,7 +7,7 @@
                 v-if='index < 7'
                 :key='certificate.index'>
                 <a v-bind:href="certificate.link">
-                    <div class="certificat-img"><img class="certificate-item" src="../../assets/970.jpg">
+                    <div class="certificat-img"><img class="certificate-item" src="../../assets/certificate-sports.jpg">
                     </div>
                 </a>
                 <div class="certificates-scroll">
