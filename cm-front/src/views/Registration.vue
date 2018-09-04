@@ -39,6 +39,9 @@
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.unique">This email is already exist
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.email.maxLength">
+                                        Max length of email is {{ $v.user.email.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-pass" id="user-pass"
@@ -54,6 +57,9 @@
                                     <div class="invalid-feedback" v-if="!$v.user.password.minLength">
                                         Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
                                         is {{ user.password.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.password.maxLength">
+                                        Max length of password is {{ $v.user.password.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -118,6 +124,9 @@
                                     <div class="invalid-feedback" v-if="!$v.sportsman.name.alpha">
                                         Field for only alphabet characters
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.maxLength">
+                                        Max length of Name is {{ $v.sportsman.name.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
@@ -138,6 +147,9 @@
                                     <div class="invalid-feedback" v-if="!$v.sportsman.surname.alpha">
                                         Field for only alphabet characters
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.maxLength">
+                                        Max length of Surname is {{ $v.sportsman.surname.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
@@ -149,8 +161,11 @@
                                            :class="{'is-invalid' :$v.sportsman.patronymic.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">
                                         Min length of Patronymic is {{
-                                        $v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it
+                                        $v.sportsman.patronymic.$params.minLength.min }}. Now it
                                         is {{ sportsman.patronymic.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.maxLength">
+                                        Max length of Patronymic is {{ $v.sportsman.patronymic.$params.maxLength.max }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.required">
                                         Field is required
@@ -239,8 +254,6 @@
                                             </span>
                                         </template>
                                         </multiselect>
-
-
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper row">
@@ -295,6 +308,9 @@
                                         }}. Now it
                                         is {{ federation.name.length }}.
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.maxLength">
+                                        Max length of Federation Name is {{ $v.federation.name.$params.maxLength.max }}.
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.name.required">
                                         Field is required
                                     </div>
@@ -329,6 +345,9 @@
                                         }}. Now it
                                         is {{ presidentName.name.length }}.
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.maxLength">
+                                        Max length of President Name is {{ $v.federation.presidentName.$params.maxLength.max }}.
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
                                         Field is required
                                     </div>
@@ -347,6 +366,15 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
                                         Field is required
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                        Min length of subDomain is {{
+                                        $v.federation.subDomain.$params.minLength.min
+                                        }}. Now it
+                                        is {{ subDomain.subDomain.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.maxLength">
+                                        Max length of subDomain is {{ $v.federation.subDomain.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
@@ -357,6 +385,15 @@
                                            v-model="federation.phone">
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
                                         Field for only numeric characters
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
+                                        Min length of phone is {{
+                                        $v.federation.phone.$params.minLength.min
+                                        }}. Now it
+                                        is {{ subDomain.phone.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.maxLength">
+                                        Max length of Phone is {{ $v.federation.phone.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -372,6 +409,9 @@
                                     </div>
                                     <div class="invalid-feedback"
                                          v-if="!$v.federation.email.email">This field should be an email
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.email.maxLength">
+                                        Max length of email is {{ $v.federation.email.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
@@ -408,6 +448,7 @@ import {
   required,
   email,
   minLength,
+  maxLength,
   sameAs,
   numeric,
   alpha
@@ -449,9 +490,8 @@ export default {
       userSportsman: "true",
       sports: {},
       authUser: {},
-        value : [],
-        options : []
-
+      value: [],
+      options: []
     };
   },
   mounted() {
@@ -484,7 +524,11 @@ export default {
         window.console.log(error);
       });
     axios
-      .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
+      .get(
+        `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+          this.sportsman.federation
+        }`
+      )
       .then(response => {
         if (response.status === 200) {
           this.coaches = response.data;
@@ -566,6 +610,7 @@ export default {
     user: {
       email: {
         required: required,
+        maxLength: maxLength(100),
         email: email,
         unique: val => {
           // if (val === "") return true;
@@ -591,7 +636,8 @@ export default {
       },
       password: {
         required: required,
-        minLength: minLength(6)
+        minLength: minLength(6),
+        maxLength: maxLength(16)
       },
       passwordConfirm: {
         required: required,
@@ -602,17 +648,20 @@ export default {
       name: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       surname: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       patronymic: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       city: {
         required: required
@@ -636,24 +685,31 @@ export default {
     federation: {
       phone: {
         required: required,
-        numeric: numeric
+        numeric: numeric,
+        minLength: minLength(15),
+        maxLength: maxLength(15)
       },
       email: {
         required: required,
-        email: email
+        email: email,
+        maxLength: maxLength(100)
       },
       name: {
         required: required,
         alpha: alpha,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(42)
       },
       presidentName: {
         required: required,
         alpha: alpha,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(42)
       },
       subDomain: {
-        required: required
+        required: required,
+        minLength: minLength(2),
+        maxLength: maxLength(8)
       }
     }
   },
@@ -762,18 +818,22 @@ export default {
         });
     },
     getCoaches: function() {
-        this.sportsman.coaches = []; //clearing list of coaches
-        axios
-          .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
-          .then(response => {
-              if (response.status === 200) {
-                  this.options = response.data;
-              }
-          })
-          .catch(function(error) {
-              window.console.log(error);
-          });
-    },
+      this.sportsman.coaches = []; //clearing list of coaches
+      axios
+        .get(
+          `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+            this.sportsman.federation
+          }`
+        )
+        .then(response => {
+          if (response.status === 200) {
+            this.options = response.data;
+          }
+        })
+        .catch(function(error) {
+          window.console.log(error);
+        });
+    }
   }
 };
 </script>
