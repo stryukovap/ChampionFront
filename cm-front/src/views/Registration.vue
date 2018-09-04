@@ -204,7 +204,9 @@
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
                                     <select class="form-control" name="federation" id="federation"
-                                            v-model="sportsman.federation">
+                                            v-model="sportsman.federation"
+                                            @change='getCoaches'
+                                    >
                                         <option v-for="federation in federations"
                                                 v-bind:value="federation.id"
                                                 :key="federation.id">{{federation.name}}
@@ -213,42 +215,33 @@
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
-                                        <label for="trainer" class="cm-form__label">Coach</label>
+                                        <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
                                     <div class="col">
 
-                                        <!--обычный выбор-->
-                                        <!--<input class="form-control" type="text"-->
-                                        <!--id="trainer"-->
-                                        <!--placeholder="Coach"-->
-                                        <!--autocomplete="off"-->
-                                        <!--v-model="sportsman.trainer">-->
-
-                                        <multiselect id="trainer"
-                                                     v-model="value"
-                                                     :options="options"
-                                                     :multiple="true"
-                                                     :close-on-select="true"
-                                                     :clear-on-select="false"
-                                                     :hide-selected="true"
-                                                     :preserve-search="true"
-                                                     placeholder="Choose your coach"
-                                                     label="last_name"
-                                                     track-by="id"
-                                                     :preselect-first="true"
-                                        >
-                                            <template slot="tag" slot-scope="props">
-                                            <span class="custom__tag">
+                                       <multiselect id = "trainer"
+                                                    v-model = "sportsman.coaches"
+                                                    :options = "options"
+                                                    :multiple = "true"
+                                                    :close-on-select = "true"
+                                                    :clear-on-select = "false"
+                                                    :hide-selected = "true"
+                                                    :preserve-search = "true"
+                                                    placeholder = "Choose your coach"
+                                                    label = "last_name"
+                                                    track-by = "id"
+                                                    :preselect-first = "true"
+                                       ><template slot = "tag" slot-scope = "props">
+                                            <span class = "custom__tag">
                                                 <!-- option === coach -->
                                                 <span>{{ props.option.last_name }}</span>
-                                                <span class="custom__remove"
-                                                      @click="props.remove(props.option)">❌</span>
+                                                <span class = "custom__remove" @click = "props.remove(props.option)">❌</span>
                                             </span>
-                                            </template>
+                                        </template>
                                         </multiselect>
 
-                                    </div>
 
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
@@ -441,8 +434,8 @@ export default {
         patronymic: "",
         gender: "M",
         dateOfBirth: "",
-        federation: "2", //по умолчанию, чтобы показывалось значение
-        trainer: "",
+        federation: "",
+        coaches: [],
         city: ""
       },
       federation: {
@@ -454,11 +447,11 @@ export default {
         email: ""
       },
       userSportsman: "true",
-      federations: {},
       sports: {},
       authUser: {},
-      value: [],
-      options: []
+        value : [],
+        options : []
+
     };
   },
   mounted() {
@@ -466,7 +459,7 @@ export default {
       .get("https://champion-api.herokuapp.com/api/federations")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.federations = response.data;
         }
@@ -481,7 +474,7 @@ export default {
       .get("https://champion-api.herokuapp.com/api/sports")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.sports = response.data;
         }
@@ -491,14 +484,10 @@ export default {
         window.console.log(error);
       });
     axios
-      .get(
-        "https://champion-api.herokuapp.com/api/coach-list/by-federation/" +
-          this.sportsman.federation
-      )
+      .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
       .then(response => {
-        // window.console.log(response);
         if (response.status === 200) {
-          this.options = response.data;
+          this.coaches = response.data;
         }
       })
       .catch(function(error) {
@@ -588,7 +577,6 @@ export default {
               // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
               .then(response => {
                 // handle success
-                window.console.log(response);
                 if (response.status === 200) {
                   return false;
                 }
@@ -772,7 +760,20 @@ export default {
         .catch(error => {
           window.console.log(error);
         });
-    }
+    },
+    getCoaches: function() {
+        this.sportsman.coaches = []; //clearing list of coaches
+        axios
+          .get(`https://champion-api.herokuapp.com/api/coach-list/by-federation/${this.sportsman.federation}`)
+          .then(response => {
+              if (response.status === 200) {
+                  this.options = response.data;
+              }
+          })
+          .catch(function(error) {
+              window.console.log(error);
+          });
+    },
   }
 };
 </script>
