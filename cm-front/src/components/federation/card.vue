@@ -1,6 +1,6 @@
 <template>
     <ul class="tournament__list">
-        <li class="tournament__item" v-for='(tournament) in $store.state.tournamentsList'>
+        <li class="tournament__item" v-for='(tournament, key) in $store.state.tournamentsList'>
             <div class="tournament__info">
                 <img class="tournament__img"
                      :src="tournament.imageUrl">
@@ -11,7 +11,8 @@
                         <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
                 </div>
-                <router-link tag="div" class="tournament__mask" v-bind:to="'/about'">
+                <router-link tag="div" class="tournament__mask"
+                             v-bind:to="'/tournament/' + key">
                     <div class="tournament__top"></div>
                     <h3 class="tournament__title">{{ tournament.name }}</h3>
                     <div class="tournament__subinfo">
@@ -33,7 +34,7 @@
                         <p class="tournament__subtext">{{tournament.dates.dateEnd}}</p>
                     </div>
                 </div>
-                <p class="tournament__participants">2/{{ tournament.maxParticipants }} Members</p>
+                <p class="tournament__participants">{{ tournament.amountOfParticipants }}/{{ tournament.maxParticipants }} Members</p>
             </div>
         </li>
     </ul>

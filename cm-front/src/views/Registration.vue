@@ -39,6 +39,9 @@
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.unique">This email is already exist
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.email.maxLength">
+                                        Max length of email is {{ $v.user.email.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="password" name="user-pass" id="user-pass"
@@ -54,6 +57,9 @@
                                     <div class="invalid-feedback" v-if="!$v.user.password.minLength">
                                         Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
                                         is {{ user.password.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.password.maxLength">
+                                        Max length of password is {{ $v.user.password.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -118,6 +124,9 @@
                                     <div class="invalid-feedback" v-if="!$v.sportsman.name.alpha">
                                         Field for only alphabet characters
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.maxLength">
+                                        Max length of Name is {{ $v.sportsman.name.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
@@ -138,6 +147,9 @@
                                     <div class="invalid-feedback" v-if="!$v.sportsman.surname.alpha">
                                         Field for only alphabet characters
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.maxLength">
+                                        Max length of Surname is {{ $v.sportsman.surname.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
@@ -149,8 +161,11 @@
                                            :class="{'is-invalid' :$v.sportsman.patronymic.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">
                                         Min length of Patronymic is {{
-                                        $v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it
+                                        $v.sportsman.patronymic.$params.minLength.min }}. Now it
                                         is {{ sportsman.patronymic.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.maxLength">
+                                        Max length of Patronymic is {{ $v.sportsman.patronymic.$params.maxLength.max }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.required">
                                         Field is required
@@ -204,7 +219,9 @@
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
                                     <select class="form-control" name="federation" id="federation"
-                                            v-model="sportsman.federation">
+                                            v-model="sportsman.federation"
+                                            @change='getCoaches'
+                                    >
                                         <option v-for="federation in federations"
                                                 v-bind:value="federation.id"
                                                 :key="federation.id">{{federation.name}}
@@ -213,42 +230,31 @@
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
-                                        <label for="trainer" class="cm-form__label">Coach</label>
+                                        <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
                                     <div class="col">
 
-                                        <!--обычный выбор-->
-                                        <!--<input class="form-control" type="text"-->
-                                        <!--id="trainer"-->
-                                        <!--placeholder="Coach"-->
-                                        <!--autocomplete="off"-->
-                                        <!--v-model="sportsman.trainer">-->
-
-                                        <multiselect id="trainer"
-                                                     v-model="value"
-                                                     :options="options"
-                                                     :multiple="true"
-                                                     :close-on-select="true"
-                                                     :clear-on-select="false"
-                                                     :hide-selected="true"
-                                                     :preserve-search="true"
-                                                     placeholder="Choose your coach"
-                                                     label="last_name"
-                                                     track-by="id"
-                                                     :preselect-first="true"
-                                        >
-                                            <template slot="tag" slot-scope="props">
-                                            <span class="custom__tag">
+                                       <multiselect id = "trainer"
+                                                    v-model = "sportsman.coaches"
+                                                    :options = "options"
+                                                    :multiple = "true"
+                                                    :close-on-select = "true"
+                                                    :clear-on-select = "false"
+                                                    :hide-selected = "true"
+                                                    :preserve-search = "true"
+                                                    placeholder = "Choose your coach"
+                                                    label = "last_name"
+                                                    track-by = "id"
+                                                    :preselect-first = "true"
+                                       ><template slot = "tag" slot-scope = "props">
+                                            <span class = "custom__tag">
                                                 <!-- option === coach -->
                                                 <span>{{ props.option.last_name }}</span>
-                                                <span class="custom__remove"
-                                                      @click="props.remove(props.option)">❌</span>
+                                                <span class = "custom__remove" @click = "props.remove(props.option)">❌</span>
                                             </span>
-                                            </template>
+                                        </template>
                                         </multiselect>
-
                                     </div>
-
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
@@ -302,6 +308,9 @@
                                         }}. Now it
                                         is {{ federation.name.length }}.
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.maxLength">
+                                        Max length of Federation Name is {{ $v.federation.name.$params.maxLength.max }}.
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.name.required">
                                         Field is required
                                     </div>
@@ -336,6 +345,9 @@
                                         }}. Now it
                                         is {{ presidentName.name.length }}.
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.maxLength">
+                                        Max length of President Name is {{ $v.federation.presidentName.$params.maxLength.max }}.
+                                    </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
                                         Field is required
                                     </div>
@@ -354,6 +366,15 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
                                         Field is required
                                     </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                        Min length of subDomain is {{
+                                        $v.federation.subDomain.$params.minLength.min
+                                        }}. Now it
+                                        is {{ subDomain.subDomain.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.maxLength">
+                                        Max length of subDomain is {{ $v.federation.subDomain.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
@@ -364,6 +385,15 @@
                                            v-model="federation.phone">
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
                                         Field for only numeric characters
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
+                                        Min length of phone is {{
+                                        $v.federation.phone.$params.minLength.min
+                                        }}. Now it
+                                        is {{ subDomain.phone.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.maxLength">
+                                        Max length of Phone is {{ $v.federation.phone.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -379,6 +409,9 @@
                                     </div>
                                     <div class="invalid-feedback"
                                          v-if="!$v.federation.email.email">This field should be an email
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.email.maxLength">
+                                        Max length of email is {{ $v.federation.email.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
@@ -415,6 +448,7 @@ import {
   required,
   email,
   minLength,
+  maxLength,
   sameAs,
   numeric,
   alpha
@@ -441,8 +475,8 @@ export default {
         patronymic: "",
         gender: "M",
         dateOfBirth: "",
-        federation: "2", //по умолчанию, чтобы показывалось значение
-        trainer: "",
+        federation: "",
+        coaches: [],
         city: ""
       },
       federation: {
@@ -454,7 +488,6 @@ export default {
         email: ""
       },
       userSportsman: "true",
-      federations: {},
       sports: {},
       authUser: {},
       value: [],
@@ -466,7 +499,7 @@ export default {
       .get("https://champion-api.herokuapp.com/api/federations")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.federations = response.data;
         }
@@ -481,7 +514,7 @@ export default {
       .get("https://champion-api.herokuapp.com/api/sports")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.sports = response.data;
         }
@@ -492,13 +525,13 @@ export default {
       });
     axios
       .get(
-        "https://champion-api.herokuapp.com/api/coach-list/by-federation/" +
+        `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
           this.sportsman.federation
+        }`
       )
       .then(response => {
-        // window.console.log(response);
         if (response.status === 200) {
-          this.options = response.data;
+          this.coaches = response.data;
         }
       })
       .catch(function(error) {
@@ -577,6 +610,7 @@ export default {
     user: {
       email: {
         required: required,
+        maxLength: maxLength(100),
         email: email,
         unique: val => {
           // if (val === "") return true;
@@ -588,7 +622,6 @@ export default {
               // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
               .then(response => {
                 // handle success
-                window.console.log(response);
                 if (response.status === 200) {
                   return false;
                 }
@@ -603,7 +636,8 @@ export default {
       },
       password: {
         required: required,
-        minLength: minLength(6)
+        minLength: minLength(6),
+        maxLength: maxLength(16)
       },
       passwordConfirm: {
         required: required,
@@ -614,17 +648,20 @@ export default {
       name: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       surname: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       patronymic: {
         required: required,
         alpha: alpha,
-        minLength: minLength(2)
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       city: {
         required: required
@@ -648,24 +685,31 @@ export default {
     federation: {
       phone: {
         required: required,
-        numeric: numeric
+        numeric: numeric,
+        minLength: minLength(15),
+        maxLength: maxLength(15)
       },
       email: {
         required: required,
-        email: email
+        email: email,
+        maxLength: maxLength(100)
       },
       name: {
         required: required,
         alpha: alpha,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(42)
       },
       presidentName: {
         required: required,
         alpha: alpha,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(42)
       },
       subDomain: {
-        required: required
+        required: required,
+        minLength: minLength(2),
+        maxLength: maxLength(8)
       }
     }
   },
@@ -770,6 +814,23 @@ export default {
           }
         })
         .catch(error => {
+          window.console.log(error);
+        });
+    },
+    getCoaches: function() {
+      this.sportsman.coaches = []; //clearing list of coaches
+      axios
+        .get(
+          `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+            this.sportsman.federation
+          }`
+        )
+        .then(response => {
+          if (response.status === 200) {
+            this.options = response.data;
+          }
+        })
+        .catch(function(error) {
           window.console.log(error);
         });
     }

@@ -9,7 +9,8 @@
                 <p class='round-name'>Раунд {{ index+1 }}</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
-                     :key = 'fight.index'>
+                     :key = 'fight.index'
+                >
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
                     <div class='result'>
                         <form class='game-info'>
@@ -38,269 +39,292 @@
 </template>
 
 <script>
-    import * as firebase from 'firebase';
-    import Result from './result';
-    import bracketModule from './bracketModule'
+import * as firebase from "firebase";
+import Result from "./result";
+import bracketModule from "./bracketModule";
 
-    export default {
-        name: 'tour-brack',
-        components: {
-            Result        
-        },
-        data() {
-            return {
-                bracketNew: []
-            }
-        },
-        mixins: [bracketModule],
-        props: ['federationId', 'tournamentKey', 'activeCategory', 'activeGenderCategory', 'activeWeightCategory'],
-        computed: {
-            bracket: {
-                get: function () {
-                    return this.$store.state.tournamentsList[this.tournamentKey]
-                        .categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].bracket;
-                    },
-                set: function () {
-                    return this.bracketNew;
-                }
-            }
-        },
-        methods: {
-            submitWinner(e) {
-                let winner = {};
-                let fightNumber = 0;
-                let roundNumber = 0;
-                if(e.target.parentNode[0].checked) {
-                    winner = e.target.parentNode[0]["_value"];
-                    roundNumber = Number(e.target.parentNode.parentNode.parentNode.parentNode.title);
-                    fightNumber = Number(e.target.parentElement[0].name);
-                } else if(e.target.parentNode[1].checked) {
-                    winner = e.target.parentNode[1]["_value"];
-                    roundNumber =  Number(e.target.parentNode.parentNode.parentNode.parentNode.title);
-                    fightNumber = Number(e.target.parentElement[1].name);
-                } else {
-                    return;
-                }
-
-                e.target.parentNode[0].setAttribute('disabled', 'disabled');
-                e.target.parentNode[1].setAttribute('disabled', 'disabled');
-                e.target.setAttribute('disabled', 'disabled');
-
-                this.bracketNew = this.isWinner(this.bracket, roundNumber, fightNumber, winner);
-                this.updateBracket();
-                window.console.log("after", this.bracket);
-            },
-
-            showPopUp(e) {
-                console.log(e);
-                if(e.target.type !== "radio") {
-                    document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
-                }
-                if(e.target.className == "player") {
-                    console.log(e.target.className);
-                    e.target.parentNode.querySelector('.result').classList.add("open");
-                }
-            },
-
-            async updateBracket() {
-                try{
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .child(this.tournamentKey)
-                        .child("categories")
-                        .child(this.activeCategory)
-                        .child(this.activeGenderCategory)
-                        .child(this.activeWeightCategory)
-                        .update({ bracket: this.bracket});
-                } catch (error) {
-                    throw error;
-                }
-                this.updateTournaments();
-            },
-            async updateTournaments() {
-                try {
-                    const fbObj = await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .once('value');
-                    this.$store.commit('setTournamentsList', fbObj.val());
-                    console.log(fbObj.val());
-                } catch (error) {
-                    throw error;
-                }
-            }
-
-        }
-
+export default {
+  name: "tour-brack",
+  components: {
+    Result
+  },
+  data() {
+    return {
+      bracketNew: []
+    };
+  },
+  mixins: [bracketModule],
+  props: [
+    "federationId",
+    "tournamentKey",
+    "activeCategory",
+    "activeGenderCategory",
+    "activeWeightCategory"
+  ],
+  computed: {
+    bracket: {
+      get: function() {
+        return this.$store.state.tournamentsList[this.tournamentKey].categories[
+          this.activeCategory
+        ][this.activeGenderCategory][this.activeWeightCategory].bracket;
+      },
+      set: function() {
+        return this.bracketNew;
+      }
     }
+  },
+  methods: {
+    submitWinner(e) {
+      let winner = {};
+      let fightNumber = 0;
+      let roundNumber = 0;
+      if (e.target.parentNode[0].checked) {
+        winner = e.target.parentNode[0]["_value"];
+        roundNumber = Number(
+          e.target.parentNode.parentNode.parentNode.parentNode.title
+        );
+        fightNumber = Number(e.target.parentElement[0].name);
+      } else if (e.target.parentNode[1].checked) {
+        winner = e.target.parentNode[1]["_value"];
+        roundNumber = Number(
+          e.target.parentNode.parentNode.parentNode.parentNode.title
+        );
+        fightNumber = Number(e.target.parentElement[1].name);
+      } else {
+        return;
+      }
+
+      e.target.parentNode[0].setAttribute("disabled", "disabled");
+      e.target.parentNode[1].setAttribute("disabled", "disabled");
+      e.target.setAttribute("disabled", "disabled");
+
+      this.bracketNew = this.isWinner(
+        this.bracket,
+        roundNumber,
+        fightNumber,
+        winner
+      );
+      this.updateBracket();
+      window.console.log("after", this.bracket);
+    },
+
+    // showPopUp(e) {
+    //     console.log(e);
+    //     if(e.target.type !== "radio") {
+    //         document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+    //     }
+    //     if(e.target.className == "player") {
+    //         console.log(e.target.className);
+    //         e.target.parentNode.querySelector('.result').classList.add("open");
+    //     }
+    // },
+
+    async updateBracket() {
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .child(this.tournamentKey)
+          .child("categories")
+          .child(this.activeCategory)
+          .child(this.activeGenderCategory)
+          .child(this.activeWeightCategory)
+          .update({ bracket: this.bracket });
+      } catch (error) {
+        throw error;
+      }
+      this.updateTournaments();
+    },
+    async updateTournaments() {
+      try {
+        const fbObj = await firebase
+          .database()
+          .ref(this.federationId)
+          .once("value");
+        this.$store.commit("setTournamentsList", fbObj.val());
+        console.log(fbObj.val());
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    showPopUp(e) {
+      // console.log(e.target.className);
+      document.querySelectorAll(".result").forEach(function(el) {
+        el.classList.remove("open");
+      });
+      if (e.target.className == "player") {
+        console.log(e.target.className);
+        e.target.parentNode.querySelector(".result").classList.add("open");
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-
 .result {
-    display : none;
-    box-sizing: border-box;
-    position : absolute;
-    top : -2px;
-    left : -2px;
-    width : 400px;
-    /*border: 2px solid #5CB85C;*/
-    /*border-radius: 5px;*/
-    background-color : #5CB85C;
-    z-index : 10;
-    }
+  display: none;
+  box-sizing: border-box;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 400px;
+  /*border: 2px solid #5CB85C;*/
+  /*border-radius: 5px;*/
+  background-color: #5cb85c;
+  z-index: 10;
+}
 
 .open {
-    display : block;
+  display: block;
 }
 
 .game-info {
-    display : flex;
-    flex-wrap: wrap;
-    width : 100%;
-    height : 200px;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 200px;
+}
 
 .game-info button {
-    width : 100%;
-    border-radius: 0;
-    }
+  width: 100%;
+  border-radius: 0;
+}
 
 .user-avatar {
-    margin : 10px auto;
-    width : 100px;
-    height : 100px;
-    border-radius: 50%;
-    background-color : blue;
-    }
+  margin: 10px auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: blue;
+}
 
 .form-check {
-    display : flex;
-    flex-direction : column;
-    width : 50%;
-    margin : 0;
-    }
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0;
+}
 
 .bracket {
-    display    : flex;
-    overflow-x : auto;
-    overflow-y: visible;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 .bracket-wrapper {
-    position : relative;
-    display    : flex;
-
-    }
+  position: relative;
+  display: flex;
+}
 
 .round {
-    display         : flex;
-    flex-direction  : column;
-    justify-content : space-around;
-    margin-top : 30px;
-    margin-right : 30px;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 30px;
+  margin-right: 30px;
+}
 
 .last-round {
-    justify-content: center;
-    }
+  justify-content: center;
+}
 
 .round-name {
-    position : absolute;
-    top : 0;
-    text-align: center;
-    width : 200px;
-    margin-left : 10px;
-    background-color : #ccc;
-    border-radius: 5px;
-    }
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 200px;
+  margin-left: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+}
 
 .third-place,
 .final {
-    position : static;
-    margin-top : 50px;
-    }
+  position: static;
+  margin-top: 50px;
+}
 
 .game {
-    width       : 200px;
-    border      : 2px solid #5CB85C;
-    border-radius: 10px ;
-    line-height : 2em;
-    text-align  : center;
-    padding     : 0 10px;
-    margin      : 10px;
-    position    : relative;
-    }
+  width: 200px;
+  border: 2px solid #5cb85c;
+  border-radius: 10px;
+  line-height: 2em;
+  text-align: center;
+  padding: 0 10px;
+  margin: 10px;
+  position: relative;
+}
 
 .game::after {
-    display          : block;
-    content          : '';
-    position         : absolute;
-    right            : -52px;
-    top              : 50%;
-    background-color : #5CB85C;
-    width            : 51px;
-    height           : 3px;
-    transform-origin : 0 0;
-    }
+  display: block;
+  content: "";
+  position: absolute;
+  right: -52px;
+  top: 50%;
+  background-color: #5cb85c;
+  width: 51px;
+  height: 3px;
+  transform-origin: 0 0;
+}
 
 .game:nth-of-type(odd)::after {
-    transform : skewY(38deg);
-    }
+  transform: skewY(38deg);
+}
 
 .game:nth-of-type(even)::after {
-    transform : skewY(-38deg);
-    }
+  transform: skewY(-38deg);
+}
 
 .round:nth-child(2) .game:nth-of-type(odd)::after {
-    transform : skewY(59deg)
-    }
+  transform: skewY(59deg);
+}
 
 .round:nth-child(2) .game:nth-of-type(even)::after {
-    transform : skewY(-59deg)
-    }
+  transform: skewY(-59deg);
+}
 
 .round:nth-child(3) .game:nth-of-type(odd)::after {
-    transform : skewY(73.5deg)
-    }
+  transform: skewY(73.5deg);
+}
 
 .round:nth-child(3) .game:nth-of-type(even)::after {
-    transform : skewY(-73.5deg)
-    }
+  transform: skewY(-73.5deg);
+}
 
 .round:nth-child(4) .game:nth-of-type(odd)::after {
-    transform : skewY(81.8deg)
-    }
+  transform: skewY(81.8deg);
+}
 
 .round:nth-child(4) .game:nth-of-type(even)::after {
-    transform : skewY(-81.8deg)
-    }
+  transform: skewY(-81.8deg);
+}
 
 .round:nth-child(5) .game:nth-of-type(odd)::after {
-    transform : skewY(85.8deg)
-    }
+  transform: skewY(85.8deg);
+}
 
 .round:nth-child(5) .game:nth-of-type(even)::after {
-    transform : skewY(-85.8deg)
-    }
+  transform: skewY(-85.8deg);
+}
 
 .round:nth-last-child(1) .game::after,
-.round:nth-last-child(2) .game::after{
-display : none;
-    }
+.round:nth-last-child(2) .game::after {
+  display: none;
+}
 
 .player {
-    height : 2em;
-    overflow: hidden;
-    }
+  height: 2em;
+  overflow: hidden;
+}
 
 .player:nth-of-type(1) {
-    border-bottom: 1px solid #5CB85C;
-    }
+  border-bottom: 1px solid #5cb85c;
+}
 
 .fighter1,
 .fighter2 {
-    background-color : #5CB85C;
-    }
+  background-color: #5cb85c;
+}
 </style>
