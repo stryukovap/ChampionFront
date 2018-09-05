@@ -113,7 +113,6 @@ export default {
       options: [],
       value: [],
       valueAmount: "",
-      amountOfParticipants: 0,
       errorMessage: false
     };
   },
@@ -142,7 +141,6 @@ export default {
       .then(response => {
         if (response.status === 200) {
           response.data.data.forEach(item => {
-              console.log(item.weight);
             if (
               item.date_of_birth.slice(0, 4) >=
                 this.tournament.categories[this.activeCategory].ageFrom &&
@@ -154,7 +152,6 @@ export default {
                   this.activeGenderCategory
                 ][this.activeWeightCategory].weight
             ) {
-                console.log(this.tournament.categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory].weight);
               let isExist = this.value.some(elem => {
                 return elem.sportsman.id === item.id;
               });
@@ -182,36 +179,28 @@ export default {
         ][this.activeWeightCategory].hasOwnProperty("sportsmen") === false
       ) {
         this.$set(
-          this.tournament.categories[this.activeCategory][
-            this.activeGenderCategory
-          ][this.activeWeightCategory],
-          "sportsmen",
-          []
-        );
+            this.tournament.categories[this.activeCategory][this.activeGenderCategory][this.activeWeightCategory],
+            "sportsmen", []);
       }
-      this.tournament.categories.forEach(category => {
-        if ("male" in category) {
-          category.male.forEach(weightCategory => {
-            if ("sportsmen" in weightCategory) {
-              this.amountOfParticipants += weightCategory.sportsmen.length;
-            }
-          });
-        }
-        if ("female" in category) {
-          category.female.forEach(weightCategory => {
-            if ("sportsmen" in weightCategory) {
-              this.amountOfParticipants += weightCategory.sportsmen.length;
-            }
-          });
-        }
-      });
-      console.log(
-        this.amountOfParticipants - this.valueAmount + this.value.length
-      );
-      if (
-        this.amountOfParticipants - this.valueAmount + this.value.length <=
-        this.tournament.maxParticipants
-      ) {
+        // this.tournament.categories.forEach(category => {
+        //   if ("male" in category) {
+        //     category.male.forEach(weightCategory => {
+        //       if ("sportsmen" in weightCategory) {
+        //         this.amountOfParticipants += weightCategory.sportsmen.length;
+        //       }
+        //     });
+        //   }
+        //   if ("female" in category) {
+        //     category.female.forEach(weightCategory => {
+        //       if ("sportsmen" in weightCategory) {
+        //         this.amountOfParticipants += weightCategory.sportsmen.length;
+        //       }
+        //     });
+        //   }
+        // });
+        this.tournament.amountOfParticipants =
+            this.tournament.amountOfParticipants - this.valueAmount + this.value.length;
+        if (this.tournament.amountOfParticipants <= this.tournament.maxParticipants) {
         try {
           await firebase
             .database()
@@ -226,13 +215,24 @@ export default {
           throw error;
         }
         this.$emit("clicked");
+            this.updateAmountOfParticipants();
       } else {
-        console.log(
-          this.amountOfParticipants - this.valueAmount + this.value.length
-        );
         this.errorMessage = true;
+            this.tournament.amountOfParticipants =
+                this.tournament.amountOfParticipants - this.value.length + this.valueAmount;
+        }
+    },
+      async updateAmountOfParticipants() {
+          try {
+              await firebase
+                  .database()
+                  .ref(this.federationId)
+                  .child(this.tournamentKey)
+                  .update({amountOfParticipants: this.tournament.amountOfParticipants});
+          } catch (error) {
+              throw error;
+          }
       }
-    }
   }
 };
 </script>

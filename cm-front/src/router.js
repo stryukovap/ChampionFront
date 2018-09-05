@@ -16,6 +16,7 @@ import Federation from "./views/Federation.vue";
 import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
 import tournamentsCabinet from "./components/privateCabinet/tournamentsCabinet.vue";
 import Erroronlogin from "./views/Erroronlogin.vue";
+import tournamentPage from "./components/federation/tournament.vue"
 
 Vue.use(Router);
 
@@ -103,7 +104,12 @@ export default new Router({
       path: "/tournamentscabinet",
       name: "tournamentscabinet",
       component: tournamentsCabinet
-    }
+    },
+      {
+          path: "/tournament/:id",
+          name: "tournament",
+          component: tournamentPage
+      }
   ],
 
   mode: "history"

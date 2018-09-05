@@ -29,20 +29,20 @@ export default {
   name: "userHistory",
   data: function() {
     return {
-      userTournaments: []
+        userTournaments: [{website: "", name: "", phone: "", username: ""}]
     };
   },
   mounted() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then(response => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.userTournaments.push(response.data[i]);
-        }
-      })
-      .catch(error => {
-        window.console.log(error);
-      });
+      // axios
+      //   .get("https://jsonplaceholder.typicode.com/users")
+      //   .then(response => {
+      //     for (let i = 0; i < response.data.length; i++) {
+      //       this.userTournaments.push(response.data[i]);
+      //     }
+      //   })
+      //   .catch(error => {
+      //     window.console.log(error);
+      //   });
   }
 };
 </script>
