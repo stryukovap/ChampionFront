@@ -18,7 +18,20 @@
                                placeholder="Name"
                                autofocus
                                autocomplete="off"
-                               v-model="tournament.name">
+                               v-model="tournament.name"
+                               @input="$v.tournament.name.$touch()"
+                               @blur="$v.tournament.name.$touch()"
+                               :class="{'is-invalid' :$v.tournament.name.$error}">
+                        <div class="invalid-feedback" v-if="!$v.tournament.name.minLength">
+                            Min length of Name is {{ $v.tournament.name.$params.minLength.min }}. Now it
+                            is {{ tournament.name.length }}.
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.name.required">
+                            Field is required
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.name.maxLength">
+                            Max length of Name is {{ $v.tournament.name.$params.maxLength.max }}.
+                        </div>
                     </div>
                 </div>
                 <div class="cm-form__wrapper row">
@@ -27,7 +40,20 @@
                     <textarea class="form-control"
                               placeholder="Description"
                               autocomplete="off"
-                              v-model="tournament.description"></textarea>
+                              v-model="tournament.description"
+                              @input="$v.tournament.description.$touch()"
+                              @blur="$v.tournament.description.$touch()"
+                              :class="{'is-invalid' :$v.tournament.description.$error}"></textarea>
+                        <div class="invalid-feedback" v-if="!$v.tournament.description.minLength">
+                            Min length of Description is {{ $v.tournament.description.$params.minLength.min }}. Now it
+                            is {{ tournament.description.length }}.
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.description.required">
+                            Field is required
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.description.maxLength">
+                            Max length of Description is {{ $v.tournament.description.$params.maxLength.max }}.
+                        </div>
                     </div>
                 </div>
                 <div class="popup__wrapper mt-1 row">
@@ -37,12 +63,20 @@
                              :src="tournament.imageUrl"
                              width="150px"
                              alt="tournament foto"
-                             class="popup__foto">
+                             class="popup__foto"
+                             :class="{'is-invalid' :$v.tournament.description.$error}">
                         <img v-else-if="tournamentImage"
                              :src="tournamentImage"
                              width="150px"
                              alt="tournament foto"
-                             class="popup__foto">
+                             class="popup__foto"
+                             :class="{'is-invalid' :$v.tournament.imageUrl.$error}">
+                        <div class="invalid-feedback" v-if="!$v.tournament.imageUrl.required">
+                            Field is required
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.imageUrl.url">
+                            Field mast be url
+                        </div>
                     </div>
                 </div>
                 <div class="popup__wrapper mt-1 row">
@@ -76,13 +110,33 @@
                             <span>From </span>
                             <input class="form-control" type="date" name="dateStart" id="dateStart"
                                    title="Date of Start"
-                                   v-model="tournament.dates.dateStart">
+                                   v-model="tournament.dates.dateStart"
+                                   @input="$v.tournament.dates.dateStart.$touch()"
+                                   @blur="$v.tournament.dates.dateStart.$touch()"
+                                   :class="{'is-invalid' :$v.tournament.dates.dateStart.$error}">
+                            <div class="invalid-feedback" v-if="!$v.tournament.dates.dateStart.required">
+                                Date of Start field is required
+                            </div>
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tournament.dates.dateStart.checkDataBiggerNow">
+                                Date of Start mast be bigger now, check Date
+                            </div>
                         </div>
                         <div class="col">
                             <span>To </span>
                             <input class="form-control" type="date" name="dateEnd" id="dateEnd"
                                    title="Date of End"
-                                   v-model="tournament.dates.dateEnd">
+                                   v-model="tournament.dates.dateEnd"
+                                   @input="$v.tournament.dates.dateEnd.$touch()"
+                                   @blur="$v.tournament.dates.dateEnd.$touch()"
+                                   :class="{'is-invalid' :$v.tournament.dates.dateEnd.$error}">
+                            <div class="invalid-feedback" v-if="!$v.tournament.dates.dateEnd.required">
+                                Date of End field is required
+                            </div>
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tournament.dates.dateEnd.checkDataBiggerStart">
+                                Date of End mast be bigger Date of Start, check Date
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +146,22 @@
                         <input class="form-control" type="text" id="quantityRings"
                                placeholder="Quantity Rings"
                                autocomplete="off"
-                               v-model="tournament.quantityRings">
+                               v-model="tournament.quantityRings"
+                               @input="$v.tournament.quantityRings.$touch()"
+                               @blur="$v.tournament.quantityRings.$touch()"
+                               :class="{'is-invalid' :$v.tournament.quantityRings.$error}">
+                        <div class="invalid-feedback" v-if="!$v.tournament.quantityRings.numeric">
+                            Field for only numeric characters
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.quantityRings.required">
+                            Field is required
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.quantityRings.maxValue">
+                            Field is maxValue 100
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.quantityRings.minValue">
+                            Field is minValue 1
+                        </div>
                     </div>
                 </div>
                 <div class="cm-form__wrapper popup__wrapper row">
@@ -101,7 +170,13 @@
                         <input class="form-control" type="text" id="location"
                                placeholder="Location"
                                autocomplete="off"
-                               v-model="tournament.location">
+                               v-model="tournament.location"
+                               @input="$v.tournament.location.$touch()"
+                               @blur="$v.tournament.location.$touch()"
+                               :class="{'is-invalid' :$v.tournament.location.$error}">
+                        <div class="invalid-feedback" v-if="!$v.tournament.location.required">
+                            Field is required
+                        </div>
                     </div>
                 </div>
                 <div class="cm-form__wrapper popup__wrapper row">
@@ -110,7 +185,22 @@
                         <input class="form-control" type="text" id="maxParticipants"
                                placeholder="Max participants"
                                autocomplete="off"
-                               v-model="tournament.maxParticipants">
+                               v-model="tournament.maxParticipants"
+                               @input="$v.tournament.maxParticipants.$touch()"
+                               @blur="$v.tournament.maxParticipants.$touch()"
+                               :class="{'is-invalid' :$v.tournament.maxParticipants.$error}">
+                        <div class="invalid-feedback" v-if="!$v.tournament.maxParticipants.numeric">
+                            Field for only numeric characters
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.maxParticipants.required">
+                            Field is required
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.maxParticipants.maxValue">
+                            Field is maxValue 100
+                        </div>
+                        <div class="invalid-feedback" v-if="!$v.tournament.maxParticipants.minValue">
+                            Field is minValue 1
+                        </div>
                     </div>
                 </div>
                 <div class="popup__title-wrapper row mt-3">
@@ -245,229 +335,322 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import * as firebase from 'firebase';
-    import Multiselect from 'vue-multiselect';
-    export default {
-        name: 'tournament-create',
-        components: {
-            Multiselect
+import axios from "axios";
+import * as firebase from "firebase";
+import Multiselect from "vue-multiselect";
+import {
+  required,
+  minLength,
+  maxLength,
+  maxValue,
+  minValue,
+  numeric,
+  url,
+  helpers,
+  alpha,
+  alphaNum
+} from "vuelidate/lib/validators";
+export default {
+  name: "tournament-create",
+  components: {
+    Multiselect
+  },
+  props: ["tournamentKey"],
+  data: function() {
+    return {
+      federationId: "",
+      tournament: {
+        name: "",
+        description: "",
+        imageUrl: "",
+        dates: {
+          dateStart: "",
+          dateEnd: ""
         },
-        props: ['tournamentKey'],
-        data: function() {
-            return {
-                federationId: '',
-                tournament: {
-                    name: '',
-                    description: '',
-                    imageUrl: '',
-                    dates: {
-                        dateStart: '',
-                        dateEnd: ''
-                    },
-                    quantityRings: '',
-                    location: '',
-                    maxParticipants: '',
-                    isStarted: false,
-                    isFinished: false,
-                    categories: [],
-                    referees: []
-                },
-                tournamentImageForUpload: '',
-                tournamentImage: '',
-                isUploaded: false,
-                options : [],
-                value: [],
-                http: axios.create({
-                    headers: {
-                        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
-                        "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
-                    }
-                }),
-                httpUpload: axios.create({
-                    headers: {
-                        Authorization: "Bearer " + this.$store.state.authUser.auth_token,
-                        "Content-Type":"application/x-www-form-urlencoded",
-                        Accept: "application/json"
-                    }
-                })
-            }
-        },
-        mounted() {
-            this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
-            if (this.tournamentKey) {
-                this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
-                if (this.$store.state.tournamentsList[this.tournamentKey].referees) {
-                    this.value = this.$store.state.tournamentsList[this.tournamentKey].referees;
-                }
-            };
-            axios.get(`http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${this.federationId}/20`)
-                .then(response => {
-                    if ( response.status === 200 ) {
-                        this.options = response.data.data;
-                    }
-                }).catch(error => window.console.log(error));
-        },
-        methods: {
-            onFileChange(e) {
-                const files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
-                this.createImage(files[0]);
-            },
-            createImage(file) {
-                this.tournamentImageForUpload = file;
-                this.tournamentImage = new Image();
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.tournamentImage = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                this.isUploaded = false;
-            },
-            uploadImage() {
-                const formData = new FormData();
-                formData.append('file', this.tournamentImageForUpload);
-                this.httpUpload
-                    .post('https://champion-api.herokuapp.com/api/upload', formData)
-                    .then(response => {
-                        console.log(response.data);
-                        this.tournament.imageUrl = response.data.url;
-                        this.isUploaded = true;
-                        console.log(this.tournament.imageUrl);
-                    });
-            },
-            removeImage() {
-                this.tournamentImage = '';
-                this.tournament.imageUrl = '';
-                this.isUploaded = false;
-            },
-            addNewCategory() {
-                if (this.tournament.hasOwnProperty('categories') === false) {
-                    this.$set(this.tournament, 'categories', []);
-                }
-                this.tournament.categories.push({
-                    name: '',
-                    ageFrom: '',
-                    ageTo: '',
-                    male: [],
-                    female: []
-                });
-            },
-            removeCategory(key) {
-                this.tournament.categories.splice(key, 1);
-            },
-            addWeightCategory(key, gender) {
-                const weightCategory = {
-                    weight: ''
-                };
-                if (gender === 'male' ) {
-                    if (this.tournament.categories[key].hasOwnProperty('male') === false) {
-                        this.$set(this.tournament.categories[key], 'male', []);
-                    }
-                    this.tournament.categories[key].male.push(weightCategory);
-                } else if (gender === 'female') {
-                    if (this.tournament.categories[key].hasOwnProperty('female') === false) {
-                        this.$set(this.tournament.categories[key], 'female', []);
-                    }
-                    this.tournament.categories[key].female.push(weightCategory);
-                }
-            },
-            removeWeightCategory(key, gender, weightKey) {
-                if (gender === 'male') {
-                    this.tournament.categories[key].male.splice(weightKey, 1);
-                } else if (gender === 'female') {
-                    this.tournament.categories[key].female.splice(weightKey, 1);
-                }
-            },
-            async createTournament() {
-                this.tournament.referees = this.value;
-                if (this.tournamentImageForUpload) {
-                    this.uploadImage()
-                }
-                try {
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .push(this.tournament)
-                } catch (error) {
-                    throw error;
-                }
-                this.$emit('clicked');
-            },
-            async saveTournament() {
-                this.tournament.referees = this.value;
-                if (this.tournamentImageForUpload) {
-                    this.uploadImage()
-                }
-                try {
-                    await firebase
-                        .database()
-                        .ref(this.federationId)
-                        .child(this.tournamentKey)
-                        .update(this.tournament);
-                } catch (error) {
-                    throw error;
-                }
-                this.$emit('clicked');
-            }
+        quantityRings: "",
+        location: "",
+        maxParticipants: "",
+        isStarted: false,
+        isFinished: false,
+        categories: [],
+        referees: []
+      },
+      tournamentImageForUpload: "",
+      tournamentImage: "",
+      isUploaded: false,
+      options: [],
+      value: [],
+      http: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+          "Access-Control-Allow-Methods": "POST, GET, OPTIONS, PUT, DELETE"
         }
+      }),
+      httpUpload: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json"
+        }
+      })
+    };
+  },
+  validations: {
+    referees: {
+      checkRefereesLength: function() {
+        return !!this.referees.length;
+      }
+    },
+    tournament: {
+      name: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(32)
+      },
+      description: {
+        required,
+        minLength: minLength(100),
+        maxLength: maxLength(300)
+      },
+      imageUrl: {
+        url,
+        required
+      },
+      dates: {
+        dateStart: {
+          required,
+          checkDataBiggerNow: val => {
+            if (val == "") {
+              return true;
+            }
+            var today = new Date(); // сегодняшнеяя дата и время
+            var inputDate = new Date(val);
+            if (today <= inputDate) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        },
+        dateEnd: {
+          required,
+          checkDataBiggerStart: function() {
+            if (
+              this.tournament.dates.dateEnd > this.tournament.dates.dateStart
+            ) {
+              return true;
+            } else {
+              return false;
+            }
+          }
+        }
+      },
+      quantityRings: {
+        numeric,
+        required,
+        maxValue: maxValue(100),
+        minValue: minValue(1)
+      },
+      location: {
+        required
+      },
+      maxParticipants: {
+        numeric,
+        required,
+        maxValue: maxValue(100),
+        minValue: minValue(1)
+      }
     }
+  },
+  mounted() {
+    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+    if (this.tournamentKey) {
+      this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+      if (this.$store.state.tournamentsList[this.tournamentKey].referees) {
+        this.value = this.$store.state.tournamentsList[
+          this.tournamentKey
+        ].referees;
+      }
+    }
+    axios
+      .get(
+        `http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
+          this.federationId
+        }/20`
+      )
+      .then(response => {
+        if (response.status === 200) {
+          this.options = response.data.data;
+        }
+      })
+      .catch(error => window.console.log(error));
+  },
+  methods: {
+    checkName(value) {
+      console.log(value.length < 2 || value.length > 32);
+      return value.length < 2 || value.length > 32;
+    },
+    onFileChange(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      this.tournamentImageForUpload = file;
+      this.tournamentImage = new Image();
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.tournamentImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      this.isUploaded = false;
+    },
+    uploadImage() {
+      const formData = new FormData();
+      formData.append("file", this.tournamentImageForUpload);
+      this.httpUpload
+        .post("https://champion-api.herokuapp.com/api/upload", formData)
+        .then(response => {
+          console.log(response.data);
+          this.tournament.imageUrl = response.data.url;
+          this.isUploaded = true;
+          console.log(this.tournament.imageUrl);
+        });
+    },
+    removeImage() {
+      this.tournamentImage = "";
+      this.tournament.imageUrl = "";
+      this.isUploaded = false;
+    },
+    addNewCategory() {
+      if (this.tournament.hasOwnProperty("categories") === false) {
+        this.$set(this.tournament, "categories", []);
+      }
+      this.tournament.categories.push({
+        name: "",
+        ageFrom: "",
+        ageTo: "",
+        male: [],
+        female: []
+      });
+    },
+    removeCategory(key) {
+      this.tournament.categories.splice(key, 1);
+    },
+    addWeightCategory(key, gender) {
+      const weightCategory = {
+        weight: ""
+      };
+      if (gender === "male") {
+        if (this.tournament.categories[key].hasOwnProperty("male") === false) {
+          this.$set(this.tournament.categories[key], "male", []);
+        }
+        this.tournament.categories[key].male.push(weightCategory);
+      } else if (gender === "female") {
+        if (
+          this.tournament.categories[key].hasOwnProperty("female") === false
+        ) {
+          this.$set(this.tournament.categories[key], "female", []);
+        }
+        this.tournament.categories[key].female.push(weightCategory);
+      }
+    },
+    removeWeightCategory(key, gender, weightKey) {
+      if (gender === "male") {
+        this.tournament.categories[key].male.splice(weightKey, 1);
+      } else if (gender === "female") {
+        this.tournament.categories[key].female.splice(weightKey, 1);
+      }
+    },
+    async createTournament() {
+      this.tournament.referees = this.value;
+      if (this.tournamentImageForUpload) {
+        this.uploadImage();
+      }
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .push(this.tournament);
+      } catch (error) {
+        throw error;
+      }
+      this.$emit("clicked");
+    },
+    async saveTournament() {
+      this.tournament.referees = this.value;
+      if (this.tournamentImageForUpload) {
+        this.uploadImage();
+      }
+      try {
+        await firebase
+          .database()
+          .ref(this.federationId)
+          .child(this.tournamentKey)
+          .update(this.tournament);
+      } catch (error) {
+        throw error;
+      }
+      this.$emit("clicked");
+    }
+  }
+};
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
+</style>
 <style lang="scss">
-    .popup {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        bottom: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, .80);
-        z-index: 2;
-        overflow: hidden;
-        transition: .64s ease-in-out;
-        &__inner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 800px;
-            max-height: 600px;
-            width: 80%;
-            height: 80%;
-            background-color: #fff;
-            transition: .64s ease-in-out;
-            overflow-y: auto;
-        }
-        &__tournament {
-            flex-direction: column;
-            justify-content: center;
-            width: 90%;
-            height: 90%;
-            padding: 1rem;
-        }
-    }
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  overflow: hidden;
+  transition: 0.64s ease-in-out;
+  &__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 800px;
+    max-height: 600px;
+    width: 80%;
+    height: 80%;
+    background-color: #fff;
+    transition: 0.64s ease-in-out;
+    overflow-y: auto;
+  }
+  &__tournament {
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    padding: 1rem;
+  }
+}
 
-    .category-wrapper {
-        border-bottom: 1px solid #dee2e6;
-        /*height: 100px;*/
-    }
+.category-wrapper {
+  border-bottom: 1px solid #dee2e6;
+  /*height: 100px;*/
+}
 
-    .custom__tag {
-        display: inline-block;
-        padding: 3px 12px;
-        background: #d2d7ff;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .custom__remove {
-        padding: 0;
-        font-size: 10px;
-        margin-left: 5px;
-    }
+.custom__tag {
+  display: inline-block;
+  padding: 3px 12px;
+  background: #d2d7ff;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.custom__remove {
+  padding: 0;
+  font-size: 10px;
+  margin-left: 5px;
+}
 </style>
