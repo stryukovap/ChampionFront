@@ -4,9 +4,8 @@
       <div class="col-12 team-list">
         <div class="row justify-content">
           <div class="col-3"
-            v-for = '(sportsman, index) in userTeam'
-            :key = 'sportsman.index'
-            v-if = 'index < 8 || isAllSportsmenShown'>
+            v-for = '(sportsman, index) in userTeamShow'
+            :key = 'sportsman.index'>
               <a v-bind:href="sportsman.sportsman_id" class="col-4">
                   <img src="../../assets/345x345_26.jpg" width="35" height="35" alt="photo" class="coach-photo">
                   {{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}
@@ -14,7 +13,8 @@
           </div>
         </div>
         <div class="text-right">
-            <a v-on:click.prevent="togleTeamState" href="#">{{ linkText }}</a>
+            <!-- <a v-on:click.prevent="togleTeamState" href="#">{{ linkText }}</a> -->
+            <a v-on:click.prevent="showMore" href="#">Show more</a>
         </div>
       </div>
   </div>
@@ -27,6 +27,7 @@ export default {
   data: function() {
     return {
       userTeam: [],
+      userTeamShow: [],
       isAllSportsmenShown: false
     };
   },
@@ -39,6 +40,27 @@ export default {
           )
       .then(response => {
           this.userTeam = response.data.my_sportsmen;
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+          this.userTeam.push(this.userTeam[0]);
+
+          this.userTeamShow = this.userTeam.slice(0, 4);
           console.log("response", this.userTeam);
       })
           .catch(error => console.log(error.message));
@@ -61,15 +83,17 @@ export default {
 
   },
   methods: {
-    togleTeamState() {
-      this.isAllSportsmenShown = !this.isAllSportsmenShown;
+    showMore() {
+      // this.isAllSportsmenShown = !this.isAllSportsmenShown;
+      window.console.log(this.userTeamShow);
+      this.userTeamShow = this.userTeam.slice(0, this.userTeamShow.length + 4);
     }
   },
-  computed: {
-    linkText: function() {
-      return this.isAllSportsmenShown ? "Less..." : "More...";
-    }
-  }
+  // computed: {
+  //   linkText: function() {
+  //     return this.isAllSportsmenShown ? "Less..." : "More...";
+  //   }
+  // }
 };
 </script>
 
