@@ -1,5 +1,5 @@
 <template>
-  <div class="row cm-co-team">
+  <div class="row cm-co-team" v-if="userTeam.length > 0">
       <h2>Team</h2>
       <div class="col-12 team-list">
         <div class="row justify-content">
@@ -40,26 +40,6 @@ export default {
           )
       .then(response => {
           this.userTeam = response.data.my_sportsmen;
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-          this.userTeam.push(this.userTeam[0]);
-
           this.userTeamShow = this.userTeam.slice(0, 4);
           console.log("response", this.userTeam);
       })
@@ -85,7 +65,6 @@ export default {
   methods: {
     showMore() {
       // this.isAllSportsmenShown = !this.isAllSportsmenShown;
-      window.console.log(this.userTeamShow);
       this.userTeamShow = this.userTeam.slice(0, this.userTeamShow.length + 4);
     }
   },
@@ -98,4 +77,8 @@ export default {
 </script>
 
 <style scoped>
+.coach-photo {
+  border-radius: 50%;
+}
+
 </style>

@@ -2,7 +2,7 @@
   <div class="container cm-co-profile">
 
     <user-info class="user-info"></user-info>
-    <user-certificates></user-certificates>
+    <user-certificates class="user-certificates"></user-certificates>
 
       <user-team v-if="userIsCoach"></user-team>
       <user-history></user-history>
@@ -44,7 +44,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  .user-info{
+  .user-info {
     margin-top: 40px;
+    margin-bottom: 40px;    
+  }
+  .user-certificates {
+    margin-bottom: 40px;
   }
 </style>

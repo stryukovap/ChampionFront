@@ -37,7 +37,9 @@ export default {
             link: "#"
           });
         }
+        window.console.log(this.userCertificates);
       })
+      
       .catch(error => {
         window.console.log(error);
       });

@@ -9,6 +9,7 @@
                     <a href="#" class="user__link user__link--in"></a>
                     <a href="#" class="user__link user__link--fa"></a>
                 </div>
+                <a href="#" class="user__phone">Phone</a>
             </div>
             <div class="user__info">
                 <h4 class="user__title">{{sportsman.first_name}}
@@ -18,7 +19,7 @@
                         <!--<h4 class="user__role">{{this.$store.state.role}}</h4>-->
                         <h4 v-if="sportsman.federation_sportsmen[0].is_coach === 1" class="user__role">Coach</h4>
                         <h4 v-else class="user__role">Sportsman</h4>
-                        <li class="user__item">
+                        <li class="user__item user-badge">
                             <p v-if="sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">need get
                                 belts</p>
                             <p v-else class="user__belt">is not specified</p>
@@ -26,16 +27,17 @@
                                 {{sportsman.federation_sportsmen[0].title}}</p>
                             <p v-else class="user__degree u-title">is not specified</p>
                         </li>
-                        <li class="user__item">
+                        <li class="user__item user-weight">
                             <p v-if="sportsman.weight" class="user__weight">{{sportsman.weight}} kg</p>
                             <p v-else class="user__weight">is not specified</p>
                         </li>
-                        <li class="user__item">
+                        <li class="user__item user-location">
                             <p v-if="sportsman.city" class="user__city">{{sportsman.city}}</p>
                             <p v-else class="user__city">is not specified</p>
                             <p v-if="sportsman.federation_sportsmen[0].federations.name" class="user__federation">
                                 {{sportsman.federation_sportsmen[0].federations.name}}</p>
                             <p v-else class="user__federation">is not specified</p>
+                            <a href="#" class="show-on-map">show-on-map</a>
                         </li>
                     </ul>
                     <ul class="user__coaches">
@@ -43,10 +45,10 @@
                         <!--{{this.sportsman.my_coaches}}-->
                         <li v-for="coach in sportsman.my_coaches">
                             <a v-bind:href="coach.coach_id">
+                                <img class="user__photo user__photo--coach "
+                                      src="../../assets/345x345_26.jpg"
+                                      width="50" height="50" alt="photo">
                                 <h4 class="user__coach">{{coach.coaches.first_name}} {{coach.coaches.last_name}}</h4>
-                                <img class="user__photo user__photo--coach mx-auto d-block"
-                                     src="../../assets/345x345_26.jpg"
-                                     width="50" height="50" alt="photo">
                             </a>
                         </li>
                     </ul>
@@ -184,11 +186,12 @@ p {
     margin-right: 300px;
   }
   &__item {
-    padding-left: 30px;
+    padding-left: 40px;
     margin-top: 30px;
   }
   &__coach {
-    padding-left: 63px;
+    display: inline-block;
+    padding-left: 13px;
   }
   &__belt,
   &__degree,
@@ -239,5 +242,41 @@ p {
       height: 50px;
     }
   }
+}
+
+.user__phone {
+  margin-top: 20px;
+  width: 185px;
+  height: 29px;
+  line-height: 29px;
+  border: solid 1px #e5e5e5;
+  border-radius: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  display: inline-block;
+  color: #8d8b8b;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.user-badge {
+  background: url("../../assets/badge.svg") no-repeat left center;
+}
+
+.user-weight {
+  padding-top: 12px;
+  background: url("../../assets/weight.svg") no-repeat left;
+}
+
+.user-location {
+  background: url("../../assets/location-icon.svg") no-repeat 2% 6%;
+}
+
+.show-on-map {
+  color: #3f88c5;
+  font-size: 12px;
+  line-height: 15px;
 }
 </style>
