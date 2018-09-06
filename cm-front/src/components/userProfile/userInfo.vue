@@ -45,9 +45,8 @@
                         <!--{{this.sportsman.my_coaches}}-->
                         <li v-for="coach in sportsman.my_coaches">
                             <a v-bind:href="coach.coach_id">
-                                <img class="user__photo user__photo--coach "
-                                      src="../../assets/345x345_26.jpg"
-                                      width="50" height="50" alt="photo">
+                                <img v-if="coach.coaches.photo" v-bind:src="coach.coaches.photo.url" class="user__photo user__photo--coach" width="50" height="50" alt="photo">
+                                <img v-else class="user__photo user__photo--coach" src="../../assets/345x345_26.jpg" width="50" height="50" alt="photo">
                                 <h4 class="user__coach">{{coach.coaches.first_name}} {{coach.coaches.last_name}}</h4>
                             </a>
                         </li>

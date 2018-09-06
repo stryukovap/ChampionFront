@@ -7,7 +7,8 @@
             v-for = '(sportsman, index) in userTeamShow'
             :key = 'sportsman.index'>
               <a v-bind:href="sportsman.sportsman_id" class="col-4">
-                  <img src="../../assets/345x345_26.jpg" width="35" height="35" alt="photo" class="coach-photo">
+                  <img v-if="sportsman.photo" v-bind:src="sportsman.photo.url" width="35" height="35" alt="photo" class="coach-photo">
+                  <img v-else src="../../assets/345x345_26.jpg" width="35" height="35" alt="photo" class="coach-photo">
                   {{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}
             </a>
           </div>
@@ -80,5 +81,4 @@ export default {
 .coach-photo {
   border-radius: 50%;
 }
-
 </style>
