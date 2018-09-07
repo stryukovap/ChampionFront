@@ -105,11 +105,11 @@ export default new Router({
       name: "tournamentscabinet",
       component: tournamentsCabinet
     },
-    {
-        path: "/tournament/:id",
-        name: "tournament",
-        component: tournamentPage
-    }
+      {
+          path: "/tournament/:id",
+          name: "tournament",
+          component: tournamentPage
+      }
   ],
 
   mode: "history"

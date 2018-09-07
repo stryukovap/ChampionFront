@@ -83,8 +83,7 @@
                 this.federationId = this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id;
             }
         },
-        methods: {
-        }
+        methods: {}
     }
 </script>
 

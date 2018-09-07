@@ -34,7 +34,8 @@
                         <p class="tournament__subtext">{{tournament.dates.dateEnd}}</p>
                     </div>
                 </div>
-                <p class="tournament__participants">{{ tournament.amountOfParticipants }}/{{ tournament.maxParticipants }} Members</p>
+                <p class="tournament__participants">{{ tournament.amountOfParticipants }}/{{ tournament.maxParticipants
+                    }} Members</p>
             </div>
         </li>
     </ul>

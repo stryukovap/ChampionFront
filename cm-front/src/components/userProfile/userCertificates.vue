@@ -7,7 +7,7 @@
                 v-if='index < 7'
                 :key='certificate.index'>
                 <a v-bind:href="certificate.link">
-                    <div class="certificat-img"><img class="certificate-item" src="../../assets/certificate-sports.jpg">
+                    <div class="certificat-img"><img class="certificate-item" v-bind:src="certificate.media.url">
                     </div>
                 </a>
                 <div class="certificates-scroll">
@@ -28,19 +28,33 @@ export default {
     };
   },
   mounted() {
+    // axios
+    //   .get("https://jsonplaceholder.typicode.com/photos")
+    //   .then(response => {
+    //     for (let i = 0; i < response.data.length; i++) {
+    //       this.userCertificates.push({
+    //         picture: response.data[i].url,
+    //         link: "#"
+    //       });
+    //     }
+    //   })
+    //   .catch(error => {
+    //     window.console.log(error);
+    //   });
+
     axios
-      .get("https://jsonplaceholder.typicode.com/photos")
+      .get(
+        `https://champion-api.herokuapp.com/api/sportsman/${
+          this.$route.params.sportsman_id
+        }`
+      )
       .then(response => {
-        for (let i = 0; i < response.data.length; i++) {
-          this.userCertificates.push({
-            picture: response.data[i].url,
-            link: "#"
-          });
-        }
+        this.userCertificates = response.data.documents;
       })
       .catch(error => {
         window.console.log(error);
       });
+
   }
 };
 </script>
@@ -51,12 +65,12 @@ export default {
   width: 1055px;
   /*height: 260px;*/
   margin: auto 10px;
-  /*overflow-x: scroll;*/
+  overflow-x: scroll;
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
 }
