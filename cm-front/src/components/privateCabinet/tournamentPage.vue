@@ -102,7 +102,6 @@
         data: function () {
             return {
                 tournament: {},
-                amountOfParticipants: 0,
                 tournamentEditShow: false,
                 editButtonShow: true,
                 federationId: '',

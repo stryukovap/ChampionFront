@@ -370,6 +370,7 @@ export default {
         quantityRings: "",
         location: "",
         maxParticipants: "",
+        amountOfParticipants: 0,
         isStarted: false,
         isFinished: false,
         categories: [],
