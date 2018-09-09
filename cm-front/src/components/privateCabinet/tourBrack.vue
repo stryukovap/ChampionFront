@@ -13,7 +13,9 @@
                      @click='getFightResult'
                 >
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
-                    <div class='result'>
+                    <div class='result'
+                         v-if = 'isShownResult'
+                    >
                         <form class='game-info'>
                             <div class="form-check form-check-inline">
                                 <div class='user-avatar'>
@@ -60,7 +62,8 @@ export default {
     "tournamentKey",
     "activeCategory",
     "activeGenderCategory",
-    "activeWeightCategory"
+    "activeWeightCategory",
+    "isShownResult"
   ],
   computed: {
     bracket: {
@@ -72,6 +75,9 @@ export default {
       set: function() {
         return this.bracketNew;
       }
+    },
+    isShownResult: function() {
+        return this.$route.name === 'FederationCabinet'
     }
   },
   methods: {
@@ -139,7 +145,8 @@ export default {
     },
 
     showPopUp(e) {
-      document.querySelectorAll(".result").forEach(function(el) {
+        window.console.log(this.$route);
+        document.querySelectorAll(".result").forEach(function(el) {
         el.classList.remove("open");
       });
       if (e.target.className == "player") {
