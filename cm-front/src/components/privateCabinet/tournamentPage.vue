@@ -27,8 +27,16 @@
                         @click.prevent="editTournament"
                         :disabled="tournament.isStarted == 1"
                         v-if="editButtonShow"
-                        class="btn btn-outline-success">Edit</button>
+                        class="btn btn-outline-success mr-2">Edit</button>
+                <button
+                        @click.prevent="deleteTournament"
+                        :disabled="tournament.isStarted == 1"
+                        v-if="editButtonShow"
+                        class="btn btn-outline-success">Delete</button>
             </div>
+            <!--<div class="col-2 text-right">-->
+                <!---->
+            <!--</div>-->
         </div>
         <div class="row">
             <div class="col-2">
@@ -102,7 +110,6 @@
         data: function () {
             return {
                 tournament: {},
-                amountOfParticipants: 0,
                 tournamentEditShow: false,
                 editButtonShow: true,
                 federationId: '',
@@ -238,6 +245,19 @@
                         .ref(this.federationId)
                         .child(this.tournamentKey)
                         .update({'isFinished': this.tournament.isFinished});
+                } catch (error) {
+                    throw error;
+                }
+            },
+            async deleteTournament() {
+                try {
+                    await firebase
+                        .database()
+                        .ref(this.federationId)
+                        .child(this.tournamentKey)
+                        .remove();
+                    this.refreshTournaments();
+                    this.$router.push('federationcabinet');
                 } catch (error) {
                     throw error;
                 }
