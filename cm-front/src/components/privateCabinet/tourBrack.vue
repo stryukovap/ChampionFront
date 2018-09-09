@@ -5,30 +5,27 @@
                  v-for = '(round, index) in bracket'
                  :key = 'round.index'
                  v-bind:class='`round-${index}`'
-               >
+                 v-bind:title="index">
                 <p class='round-name'>Раунд {{ index+1 }}</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'
-                     @click='getFightResult'
                 >
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
-                    <div class='result'
-                         v-if = 'isShownResult'
-                    >
+                    <div class='result'>
                         <form class='game-info'>
                             <div class="form-check form-check-inline">
                                 <div class='user-avatar'>
                                     <img src='../../assets/345x345_26.jpg' alt='user-avatar' width='100' height='100'>
                                 </div>
-                                <input class="form-check-input" type="checkbox" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1">
                                 <label class="form-check-label" for="inlineRadio1">{{ fight.fighter1.fullname }}</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <div class='user-avatar'>
                                     <img src='../../assets/345x345_26.jpg' alt='user-avatar' width='100' height='100'>
                                 </div>
-                                <input class="form-check-input" type="checkbox" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2">
+                                <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2">
                                 <label class="form-check-label" for="inlineRadio2">{{ fight.fighter2.fullname }}</label>
                             </div>
                             <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary btn-winner">Choose winner</button>
@@ -62,7 +59,7 @@ export default {
     "tournamentKey",
     "activeCategory",
     "activeGenderCategory",
-    "activeWeightCategory",
+    "activeWeightCategory"
   ],
   computed: {
     bracket: {
@@ -74,9 +71,6 @@ export default {
       set: function() {
         return this.bracketNew;
       }
-    },
-    isShownResult: function() {
-        return this.$route.name === 'FederationCabinet'
     }
   },
   methods: {
@@ -114,6 +108,17 @@ export default {
       window.console.log("after", this.bracket);
     },
 
+    showPopUp(e) {
+        // console.log(e);
+        if(e.target.type !== "radio") {
+            document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+        }
+        if(e.target.className == "player") {
+            // console.log(e.target.className);
+            e.target.parentNode.querySelector('.result').classList.add("open");
+        }
+    },
+
     async updateBracket() {
       try {
         await firebase
@@ -143,44 +148,11 @@ export default {
       }
     },
 
-    showPopUp(e) {
-        window.console.log(this.$route);
-        document.querySelectorAll(".result").forEach(function(el) {
-        el.classList.remove("open");
-      });
-      if (e.target.className == "player") {
-        console.log(e.target.className);
-        e.target.parentNode.querySelector(".result").classList.add("open");
-      }
-    },
-
   }
 };
 </script>
 
 <style lang="scss">
-
-.form-check-input {
-    display : none;
-    }
-
-.form-check-label:before {
-    content: "\00A0";
-    display: block;
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    margin : 0 auto;
-    background-color: white;
-    border: 2px solid #B0B0B0;
-    border-radius: 2px;
-    }
-
-.form-check-input:checked .form-check-label:before {
-    content: "\2713";
-    border-color: #FFA500;
-        }
-
 .result {
   display: none;
   box-sizing: border-box;
@@ -188,9 +160,9 @@ export default {
   top: -10px;
   left: -10px;
   width: 400px;
+  background-color: #f1f6fa;
   border: 2px solid #5CB85C;
   border-radius: 10px;
-  background-color: #f1f6fa;
   z-index: 10;
 }
 
@@ -202,9 +174,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+//   height: 200px;
 }
 
 .game-info button {
+//   width: 100%;
   margin : 10px auto;
   border-radius: 10px;
 }
@@ -214,6 +188,7 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+//   background-color: blue;
 }
 
 .form-check {
@@ -343,5 +318,4 @@ export default {
 .fighter2 {
   background-color: #5cb85c;
 }
-
 </style>
