@@ -63,7 +63,6 @@ export default {
     "activeCategory",
     "activeGenderCategory",
     "activeWeightCategory",
-    "isShownResult"
   ],
   computed: {
     bracket: {

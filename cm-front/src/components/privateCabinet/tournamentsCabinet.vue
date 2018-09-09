@@ -28,7 +28,7 @@
             </div>
         </div>
         <tournament-page
-                v-if="tournamentPageShow"
+               v-if="tournamentPageShow"
                 v-bind:tournament-key="tournamentKey"
                 @click.prevent="closeTournament">
         </tournament-page>
