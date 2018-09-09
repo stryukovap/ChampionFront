@@ -34,18 +34,16 @@ export default {
   },
   mounted() {
       axios
-          .get(
+        .get(
               `https://champion-api.herokuapp.com/api/sportsman/${
                   this.$route.params.sportsman_id
-                  }`
-          )
-      .then(response => {
-          this.userTeam = response.data.my_sportsmen;
-          this.userTeamShow = this.userTeam.slice(0, 4);
-          console.log("response", this.userTeam);
-      })
-          .catch(error => console.log(error.message));
-
+                  }`)
+        .then(response => {
+            this.userTeam = response.data.my_sportsmen;
+            this.userTeamShow = this.userTeam.slice(0, 4);
+            console.log("response", this.userTeam);
+        })
+        .catch(error => console.log(error.message));
       // axios
       //   .get("https://jsonplaceholder.typicode.com/users")
       //   .then(response => {
@@ -60,8 +58,6 @@ export default {
       //   .catch(error => {
       //     window.console.log(error);
       //   });
-
-
   },
   methods: {
     showMore() {
