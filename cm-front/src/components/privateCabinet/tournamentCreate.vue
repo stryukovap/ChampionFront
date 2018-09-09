@@ -373,8 +373,7 @@ export default {
         amountOfParticipants: 0,
         isStarted: false,
         isFinished: false,
-        categories: [],
-        referees: []
+        categories: []
       },
       tournamentImageForUpload: "",
       tournamentImage: "",

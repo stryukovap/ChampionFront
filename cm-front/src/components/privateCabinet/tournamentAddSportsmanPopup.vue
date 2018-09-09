@@ -148,9 +148,9 @@ export default {
                 this.tournament.categories[this.activeCategory].ageTo &&
               item.gender === this.activeGenderCategory[0].toUpperCase() &&
               item.weight <=
-                this.tournament.categories[this.activeCategory][
+                parseInt(this.tournament.categories[this.activeCategory][
                   this.activeGenderCategory
-                ][this.activeWeightCategory].weight
+                ][this.activeWeightCategory].weight)
             ) {
               let isExist = this.value.some(elem => {
                 return elem.sportsman.id === item.id;
