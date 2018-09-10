@@ -174,11 +174,9 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-//   height: 200px;
 }
 
 .game-info button {
-//   width: 100%;
   margin : 10px auto;
   border-radius: 10px;
 }
@@ -188,7 +186,6 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-//   background-color: blue;
 }
 
 .form-check {
@@ -199,9 +196,11 @@ export default {
 }
 
 .bracket {
-  display: flex;
-  overflow-x: auto;
-  overflow-y: visible;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
+    width : 100%;
+    padding-bottom : 150px;
 }
 
 .bracket-wrapper {
