@@ -6,7 +6,7 @@ export default {
           [
             {
               fighter1: receivedListOfPlayers[0],
-              fighter2: null,
+              fighter2: "dummy",
               winner: receivedListOfPlayers[0]
             }
           ]
