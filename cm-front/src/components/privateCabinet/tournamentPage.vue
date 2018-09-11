@@ -63,6 +63,28 @@
                 </div>
             </div>
         </div>
+        <div class='row'>
+           <div class='winners-wrapper'>
+                <h3>Winners</h3>
+                <div class='winners'>
+                    <div class='awardee'>
+                       <h4>1st place</h4>
+                        <img src='../../assets/345x345_26.jpg' alt='first place' class='user-avatar'>
+                        <p class='awardee-fullname'>Awardee fullname</p>
+                    </div>
+                    <div class='awardee'>
+                       <h4>2nd place</h4>
+                        <img src='../../assets/345x345_26.jpg' alt='second place' class='user-avatar'>
+                        <p class='awardee-fullname'>Awardee fullname</p>
+                    </div>
+                    <div class='awardee'>
+                        <h4>2rd place</h4>
+                        <img src='../../assets/345x345_26.jpg' alt='third place' class='user-avatar'>
+                        <p class='awardee-fullname'>Awardee fullname</p>
+                    </div>
+                </div>
+           </div>
+        </div>
         <Tabs>
             <Tab name="Brackets">
                 <brackets v-bind:tournament-key="tournamentKey"
@@ -275,4 +297,20 @@
     .navbar-light {
         margin-top: -8px;
     }
+
+    .winners {
+        display : flex;
+        width : 1110px;
+        justify-content: space-around;
+        }
+
+    .awardee-fullname {
+        padding : 10px;
+        }
+
+    .user-avatar {
+        width: 185px;
+        height: 185px;
+        border-radius: 50%;
+        }
 </style>
