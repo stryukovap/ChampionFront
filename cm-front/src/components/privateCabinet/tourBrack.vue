@@ -19,19 +19,19 @@
                                     <img src='../../assets/345x345_26.jpg' alt='user-avatar' width='100' height='100'>
                                 </div>
                                 <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio1" v-bind:value="fight.fighter1">
-                                <label class="form-check-label" for="inlineRadio1">{{ fight.fighter1.fullname }}</label>
+                                <label class="form-check-label" for="inlineRadio1">{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <div class='user-avatar'>
                                     <img src='../../assets/345x345_26.jpg' alt='user-avatar' width='100' height='100'>
                                 </div>
                                 <input class="form-check-input" type="radio" v-bind:name="index" id="inlineRadio2" v-bind:value="fight.fighter2">
-                                <label class="form-check-label" for="inlineRadio2">{{ fight.fighter2.fullname }}</label>
+                                <label class="form-check-label" for="inlineRadio2">{{ fight.fighter2.fullname ? fight.fighter2.fullname : fight.fighter2 }}</label>
                             </div>
                             <button v-on:click.prevent="submitWinner" type="submit" class="btn btn-primary btn-winner">Choose winner</button>
                         </form>
                     </div>
-                    <div class = 'player'>{{ fight.fighter2.fullname ? fight.fighter2.fullname : fight.fighter2 }}</div>
+                    <div class='player'>{{ fight.fighter2.fullname ? fight.fighter2.fullname : fight.fighter2 }}</div>
                 </div>
             </div>
         </div>
