@@ -16,7 +16,7 @@
 
           </div>
         </div>
-        <div class="show-more">
+        <div class="show-more" v-if="!isAllSportsmenShown">
             <!-- <a v-on:click.prevent="togleTeamState" href="#">{{ linkText }}</a> -->
             <a v-on:click.prevent="showMore" href="#">Show more</a>
         </div>
@@ -32,7 +32,7 @@ export default {
     return {
       userTeam: [],
       userTeamShow: [],
-      isAllSportsmenShown: false
+      isAllSportsmenShown: true
     };
   },
   mounted() {
@@ -43,18 +43,11 @@ export default {
                   }`)
         .then(response => {
             this.userTeam = response.data.my_sportsmen;
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-            this.userTeam.push(this.userTeam[0]);
-
             this.userTeamShow = this.userTeam.slice(0, 4);
-            console.log("response", this.userTeam);
+
+            this.isAllSportsmenShown = (this.userTeam.length <= 4);
+            // console.log(this.userTeam.length);
+            // console.log("response", this.userTeam);
         })
         .catch(error => console.log(error.message));
       // axios
@@ -71,11 +64,13 @@ export default {
       //   .catch(error => {
       //     window.console.log(error);
       //   });
+      
   },
   methods: {
     showMore() {
       // this.isAllSportsmenShown = !this.isAllSportsmenShown;
       this.userTeamShow = this.userTeam.slice(0, this.userTeamShow.length + 4);
+      if (this.userTeamShow.length === this.userTeam.length) this.isAllSportsmenShown = true;
     }
   },
   // computed: {
