@@ -40,7 +40,7 @@
                             <a href="#" class="show-on-map">show-on-map</a>
                         </li>
                     </ul>
-                    <ul class="user__coaches">
+                    <ul class="user__coaches" v-if="sportsman.my_coaches.length > 0">
                         <h4 class="user__coaches-title">Coaches</h4>
                         <!--{{this.sportsman.my_coaches}}-->
                         <li v-for="coach in sportsman.my_coaches">

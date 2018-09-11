@@ -1,19 +1,22 @@
 <template>
-  <div class="row cm-co-team" v-if="userTeam.length > 0">
-      <h2>Team</h2>
+  <div class="row cm-co-team team-content" v-if="userTeam.length > 0">
+      <h2 class="team-title">Team</h2>
       <div class="col-12 team-list">
         <div class="row justify-content">
-          <div class="col-3"
+          <div class="col-3 sportsman-item"
             v-for = '(sportsman, index) in userTeamShow'
             :key = 'sportsman.index'>
-              <a v-bind:href="sportsman.sportsman_id" class="col-4">
-                  <img v-if="sportsman.photo" v-bind:src="sportsman.photo.url" width="35" height="35" alt="photo" class="coach-photo">
-                  <img v-else src="../../assets/345x345_26.jpg" width="35" height="35" alt="photo" class="coach-photo">
-                  {{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}
-            </a>
+              <a v-bind:href="sportsman.sportsman_id">
+                <div class="flex-wrap">
+                  <img v-if="sportsman.photo" v-bind:src="sportsman.photo.url" width="50" height="50" alt="photo" class="coach-photo">
+                  <img v-else src="../../assets/345x345_26.jpg" width="50" height="50" alt="photo" class="coach-photo">
+                  <div class="sportsman-name">{{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}</div>
+                </div>
+              </a>
+
           </div>
         </div>
-        <div class="text-right">
+        <div class="show-more">
             <!-- <a v-on:click.prevent="togleTeamState" href="#">{{ linkText }}</a> -->
             <a v-on:click.prevent="showMore" href="#">Show more</a>
         </div>
@@ -40,6 +43,16 @@ export default {
                   }`)
         .then(response => {
             this.userTeam = response.data.my_sportsmen;
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+            this.userTeam.push(this.userTeam[0]);
+
             this.userTeamShow = this.userTeam.slice(0, 4);
             console.log("response", this.userTeam);
         })
@@ -76,5 +89,56 @@ export default {
 <style scoped>
 .coach-photo {
   border-radius: 50%;
+  display: block;
 }
+
+.team-content {
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: solid 1px #e9e9e9;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+  box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.team-title {
+  margin-left: 47px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: "Nova Square", cursive;
+  font-size: 24px;
+}
+
+.team-list {
+  margin-left: 32px;
+}
+
+.sportsman-item {
+  margin-bottom: 33px;
+}
+
+.show-more {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.sportsman-name {
+  font-size: 14px;
+  margin-left: 13px;
+  color: #000000;
+  max-width: 170px;
+  text-align: left;
+}
+
+.flex-wrap {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
 </style>

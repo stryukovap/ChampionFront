@@ -1,5 +1,5 @@
 <template>
-    <div class="certificate-content">
+    <div class="certificate-content" v-if="userCertificates.length > 0">
         <h2 class="certificates-h">Certificates</h2>
         <ul class="cm-sp-certificates-list user-certificates-list  d-inline-flex col-12">
             <li class="wrapper"
@@ -64,7 +64,7 @@ export default {
   /*max-width: 1110px;*/
   width: 1055px;
   /*height: 260px;*/
-  margin: auto 10px;
+  // margin: auto 10px;
   overflow-x: scroll;
   list-style: none;
   margin: 0;
@@ -86,8 +86,11 @@ export default {
 
 .certificates-h {
   text-align: left;
+  font-family: "Nova Square", cursive;
   margin-left: 47px;
   margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 24px;
 }
 
 .certificate-item {
