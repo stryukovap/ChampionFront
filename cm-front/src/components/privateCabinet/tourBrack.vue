@@ -59,7 +59,8 @@ export default {
     "tournamentKey",
     "activeCategory",
     "activeGenderCategory",
-    "activeWeightCategory"
+    "activeWeightCategory",
+    'tournamentIsFinished'
   ],
   computed: {
     bracket: {
@@ -109,14 +110,13 @@ export default {
     },
 
     showPopUp(e) {
-        // console.log(e);
-        if(e.target.type !== "radio") {
+        if (this.tournamentIsFinished) return;
+        if (e.target.type !== "radio") {
             document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
-        }
-        if(e.target.className == "player") {
-            // console.log(e.target.className);
+        };
+        if (e.target.className == "player") {
             e.target.parentNode.querySelector('.result').classList.add("open");
-        }
+        };
     },
 
     async updateBracket() {

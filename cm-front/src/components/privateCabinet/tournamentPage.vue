@@ -89,7 +89,9 @@
             <Tab name="Brackets">
                 <brackets v-bind:tournament-key="tournamentKey"
                           v-bind:federation-id="federationId"
-                          v-bind:tournament="tournament"></brackets>
+                          v-bind:tournament-is-finished="tournament.isFinished"
+                          v-bind:tournament="tournament">
+                </brackets>
 
             </Tab>
             <Tab name="Participants">

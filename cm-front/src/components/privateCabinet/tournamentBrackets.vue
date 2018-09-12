@@ -68,7 +68,8 @@
                     v-bind:tournament-key="tournamentKey"
                     v-bind:active-category="activeCategory"
                     v-bind:active-gender-category="activeGenderCategory"
-                    v-bind:active-weight-category="activeWeightCategory">
+                    v-bind:active-weight-category="activeWeightCategory"
+                    v-bind:tournament-is-finished="tournamentIsFinished">
             </tour-bracket>
         </div>
     </div>
@@ -82,7 +83,7 @@
         components: {
             tourBracket
         },
-        props: ['tournamentKey', 'federationId', 'tournament'],
+        props: ['tournamentKey', 'federationId', 'tournament', 'tournamentIsFinished'],
         data: function () {
             return {
                 activeCategory: 0,
@@ -95,6 +96,7 @@
         beforeMount() {
             // this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
         },
+        
         methods: {
             activateCategory(key) {
                 this.activeCategory = key;
