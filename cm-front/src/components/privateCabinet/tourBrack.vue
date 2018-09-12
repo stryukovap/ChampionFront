@@ -9,9 +9,7 @@
                 <p class='round-name'>Раунд {{ index+1 }}</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
-                     :key = 'fight.index'
-
-                >
+                     :key = 'fight.index'>
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
                     <div class='result'
                          v-if="fight.winner === ' '">
@@ -97,10 +95,6 @@ export default {
         return;
       }
 
-      // e.target.parentNode[0].setAttribute("disabled", "disabled");
-      // e.target.parentNode[1].setAttribute("disabled", "disabled");
-      // e.target.setAttribute("disabled", "disabled");
-
       this.bracketNew = this.isWinner(
         this.bracket,
         roundNumber,
@@ -108,16 +102,20 @@ export default {
         winner
       );
       this.updateBracket();
-      window.console.log("after", this.bracket);
     },
 
     showPopUp(e) {
         if (this.tournamentIsFinished) return;
+
         if (e.target.type !== "radio") {
             document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
+        } else {
+          e.target.parentNode.parentNode.querySelector('.btn-winner').disabled = false;
         };
         if (e.target.className == "player" && e.target.parentNode.querySelector('.result')) {
             e.target.parentNode.querySelector('.result').classList.add("open");
+            e.target.parentNode.querySelectorAll('.form-check-input').forEach(function(el) {el.checked = false;});
+            e.target.parentNode.querySelector('.btn-winner').disabled = true;
         };
     },
 
@@ -144,7 +142,6 @@ export default {
           .ref(this.federationId)
           .once("value");
         this.$store.commit("setTournamentsList", fbObj.val());
-        console.log(fbObj.val());
       } catch (error) {
         throw error;
       }
