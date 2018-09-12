@@ -63,34 +63,15 @@
                 </div>
             </div>
         </div>
-        <div class='row'>
-           <div class='winners-wrapper'>
-                <h3>Winners</h3>
-                <div class='winners'>
-                    <div class='awardee'>
-                       <h4>1st place</h4>
-                        <img src='../../assets/345x345_26.jpg' alt='first place' class='user-avatar'>
-                        <p class='awardee-fullname'>Awardee fullname</p>
-                    </div>
-                    <div class='awardee'>
-                       <h4>2nd place</h4>
-                        <img src='../../assets/345x345_26.jpg' alt='second place' class='user-avatar'>
-                        <p class='awardee-fullname'>Awardee fullname</p>
-                    </div>
-                    <div class='awardee'>
-                        <h4>2rd place</h4>
-                        <img src='../../assets/345x345_26.jpg' alt='third place' class='user-avatar'>
-                        <p class='awardee-fullname'>Awardee fullname</p>
-                    </div>
-                </div>
-           </div>
-        </div>
+
         <Tabs>
             <Tab name="Brackets">
-                <brackets v-bind:tournament-key="tournamentKey"
+                <brackets 
+                          v-bind:tournament-key="tournamentKey"
                           v-bind:federation-id="federationId"
                           v-bind:tournament-is-finished="tournament.isFinished"
-                          v-bind:tournament="tournament">
+                          v-bind:tournament="tournament"
+                          ref="tournamentBrakets">
                 </brackets>
 
             </Tab>
@@ -200,7 +181,7 @@
                         category.male.forEach((weightCategory, key) => {
                             if ("sportsmen" in weightCategory) {
                                 weightCategory.bracket = this.createBracket(weightCategory.sportsmen);
-                                console.log(weightCategory.bracket);
+                                // console.log(weightCategory.bracket);
                                 firebase
                                     .database()
                                     .ref(this.federationId)
@@ -210,7 +191,7 @@
                                     .child('male')
                                     .child(key)
                                     .update({ bracket: weightCategory.bracket});
-                                console.log(this.tournament);
+                                // console.log(this.tournament);
                             }
                         });
                     }
@@ -218,7 +199,7 @@
                         category.female.forEach((weightCategory, key) => {
                             if ("sportsmen" in weightCategory) {
                                 weightCategory.bracket = this.createBracket(weightCategory.sportsmen);
-                                console.log(weightCategory.bracket);
+                                // console.log(weightCategory.bracket);
                                 firebase
                                     .database()
                                     .ref(this.federationId)
@@ -272,6 +253,7 @@
                 } catch (error) {
                     throw error;
                 }
+                this.$refs.tournamentBrakets.updateWinners();
             },
             async deleteTournament() {
                 try {
@@ -279,6 +261,7 @@
                         .database()
                         .ref(this.federationId)
                         .child(this.tournamentKey)
+                        .child("categories")
                         .remove();
                     this.refreshTournaments();
                     this.$router.push('federationcabinet');
