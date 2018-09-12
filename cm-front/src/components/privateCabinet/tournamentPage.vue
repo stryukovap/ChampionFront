@@ -261,7 +261,6 @@
                         .database()
                         .ref(this.federationId)
                         .child(this.tournamentKey)
-                        .child("categories")
                         .remove();
                     this.refreshTournaments();
                     this.$router.push('federationcabinet');
