@@ -10,9 +10,11 @@
                 <div class = 'game'
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'
+
                 >
                     <div class = 'player'>{{ fight.fighter1.fullname ? fight.fighter1.fullname : fight.fighter1 }}</div>
-                    <div class='result'>
+                    <div class='result'
+                         v-if="fight.winner === ' '">
                         <form class='game-info'>
                             <div class="form-check form-check-inline">
                                 <div class='user-avatar'>
@@ -44,7 +46,7 @@ import Result from "./result";
 import bracketModule from "./bracketModule";
 
 export default {
-  name: "tour-brack",
+ name: "tour-brack",
   components: {
     Result
   },
@@ -95,9 +97,9 @@ export default {
         return;
       }
 
-      e.target.parentNode[0].setAttribute("disabled", "disabled");
-      e.target.parentNode[1].setAttribute("disabled", "disabled");
-      e.target.setAttribute("disabled", "disabled");
+      // e.target.parentNode[0].setAttribute("disabled", "disabled");
+      // e.target.parentNode[1].setAttribute("disabled", "disabled");
+      // e.target.setAttribute("disabled", "disabled");
 
       this.bracketNew = this.isWinner(
         this.bracket,
@@ -114,7 +116,7 @@ export default {
         if (e.target.type !== "radio") {
             document.querySelectorAll('.result').forEach(function(el) {el.classList.remove("open");});
         };
-        if (e.target.className == "player") {
+        if (e.target.className == "player" && e.target.parentNode.querySelector('.result')) {
             e.target.parentNode.querySelector('.result').classList.add("open");
         };
     },
