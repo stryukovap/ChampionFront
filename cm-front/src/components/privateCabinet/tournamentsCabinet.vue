@@ -13,13 +13,14 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-4"
                          v-for='(tournament, key) in $store.state.tournamentsList'>
-                        <div class="thumbnail">
+                        <div class="thumbnail tour-card"
+                             @click="openTournament(key)">
                             <img :src="tournament.imageUrl"
                                  class="mb-2"
                                  width="200px"
                                  alt="Card image cap">
                             <div class="caption mb-3">
-                                <h4 @click="openTournament(key)" class="text-center">{{ tournament.name }}</h4>
+                                <h4  class="text-center">{{ tournament.name }}</h4>
                                 <p class="text-center mb-1">Start date: {{ tournament.dates.dateStart }}</p>
                             </div>
                         </div>
@@ -107,3 +108,10 @@
         }
     }
 </script>
+
+<style>
+.tour-card {
+    cursor: pointer;
+}
+
+</style>

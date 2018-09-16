@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="attendance-header">
-            <button class="back-button info__btn btn btn-primary">Back</button>
+            <button
+                class="back-button info__btn btn btn-primary"
+                @click="$emit('close')"
+            >Back</button>
             <h2>Attendance List Zdorovie</h2>
         </div>
         <div class="calendar">
@@ -10,7 +13,7 @@
                 <span class="month-name">September 2018</span>
                 <a class="month-button month-forward"></a>
             </div>
-            <div>
+            <div class='schedule-wrapper'>
                 <table class="schedule">
                     <thead>
                         <tr>
@@ -24,10 +27,14 @@
                         <tr>
                             <td class="week">Week 1</td>
                             <td>
-                                <a href="" class="open-modal-attendance">
+                                <div
+                                    href=""
+                                    class="open-modal-attendance"
+                                    @click='openPopUp'
+                                >
                                     <span class="training-date">18 Sep</span>
                                     <span class="training-stats people-icon">18/42</span>
-                                </a>
+                                </div>
                             </td>
                             <td>
                                 <a href="" class="open-modal-attendance">
@@ -107,99 +114,130 @@
                         </tr>
                     </tbody>
                 </table>
+                <attendance-pop-up
+                    class='popup'
+                    v-if='popUpShow'
+                    v-on:close='closePopUp'
+                ></attendance-pop-up>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
+    import AttendancePopUp from './AttendancePopUp';
     export default {
-        name: "attendance"
+        name: "attendance",
+        components: {
+            AttendancePopUp
+        },
+        data: function () {
+                return {
+                    popUpShow: false
+                }
+        },
+        methods: {
+            openPopUp() {
+                this.popUpShow = true;
+            },
+            closePopUp() {
+                this.popUpShow = false;
+            }
         }
+    }
 </script>
 
 <style lang="scss">
-    .back-button {
-        margin-right: 30px;
+
+.popup {
+    position : absolute;
+    }
+.schedule-wrapper {
+    position : relative;
     }
 
-    .month {
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        margin-left: 45%;
+.back-button {
+    margin-right: 30px;
+}
+
+.month {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    margin-left: 45%;
+}
+
+.month-name {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.attendance-header {
+    display: flex;
+    margin-top: 30px;
+}
+
+.show-border {
+    border: 1px solid red;
+}
+
+.schedule {
+    width: 100%;
+    max-width: 1000px;;
+    border-collapse:collapse;
+
+    th {
+        font-size: 1.3em;
+        vertical-align: bottom;
     }
 
-    .month-name {
-        margin-left: 10px;
-        margin-right: 10px;
+    td {
+        border: 1px solid #cecfd5;
+        width: 29%;
     }
 
-    .attendance-header {
-        display: flex;
-        margin-top: 30px;
+    .week {
+        border: none;
+        font-size: 1.3em;
+        width: 13%;
     }
+}
 
-    .show-border {
-        border: 1px solid red;
-    }
+.open-modal-attendance {
+    color: #212529;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-    .schedule {
-        width: 100%;
-        max-width: 1000px;;
-        border-collapse:collapse;
-
-        th {
-            font-size: 1.3em;
-            vertical-align: bottom;
-        }
-
-        td {
-            border: 1px solid #cecfd5;
-            width: 29%;
-        }
-
-        .week {
-            border: none;
-            font-size: 1.3em;
-            width: 13%;
-        }
-    }
-
-    .open-modal-attendance {
+    &:hover {
         color: #212529;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-
-        &:hover {
-            color: #212529;
-            text-decoration: none;
-        }
-
-        .training-date {
-            flex-grow: 2;
-        }
-            
-        .training-stats {
-            flex-grow: 3;
-            position: relative;
-            
-        }
-
-        .people-icon:before {
-            content: "";
-            display: block;
-            position: absolute;
-            left: 60%;
-            width: 20px;
-            height: 20px;
-            background-image: url("../../../assets/2people.png");
-            background-repeat: no-repeat;
-            background-size: cover;
-            } 
+        text-decoration: none;
     }
+
+    .training-date {
+        flex-grow: 2;
+    }
+
+    .training-stats {
+        flex-grow: 3;
+        position: relative;
+
+    }
+
+    .people-icon:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 60%;
+        width: 20px;
+        height: 20px;
+        background-image: url("../../../assets/2people.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        }
+}
 
 .month-button {
     font-family: "Roboto", sans-serif;
@@ -247,6 +285,11 @@
     border-left: 20px solid #3f88c5;
     border-bottom: 10px solid transparent;
     }
-} 
+}
+
+td:not(.week):hover {
+    background-color: rgba(250,128,64,0.5);
+    cursor: pointer;
+}
 
 </style>

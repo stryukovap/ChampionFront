@@ -1,7 +1,18 @@
 <template>
     <div class='attendance-wrapper'>
-        <button class='btn btn-success btn-save' type='submit'>Save</button>
-        <button class='close'>✖</button>
+        <button
+                class='btn btn-success btn-save'
+                type='submit'
+                @click="$emit('close')"
+        >
+        Save
+        </button>
+        <button
+            class='close'
+            @click="$emit('close')"
+        >
+            ✖
+        </button>
         <h2 class='training--date'>Пн 19:00</h2>
         <div class='training-status'>
             <h4>Status</h4>
@@ -14,7 +25,7 @@
             <h4>Attendees</h4>
             <ul>
                 <li>
-                    <img src = '../../assets/345x345_26.jpg'
+                    <img src = '../../../assets/345x345_26.jpg'
                          alt = 'user-avatar'
                          class = 'user-avatar__little'
                          width='44'
@@ -22,6 +33,34 @@
                     <p class='user-fullname'>User Fullname</p>
                     <input type = 'checkbox' class='user-attendance'>
                 </li>
+                <li>
+                    <img src = '../../../assets/345x345_26.jpg'
+                         alt = 'user-avatar'
+                         class = 'user-avatar__little'
+                         width='44'
+                         height='44'>
+                    <p class='user-fullname'>User Fullname</p>
+                    <input type = 'checkbox' class='user-attendance'>
+                </li>
+                <li>
+                    <img src = '../../../assets/345x345_26.jpg'
+                         alt = 'user-avatar'
+                         class = 'user-avatar__little'
+                         width='44'
+                         height='44'>
+                    <p class='user-fullname'>User Fullname</p>
+                    <input type = 'checkbox' class='user-attendance'>
+                </li>
+                <li>
+                    <img src = '../../../assets/345x345_26.jpg'
+                         alt = 'user-avatar'
+                         class = 'user-avatar__little'
+                         width='44'
+                         height='44'>
+                    <p class='user-fullname'>User Fullname</p>
+                    <input type = 'checkbox' class='user-attendance'>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -29,7 +68,7 @@
 
 <script>
 export default {
-    name: 'Attendance'
+    name: 'AttendancePopUp'
 }
 </script>
 
@@ -37,7 +76,9 @@ export default {
 .attendance-wrapper {
     display : flex;
     flex-direction : column;
-    position : absolute;
+    align-items: stretch;
+    justify-content : flex-start;
+    /*position : absolute;*/
     height : 100%;
     width : 500px;
     padding : 20px;
