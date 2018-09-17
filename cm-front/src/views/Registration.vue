@@ -523,20 +523,6 @@ export default {
         // handle error
         window.console.log(error);
       });
-    axios
-      .get(
-        `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
-          this.sportsman.federation
-        }`
-      )
-      .then(response => {
-        if (response.status === 200) {
-          this.coaches = response.data;
-        }
-      })
-      .catch(function(error) {
-        window.console.log(error);
-      });
   },
   computed: {
     testStepFederation: function() {
