@@ -34,6 +34,9 @@
                                          v-if="!$v.user.email.required">Email field is required
                                     </div>
                                     <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
+                                    </div>
+                                    <div class="invalid-feedback"
                                          v-if="!$v.user.email.email">This field should be an email
                                     </div>
                                     <div class="invalid-feedback"
@@ -411,6 +414,9 @@
                                          v-if="!$v.federation.email.required">Email field is required
                                     </div>
                                     <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
+                                    </div>
+                                    <div class="invalid-feedback"
                                          v-if="!$v.federation.email.email">This field should be an email
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.email.maxLength">
@@ -602,6 +608,10 @@ export default {
         required: required,
         maxLength: maxLength(100),
         email: email,
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
         unique: val => {
           // if (val === "") return true;
           return (
@@ -684,6 +694,10 @@ export default {
         maxLength: maxLength(15)
       },
       email: {
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
         required: required,
         email: email,
         maxLength: maxLength(100)
