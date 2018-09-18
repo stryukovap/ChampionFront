@@ -2,8 +2,8 @@
     <div class="registration">
         <div class="container">
             <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <form class="cm-form" autocomplete="off" @submit.prevent="">
-                    <tabs>
+                <form class="cm-form" autocomplete="off" @submit.prevent="" novalidate>
+                    <tabs cache-lifetime="1">
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
                                 <h1 class="text-center">Registration</h1>
@@ -314,9 +314,9 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.name.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.name.alpha">
-                                        Field for only alphabet characters
-                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.name.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
@@ -343,7 +343,7 @@
                                         Min length of President Name is {{
                                         $v.federation.presidentName.$params.minLength.min
                                         }}. Now it
-                                        is {{ presidentName.name.length }}.
+                                        is {{ federation.presidentName.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.maxLength">
                                         Max length of President Name is {{ $v.federation.presidentName.$params.maxLength.max }}.
@@ -351,9 +351,9 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">
-                                        Field for only alphabet characters
-                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
@@ -366,11 +366,11 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.minLength">
                                         Min length of subDomain is {{
                                         $v.federation.subDomain.$params.minLength.min
                                         }}. Now it
-                                        is {{ subDomain.subDomain.length }}.
+                                        is {{ federation.subDomain.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.maxLength">
                                         Max length of subDomain is {{ $v.federation.subDomain.$params.maxLength.max }}.
@@ -378,19 +378,22 @@
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
-                                           placeholder="Contact Phone"
+                                           placeholder="Contact Phone +380000000000"
                                            @input="$v.federation.phone.$touch()"
                                            @blur="$v.federation.phone.$touch()"
                                            :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
-                                    <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
-                                        Field for only numeric characters
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.regexPhone">
+                                        Field should be in format +380000000000
                                     </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.phone.numeric">-->
+                                    <!--Field for only numeric characters-->
+                                    <!--</div>-->
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
                                         Min length of phone is {{
                                         $v.federation.phone.$params.minLength.min
                                         }}. Now it
-                                        is {{ subDomain.phone.length }}.
+                                        is {{ federation.phone.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.maxLength">
                                         Max length of Phone is {{ $v.federation.phone.$params.maxLength.max }}.
@@ -487,6 +490,7 @@ export default {
         phone: "",
         email: ""
       },
+        federations: [],
       userSportsman: "true",
       sports: {},
       authUser: {},
@@ -670,9 +674,13 @@ export default {
     },
     federation: {
       phone: {
+          regexPhone: val => {
+              var regexPhone = /^\+\d{12}$/;
+              return regexPhone.test(val);
+          },
         required: required,
-        numeric: numeric,
-        minLength: minLength(15),
+          // numeric: numeric,
+          minLength: minLength(13),
         maxLength: maxLength(15)
       },
       email: {
@@ -682,13 +690,13 @@ export default {
       },
       name: {
         required: required,
-        alpha: alpha,
+          // alpha: alpha,
         minLength: minLength(3),
         maxLength: maxLength(42)
       },
       presidentName: {
         required: required,
-        alpha: alpha,
+          // alpha: alpha,
         minLength: minLength(3),
         maxLength: maxLength(42)
       },
