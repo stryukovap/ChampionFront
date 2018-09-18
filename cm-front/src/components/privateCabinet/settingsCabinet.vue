@@ -11,7 +11,7 @@
                         <div class="info__subsc">Subscription</div>
                         <div class="info__wrap-text">
                             <div class="info__active">Expire in <span>{{subscription}}</span> days</div>
-                            <button class="info__btn btn btn-primary">Subscribe</button>
+                            <button class="info__btn btn btn-primary disabled">Subscribe</button>
                         </div>
                     </div>
                 </div>
@@ -27,24 +27,52 @@
                                        autofocus
                                        name="pass"
                                        placeholder="Old password"
-                                       class="form__input"
-                                       v-model="oldPassword">
+                                       class="form-control"
+                                       v-model="oldPassword"
+                                       @input="$v.user.oldPassword.$touch()"
+                                       @blur="$v.user.oldPassword.$touch()"
+                                       :class="{'is-invalid' :$v.user.oldPassword.$error}">
+                                <div class="invalid-feedback"
+                                     v-if="!$v.user.oldPassword.required">Password field is required
+                                </div>
                             </div>
                             <div class="form__field">
                                 <input type="password"
                                        autocomplete="off"
                                        name="newPass"
                                        placeholder="New password"
-                                       class="form__input"
-                                       v-model="newPassword">
+                                       class="form-control"
+                                       v-model="newPassword"
+                                       @input="$v.user.newPassword.$touch()"
+                                       @blur="$v.user.newPassword.$touch()"
+                                       :class="{'is-invalid' :$v.user.newPassword.$error}">
+                                <div class="invalid-feedback"
+                                     v-if="!$v.user.newPassword.required">Password field is required
+                                </div>
+                                <div class="invalid-feedback" v-if="!$v.user.newPassword.minLength">
+                                    Min length of password is {{ $v.user.newPassword.$params.minLength.min }}. Now it
+                                    is {{ user.newPassword.length }}.
+                                </div>
+                                <div class="invalid-feedback" v-if="!$v.user.newPassword.maxLength">
+                                    Max length of password is {{ $v.user.newPassword.$params.maxLength.max }}.
+                                </div>
                             </div>
                             <div class="form__field">
                                 <input type="password"
                                        autocomplete="off"
                                        name="confirmPass"
                                        placeholder="Confirm new password"
-                                       class="form__input"
-                                       v-model="confirmNewPassword">
+                                       class="form-control"
+                                       v-model="confirmNewPassword"
+                                       @input="$v.user.confirmNewPassword.$touch()"
+                                       @blur="$v.user.confirmNewPassword.$touch()"
+                                       :class="{'is-invalid' :$v.user.confirmNewPassword.$error}">
+                                <div class="invalid-feedback"
+                                     v-if="!$v.user.confirmNewPassword.required">Password field is required
+                                </div>
+                                <div class="invalid-feedback" v-if="!$v.user.confirmNewPassword.sameAs">
+                                    Passwords should match
+                                </div>
                             </div>
                             <div class="form__btn-wrap">
                                 <!--<input type="submit"-->
@@ -71,7 +99,7 @@
 
 <script>
 import axios from "axios";
-import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import {required, minLength, maxLength, sameAs} from "vuelidate/lib/validators";
 import ModalForm from "./../../views/modalOkError.vue";
 
 export default {
@@ -88,9 +116,11 @@ export default {
         },
       status: "",
       subscription: "",
-      oldPassword: "",
-      newPassword: "",
-      confirmNewPassword: ""
+        user: {
+            oldPassword: "",
+            newPassword: "",
+            confirmNewPassword: ""
+        }
     };
   },
   validations: {
@@ -98,9 +128,12 @@ export default {
       required: required
     },
     newPassword: {
-      minLength: minLength(6)
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(16)
     },
     confirmNewPassword: {
+        required,
       sameAs: sameAs("newPassword")
     }
   },
