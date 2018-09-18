@@ -45,16 +45,32 @@
             <router-link class="form-signin__link" to="/forgotpassword">Forgot password?</router-link>
             <router-link class="form-signin__link" to="/registration">Don`t have an account?</router-link>
         </form>
+        <modal-form
+                v-bind:title="this.modal.title"
+                v-bind:message="this.modal.message"
+                v-if="modal.show"
+                @clicked="closeModal"
+                @click.prevent="closeModal">
+        </modal-form>
     </div>
 </template>
 <script>
 import axios from "axios";
 import { required, email, minLength } from "vuelidate/lib/validators";
+import ModalForm from "../views/modalOkError.vue";
 
 export default {
   name: "Auth",
+    components: {
+        ModalForm
+    },
   data() {
     return {
+        modal: {
+            show: false,
+            title: "",
+            message: ""
+        },
       // email: "alex1@alexandrz.com",
       email: "",
       // password: "123456"
@@ -74,6 +90,21 @@ export default {
   //     this.loginAuth();
   // },
   methods: {
+      closeModal: function () {
+          this.modal.show = false;
+      },
+      showModalOnError: function (title, message, type) {
+          this.modal.show = true;
+          this.modal.title = title;
+          this.modal.message = message;
+          if (type) {
+              this.$router.push("/");
+          } else {
+              this.$router.push('/auth');
+              this.email = "";
+              this.password = ""
+          }
+      },
     loginUser() {
       // const authUser = {};
       window.console.log("email", this.email);
@@ -85,6 +116,7 @@ export default {
         })
         .then(response => {
           window.console.log("response.status " + response.status);
+            window.console.log(response.data);
           if (response.status === 200) {
             this.$store.state.authUser = response.data;
             window.console.log(
@@ -98,16 +130,25 @@ export default {
               "lbUser",
               JSON.stringify(this.$store.state.authUser)
             );
-            this.$router.push("/");
-          } else {
-            this.$store.state.isLoggedIn = false;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-          }
+              // this.showModalOnError(response.status, response.data.message, 1)
+              // this.$router.push("/");
+          }// else {
+            //   this.$store.state.isLoggedIn = false;
+            //   window.console.log(
+            //     "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+            //   );
+            // }
         })
-        .catch(function(error) {
+          .catch(error => {
           window.console.log(error);
+              if (error.response) {
+                  console.log(error.response.data);
+                  console.log(error.response);
+                  console.log(error.response.data.message);
+                  console.log(error.response.status);
+                  console.log(error.response.headers);
+                  this.showModalOnError(error.response.status, error.response.data.error, 0);
+              }
         });
     }
     // loginAuth: function () {

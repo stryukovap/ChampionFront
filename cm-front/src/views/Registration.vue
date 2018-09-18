@@ -450,6 +450,13 @@
                 <!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
             </div>
         </div>
+        <modal-form
+                v-bind:title="this.modal.title"
+                v-bind:message="this.modal.message"
+                v-if="modal.show"
+                @clicked="closeModal"
+                @click.prevent="closeModal">
+        </modal-form>
     </div>
 </template>
 
@@ -470,6 +477,7 @@ import {
   alpha
 } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
+import ModalForm from "./../views/modalOkError.vue";
 
 export default {
   name: "registration",
@@ -477,10 +485,16 @@ export default {
     Tabs,
     Tab,
       Multiselect,
-      AutocompleteCity
+      AutocompleteCity,
+      ModalForm
   },
   data() {
     return {
+        modal: {
+            show: false,
+            title: "",
+            message: ""
+        },
         citiesUkr: [],
         citiesRus: [],
         citiesEng: [],
@@ -739,6 +753,17 @@ export default {
     }
   },
   methods: {
+      closeModal: function () {
+          this.modal.show = false;
+      },
+      showModalOnError: function (title, message, type) {
+          this.modal.show = true;
+          this.modal.title = title;
+          this.modal.message = message;
+          if (type) {
+              this.$router.push("/");
+          }
+      },
     sendUserDataOnServer: function() {
       localStorage.removeItem("lbUser");
       window.console.log("sendUserDataOnServer sending");
@@ -769,7 +794,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                this.$router.push("/");
+                  // this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -788,13 +813,15 @@ export default {
                       this.$store.state.isLoggedIn = false;
                     }
                   })
-                  .catch(function(error) {
+                    .catch(error => {
                     window.console.log(error);
+                        this.showModalOnError(error.response.status, error.response.data.message, 1);
                   });
                 //
               })
               .catch(error => {
                 window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
               });
           } else {
             window.console.log("sendFederationDataOnServer sending");
@@ -809,7 +836,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                this.$router.push("/");
+                  // this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -835,11 +862,13 @@ export default {
               })
               .catch(error => {
                 window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
               });
           }
         })
         .catch(error => {
           window.console.log(error);
+            this.showModalOnError(error.response.status, error.response.data.message, 1);
         });
     },
     getCoaches: function() {
