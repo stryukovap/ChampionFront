@@ -28,7 +28,7 @@
                                        name="pass"
                                        placeholder="Old password"
                                        class="form-control"
-                                       v-model="oldPassword"
+                                       v-model="user.oldPassword"
                                        @input="$v.user.oldPassword.$touch()"
                                        @blur="$v.user.oldPassword.$touch()"
                                        :class="{'is-invalid' :$v.user.oldPassword.$error}">
@@ -42,7 +42,7 @@
                                        name="newPass"
                                        placeholder="New password"
                                        class="form-control"
-                                       v-model="newPassword"
+                                       v-model="user.newPassword"
                                        @input="$v.user.newPassword.$touch()"
                                        @blur="$v.user.newPassword.$touch()"
                                        :class="{'is-invalid' :$v.user.newPassword.$error}">
@@ -63,7 +63,7 @@
                                        name="confirmPass"
                                        placeholder="Confirm new password"
                                        class="form-control"
-                                       v-model="confirmNewPassword"
+                                       v-model="user.confirmNewPassword"
                                        @input="$v.user.confirmNewPassword.$touch()"
                                        @blur="$v.user.confirmNewPassword.$touch()"
                                        :class="{'is-invalid' :$v.user.confirmNewPassword.$error}">
@@ -99,7 +99,12 @@
 
 <script>
 import axios from "axios";
-import {required, minLength, maxLength, sameAs} from "vuelidate/lib/validators";
+import {
+    required,
+    minLength,
+    maxLength,
+    sameAs
+} from "vuelidate/lib/validators";
 import ModalForm from "./../../views/modalOkError.vue";
 
 export default {
@@ -124,17 +129,19 @@ export default {
     };
   },
   validations: {
-    oldPassword: {
-      required: required
-    },
-    newPassword: {
+      user: {
+          oldPassword: {
+              required: required
+          },
+          newPassword: {
         required,
         minLength: minLength(6),
         maxLength: maxLength(16)
-    },
-    confirmNewPassword: {
+          },
+          confirmNewPassword: {
         required,
-      sameAs: sameAs("newPassword")
+              sameAs: sameAs("newPassword")
+          }
     }
   },
   methods: {
@@ -145,9 +152,9 @@ export default {
         }
       });
       HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
-        old_password: this.oldPassword,
-        password: this.newPassword,
-        password_confirmation: this.confirmNewPassword
+          old_password: this.user.oldPassword,
+          password: this.user.newPassword,
+          password_confirmation: this.user.confirmNewPassword
       })
         .then(response => {
           window.console.log(response);
@@ -157,7 +164,7 @@ export default {
             "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
           );
             if (response.status) {
-                this.showModalOnError(response.status, response.data.message, 0)
+                this.showModalOnError(response.status, response.data.message);
             }
             // this.$router.push("/auth");
         })
@@ -168,20 +175,24 @@ export default {
                   console.log(error.response.data.message);
                   console.log(error.response.status);
                   console.log(error.response.headers);
-                  this.showModalOnError(error.response.status, error.response.data.message, 1);
+                  this.showModalOnError(
+                      error.response.status,
+                      error.response.data.message,
+                      1
+                  );
               }
         });
     },
       closeModal: function () {
           this.modal.show = false;
       },
-      showModalOnError: function (title, message, type) {
+      showModalOnError: function (title, message) {
           this.modal.show = true;
           this.modal.title = title;
           this.modal.message = message;
-          if (type) {
-              this.$router.push("/auth");
-          }
+          // if (type) {
+          this.$router.push("/auth");
+          // }
       }
   },
   mounted() {

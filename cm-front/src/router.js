@@ -40,12 +40,28 @@ export default new Router({
     {
       path: "/registration",
       name: "registration",
-      component: Registration
+        component: Registration,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next({path: "/"});
+            } else {
+                next();
+                // next(false)
+            }
+        }
     },
     {
       path: "/auth",
       name: "auth",
-      component: Auth
+        component: Auth,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next({path: "/"});
+            } else {
+                next();
+                // next(false)
+            }
+        }
     },
     {
       path: "/forgotpassword",
@@ -82,7 +98,15 @@ export default new Router({
     {
       path: "/coachcabinet",
       name: "coach-cabinet",
-      component: CoachCabinet
+        component: CoachCabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/buysubscribtion",
@@ -106,7 +130,15 @@ export default new Router({
     {
       path: "/FederationCabinet",
       name: "FederationCabinet",
-      component: FederationCabinet
+        component: FederationCabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/tournamentscabinet",

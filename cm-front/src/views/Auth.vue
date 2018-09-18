@@ -97,13 +97,13 @@ export default {
           this.modal.show = true;
           this.modal.title = title;
           this.modal.message = message;
-          if (type) {
-              this.$router.push("/");
-          } else {
+          // if (type === 200) {
+          //     this.$router.push("/");
+          // } else {
               this.$router.push('/auth');
               this.email = "";
               this.password = ""
-          }
+          // }
       },
     loginUser() {
       // const authUser = {};
@@ -131,7 +131,7 @@ export default {
               JSON.stringify(this.$store.state.authUser)
             );
               // this.showModalOnError(response.status, response.data.message, 1)
-              // this.$router.push("/");
+              this.$router.push("/");
           }// else {
             //   this.$store.state.isLoggedIn = false;
             //   window.console.log(
