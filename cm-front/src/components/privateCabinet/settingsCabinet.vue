@@ -79,6 +79,7 @@
                                 <!--value="Update"-->
                                 <!--class="form__btn btn btn-primary">-->
                                 <button class="form__btn btn btn-primary"
+                                        :disabled="$v.user.confirmNewPassword.$error || $v.user.newPassword.$error"
                                         @click="updatePassword">Update</button>
                             </div>
                         </div>
@@ -164,7 +165,7 @@ export default {
             "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
           );
             if (response.status) {
-                this.showModalOnError(response.status, response.data.message);
+                this.showModalOnError(response.status, response.data.message, 'info');
             }
             // this.$router.push("/auth");
         })
@@ -186,13 +187,21 @@ export default {
       closeModal: function () {
           this.modal.show = false;
       },
-      showModalOnError: function (title, message) {
+      showModalOnError: function (title, message, type) {
           this.modal.show = true;
           this.modal.title = title;
           this.modal.message = message;
-          // if (type) {
+          if (type === 'info') {
           this.$router.push("/auth");
-          // }
+          }
+          else {
+              this.modal.show = true;
+              this.modal.title = title;
+              this.modal.message = message;
+              this.user.oldPassword = "";
+              this.user.newPassword = "";
+              this.user.confirmNewPassword = "";
+          }
       }
   },
   mounted() {
