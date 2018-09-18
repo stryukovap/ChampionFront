@@ -16,7 +16,7 @@ import Federation from "./views/Federation.vue";
 import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
 import tournamentsCabinet from "./components/privateCabinet/tournamentsCabinet.vue";
 import Erroronlogin from "./views/Erroronlogin.vue";
-import tournamentPage from "./components/federation/tournament.vue"
+import tournamentPage from "./components/federation/tournament.vue";
 
 Vue.use(Router);
 
@@ -33,8 +33,8 @@ export default new Router({
       component: About
     },
       {
-        path:"/erroronlogin",
-          name:"erroronlogin",
+          path: "/erroronlogin",
+          name: "erroronlogin",
           component: Erroronlogin
       },
     {
@@ -60,7 +60,7 @@ export default new Router({
     {
       path: "/userprofile/:sportsman_id",
       name: "userprofile",
-      component: Userprofile,
+        component: Userprofile
         // props:true
     },
     {
@@ -93,7 +93,15 @@ export default new Router({
     {
       path: "/settings",
       name: "settings",
-      component: Settingscabinet
+        component: Settingscabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/FederationCabinet",
