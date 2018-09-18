@@ -263,19 +263,22 @@
                                     <div class="col">
                                         <label for="city" class="cm-form__label">City</label>
                                     </div>
-                                    <div class="col">
-                                        <input class="form-control" type="text"
-                                               id="city"
-                                               placeholder="City"
-                                               autocomplete="off"
-                                               @input="$v.sportsman.city.$touch()"
-                                               @blur="$v.sportsman.city.$touch()"
-                                               :class="{'is-invalid' :$v.sportsman.city.$error}"
-                                               v-model="sportsman.city">
-                                        <div class="invalid-feedback" v-if="!$v.sportsman.city.required">
-                                            Field is required
-                                        </div>
-                                    </div>
+                                    <autocomplete-city
+                                            v-bind:cities="cities"
+                                    ></autocomplete-city>
+                                    <!--<div class="col">-->
+                                    <!--<input class="form-control" type="text"-->
+                                    <!--id="city"-->
+                                    <!--placeholder="City"-->
+                                    <!--autocomplete="off"-->
+                                    <!--@input="$v.sportsman.city.$touch()"-->
+                                    <!--@blur="$v.sportsman.city.$touch()"-->
+                                    <!--:class="{'is-invalid' :$v.sportsman.city.$error}"-->
+                                    <!--v-model="sportsman.city">-->
+                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.city.required">-->
+                                    <!--Field is required-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
@@ -452,6 +455,10 @@
 
 <script>
 import { Tabs, Tab } from "vue-tabs-component";
+import AutocompleteCity from "../components/autocomplete_city";
+// import citiesUkrainian from "../../assets/citiesUkrainian";
+// import citiesRussian from "../../assets/citiesRussian";
+import citiesEnglish from "../assets/citiesEnglish";
 import axios from "axios";
 import {
   required,
@@ -459,7 +466,7 @@ import {
   minLength,
   maxLength,
   sameAs,
-  numeric,
+    // numeric,
   alpha
 } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
@@ -469,10 +476,15 @@ export default {
   components: {
     Tabs,
     Tab,
-    Multiselect
+      Multiselect,
+      AutocompleteCity
   },
   data() {
     return {
+        citiesUkr: [],
+        citiesRus: [],
+        citiesEng: [],
+        cities: [],
       user: {
         email: "",
         password: "",
@@ -532,6 +544,11 @@ export default {
       .catch(function(error) {
         // handle error
         window.console.log(error);
+      });
+      citiesEnglish.region.forEach(region => {
+          region.city.forEach(city => {
+              this.cities.push(city.name);
+          });
       });
   },
   computed: {
