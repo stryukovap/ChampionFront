@@ -58,17 +58,34 @@
                 </div>
             </div>
         </div>
+        <!--Successfully-->
+        <modal-form
+                v-bind:title="this.modal.title"
+                v-bind:message="this.modal.message"
+                v-if="modal.show"
+                @clicked="closeModal"
+                @click.prevent="closeModal">
+        </modal-form>
     </section>
 </template>
 
 <script>
 import axios from "axios";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import ModalForm from "./../../views/modalOkError.vue";
 
 export default {
+    components: {
+        ModalForm
+    },
   name: "settings",
   data: function() {
     return {
+        modal: {
+            show: false,
+            title: "",
+            message: ""
+        },
       status: "",
       subscription: "",
       oldPassword: "",
@@ -106,12 +123,33 @@ export default {
           window.console.log(
             "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
           );
-          this.$router.push("/auth");
+            if (response.status) {
+                this.showModalOnError(response.status, response.data.message, 0)
+            }
+            // this.$router.push("/auth");
         })
-        .catch(function(error) {
-          window.console.log(error);
+          .catch(error => {
+              // window.console.log(error);
+              if (error.response) {
+                  console.log(error.response.data);
+                  console.log(error.response.data.message);
+                  console.log(error.response.status);
+                  console.log(error.response.headers);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
+              }
         });
-    }
+    },
+      closeModal: function () {
+          this.modal.show = false;
+      },
+      showModalOnError: function (title, message, type) {
+          this.modal.show = true;
+          this.modal.title = title;
+          this.modal.message = message;
+          if (type) {
+              this.$router.push("/auth");
+          }
+      }
   },
   mounted() {
     // axios
