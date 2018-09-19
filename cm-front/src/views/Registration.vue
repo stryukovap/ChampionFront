@@ -2,8 +2,8 @@
     <div class="registration">
         <div class="container">
             <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <form class="cm-form" autocomplete="off" @submit.prevent="">
-                    <tabs>
+                <form class="cm-form" autocomplete="off" @submit.prevent="" novalidate>
+                    <tabs cache-lifetime="1">
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
                                 <h1 class="text-center">Registration</h1>
@@ -32,6 +32,9 @@
                                            :class="{'is-invalid': $v.user.email.$error}">
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.required">Email field is required
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
                                     </div>
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.email">This field should be an email
@@ -260,19 +263,22 @@
                                     <div class="col">
                                         <label for="city" class="cm-form__label">City</label>
                                     </div>
-                                    <div class="col">
-                                        <input class="form-control" type="text"
-                                               id="city"
-                                               placeholder="City"
-                                               autocomplete="off"
-                                               @input="$v.sportsman.city.$touch()"
-                                               @blur="$v.sportsman.city.$touch()"
-                                               :class="{'is-invalid' :$v.sportsman.city.$error}"
-                                               v-model="sportsman.city">
-                                        <div class="invalid-feedback" v-if="!$v.sportsman.city.required">
-                                            Field is required
-                                        </div>
-                                    </div>
+                                    <autocomplete-city
+                                            v-bind:cities="cities"
+                                    ></autocomplete-city>
+                                    <!--<div class="col">-->
+                                    <!--<input class="form-control" type="text"-->
+                                    <!--id="city"-->
+                                    <!--placeholder="City"-->
+                                    <!--autocomplete="off"-->
+                                    <!--@input="$v.sportsman.city.$touch()"-->
+                                    <!--@blur="$v.sportsman.city.$touch()"-->
+                                    <!--:class="{'is-invalid' :$v.sportsman.city.$error}"-->
+                                    <!--v-model="sportsman.city">-->
+                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.city.required">-->
+                                    <!--Field is required-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
@@ -314,9 +320,9 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.name.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.name.alpha">
-                                        Field for only alphabet characters
-                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.name.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
@@ -343,7 +349,7 @@
                                         Min length of President Name is {{
                                         $v.federation.presidentName.$params.minLength.min
                                         }}. Now it
-                                        is {{ presidentName.name.length }}.
+                                        is {{ federation.presidentName.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.maxLength">
                                         Max length of President Name is {{ $v.federation.presidentName.$params.maxLength.max }}.
@@ -351,9 +357,9 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">
-                                        Field for only alphabet characters
-                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
@@ -366,11 +372,11 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
                                         Field is required
                                     </div>
-                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.minLength">
                                         Min length of subDomain is {{
                                         $v.federation.subDomain.$params.minLength.min
                                         }}. Now it
-                                        is {{ subDomain.subDomain.length }}.
+                                        is {{ federation.subDomain.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.subDomain.maxLength">
                                         Max length of subDomain is {{ $v.federation.subDomain.$params.maxLength.max }}.
@@ -378,19 +384,22 @@
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
-                                           placeholder="Contact Phone"
+                                           placeholder="Contact Phone +380000000000"
                                            @input="$v.federation.phone.$touch()"
                                            @blur="$v.federation.phone.$touch()"
                                            :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
-                                    <div class="invalid-feedback" v-if="!$v.federation.phone.numeric">
-                                        Field for only numeric characters
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.regexPhone">
+                                        Field should be in format +380000000000
                                     </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.phone.numeric">-->
+                                    <!--Field for only numeric characters-->
+                                    <!--</div>-->
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
                                         Min length of phone is {{
                                         $v.federation.phone.$params.minLength.min
                                         }}. Now it
-                                        is {{ subDomain.phone.length }}.
+                                        is {{ federation.phone.length }}.
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.maxLength">
                                         Max length of Phone is {{ $v.federation.phone.$params.maxLength.max }}.
@@ -406,6 +415,9 @@
                                            v-model="federation.email">
                                     <div class="invalid-feedback"
                                          v-if="!$v.federation.email.required">Email field is required
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
                                     </div>
                                     <div class="invalid-feedback"
                                          v-if="!$v.federation.email.email">This field should be an email
@@ -438,11 +450,22 @@
                 <!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
             </div>
         </div>
+        <modal-form
+                v-bind:title="this.modal.title"
+                v-bind:message="this.modal.message"
+                v-if="modal.show"
+                @clicked="closeModal"
+                @click.prevent="closeModal">
+        </modal-form>
     </div>
 </template>
 
 <script>
 import { Tabs, Tab } from "vue-tabs-component";
+import AutocompleteCity from "../components/autocomplete_city";
+// import citiesUkrainian from "../../assets/citiesUkrainian";
+// import citiesRussian from "../../assets/citiesRussian";
+import citiesEnglish from "../assets/citiesEnglish";
 import axios from "axios";
 import {
   required,
@@ -450,20 +473,32 @@ import {
   minLength,
   maxLength,
   sameAs,
-  numeric,
+    // numeric,
   alpha
 } from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
+import ModalForm from "./../views/modalOkError.vue";
 
 export default {
   name: "registration",
   components: {
     Tabs,
     Tab,
-    Multiselect
+      Multiselect,
+      AutocompleteCity,
+      ModalForm
   },
   data() {
     return {
+        modal: {
+            show: false,
+            title: "",
+            message: ""
+        },
+        citiesUkr: [],
+        citiesRus: [],
+        citiesEng: [],
+        cities: [],
       user: {
         email: "",
         password: "",
@@ -487,6 +522,7 @@ export default {
         phone: "",
         email: ""
       },
+        federations: [],
       userSportsman: "true",
       sports: {},
       authUser: {},
@@ -522,6 +558,11 @@ export default {
       .catch(function(error) {
         // handle error
         window.console.log(error);
+      });
+      citiesEnglish.region.forEach(region => {
+          region.city.forEach(city => {
+              this.cities.push(city.name);
+          });
       });
   },
   computed: {
@@ -598,6 +639,10 @@ export default {
         required: required,
         maxLength: maxLength(100),
         email: email,
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
         unique: val => {
           // if (val === "") return true;
           return (
@@ -670,25 +715,33 @@ export default {
     },
     federation: {
       phone: {
+          regexPhone: val => {
+              var regexPhone = /^\+\d{12}$/;
+              return regexPhone.test(val);
+          },
         required: required,
-        numeric: numeric,
-        minLength: minLength(15),
+          // numeric: numeric,
+          minLength: minLength(13),
         maxLength: maxLength(15)
       },
       email: {
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
         required: required,
         email: email,
         maxLength: maxLength(100)
       },
       name: {
         required: required,
-        alpha: alpha,
+          // alpha: alpha,
         minLength: minLength(3),
         maxLength: maxLength(42)
       },
       presidentName: {
         required: required,
-        alpha: alpha,
+          // alpha: alpha,
         minLength: minLength(3),
         maxLength: maxLength(42)
       },
@@ -700,6 +753,17 @@ export default {
     }
   },
   methods: {
+      closeModal: function () {
+          this.modal.show = false;
+      },
+      showModalOnError: function (title, message, type) {
+          this.modal.show = true;
+          this.modal.title = title;
+          this.modal.message = message;
+          if (type) {
+              this.$router.push("/");
+          }
+      },
     sendUserDataOnServer: function() {
       localStorage.removeItem("lbUser");
       window.console.log("sendUserDataOnServer sending");
@@ -730,7 +794,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                this.$router.push("/");
+                  // this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -749,13 +813,15 @@ export default {
                       this.$store.state.isLoggedIn = false;
                     }
                   })
-                  .catch(function(error) {
+                    .catch(error => {
                     window.console.log(error);
+                        this.showModalOnError(error.response.status, error.response.data.message, 1);
                   });
                 //
               })
               .catch(error => {
                 window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
               });
           } else {
             window.console.log("sendFederationDataOnServer sending");
@@ -770,7 +836,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                this.$router.push("/");
+                  // this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -796,11 +862,13 @@ export default {
               })
               .catch(error => {
                 window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
               });
           }
         })
         .catch(error => {
           window.console.log(error);
+            this.showModalOnError(error.response.status, error.response.data.message, 1);
         });
     },
     getCoaches: function() {
