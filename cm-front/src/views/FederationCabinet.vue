@@ -64,4 +64,8 @@ export default {
 .federation-cabinet {
   margin-bottom: 30px;
 }
+
+.list-group-item {
+    cursor: pointer;
+}
 </style>
