@@ -39,19 +39,19 @@
       <ul class="pagination__list">
         <li class="pagination__item"
             v-bind:class="{ 'disabled': pagination.currentPage === 1 }"
-            @click="updateSportsmen(pagination.currentPage - 1)"
+            @click.prevent="updateSportsmen(pagination.currentPage - 1)"
         >
           <a class="pagination__link pagination__link--left" href="#" tabindex="-1"></a>
         </li>
         <li v-for="page in pagination.pages" class="pagination__item"
             v-bind:class="{ 'active': pagination.currentPage === page }"
-            @click="updateSportsmen(page)"
+            @click.prevent="updateSportsmen(page)"
         >
           <a class="pagination__link">{{page}}</a>
         </li>
         <li class="pagination__item"
             v-bind:class="{ 'disabled': pagination.currentPage ===  pagination.pages}"
-            @click="updateSportsmen(pagination.currentPage + 1)"
+            @click.prevent="updateSportsmen(pagination.currentPage + 1)"
         >
           <a class="pagination__link pagination__link--right" href="#"></a>
         </li>
