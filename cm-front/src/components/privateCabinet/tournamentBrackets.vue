@@ -59,7 +59,7 @@
                     <h3 v-else>0</h3>
                 </div>
                 <div class="card-body" style="padding: 0.5rem 1rem;">
-                    <p class="card-title">-{{weightCategory.weight}}</p>
+                    <p class="card-title"><{{weightCategory.weight}}</p>
                 </div>
             </div>
             <div v-if="tournament.categories[activeCategory].hasOwnProperty('female')" class="col-12 text-center">
@@ -79,7 +79,7 @@
                     <h3 v-else>0</h3>
                 </div>
                 <div class="card-body" style="padding: 0.5rem 1rem;">
-                    <p class="card-title">-{{weightCategory.weight}}</p>
+                    <p class="card-title"><{{weightCategory.weight}}</p>
                 </div>
             </div>
         </div>
