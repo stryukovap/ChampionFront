@@ -55,7 +55,7 @@
                     <div class="card__referee"
                          v-for="referee in tournament.referees"
                          style=" margin-right: 15px;display: flex; flex-direction: column;align-items: center;">
-                        <img src="img/github-mark_560x560.png" width="100px" height="100px"
+                        <img v-bind:src="referee.photo ? referee.photo.url : '/img/345x345_26.acd2e707.jpg'" width="100px" height="100px"
                              alt="foto referee"
                              class="card__img">
                         <span class="card__desc">{{referee.first_name}} {{referee.last_name}}</span>
