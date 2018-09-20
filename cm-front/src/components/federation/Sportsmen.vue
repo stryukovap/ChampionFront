@@ -36,22 +36,22 @@
     </div>
   <!--<div class="container">-->
     <!--<nav aria-label="Page navigation example">-->
-      <ul class="pagination__list">
+      <ul class="pagination__list" v-if="pagination.pages > 1">
         <li class="pagination__item"
             v-bind:class="{ 'disabled': pagination.currentPage === 1 }"
-            @click="updateSportsmen(pagination.currentPage - 1)"
+            @click.prevent="updateSportsmen(pagination.currentPage - 1)"
         >
           <a class="pagination__link pagination__link--left" href="#" tabindex="-1"></a>
         </li>
         <li v-for="page in pagination.pages" class="pagination__item"
             v-bind:class="{ 'active': pagination.currentPage === page }"
-            @click="updateSportsmen(page)"
+            @click.prevent="updateSportsmen(page)"
         >
           <a class="pagination__link">{{page}}</a>
         </li>
         <li class="pagination__item"
             v-bind:class="{ 'disabled': pagination.currentPage ===  pagination.pages}"
-            @click="updateSportsmen(pagination.currentPage + 1)"
+            @click.prevent="updateSportsmen(pagination.currentPage + 1)"
         >
           <a class="pagination__link pagination__link--right" href="#"></a>
         </li>
@@ -98,14 +98,12 @@ export default {
         .then(response => {
           // for (let i = 0; i < response.data.data.length; i++) {
           // this.sportsmanTest[i] = response.data;
-          console.log(response.data.data);
           // if (page !== "") this.sportsmenList.shift();
           this.sportsmenList = response.data.data;
           // link: `https://champion-front-test.herokuapp.com/userprofile/${response.data.data[i].id}`,
           // });
           // }
           this.pagination.pages = response.data.last_page;
-          console.log(this.sportsmenList);
         })
         .catch(error => {
           window.console.log(error);

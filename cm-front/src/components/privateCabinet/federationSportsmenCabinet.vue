@@ -49,7 +49,9 @@
                 <tbody>
                 <tr v-for="item in $store.state.sportsmanList"
                     v-if="item.first_name.toLowerCase().includes(searchingSportsman.toLowerCase()) ||
-                         item.last_name.toLowerCase().includes(searchingSportsman.toLowerCase())">
+                         item.last_name.toLowerCase().includes(searchingSportsman.toLowerCase()) || 
+                         (item.first_name.toLowerCase() + ' ' + item.last_name.toLowerCase()).includes(searchingSportsman.toLowerCase()) ||
+                         (item.last_name.toLowerCase() + ' ' + item.first_name.toLowerCase()).includes(searchingSportsman.toLowerCase())">
                     <td>
                         <input type="checkbox"
                                v-model="$store.state.selectedSportsmen"
