@@ -81,6 +81,10 @@
                                         Passwords should match
                                     </div>
                                 </div>
+                                <div class="cm-form-wrapper show-password">
+                                    <input type="checkbox" id='show-pass' @click='showPass'>
+                                    <label for="show-pass">Show password</label>
+                                </div>
                                 <div class="cm-form__wrapper text-center">
                                     <a class="btn btn-success"
                                        href="#second-step"
@@ -887,6 +891,20 @@ export default {
         .catch(function(error) {
           window.console.log(error);
         });
+    },
+    showPass: function() {
+      let pass = document.getElementById("user-pass");
+      if (pass.type === "password") {
+          pass.type = "text";
+      } else {
+          pass.type = "password";
+      };
+        let confPass = document.getElementById("user-confpass");
+        if (confPass.type === "password") {
+            confPass.type = "text";
+        } else {
+            confPass.type = "password";
+        }
     }
   }
 };
@@ -1003,5 +1021,14 @@ export default {
   padding: 0;
   font-size: 10px;
   margin-left: 5px;
+}
+
+.show-password {
+    text-align: left;
+    padding: 10px;
+}
+
+.show-password input {
+    margin-right: 5px;
 }
 </style>
