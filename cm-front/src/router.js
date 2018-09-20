@@ -15,6 +15,8 @@ import BuySubscription from "./components/privateCabinet/buySubscribtion.vue";
 import Federation from "./views/Federation.vue";
 import Settingscabinet from "./components/privateCabinet/settingsCabinet.vue";
 import tournamentsCabinet from "./components/privateCabinet/tournamentsCabinet.vue";
+import Erroronlogin from "./views/Erroronlogin.vue";
+import tournamentPage from "./components/federation/tournament.vue";
 
 Vue.use(Router);
 
@@ -30,15 +32,36 @@ export default new Router({
       name: "about",
       component: About
     },
+      {
+          path: "/erroronlogin",
+          name: "erroronlogin",
+          component: Erroronlogin
+      },
     {
       path: "/registration",
       name: "registration",
-      component: Registration
+        component: Registration,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next({path: "/"});
+            } else {
+                next();
+                // next(false)
+            }
+        }
     },
     {
       path: "/auth",
       name: "auth",
-      component: Auth
+        component: Auth,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next({path: "/"});
+            } else {
+                next();
+                // next(false)
+            }
+        }
     },
     {
       path: "/forgotpassword",
@@ -51,9 +74,10 @@ export default new Router({
       component: Restorepassword
     },
     {
-      path: "/userprofile",
+      path: "/userprofile/:sportsman_id",
       name: "userprofile",
-      component: Userprofile
+        component: Userprofile
+        // props:true
     },
     {
       path: "/federations/:id",
@@ -74,7 +98,15 @@ export default new Router({
     {
       path: "/coachcabinet",
       name: "coach-cabinet",
-      component: CoachCabinet
+        component: CoachCabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/buysubscribtion",
@@ -85,18 +117,39 @@ export default new Router({
     {
       path: "/settings",
       name: "settings",
-      component: Settingscabinet
+        component: Settingscabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/FederationCabinet",
       name: "FederationCabinet",
-      component: FederationCabinet
+        component: FederationCabinet,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("lbUser")) {
+                next();
+            } else {
+                next({path: "/auth"});
+                // next(false)
+            }
+        }
     },
     {
       path: "/tournamentscabinet",
       name: "tournamentscabinet",
       component: tournamentsCabinet
-    }
+    },
+      {
+          path: "/tournament/:id",
+          name: "tournament",
+          component: tournamentPage
+      }
   ],
 
   mode: "history"

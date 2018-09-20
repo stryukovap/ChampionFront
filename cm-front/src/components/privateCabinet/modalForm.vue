@@ -8,55 +8,115 @@
                         {{personRole === 'Coach' ? 'Coach' : (personRole === 'Referee' ? 'Referee' : 'Sportsman')}}
                     </h2>
                     <button class="popup__exit btn btn-danger"
-                            v-on="$listeners">X</button>
+                            v-on="$listeners">X
+                    </button>
                 </div>
-                <div class="popup__wrapper" style="display: flex; flex-direction: column; align-items: center">
-                    <img src="../../assets/github-mark_560x560.png" width="150px" height="150px" alt="sportsman foto"
-                         class="popup__foto">
-                    <label class="mt-3" for="foto" style="cursor: pointer">Upload new foto</label>
-                    <input type="file" name="foto" id="foto" style="display: none">
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
+                        <img v-if="$store.state.sportsman.photo_id"
+                             :src="$store.state.sportsman.photo.url"
+                             width="150px"
+                             alt="Sportsman photo"
+                             class="popup__photo">
+                        <img v-else-if="image.sportsmanImage"
+                             :src="image.sportsmanImage"
+                             width="150px"
+                             alt="Sportsman photo"
+                             class="popup__photo">
+                    </div>
+                </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12">
+                        <label class="btn btn-outline-success btn-sm mt-3 mr-3"
+                               for="photo" style="cursor: pointer; margin-bottom: 0;">
+                            Choose photo
+                        </label>
+                        <input type="file"
+                               @change="onFileChange"
+                               name="photo" id="photo"
+                               style="display: none">
+                        <button
+                                v-if="image.sportsmanImage"
+                                class="btn btn-outline-success btn-sm mt-3 mr-3"
+                                @click.prevent="uploadImage">Upload
+                        </button>
+                        <button
+                                v-if="$store.state.sportsman.photo_id"
+                                class="btn btn-outline-danger btn-sm mt-3"
+                                @click.prevent="removeImage">Remove
+                        </button>
+                        <span v-if="image.isUploaded"
+                              class="badge badge-success mt-3">Uploaded!
+                        </span>
+                    </div>
                 </div>
                 <div class="cm-form__wrapper popup__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Name"
                            autofocus required
                            autocomplete="off"
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.first_name">
-                    <!--@input="$v.sportsman.first_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.first_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.first_name.minLength">-->
-                    <!--Min length of Name is {{ $v.sportsman.first_name.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.first_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.first_name"
+                           @input="setName($event.target.value)"
+                           @blur="setName($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.name.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.name.$params.minLength.min }}. Now it
+                        is {{ tempSportsmanForValidations.name.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.maxLength">
+                        Max length of Name is {{ $v.tempSportsmanForValidations.name.$params.maxLength.max }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.name.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Surname" required
                            autocomplete="off"
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.last_name">
-                    <!--@input="$v.sportsman.last_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.last_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.last_name.minLength">-->
-                    <!--Min length of Surname is {{ $v.sportsman.sportsman.surname.last_name.minLength.min-->
-                    <!--}}. Now it-->
-                    <!--is {{ sportsman.last_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.last_name"
+                           @input="setSurname($event.target.value)"
+                           @blur="setSurname($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.surname.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.surname.$params.minLength.min }}. Now it
+                        is {{ tempSportsmanForValidations.surname.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.maxLength">
+                        Max length of Surname is {{ $v.tempSportsmanForValidations.surname.$params.maxLength.max }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.surname.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <input class="form-control" type="text"
                            placeholder="Patronymic"
                            autocomplete="off" required
-                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                           v-model="$store.state.sportsman.patronymic_name">
-                    <!--@input="$v.sportsman.patronymic_name.$touch()"-->
-                    <!--:class="{'is-invalid' :$v.sportsman.patronymic_name.$error}">-->
-                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.patronymic_name.minLength">-->
-                    <!--Min length of Patronymic is {{-->
-                    <!--$v.sportsman.sportsman.patronymic_name.$params.minLength.min }}. Now it-->
-                    <!--is {{ sportsman.patronymic_name.length }}.-->
-                    <!--</div>-->
+                           v-model="$store.state.sportsman.patronymic_name"
+                           @input="setPatronymic($event.target.value)"
+                           @blur="setPatronymic($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.patronymic.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.minLength">
+                        Min length of Name is {{ $v.tempSportsmanForValidations.patronymic.$params.minLength.min }}. Now
+                        it
+                        is {{ tempSportsmanForValidations.patronymic.length }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.maxLength">
+                        Max length of Patronymic is {{ $v.tempSportsmanForValidations.patronymic.$params.maxLength.max }}.
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.patronymic.alpha">
+                        Field for only alphabet characters
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <div class="row align-items-end">
@@ -66,7 +126,18 @@
                         <div class="col">
                             <input class="form-control" type="date" name="s-bdate" id="s-bdate"
                                    title="Date of Birth" required
-                                   v-model="$store.state.sportsman.date_of_birth">
+                                   v-model="$store.state.sportsman.date_of_birth"
+                                   @input="setDateOfBirth($event.target.value)"
+                                   @blur="setDateOfBirth($event.target.value)"
+                                   :class="{'is-invalid' :$v.tempSportsmanForValidations.dateOfBirth.$error}">
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tempSportsmanForValidations.dateOfBirth.required">
+                                Date of Birth field is required
+                            </div>
+                            <div class="invalid-feedback"
+                                 v-if="!$v.tempSportsmanForValidations.dateOfBirth.checkFutureData">
+                                Date of Birth choose the future date, check Date
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,13 +191,25 @@
                     <input class="form-control" type="text"
                            placeholder="Weight"
                            autocomplete="off"
-                           v-model="$store.state.sportsman.weight">
+                           v-model="$store.state.sportsman.weight"
+                           @input="setWeight($event.target.value)"
+                           @blur="setWeight($event.target.value)"
+                           :class="{'is-invalid' :$v.tempSportsmanForValidations.weight.$error}">
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.weight.checkNumeric">
+                        Field for only numeric characters
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.weight.required">
+                        Field is required
+                    </div>
+                    <div class="invalid-feedback" v-if="!$v.tempSportsmanForValidations.weight.maxValue">
+                        Field is maxValue 500 kg
+                    </div>
                 </div>
                 <div class="cm-form__wrapper">
                     <!--<input class="form-control" type="text"-->
-                           <!--placeholder="City"-->
-                           <!--autocomplete="off"-->
-                           <!--v-model="sportsman.city">-->
+                    <!--placeholder="City"-->
+                    <!--autocomplete="off"-->
+                    <!--v-model="sportsman.city">-->
                     <autocomplete-city
                             v-bind:cities="cities"
                     ></autocomplete-city>
@@ -137,22 +220,93 @@
                            autocomplete="off"
                            v-model="$store.state.sportsman.coaches">
                 </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
+                        <div>
+                            <label class="cm-form__label">Documents</label>
+                        </div>
+                        <div class="mb-3" v-if="documents.list">
+                            <div v-for="document in documents.list" style="display: inline;">
+                                <img :src="document.media.url"
+                                     width="150px"
+                                     alt="Sportsman document"
+                                     class="popup__photo mt-2 mr-2 ml-2"
+                                    style="display: inline;">
+                                <button
+                                    class="btn btn-outline-danger btn-sm"
+                                    @click.prevent="removeDocument(document.id)">X</button>
+                            </div>
+                        </div>
+                        <img v-if="documents.chosenDocument"
+                             :src="documents.chosenDocument"
+                             width="150px"
+                             alt="Sportsman document mt-3"
+                             class="popup__photo ">
+                    </div>
+                </div>
+                <div class="popup__wrapper mt-1 row">
+                    <div class="col-12">
+                        <label class="btn btn-outline-success btn-sm mt-3 mr-3"
+                               for="document" style="cursor: pointer; margin-bottom: 0;">
+                            Choose document
+                        </label>
+                        <input type="file"
+                               @change="onDocumentChange"
+                               name="photo" id="document"
+                               style="display: none">
+                        <button
+                                v-if="documents.chosenDocument"
+                                class="btn btn-outline-success btn-sm mt-3 mr-3"
+                                @click.prevent="uploadDocument">Upload</button>
+                        <span v-if="documents.isUploaded" class="badge badge-success mt-3">Uploaded!</span>
+                    </div>
+                </div>
+                <hr>
                 <section class="popup__sertificates">
                     <!--<userCertificates></userCertificates>-->
                 </section>
                 <button v-if="personRole === 'OwnCoachSportsman' && sportsmanId === ''"
                         class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="createOwnCoachSportsman">Create
+                        @click.prevent="createOwnCoachSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:class="{'disabled': testInitValues ||
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Create
                 </button>
                 <button v-else-if="sportsmanId === ''" class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="createSportsman">Create
+                        @click.prevent="createSportsman"
+                        v-bind:disabled="testForClick || testInitValues"
+                        v-bind:class="{'disabled': testInitValues ||
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">
+                    Create
                 </button>
                 <button v-else-if="personRole === 'OwnCoachSportsman' && sportsmanId !== ''"
                         class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="updateSportsman">Save
+                        @click.prevent="updateSportsman"
+                        v-bind:disabled="testForClick"
+                        v-bind:class="{'disabled':
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Save
                 </button>
                 <button v-else-if="sportsmanId !== ''" class="popup__save btn btn-success mt-3 mb-5"
-                        @click.prevent="updateSportsman">Save
+                        @click.prevent="updateSportsman"
+                        v-bind:disabled="testForClick"
+                        v-bind:class="{'disabled':
+                        $v.tempSportsmanForValidations.name.$error ||
+                        $v.tempSportsmanForValidations.surname.$error ||
+                        $v.tempSportsmanForValidations.patronymic.$error ||
+                        $v.tempSportsmanForValidations.dateOfBirth.$error ||
+                        $v.tempSportsmanForValidations.weight.$error}">Save
                 </button>
             </form>
         </div>
@@ -165,6 +319,15 @@ import axios from "axios";
 import AutocompleteCity from "../autocomplete_city";
 import citiesUkrainian from "../../assets/citiesUkrainian";
 import citiesRussian from "../../assets/citiesRussian";
+import citiesEnglish from "../../assets/citiesEnglish";
+import {
+  required,
+  minLength,
+  maxLength,
+  maxValue,
+  alpha
+} from "vuelidate/lib/validators";
+
 export default {
   name: "modal-form",
   components: {
@@ -180,21 +343,79 @@ export default {
       },
       belts: {},
       degrees: {},
+      image: {
+        sportsmanImageForUpload: "",
+        sportsmanImage: "",
+        sportsmanImageId: "",
+        isUploaded: false
+      },
+      documents: {
+        list: [],
+        documentForUpload: "",
+        chosenDocument: "",
+        documentId: "",
+        isUploaded: false
+      },
       http: axios.create({
         headers: {
           Authorization: "Bearer " + this.$store.state.authUser.auth_token
         }
       }),
+      httpUpload: axios.create({
+        headers: {
+          Authorization: "Bearer " + this.$store.state.authUser.auth_token,
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json"
+        }
+      }),
       citiesUkr: [],
       citiesRus: [],
-      cities: []
+      citiesEng: [],
+      cities: [],
+      tempSportsmanForValidations: {
+        weight: "",
+        dateOfBirth: "",
+        name: "",
+        surname: "",
+        patronymic: ""
+      }
     };
+  },
+
+  computed: {
+    testForClick: function() {
+      if (
+        this.$v.tempSportsmanForValidations.name.$error ||
+        this.$v.tempSportsmanForValidations.surname.$error ||
+        this.$v.tempSportsmanForValidations.patronymic.$error ||
+        this.$v.tempSportsmanForValidations.dateOfBirth.$error ||
+        this.$v.tempSportsmanForValidations.weight.$error
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    testInitValues: function() {
+      if (
+        this.tempSportsmanForValidations.weight === "" ||
+        this.tempSportsmanForValidations.dateOfBirth === "" ||
+        this.tempSportsmanForValidations.name === "" ||
+        this.tempSportsmanForValidations.surname === "" ||
+        this.tempSportsmanForValidations.patronymic === ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   mounted() {
     if (this.sportsmanId !== "") {
       this.$store.state.sportsman = this.$store.state.sportsmanList[
         this.sportsmanId
       ];
+      this.updateDocuments();
     } else {
       if (this.personRole === "Coach") {
         this.role.is_coach = 1;
@@ -202,29 +423,31 @@ export default {
         this.role.is_referee = 1;
       }
     }
-    citiesUkrainian.region.forEach(region => {
+    // citiesUkrainian.region.forEach(region => {
+    //     region.city.forEach(city => {
+    //         this.citiesUkr.push(city.name);
+    //     });
+    // });
+    // citiesRussian.region.forEach(region => {
+    //     region.city.forEach(city => {
+    //         this.citiesRus.push(city.name);
+    //     });
+    // });
+    citiesEnglish.region.forEach(region => {
       region.city.forEach(city => {
-        this.citiesUkr.push(city.name);
+        this.cities.push(city.name);
       });
     });
-    citiesRussian.region.forEach(region => {
-      region.city.forEach(city => {
-        this.citiesRus.push(city.name);
-      });
-    });
-    if (window.navigator.language === "ru-RU") {
-      this.cities = this.citiesRus;
-    } else {
-      this.cities = this.citiesUkr;
-    }
-    this.http
-      .get("https://champion-api.herokuapp.com/api/belts/" + this.$store.state.authUser.federation_users[0]
-          .federation_id)
-      .then(response => {
-        window.console.log(response.data);
-        this.belts = response.data;
-      })
-      .catch(error => window.console.log(error.message));
+    // this.http
+    //     .get(
+    //         "https://champion-api.herokuapp.com/api/belts/" +
+    //         this.$store.state.authUser.federation_users[0].federation_id
+    //     )
+    //     .then(response => {
+    //         window.console.log(response.data);
+    //         this.belts = response.data;
+    //     })
+    //     .catch(error => window.console.log(error.message));
     this.http
       .get("https://champion-api.herokuapp.com/api/titles/list")
       .then(response => {
@@ -234,6 +457,146 @@ export default {
       .catch(error => window.console.log(error.message));
   },
   methods: {
+    setWeight(value) {
+      window.console.log(value);
+      this.tempSportsmanForValidations.weight = value;
+      this.$v.tempSportsmanForValidations.weight.$touch();
+    },
+    setDateOfBirth(value) {
+      window.console.log(value);
+      this.tempSportsmanForValidations.dateOfBirth = value;
+      this.$v.tempSportsmanForValidations.dateOfBirth.$touch();
+    },
+    setName(value) {
+      window.console.log(value);
+      this.tempSportsmanForValidations.name = value;
+      this.$v.tempSportsmanForValidations.name.$touch();
+    },
+    setSurname(value) {
+      window.console.log(value);
+      this.tempSportsmanForValidations.surname = value;
+      this.$v.tempSportsmanForValidations.surname.$touch();
+    },
+    setPatronymic(value) {
+      window.console.log(value);
+      this.tempSportsmanForValidations.patronymic = value;
+      this.$v.tempSportsmanForValidations.patronymic.$touch();
+    },
+    updateDocuments() {
+      this.http
+        .get(
+          `https://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`
+        )
+        .then(response => {
+          if (response.data.documents) {
+            this.documents.list = response.data.documents;
+          }
+        })
+        .catch(error => console.log(error.message));
+    },
+    onFileChange(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    onDocumentChange(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createDocument(files[0]);
+    },
+    createImage(file) {
+      if (this.$store.state.sportsman.photo_id) {
+        this.$store.state.sportsman.photo_id = "";
+      }
+      this.image.sportsmanImageForUpload = file;
+      this.image.sportsmanImage = new Image();
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.image.sportsmanImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    createDocument(file) {
+      this.documents.documentForUpload = file;
+      this.documents.chosenDocument = new Image();
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.documents.chosenDocument = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    uploadImage() {
+      const formData = new FormData();
+      formData.append("file", this.image.sportsmanImageForUpload);
+      this.httpUpload
+        .post("https://champion-api.herokuapp.com/api/upload", formData)
+        .then(response => {
+          console.log(response.data);
+          this.image.sportsmanImageId = response.data.id;
+          this.image.isUploaded = true;
+        });
+    },
+    uploadDocument() {
+      const formData = new FormData();
+      formData.append("file", this.documents.documentForUpload);
+      this.httpUpload
+        .post("https://champion-api.herokuapp.com/api/upload", formData)
+        .then(response => {
+          console.log(response.data);
+          this.documents.documentId = response.data.id;
+          this.documents.isUploaded = true;
+        });
+    },
+    removeImage() {
+      this.$store.state.sportsman._method = "put";
+      this.$store.state.sportsman.photo_id = "";
+      this.http
+        .post(
+          `https://champion-api.herokuapp.com/api/sportsman/${
+            this.sportsmanId
+          }`,
+          this.$store.state.sportsman
+        )
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error.message));
+    },
+    removeDocument(id) {
+      this.http
+        .post(
+          `https://champion-api.herokuapp.com/api/sportsman-document/${id}`,
+          {
+            _method: "delete"
+          }
+        )
+        .then(response => {
+          console.log("deleted");
+          this.updateDocuments();
+        })
+        .catch(error => console.log(error));
+    },
+    createImageConnection(sportsmanId) {
+      this.$store.state.sportsman._method = "put";
+      this.$store.state.sportsman.photo_id = this.image.sportsmanImageId;
+      this.http
+        .post(
+          `https://champion-api.herokuapp.com/api/sportsman/${sportsmanId}`,
+          this.$store.state.sportsman
+        )
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error.message));
+    },
+    createDocumentConnection(id) {
+      this.http
+        .post("https://champion-api.herokuapp.com/api/sportsman-document", {
+          sportsman_id: id,
+          media_id: this.documents.documentId,
+          name: 1
+        })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => console.log(error.message));
+    },
     createSportsman() {
       this.http
         .post(this.$store.state.postSportsman, this.$store.state.sportsman)
@@ -241,7 +604,7 @@ export default {
           console.log(response.data);
           this.http
             .post(
-              "http://champion-api.herokuapp.com/api/federation-sportsman",
+              "https://champion-api.herokuapp.com/api/federation-sportsman",
               {
                 sportsman_id: response.data.id,
                 federation_id: this.$store.state.authUser.federation_users[0]
@@ -249,48 +612,138 @@ export default {
                 is_active: 1,
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
-                belt: null
+                federation_belt_id: this.$store.state.sportsman.belt
               }
             )
-            .then(this.$emit("clicked"))
+            .then(response => {
+              console.log(response.data);
+              if (this.image.sportsmanImageId) {
+                this.createImageConnection(response.data.sportsman_id);
+              }
+              if (this.documents.documentId) {
+                this.createDocumentConnection(response.data.sportsman_id);
+              }
+              this.$emit("clicked");
+            })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
     },
+
     createOwnCoachSportsman() {
       this.http
         .post(this.$store.state.postSportsman, this.$store.state.sportsman)
         .then(response => {
           console.log(response.data);
           this.http
-            .post("http://champion-api.herokuapp.com/api/sportsman-coach", {
+            .post("https://champion-api.herokuapp.com/api/sportsman-coach", {
               sportsman_id: response.data.id,
               coach_id: this.$store.state.authUser.my_profile_id,
               master_coach: 0
             })
-            .then(this.$emit("clicked"))
+            .then(response => {
+              console.log(response.data);
+              if (this.image.sportsmanImageId) {
+                this.createImageConnection(response.data.sportsman_id);
+              }
+              if (this.documents.documentId) {
+                this.createDocumentConnection(response.data.sportsman_id);
+              }
+              this.http
+                .post(
+                  "https://champion-api.herokuapp.com/api/federation-sportsman",
+                  {
+                    sportsman_id: response.data.sportsman_id,
+                    federation_id: this.$store.state.authUser
+                      .my_sportsmen_profile.federation_sportsmen[0]
+                      .federation_id,
+                    is_active: 1,
+                    is_coach: 0,
+                    is_referee: 0,
+                    federation_belt_id: this.$store.state.sportsman.belt
+                  }
+                )
+                .then(reaponse => {
+                  console.log(reaponse.data);
+                })
+                .catch(error => console.log(error.message));
+              this.$emit("clicked");
+            })
             .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
     },
+
     updateSportsman() {
       this.$store.state.sportsman._method = "put";
       this.http
         .post(
-          `http://champion-api.herokuapp.com/api/sportsman/${this.sportsmanId}`,
+          `https://champion-api.herokuapp.com/api/sportsman/${
+            this.sportsmanId
+          }`,
           this.$store.state.sportsman
         )
         .then(response => {
-          console.log(response);
+          console.log(response.data);
+          if (this.image.sportsmanImageId) {
+            this.createImageConnection(this.sportsmanId);
+          }
+          if (this.documents.documentId) {
+            this.createDocumentConnection(this.sportsmanId);
+          }
           this.$emit("clicked");
         })
         .catch(error => console.log(error.message));
+    }
+  },
+  validations: {
+    tempSportsmanForValidations: {
+      weight: {
+        checkNumeric: val => {
+          return !isNaN(parseFloat(val)) && isFinite(val) ? true : false;
+        },
+        required: required,
+        maxValue: maxValue(500)
+      },
+      dateOfBirth: {
+        required: required,
+        checkFutureData: val => {
+          if (val == "") {
+            return true;
+          }
+          var today = new Date(); // сегодняшнеяя дата и время
+          var inputDate = new Date(val);
+          if (today >= inputDate) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      },
+      name: {
+        required: required,
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
+      },
+      surname: {
+        required: required,
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
+      },
+      patronymic: {
+        required: required,
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
+      }
     }
   }
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .popup {
   display: flex;
   align-items: center;

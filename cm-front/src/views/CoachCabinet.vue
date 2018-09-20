@@ -11,6 +11,7 @@
             <div class="col-10">
                 <tournaments v-if="activeItem === 'Tournaments'"></tournaments>
                 <my-team v-else-if="activeItem === 'My team'"></my-team>
+                <groups v-else-if="activeItem === 'Groups'"></groups>
                 <settings class="col-10" v-else-if="activeItem === 'Settings'"></settings>
             </div>
         </div>
@@ -21,6 +22,7 @@
 //import axios from "axios";
 import Tournaments from "../components/privateCabinet/tournamentsCabinet.vue";
 import MyTeam from "../components/privateCabinet/coachMyTeamCabinet";
+import Groups from "../components/privateCabinet/coachGroups";
 import Settings from "../components/privateCabinet/settingsCabinet.vue";
 
 export default {
@@ -28,6 +30,7 @@ export default {
   components: {
     Tournaments,
     MyTeam,
+    Groups,
     Settings
   },
   data: function() {
@@ -39,6 +42,9 @@ export default {
         },
         {
           title: "My team"
+        },
+        {
+          title: "Groups"
         },
         {
           title: "Settings"
@@ -58,5 +64,9 @@ export default {
 <style scoped lang="scss">
 .coach-cabinet {
   margin-bottom: 30px;
+}
+
+.list-group-item {
+    cursor: pointer;
 }
 </style>

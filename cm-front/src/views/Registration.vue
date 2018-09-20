@@ -2,8 +2,8 @@
     <div class="registration">
         <div class="container">
             <div class="col-12 col-md-8 col-lg-6 col-xl-6 wrapper">
-                <form class="cm-form" autocomplete="off" @submit.prevent="">
-                    <tabs>
+                <form class="cm-form" autocomplete="off" @submit.prevent="" novalidate>
+                    <tabs cache-lifetime="1">
                         <tab name="First step">
                             <div class="cm-form__content cm-form__content--one">
                                 <h1 class="text-center">Registration</h1>
@@ -34,10 +34,16 @@
                                          v-if="!$v.user.email.required">Email field is required
                                     </div>
                                     <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
+                                    </div>
+                                    <div class="invalid-feedback"
                                          v-if="!$v.user.email.email">This field should be an email
                                     </div>
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.email.unique">This email is already exist
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.email.maxLength">
+                                        Max length of email is {{ $v.user.email.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -54,6 +60,9 @@
                                     <div class="invalid-feedback" v-if="!$v.user.password.minLength">
                                         Min length of password is {{ $v.user.password.$params.minLength.min }}. Now it
                                         is {{ user.password.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.user.password.maxLength">
+                                        Max length of password is {{ $v.user.password.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -78,14 +87,8 @@
                                        v-bind:class="{'disabled':
                                        $v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error  || testInitPassword}">Next</a>
-                                       <!--@click="sendUserDataOnServer">Next</a>-->
-                                    <!--<div>{{$v.user.email.$error}}</div>-->
-                                    <!--<div>{{$v.user.password.$error}}</div>-->
-                                    <!--<div>{{$v.user.passwordConfirm.$error}}</div>-->
-                                    <!--<div style="color:red">{{$v.user.email.$error ||-->
-                                    <!--$v.user.password.$error ||-->
-                                    <!--$v.user.passwordConfirm.$error}}</div>-->
+                                       $v.user.passwordConfirm.$error  ||
+                                       testInitPassword}">Next</a>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
@@ -95,10 +98,11 @@
                         <tab name="Second step"
                              :is-disabled="$v.user.email.$error ||
                                        $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error || testInitPassword">
+                                       $v.user.passwordConfirm.$error ||
+                                       testInitPassword">
                             <!--включено для отладки-->
-                        <!--<tab name="Second step">-->
-                        <div class="cm-form__wrapper text-left">
+                            <!--<tab name="Second step">-->
+                            <div class="cm-form__wrapper text-left">
                                 <a class="btn btn-danger" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
@@ -109,41 +113,68 @@
                                            placeholder="Name"
                                            autofocus
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.name"
                                            @input="$v.sportsman.name.$touch()"
+                                           @blur="$v.sportsman.name.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.name.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.name.minLength">
                                         Min length of Name is {{ $v.sportsman.name.$params.minLength.min }}. Now it
                                         is {{ sportsman.name.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.alpha">
+                                        Field for only alphabet characters
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.name.maxLength">
+                                        Max length of Name is {{ $v.sportsman.name.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Surname"
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.surname"
                                            @input="$v.sportsman.surname.$touch()"
+                                           @blur="$v.sportsman.surname.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.surname.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.surname.minLength">
-                                        Min length of Surname is {{ $v.sportsman.sportsman.surname.$params.minLength.min
+                                        Min length of Surname is {{ $v.sportsman.surname.$params.minLength.min
                                         }}. Now it
                                         is {{ sportsman.surname.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.alpha">
+                                        Field for only alphabet characters
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.surname.maxLength">
+                                        Max length of Surname is {{ $v.sportsman.surname.$params.maxLength.max }}.
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text"
                                            placeholder="Patronymic"
                                            autocomplete="off"
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
                                            v-model="sportsman.patronymic"
                                            @input="$v.sportsman.patronymic.$touch()"
+                                           @blur="$v.sportsman.patronymic.$touch()"
                                            :class="{'is-invalid' :$v.sportsman.patronymic.$error}">
                                     <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.minLength">
                                         Min length of Patronymic is {{
-                                        $v.sportsman.sportsman.patronymic.$params.minLength.min }}. Now it
+                                        $v.sportsman.patronymic.$params.minLength.min }}. Now it
                                         is {{ sportsman.patronymic.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.maxLength">
+                                        Max length of Patronymic is {{ $v.sportsman.patronymic.$params.maxLength.max }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.sportsman.patronymic.alpha">
+                                        Field for only alphabet characters
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper">
@@ -190,15 +221,10 @@
                                     <div class="col">
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
-                                    <!--<div class="col">-->
-                                        <!--<input class="form-control" type="text"-->
-                                               <!--id="federation"-->
-                                               <!--placeholder="Federation"-->
-                                               <!--disabled-->
-                                               <!--v-model="sportsman.federation">-->
-                                    <!--</div>-->
                                     <select class="form-control" name="federation" id="federation"
-                                            v-model="sportsman.federation">
+                                            v-model="sportsman.federation"
+                                            @change='getCoaches'
+                                    >
                                         <option v-for="federation in federations"
                                                 v-bind:value="federation.id"
                                                 :key="federation.id">{{federation.name}}
@@ -207,30 +233,23 @@
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
-                                        <label for="trainer" class="cm-form__label">Coach</label>
+                                        <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
                                     <div class="col">
 
-                                     <!--обычный выбор-->
-                                         <!--<input class="form-control" type="text"-->
-                                         <!--id="trainer"-->
-                                         <!--placeholder="Coach"-->
-                                         <!--autocomplete="off"-->
-                                         <!--v-model="sportsman.trainer">-->
-
-                                        <multiselect id = "trainer"
-                                                     v-model = "value"
-                                                     :options = "options"
-                                                     :multiple = "true"
-                                                     :close-on-select = "true"
-                                                     :clear-on-select = "false"
-                                                     :hide-selected = "true"
-                                                     :preserve-search = "true"
-                                                     placeholder = "Choose your coach"
-                                                     label = "last_name"
-                                                     track-by = "id"
-                                                     :preselect-first = "true"
-                                        ><template slot = "tag" slot-scope = "props">
+                                       <multiselect id = "trainer"
+                                                    v-model = "sportsman.coaches"
+                                                    :options = "options"
+                                                    :multiple = "true"
+                                                    :close-on-select = "true"
+                                                    :clear-on-select = "false"
+                                                    :hide-selected = "true"
+                                                    :preserve-search = "true"
+                                                    placeholder = "Choose your coach"
+                                                    label = "last_name"
+                                                    track-by = "id"
+                                                    :preselect-first = "true"
+                                       ><template slot = "tag" slot-scope = "props">
                                             <span class = "custom__tag">
                                                 <!-- option === coach -->
                                                 <span>{{ props.option.last_name }}</span>
@@ -238,25 +257,44 @@
                                             </span>
                                         </template>
                                         </multiselect>
-
-                                     </div>
-
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
                                         <label for="city" class="cm-form__label">City</label>
                                     </div>
-                                    <div class="col">
-                                        <input class="form-control" type="text"
-                                               id="city"
-                                               placeholder="City"
-                                               autocomplete="off"
-                                               v-model="sportsman.city">
-                                    </div>
+                                    <autocomplete-city
+                                            v-bind:cities="cities"
+                                    ></autocomplete-city>
+                                    <!--<div class="col">-->
+                                    <!--<input class="form-control" type="text"-->
+                                    <!--id="city"-->
+                                    <!--placeholder="City"-->
+                                    <!--autocomplete="off"-->
+                                    <!--@input="$v.sportsman.city.$touch()"-->
+                                    <!--@blur="$v.sportsman.city.$touch()"-->
+                                    <!--:class="{'is-invalid' :$v.sportsman.city.$error}"-->
+                                    <!--v-model="sportsman.city">-->
+                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.city.required">-->
+                                    <!--Field is required-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            @click="sendSportsmanDataOnServer">Registration sportsman
+                                            v-bind:disabled="testStepSportsman || testInitPassword || testInitValuesSportsman"
+                                            v-bind:class="{'disabled':
+                                            $v.user.email.$error ||
+                                            $v.user.password.$error ||
+                                            $v.user.passwordConfirm.$error  ||
+                                            testInitPassword ||
+                                            testInitValuesSportsman ||
+                                            $v.sportsman.patronymic.$error ||
+                                            $v.sportsman.surname.$error ||
+                                            $v.sportsman.name.$error ||
+                                            $v.sportsman.dateOfBirth.$error ||
+                                            $v.sportsman.city.$error}"
+                                            @click="sendUserDataOnServer">Registration sportsman
                                     </button>
                                 </div>
                             </div>
@@ -267,8 +305,24 @@
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
                                            autofocus
-                                           title="Кириллица/латиница без спецсимв.с допустимым спецсимволом, ', - , без цифр"
-                                           v-model="federation.name">
+                                           v-model="federation.name"
+                                           @input="$v.federation.name.$touch()"
+                                           @blur="$v.federation.name.$touch()"
+                                           :class="{'is-invalid' :$v.federation.name.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.minLength">
+                                        Min length of Federation Name is {{ $v.federation.name.$params.minLength.min
+                                        }}. Now it
+                                        is {{ federation.name.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.maxLength">
+                                        Max length of Federation Name is {{ $v.federation.name.$params.maxLength.max }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.name.required">
+                                        Field is required
+                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.name.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
@@ -287,63 +341,164 @@
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-presidentName" id="f-presidentName"
                                            placeholder="President Name"
-                                           v-model="federation.presidentName">
+                                           v-model="federation.presidentName"
+                                           @input="$v.federation.presidentName.$touch()"
+                                           @blur="$v.federation.presidentName.$touch()"
+                                           :class="{'is-invalid' :$v.federation.presidentName.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.minLength">
+                                        Min length of President Name is {{
+                                        $v.federation.presidentName.$params.minLength.min
+                                        }}. Now it
+                                        is {{ federation.presidentName.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.maxLength">
+                                        Max length of President Name is {{ $v.federation.presidentName.$params.maxLength.max }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
+                                        Field is required
+                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">-->
+                                    <!--Field for only alphabet characters-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
                                            id="f-subDomain"
                                            placeholder="Subdomain"
-                                           v-model="federation.subDomain">
+                                           v-model="federation.subDomain"
+                                           @input="$v.federation.subDomain.$touch()"
+                                           @blur="$v.federation.subDomain.$touch()"
+                                           :class="{'is-invalid' :$v.federation.subDomain.$error}">
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.required">
+                                        Field is required
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.minLength">
+                                        Min length of subDomain is {{
+                                        $v.federation.subDomain.$params.minLength.min
+                                        }}. Now it
+                                        is {{ federation.subDomain.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.subDomain.maxLength">
+                                        Max length of subDomain is {{ $v.federation.subDomain.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="tel" name="f-tel" id="f-tel"
-                                           placeholder="Contact Phone"
+                                           placeholder="Contact Phone +380000000000"
+                                           @input="$v.federation.phone.$touch()"
+                                           @blur="$v.federation.phone.$touch()"
+                                           :class="{'is-invalid' :$v.federation.phone.$error}"
                                            v-model="federation.phone">
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.regexPhone">
+                                        Field should be in format +380000000000
+                                    </div>
+                                    <!--<div class="invalid-feedback" v-if="!$v.federation.phone.numeric">-->
+                                    <!--Field for only numeric characters-->
+                                    <!--</div>-->
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
+                                        Min length of phone is {{
+                                        $v.federation.phone.$params.minLength.min
+                                        }}. Now it
+                                        is {{ federation.phone.length }}.
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.phone.maxLength">
+                                        Max length of Phone is {{ $v.federation.phone.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="email" name="f-email"
                                            id="f-email"
                                            placeholder="Contact Email"
+                                           @input="$v.federation.email.$touch()"
+                                           @blur="$v.federation.email.$touch()"
+                                           :class="{'is-invalid' :$v.federation.email.$error}"
                                            v-model="federation.email">
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.federation.email.required">Email field is required
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.user.email.regexEmail">Email is invalid
+                                    </div>
+                                    <div class="invalid-feedback"
+                                         v-if="!$v.federation.email.email">This field should be an email
+                                    </div>
+                                    <div class="invalid-feedback" v-if="!$v.federation.email.maxLength">
+                                        Max length of email is {{ $v.federation.email.$params.maxLength.max }}.
+                                    </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            @click="sendFederationDataOnServer">Registration federation
+                                            v-bind:disabled="testStepFederation || testInitPassword || testInitValuesFederation"
+                                            v-bind:class="{'disabled':
+                                       $v.user.email.$error ||
+                                       $v.user.password.$error ||
+                                       $v.user.passwordConfirm.$error  ||
+                                       testInitPassword ||
+                                       testInitValuesFederation ||
+                                       $v.federation.phone.$error ||
+                                       $v.federation.email.$error ||
+                                       $v.federation.name.$error ||
+                                       $v.federation.presidentName.$error ||
+                                       $v.federation.subDomain.$error}"
+                                            @click="sendUserDataOnServer">Registration federation
                                     </button>
                                 </div>
                             </div>
-                            <!--<div class="cm-form__wrapper text-center">-->
-                            <!--<button v-if="userSportsman" class="btn btn-primary"-->
-                            <!--@click="sendSportsmanDataOnServer">Registration sportsman-->
-                            <!--</button>-->
-                            <!--<button class="btn btn-primary"-->
-                            <!--@click="sendFederationDataOnServer">Registration federation-->
-                            <!--</button>-->
-                            <!--</div>-->
                         </tab>
                     </tabs>
                 </form>
                 <!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
             </div>
         </div>
+        <modal-form
+                v-bind:title="this.modal.title"
+                v-bind:message="this.modal.message"
+                v-if="modal.show"
+                @clicked="closeModal"
+                @click.prevent="closeModal">
+        </modal-form>
     </div>
 </template>
 
 <script>
 import { Tabs, Tab } from "vue-tabs-component";
+import AutocompleteCity from "../components/autocomplete_city";
+// import citiesUkrainian from "../../assets/citiesUkrainian";
+// import citiesRussian from "../../assets/citiesRussian";
+import citiesEnglish from "../assets/citiesEnglish";
 import axios from "axios";
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+  sameAs,
+    // numeric,
+  alpha
+} from "vuelidate/lib/validators";
 import Multiselect from "vue-multiselect";
+import ModalForm from "./../views/modalOkError.vue";
 
 export default {
   name: "registration",
   components: {
     Tabs,
     Tab,
-    Multiselect
+      Multiselect,
+      AutocompleteCity,
+      ModalForm
   },
   data() {
     return {
+        modal: {
+            show: false,
+            title: "",
+            message: ""
+        },
+        citiesUkr: [],
+        citiesRus: [],
+        citiesEng: [],
+        cities: [],
       user: {
         email: "",
         password: "",
@@ -355,8 +510,8 @@ export default {
         patronymic: "",
         gender: "M",
         dateOfBirth: "",
-        federation: "2", //по умолчанию, чтобы показывалось значение
-        trainer: "",
+        federation: "",
+        coaches: [],
         city: ""
       },
       federation: {
@@ -367,8 +522,8 @@ export default {
         phone: "",
         email: ""
       },
+        federations: [],
       userSportsman: "true",
-      federations: {},
       sports: {},
       authUser: {},
       value: [],
@@ -380,11 +535,13 @@ export default {
       .get("https://champion-api.herokuapp.com/api/federations")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.federations = response.data;
         }
       })
+      // .then(this.handleSuccess)
+      // .then(this.handleCreated);
       .catch(function(error) {
         // handle error
         window.console.log(error);
@@ -393,7 +550,7 @@ export default {
       .get("https://champion-api.herokuapp.com/api/sports")
       .then(response => {
         // handle success
-        window.console.log(response);
+        // window.console.log(response);
         if (response.status === 200) {
           this.sports = response.data;
         }
@@ -402,21 +559,73 @@ export default {
         // handle error
         window.console.log(error);
       });
-    axios
-      .get("https://champion-api.herokuapp.com/api/sportsman/list")
-      .then(response => {
-        // window.console.log(response);
-        if (response.status === 200) {
-          this.options = response.data;
-        }
-      })
-      .catch(function(error) {
-        window.console.log(error);
+      citiesEnglish.region.forEach(region => {
+          region.city.forEach(city => {
+              this.cities.push(city.name);
+          });
       });
   },
   computed: {
+    testStepFederation: function() {
+      if (
+        this.$v.user.email.$error ||
+        this.$v.user.password.$error ||
+        this.$v.user.passwordConfirm.$error ||
+        this.$v.federation.phone.$error ||
+        this.$v.federation.email.$error ||
+        this.$v.federation.name.$error ||
+        this.$v.federation.presidentName.$error ||
+        this.$v.federation.subDomain.$error
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    testStepSportsman: function() {
+      if (
+        this.$v.user.email.$error ||
+        this.$v.user.password.$error ||
+        this.$v.user.passwordConfirm.$error ||
+        this.$v.sportsman.patronymic.$error ||
+        this.$v.sportsman.surname.$error ||
+        this.$v.sportsman.name.$error ||
+        this.$v.sportsman.dateOfBirth.$error ||
+        this.$v.sportsman.city.$error
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     testInitPassword: function() {
       if (this.user.password === "" || this.user.passwordConfirm === "") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    testInitValuesFederation: function() {
+      if (
+        this.federation.phone === "" ||
+        this.federation.email === "" ||
+        this.federation.name === "" ||
+        this.federation.presidentName === "" ||
+        this.federation.subDomain === ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    testInitValuesSportsman: function() {
+      if (
+        this.sportsman.patronymic === "" ||
+        this.sportsman.surname === "" ||
+        this.sportsman.name === "" ||
+        this.sportsman.dateOfBirth === "" ||
+        this.sportsman.city === ""
+      ) {
         return true;
       } else {
         return false;
@@ -428,7 +637,12 @@ export default {
     user: {
       email: {
         required: required,
+        maxLength: maxLength(100),
         email: email,
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
         unique: val => {
           // if (val === "") return true;
           return (
@@ -439,12 +653,11 @@ export default {
               // .get(this.$store.state.getEmailValidation + val) //+userEmail, 200 true, 404 false)
               .then(response => {
                 // handle success
-                window.console.log(response);
                 if (response.status === 200) {
                   return false;
                 }
               })
-              .catch(function(error) {
+              .catch(error => {
                 // handle error
                 window.console.log(error);
                 return true;
@@ -454,7 +667,8 @@ export default {
       },
       password: {
         required: required,
-        minLength: minLength(6)
+        minLength: minLength(6),
+        maxLength: maxLength(16)
       },
       passwordConfirm: {
         required: required,
@@ -464,13 +678,24 @@ export default {
     sportsman: {
       name: {
         required: required,
-        minLength: minLength(1)
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       surname: {
-        minLength: minLength(1)
+        required: required,
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
       },
       patronymic: {
-        minLength: minLength(1)
+        required: required,
+        alpha: alpha,
+        minLength: minLength(2),
+        maxLength: maxLength(36)
+      },
+      city: {
+        required: required
       },
       dateOfBirth: {
         required: required,
@@ -480,102 +705,184 @@ export default {
           }
           var today = new Date(); // сегодняшнеяя дата и время
           var inputDate = new Date(val);
-          window.console.log("today " + today);
-          window.console.log("val " + val);
-          window.console.log("inputDate " + inputDate);
           if (today >= inputDate) {
-            window.console.log("true");
             return true;
           } else {
-            window.console.log("false");
             return false;
           }
         }
       }
+    },
+    federation: {
+      phone: {
+          regexPhone: val => {
+              var regexPhone = /^\+\d{12}$/;
+              return regexPhone.test(val);
+          },
+        required: required,
+          // numeric: numeric,
+          minLength: minLength(13),
+        maxLength: maxLength(15)
+      },
+      email: {
+          regexEmail: val => {
+              var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+              return emailRegExp.test(val);
+          },
+        required: required,
+        email: email,
+        maxLength: maxLength(100)
+      },
+      name: {
+        required: required,
+          // alpha: alpha,
+        minLength: minLength(3),
+        maxLength: maxLength(42)
+      },
+      presidentName: {
+        required: required,
+          // alpha: alpha,
+        minLength: minLength(3),
+        maxLength: maxLength(42)
+      },
+      subDomain: {
+        required: required,
+        minLength: minLength(2),
+        maxLength: maxLength(8)
+      }
     }
   },
   methods: {
+      closeModal: function () {
+          this.modal.show = false;
+      },
+      showModalOnError: function (title, message, type) {
+          this.modal.show = true;
+          this.modal.title = title;
+          this.modal.message = message;
+          if (type) {
+              this.$router.push("/");
+          }
+      },
     sendUserDataOnServer: function() {
-      window.console.log(this.user);
+      localStorage.removeItem("lbUser");
+      window.console.log("sendUserDataOnServer sending");
       axios
-        .post(this.$store.state.postRegistrationUserUrl, {
+        .post("https://champion-api.herokuapp.com/api/user", {
           email: this.user.email,
           password: this.user.password,
           password_confirmation: this.user.passwordConfirm
         })
         .then(response => {
-          window.console.log("response.status " + response.status);
-          if (response.status === 201) {
-            this.$store.state.authUser = response.data;
-            window.console.log("response.status " + response.data);
-            this.$store.state.isLoggedIn = true;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            window.localStorage.setItem(
-              "lbUser",
-              JSON.stringify(this.$store.state.authUser)
-            );
-            // this.$router.push("/");
-            if (this.userSportsman === true) {
-              this.sendSportsmanDataOnServer();
-            } else {
-              this.sendFederationDataOnServer();
+          window.console.log(response);
+          this.authUser = response.data;
+          let HTTP = axios.create({
+            headers: {
+              Authorization: "Bearer " + this.authUser.auth_token
             }
+          });
+          if (this.userSportsman === "true") {
+            window.console.log("sendSportsmanDataOnServer sending");
+            HTTP.post("https://champion-api.herokuapp.com/api/sportsman", {
+              first_name: this.sportsman.name,
+              last_name: this.sportsman.surname,
+              patronymic_name: this.sportsman.patronymic,
+              gender: this.sportsman.gender,
+              date_of_birth: this.sportsman.dateOfBirth,
+              federation_id: this.sportsman.federation,
+              city: this.sportsman.city
+            })
+              .then(response => {
+                window.console.log(response);
+                  // this.$router.push("/");
+                //
+                axios
+                  .post(this.$store.state.postLoginUrl, {
+                    email: this.user.email,
+                    password: this.user.password
+                  })
+                  .then(response => {
+                    if (response.status === 200) {
+                      this.$store.state.authUser = response.data;
+                      this.$store.state.isLoggedIn = true;
+                      window.localStorage.setItem(
+                        "lbUser",
+                        JSON.stringify(this.$store.state.authUser)
+                      );
+                    } else {
+                      this.$store.state.isLoggedIn = false;
+                    }
+                  })
+                    .catch(error => {
+                    window.console.log(error);
+                        this.showModalOnError(error.response.status, error.response.data.message, 1);
+                  });
+                //
+              })
+              .catch(error => {
+                window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
+              });
           } else {
-            this.$store.state.isLoggedIn = false;
-            window.console.log(
-              "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-            );
-            this.$router.push("/auth");
+            window.console.log("sendFederationDataOnServer sending");
+            HTTP.post("https://champion-api.herokuapp.com/api/federations", {
+              name: this.federation.name,
+              president_name: this.federation.presidentName,
+              logo_id: "",
+              sub_domain: this.federation.subDomain,
+              contact_telephone: this.federation.phone,
+              contact_email: this.federation.email,
+              sport_id: this.federation.sport
+            })
+              .then(response => {
+                window.console.log(response);
+                  // this.$router.push("/");
+                //
+                axios
+                  .post(this.$store.state.postLoginUrl, {
+                    email: this.user.email,
+                    password: this.user.password
+                  })
+                  .then(response => {
+                    if (response.status === 200) {
+                      this.$store.state.authUser = response.data;
+                      this.$store.state.isLoggedIn = true;
+                      window.localStorage.setItem(
+                        "lbUser",
+                        JSON.stringify(this.$store.state.authUser)
+                      );
+                    } else {
+                      this.$store.state.isLoggedIn = false;
+                    }
+                  })
+                  .catch(function(error) {
+                    window.console.log(error);
+                  });
+                //
+              })
+              .catch(error => {
+                window.console.log(error);
+                  this.showModalOnError(error.response.status, error.response.data.message, 1);
+              });
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           window.console.log(error);
+            this.showModalOnError(error.response.status, error.response.data.message, 1);
         });
     },
-    sendSportsmanDataOnServer: function() {
-      window.console.log(this.sportsman);
-      // this.sendUserDataOnServer();
-      var HTTP = axios.create({
-        headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
-        }
-      });
-      HTTP.post(this.$store.state.postSportsman, {
-        first_name: this.sportsman.name,
-        last_name: this.sportsman.surname,
-        patronymic_name: this.sportsman.patronymic,
-        gender: this.sportsman.gender,
-        date_of_birth: this.sportsman.dateOfBirth,
-        federation_id: this.sportsman.federation
-      })
-        .then(function(response) {
-          window.console.log(response);
-        })
-        .catch(function(error) {
-          window.console.log(error);
-        });
-    },
-    sendFederationDataOnServer: function() {
-      window.console.log(this.federation);
-      this.sendUserDataOnServer();
-      var HTTP = axios.create({
-        headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
-        }
-      });
-      HTTP.post("https://champion-api.herokuapp.com/api/federations", {
-        name: this.federation.name,
-        president_name: this.federation.presidentName,
-        logo_id: "1234567",
-        sub_domain: this.federation.subDomain,
-        contact_telephone: this.federation.phone,
-        contact_email: this.federation.email,
-        sport_id: this.federation.sport
-      })
-        .then(function(response) {
-          window.console.log(response);
+    getCoaches: function() {
+      this.sportsman.coaches = []; //clearing list of coaches
+      axios
+        .get(
+          `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+            this.sportsman.federation
+          }`
+        )
+        .then(response => {
+          if (response.status === 200) {
+            this.options = response.data;
+          }
         })
         .catch(function(error) {
           window.console.log(error);
@@ -691,6 +998,7 @@ export default {
   border-radius: 10px;
   cursor: pointer;
 }
+
 .custom__remove {
   padding: 0;
   font-size: 10px;

@@ -1,25 +1,13 @@
 <template>
-    <div>
         <div class="container">
-            <div class="col-12">
-                <!--<div class="row card-list">-->
-                <!--<div class="row card-list" v-for="sportName in sports" :key="sportId">-->
-                <div class="row card-list">
-                    <!--<card class="col-12 col-md-6 col-lg-4 col-xl-4"-->
-                          <!--v-for="federation in federations"-->
-                          <!--v-bind:Name="federation.name"-->
-                          <!--v-bind:Image="federation.Image"-->
-                          <!--:key="federation.Id"/>-->
-                    <card class="col-12 col-md-6 col-lg-4 col-xl-4"
+                <div class="cards">
+                    <card class="cards__item"
                           v-for="federation in federations"
                           v-bind:Name="federation.name"
                           v-bind:link_to="link + '/' + federation.id"
                           :key="federation.id"/>
                 </div>
-                <!--<card_sport/>-->
             </div>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -58,5 +46,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .cards{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 30px;
+        &__item{
+            margin-top: 30px;
+            margin-right: 34px;
+            &:nth-child(4n){
+                margin-right: 0;
+            }
+        }
+    }
 </style>

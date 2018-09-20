@@ -2,9 +2,10 @@
     <section>
         <div class="container">
             <select class="form-control" name="federation" id="federation"
-                    v-model="federationId">
+                    v-model="federationId" @change="updateNewsList()">
                 <option v-for="federation in federations"
                         v-bind:value="federation.id"
+
                         :key="federation.id">{{federation.name}}
                 </option>
             </select>
@@ -44,10 +45,13 @@
     import axios from "axios";
     import * as firebase from "firebase";
 
+
     export default {
         name: "news-cabinet",
+        props: ["newsList"],
         data() {
             return {
+                isAllPostsShown: true,
                 federations: [],
                 federationId: '',
                 newsList: {},
@@ -73,6 +77,9 @@
             // this.updateNewsList();
         },
         methods: {
+            togleNewsState() {
+                this.isAllPostsShown = !this.isAllPostsShown;
+            },
             async createNews() {
                 try {
                     await firebase
@@ -81,10 +88,16 @@
                         .child(this.federationId)
                         .push(this.news)
                         .then(console.log("success"));
+
                 } catch (error) {
                     throw error;
                 }
                 this.updateNewsList();
+                this.news = {
+                    title: "",
+                    text: "",
+                    date:""
+                }
             },
 
             async updateNewsList() {
@@ -99,10 +112,7 @@
                 }
                 this.newsList = this.newsObj.val();
             }
-
         }
-
-
     };
 </script>
 
@@ -144,7 +154,5 @@
         color: #666666;
         font-size: 24px;
     }
-
-
 
 </style>

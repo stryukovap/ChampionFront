@@ -13,13 +13,14 @@ export default new Vuex.Store({
     postResetEmail: "https://champion-api.herokuapp.com/api/password/email",
     deleteSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
     getSportsman: "https://champion-api.herokuapp.com/api/sportsman/22",
-    postSportsman: "http://champion-api.herokuapp.com/api/sportsman",
+    postSportsman: "https://champion-api.herokuapp.com/api/sportsman",
     getEmailValidation:
       "https://champion-api.herokuapp.com/api/user/find?email=", //+userEmail, 200 true, 404 false
     sportsmanList: {},
-    sportsmenList: [],
     sportsmanIds: [],
+    searchingSportsman: "",
     selectedSportsmen: [],
+    federationBelts: {},
     sportsman: {
       first_name: "",
       last_name: "",
@@ -31,7 +32,9 @@ export default new Vuex.Store({
       city: "",
       coaches: ""
     },
+    // <<<<<<< HEAD
     roles: {},
+      role:"",
     federationInfo: {
       id: 62,
       name: "front end",
@@ -58,21 +61,7 @@ export default new Vuex.Store({
     },
     tournamentsList: []
   },
-  getters: {
-    getFilteredSportsmenList: (state) => (search) => {
-      return state.sportsmenList.filter(sportsman => {
-        return (
-            sportsman.first_name.toLowerCase().includes(search.toLowerCase()) || 
-            sportsman.last_name.toLowerCase().includes(search.toLowerCase()) || 
-            sportsman.patronymic_name.toLowerCase().includes(search.toLowerCase())
-        )
-      })
-    }
-  },
   mutations: {
-    setSportsmenList(state, sportsmenList) {
-      state.sportsmenList = sportsmenList;
-    },
     setSportsmanList(state, sportsmanList) {
       state.sportsmanList = sportsmanList.reduce(
         (acc, sportsman) => ({
@@ -82,7 +71,7 @@ export default new Vuex.Store({
         {}
       );
       state.sportsmanIds = Object.getOwnPropertyNames(state.sportsmanList);
-      console.log(state.sportsmanList);
+      window.console.log(state.sportsmanList);
     },
     setSelectedSportsmen(state) {
       state.selectedSportsmen = state.sportsmanIds;
@@ -110,8 +99,9 @@ export default new Vuex.Store({
     },
     setTournamentsList(state, tournamentsList) {
       state.tournamentsList = tournamentsList;
-      console.log(state.tournamentsList);
+      window.console.log(state.tournamentsList);
     }
   },
+
   actions: {}
 });
