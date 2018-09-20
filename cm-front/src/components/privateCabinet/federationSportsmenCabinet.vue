@@ -5,7 +5,7 @@
                 <h2>Sportsmen</h2>
             </div>
             <div class="col-4">
-                <b-dropdown variant="outline-primary" right text="Activate">
+                <b-dropdown variant="outline-success" right text="Activate">
                     <b-dropdown-item @click="activateSelected">Activate</b-dropdown-item>
                     <b-dropdown-item @click="deactivateSelected">Deactivate</b-dropdown-item>
                     <b-dropdown-item @click="buySubscription">Buy Sudscription</b-dropdown-item>
@@ -24,7 +24,7 @@
                 </nav>
             </div>
             <div class="col-2">
-                <b-dropdown variant="outline-primary" right text="Create">
+                <b-dropdown variant="outline-success" right text="Create">
                     <b-dropdown-item @click="createPerson('Coach')">Coach</b-dropdown-item>
                     <b-dropdown-item @click="createPerson('Referee')">Referee</b-dropdown-item>
                     <b-dropdown-item @click="createPerson('Sportsman')">Sportsman</b-dropdown-item>
@@ -77,7 +77,7 @@
                     </td>
                     <td>{{item.date_of_birth}}</td>
                     <th>
-                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-success btn-sm">
                             Edit
                         </button>
                     </th>
