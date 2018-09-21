@@ -794,6 +794,7 @@ export default {
               gender: this.sportsman.gender,
               date_of_birth: this.sportsman.dateOfBirth,
               federation_id: this.sportsman.federation,
+              my_coaches: this.sportsman.coaches,
               city: this.sportsman.city
             })
               .then(response => {
