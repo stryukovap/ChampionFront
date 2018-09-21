@@ -239,9 +239,7 @@
                                     <div class="col">
                                         <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
-                                    <div class="col">
-
-                                       <multiselect id = "trainer"
+                                       <multiselect id = "coach"
                                                     v-model = "sportsman.coaches"
                                                     :options = "options"
                                                     :multiple = "true"
@@ -262,7 +260,6 @@
                                         </template>
                                         </multiselect>
                                     </div>
-                                </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
                                         <label for="city" class="cm-form__label">City</label>
@@ -535,7 +532,7 @@ export default {
     };
   },
   mounted() {
-    axios
+      axios
       .get("https://champion-api.herokuapp.com/api/federations")
       .then(response => {
         // handle success
@@ -568,6 +565,9 @@ export default {
               this.cities.push(city.name);
           });
       });
+      //hide label in Multiselect
+        Multiselect.props.showLabels.default = false;
+
   },
   computed: {
     testStepFederation: function() {
