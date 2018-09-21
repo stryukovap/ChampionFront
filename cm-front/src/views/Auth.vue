@@ -42,7 +42,7 @@
             </div>
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" value="remember-me">Remember me </label>
+                    <input v-on:click="c" type="checkbox" v-model="rememberMe">Remember me </label>
             </div>
             <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
             <button class="btn btn-lg btn-success btn-block"
@@ -80,7 +80,8 @@ export default {
       // email: "alex1@alexandrz.com",
       email: "",
       // password: "123456"
-      password: ""
+      password: "",
+      rememberMe: false
     };
   },
   validations: {
@@ -96,6 +97,7 @@ export default {
   //     this.loginAuth();
   // },
   methods: {
+    c:function(){window.console.log(this.rememberMe)},
       closeModal: function () {
           this.modal.show = false;
       },
@@ -129,6 +131,7 @@ export default {
               "this.$store.state.authUser " + this.$store.state.authUser
             );
             this.$store.state.isLoggedIn = true;
+            this.$store.state.rememberMe = this.rememberMe;
             window.console.log(
               "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
             );
@@ -136,6 +139,10 @@ export default {
               "lbUser",
               JSON.stringify(this.$store.state.authUser)
             );
+            window.localStorage.setItem(
+              "rememberMe", this.$store.state.rememberMe
+            );
+            window.console.log('rememberMe', typeof window.localStorage.getItem('rememberMe'));
               // this.showModalOnError(response.status, response.data.message, 1)
               this.$router.push("/");
           }// else {

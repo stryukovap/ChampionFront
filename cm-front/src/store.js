@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("lbUser"),
+    rememberMe: false,
     // authUser:localStorage.getItem("lbUser"),
     authUser: JSON.parse(localStorage.getItem("lbUser")),
     postLoginUrl: "https://champion-api.herokuapp.com/api/login",
