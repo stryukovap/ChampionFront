@@ -1,8 +1,11 @@
 <template>
     <div class="tournaments-cabinet container mt-3">
         <div class="row text-left mt-3">
-            <div class="col-12">
+            <div class="col-10">
                 <button v-on="$listeners" class="btn btn-sm btn-outline-success">⇐ Back to tournament list</button>
+            </div>
+            <div class="col-2">
+                <h4> <span v-if="isTournamentDeleted" class="badge badge-danger ml-3">Deleted!</span></h4>
             </div>
         </div>
         <div class="row text-left mt-3 mb-3">
@@ -15,12 +18,14 @@
             <div class="col-2">
                 <button @click="startTournament"
                         :disabled="tournament.isStarted == 1"
-                        class="col btn btn-success pl-4 pr-4">Start</button>
+                        class="col btn btn-success pl-4 pr-4"
+                        v-if="editButtonShow">Start</button>
             </div>
             <div class="col-2">
                 <button @click="finishTournament"
                         :disabled="tournament.isStarted == 0 || tournament.isFinished == 1"
-                        class="col btn btn-success pl-4 pr-4">Finish</button>
+                        class="col btn btn-success pl-4 pr-4"
+                        v-if="editButtonShow">Finish</button>
             </div>
             <div class="col-2 text-right">
                 <button
@@ -117,6 +122,7 @@
                 tournament: {},
                 tournamentEditShow: false,
                 editButtonShow: true,
+                isTournamentDeleted: false,
                 federationId: '',
                 http: axios.create({
                     headers: { Authorization: "Bearer " + this.$store.state.authUser.auth_token}
@@ -264,6 +270,7 @@
                         .remove();
                     this.refreshTournaments();
                     this.$router.push('federationcabinet');
+                    this.isTournamentDeleted = true;
                 } catch (error) {
                     throw error;
                 }
