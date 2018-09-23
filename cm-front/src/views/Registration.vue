@@ -283,19 +283,23 @@
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
                                             v-bind:disabled="testStepSportsman || testInitPassword || testInitValuesSportsman"
-                                            v-bind:class="{'disabled':
-                                            $v.user.email.$error ||
-                                            $v.user.password.$error ||
-                                            $v.user.passwordConfirm.$error  ||
-                                            testInitPassword ||
-                                            testInitValuesSportsman ||
-                                            $v.sportsman.patronymic.$error ||
-                                            $v.sportsman.surname.$error ||
-                                            $v.sportsman.name.$error ||
-                                            $v.sportsman.dateOfBirth.$error ||
-                                            $v.sportsman.city.$error}"
                                             @click="sendUserDataOnServer">Registration sportsman
                                     </button>
+                                    <!--<button class="btn btn-primary"-->
+                                    <!--v-bind:disabled="testStepSportsman || testInitPassword || testInitValuesSportsman"-->
+                                    <!--v-bind:class="{'disabled':-->
+                                    <!--$v.user.email.$error ||-->
+                                    <!--$v.user.password.$error ||-->
+                                    <!--$v.user.passwordConfirm.$error  ||-->
+                                    <!--testInitPassword ||-->
+                                    <!--testInitValuesSportsman ||-->
+                                    <!--$v.sportsman.patronymic.$error ||-->
+                                    <!--$v.sportsman.surname.$error ||-->
+                                    <!--$v.sportsman.name.$error ||-->
+                                    <!--$v.sportsman.dateOfBirth.$error ||-->
+                                    <!--$v.sportsman.city.$error}"-->
+                                    <!--@click="sendUserDataOnServer">Registration sportsman-->
+                                    <!--</button>-->
                                 </div>
                             </div>
                             <div class="cm-form__content cm-form__content--f"
@@ -429,19 +433,23 @@
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
                                             v-bind:disabled="testStepFederation || testInitPassword || testInitValuesFederation"
-                                            v-bind:class="{'disabled':
-                                       $v.user.email.$error ||
-                                       $v.user.password.$error ||
-                                       $v.user.passwordConfirm.$error  ||
-                                       testInitPassword ||
-                                       testInitValuesFederation ||
-                                       $v.federation.phone.$error ||
-                                       $v.federation.email.$error ||
-                                       $v.federation.name.$error ||
-                                       $v.federation.presidentName.$error ||
-                                       $v.federation.subDomain.$error}"
                                             @click="sendUserDataOnServer">Registration federation
                                     </button>
+                                    <!--<button class="btn btn-primary"-->
+                                    <!--v-bind:disabled="testStepFederation || testInitPassword || testInitValuesFederation"-->
+                                    <!--v-bind:class="{'disabled':-->
+                                    <!--$v.user.email.$error ||-->
+                                    <!--$v.user.password.$error ||-->
+                                    <!--$v.user.passwordConfirm.$error  ||-->
+                                    <!--testInitPassword ||-->
+                                    <!--testInitValuesFederation ||-->
+                                    <!--$v.federation.phone.$error ||-->
+                                    <!--$v.federation.email.$error ||-->
+                                    <!--$v.federation.name.$error ||-->
+                                    <!--$v.federation.presidentName.$error ||-->
+                                    <!--$v.federation.subDomain.$error}"-->
+                                    <!--@click="sendUserDataOnServer">Registration federation-->
+                                    <!--</button>-->
                                 </div>
                             </div>
                         </tab>
