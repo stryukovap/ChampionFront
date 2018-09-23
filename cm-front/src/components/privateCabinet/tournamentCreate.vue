@@ -474,7 +474,7 @@ export default {
     }
     axios
       .get(
-        `http://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
+          `https://champion-api.herokuapp.com/api/sportsman-list/by-federation/${
           this.federationId
         }/20`
       )
