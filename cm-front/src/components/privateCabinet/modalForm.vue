@@ -653,17 +653,11 @@ export default {
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
                 federation_belt_id: this.$store.state.sportsman.belt,
-                my_coaches: this.$store.state.sportsman.coaches
               }
             )
-              .post("https://champion-api.herokuapp.com/api/sportsman-coach",
-                  {
-                      sportsman_id: response.data.id,
-                      my_coaches: this.$store.state.sportsman.coaches
-                  })
             .then(response => {
               console.log(response.data);
-              if (this.image.sportsmanImageId) {
+                if (this.image.sportsmanImageId) {
                 this.createImageConnection(response.data.sportsman_id);
               }
               if (this.documents.documentId) {
