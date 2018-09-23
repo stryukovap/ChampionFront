@@ -50,7 +50,7 @@
                      alt="tournament photo">
             </div>
             <div class="col-4">
-                <p>{{tournament.description}}</p>
+                <p class='tour__description'>{{tournament.description}}</p>
                 <p>{{tournament.dates.dateStart}} - {{tournament.dates.dateEnd}}</p>
                 <p>Amount of Participants: {{tournament.amountOfParticipants}}/{{tournament.maxParticipants}}</p>
             </div>
@@ -304,4 +304,7 @@
         height: 185px;
         border-radius: 50%;
         }
+    .tour__description {
+        word-break: break-all;
+    }
 </style>
