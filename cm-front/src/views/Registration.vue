@@ -81,6 +81,10 @@
                                         Passwords should match
                                     </div>
                                 </div>
+                                <div class="cm-form-wrapper show-password">
+                                    <input type="checkbox" id='show-pass' @click='showPass'>
+                                    <label for="show-pass">Show password</label>
+                                </div>
                                 <div class="cm-form__wrapper text-center">
                                     <a class="btn btn-success"
                                        href="#second-step"
@@ -235,9 +239,7 @@
                                     <div class="col">
                                         <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
-                                    <div class="col">
-
-                                       <multiselect id = "trainer"
+                                       <multiselect id = "coach"
                                                     v-model = "sportsman.coaches"
                                                     :options = "options"
                                                     :multiple = "true"
@@ -258,7 +260,6 @@
                                         </template>
                                         </multiselect>
                                     </div>
-                                </div>
                                 <div class="cm-form__wrapper row">
                                     <div class="col">
                                         <label for="city" class="cm-form__label">City</label>
@@ -539,7 +540,7 @@ export default {
     };
   },
   mounted() {
-    axios
+      axios
       .get("https://champion-api.herokuapp.com/api/federations")
       .then(response => {
         // handle success
@@ -572,6 +573,9 @@ export default {
               this.cities.push(city.name);
           });
       });
+      //hide label in Multiselect
+        Multiselect.props.showLabels.default = false;
+
   },
   computed: {
     testStepFederation: function() {
@@ -798,6 +802,7 @@ export default {
               gender: this.sportsman.gender,
               date_of_birth: this.sportsman.dateOfBirth,
               federation_id: this.sportsman.federation,
+              my_coaches: this.sportsman.coaches,
               city: this.sportsman.city
             })
               .then(response => {
@@ -895,6 +900,20 @@ export default {
         .catch(function(error) {
           window.console.log(error);
         });
+    },
+    showPass: function() {
+      let pass = document.getElementById("user-pass");
+      if (pass.type === "password") {
+          pass.type = "text";
+      } else {
+          pass.type = "password";
+      };
+        let confPass = document.getElementById("user-confpass");
+        if (confPass.type === "password") {
+            confPass.type = "text";
+        } else {
+            confPass.type = "password";
+        }
     }
   }
 };
@@ -1011,5 +1030,14 @@ export default {
   padding: 0;
   font-size: 10px;
   margin-left: 5px;
+}
+
+.show-password {
+    text-align: left;
+    padding: 10px;
+}
+
+.show-password input {
+    margin-right: 5px;
 }
 </style>

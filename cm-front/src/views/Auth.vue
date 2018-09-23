@@ -21,19 +21,25 @@
             <!--<pre>-->
             <!--{{$v.email}}-->
             <!--</pre>-->
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword"
-                   class="form-control"
-                   placeholder="Password"
-                   required
-                   v-model="password"
-                   @input="$v.password.$touch()"
-                   :class="{'is-invalid' :$v.password.$error}">
-            <!--<div class="invalid-feedback"-->
-            <!--v-if="!$v.password.minLength">Password field is required</div>-->
-            <!--<pre>-->
-            <!--{{$v.password}}-->
-            <!--</pre>-->
+
+            <div class="cm-pass-wrapper">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword"
+                       class="form-control"
+                       placeholder="Password"
+                       required
+                       v-model="password"
+                       @input="$v.password.$touch()"
+                       :class="{'is-invalid' :$v.password.$error}">
+                <!--<div class="invalid-feedback"-->
+                <!--v-if="!$v.password.minLength">Password field is required</div>-->
+                <!--<pre>-->
+                <!--{{$v.password}}-->
+                <!--</pre>-->
+                <input type="checkbox" id='show-pass' @click='showPass'>
+                <label for="show-pass" id='toggle-show-pass'>Show
+                </label>
+            </div>
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" value="remember-me">Remember me </label>
@@ -150,7 +156,7 @@ export default {
                   this.showModalOnError(error.response.status, error.response.data.error, 0);
               }
         });
-    }
+    },
     // loginAuth: function () {
     //     const status1 = JSON.parse(window.localStorage.getItem('lbUser'));
     //     if (status1 === null || status === undefined) {
@@ -159,6 +165,17 @@ export default {
     //         this.$router.push('/');
     //     }
     // }
+      showPass: function() {
+          let pass = document.getElementById("inputPassword");
+          let toggleShowPass = document.getElementById('toggle-show-pass');
+          if (pass.type === "password") {
+              pass.type = "text";
+              toggleShowPass.textContent = 'Hide';
+          } else {
+              pass.type = "password";
+              toggleShowPass.textContent = 'Show';
+          }
+      }
   }
 };
 </script>
@@ -199,9 +216,35 @@ export default {
   border-bottom-left-radius: 0;
 }
 
-.form-signin input[type="password"] {
+.form-signin input {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.show-password {
+    text-align: center;
+}
+
+.show-password input {
+    margin-right: 5px;
+}
+
+.cm-pass-wrapper {
+    margin-top: 10px;
+    position: relative;
+}
+
+#show-pass {
+    display: none;
+}
+
+#toggle-show-pass {
+    z-index: 10;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 12px;
 }
 </style>

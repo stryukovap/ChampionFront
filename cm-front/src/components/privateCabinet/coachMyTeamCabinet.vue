@@ -5,7 +5,7 @@
                 <h2>My team</h2>
             </div>
             <div class="col-4">
-                <b-dropdown variant="outline-primary" right text="Action">
+                <b-dropdown variant="outline-success" right text="Action">
                     <b-dropdown-item @click="buySubscription">Buy Sudscription</b-dropdown-item>
                     <b-dropdown-item @click="deleteSportsman">Delete</b-dropdown-item>
                 </b-dropdown>
@@ -23,7 +23,7 @@
                 </nav>
             </div>
             <div class="col-2">
-                <button type="button" @click="modalShow = true" class="btn btn-outline-primary">Create</button>
+                <button type="button" @click="modalShow = true" class="btn btn-outline-success">Create</button>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     <td>Yes</td>
                     <td>{{item.date_of_birth}}</td>
                     <th>
-                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-primary btn-sm">
+                        <button @click.prevent="editSportsman(item.id)" class="btn btn-outline-success btn-sm">
                             Edit
                         </button>
                     </th>

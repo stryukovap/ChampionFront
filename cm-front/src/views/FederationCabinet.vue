@@ -4,7 +4,11 @@
             <div class="col-2">
                 <div class="sidebar__cabinet">
                     <div class="list-group" v-for="item of menu">
-                        <button @click="toggleMenuItem(item.title)" class="list-group-item list-group-item-action">{{item.title}}</button>
+                        <button @click="toggleMenuItem(item.title)"
+                                class="list-group-item list-group-item-action"
+                                v-bind:class="{'list-group-item-success': activeItem === item.title}">
+                            {{item.title}}
+                        </button>
                     </div>
                 </div>
             </div>

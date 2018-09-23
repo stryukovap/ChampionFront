@@ -11,7 +11,7 @@
                         <div class="info__subsc">Subscription</div>
                         <div class="info__wrap-text">
                             <div class="info__active">Expire in <span>{{subscription}}</span> days</div>
-                            <button class="info__btn btn btn-primary disabled">Subscribe</button>
+                            <button class="info__btn btn btn-success disabled">Subscribe</button>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                                 <!--<input type="submit"-->
                                 <!--value="Update"-->
                                 <!--class="form__btn btn btn-primary">-->
-                                <button class="form__btn btn btn-primary"
+                                <button class="form__btn btn btn-success"
                                         :disabled="$v.user.confirmNewPassword.$error || $v.user.newPassword.$error"
                                         @click="updatePassword">Update</button>
                             </div>
