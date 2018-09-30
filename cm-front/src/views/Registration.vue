@@ -283,7 +283,6 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testInitPassword || testInitValuesSportsman"
                                             @click="sendUserDataOnServer">Registration sportsman
                                     </button>
                                     <!--<button class="btn btn-primary"-->
@@ -433,7 +432,6 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testInitPassword || testInitValuesFederation"
                                             @click="sendUserDataOnServer">Registration federation
                                     </button>
                                     <!--<button class="btn btn-primary"-->
