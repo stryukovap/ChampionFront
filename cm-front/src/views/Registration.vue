@@ -792,7 +792,7 @@ export default {
             })
               .then(response => {
                 window.console.log("r", response);
-                  // this.$router.push("/");
+                  this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -834,7 +834,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                  // this.$router.push("/");
+                  this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
