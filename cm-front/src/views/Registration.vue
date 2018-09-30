@@ -265,21 +265,9 @@
                                         <label for="city" class="cm-form__label">City</label>
                                     </div>
                                     <autocomplete-city
+                                            id='city'
                                             v-bind:cities="cities"
                                     ></autocomplete-city>
-                                    <!--<div class="col">-->
-                                    <!--<input class="form-control" type="text"-->
-                                    <!--id="city"-->
-                                    <!--placeholder="City"-->
-                                    <!--autocomplete="off"-->
-                                    <!--@input="$v.sportsman.city.$touch()"-->
-                                    <!--@blur="$v.sportsman.city.$touch()"-->
-                                    <!--:class="{'is-invalid' :$v.sportsman.city.$error}"-->
-                                    <!--v-model="sportsman.city">-->
-                                    <!--<div class="invalid-feedback" v-if="!$v.sportsman.city.required">-->
-                                    <!--Field is required-->
-                                    <!--</div>-->
-                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
@@ -529,11 +517,10 @@ export default {
         phone: "",
         email: ""
       },
-        federations: [],
+      federations: [],
       userSportsman: "true",
       sports: {},
       authUser: {},
-      value: [],
       options: []
     };
   },
@@ -804,7 +791,7 @@ export default {
               city: this.sportsman.city
             })
               .then(response => {
-                window.console.log(response);
+                window.console.log("r", response);
                   // this.$router.push("/");
                 //
                 axios

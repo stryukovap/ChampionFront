@@ -206,19 +206,38 @@
                     </div>
                 </div>
                 <div class="cm-form__wrapper">
-                    <!--<input class="form-control" type="text"-->
-                    <!--placeholder="City"-->
-                    <!--autocomplete="off"-->
-                    <!--v-model="sportsman.city">-->
+
                     <autocomplete-city
                             v-bind:cities="cities"
                     ></autocomplete-city>
                 </div>
                 <div class="cm-form__wrapper">
-                    <input class="form-control" type="text"
-                           placeholder="Coaches"
-                           autocomplete="off"
-                           v-model="$store.state.sportsman.coaches">
+                    <!--<input class="form-control" type="text"-->
+                           <!--placeholder="Coaches"-->
+                           <!--autocomplete="off"-->
+                           <!--v-model="$store.state.sportsman.coaches">-->
+
+                    <multiselect id = "coach"
+                                 v-model = "$store.state.sportsman.coaches"
+                                 :options = "options"
+                                 :multiple = "true"
+                                 :close-on-select = "true"
+                                 :clear-on-select = "false"
+                                 :hide-selected = "true"
+                                 :preserve-search = "true"
+                                 placeholder = "Choose sportsman coach"
+                                 label = "last_name"
+                                 track-by = "id"
+                                 :preselect-first = "true"
+                    >
+                    <template slot = "tag" slot-scope = "props">
+                        <span class = "custom__tag">
+                            <!-- option === coach -->
+                            <span>{{ props.option.last_name }}</span>
+                            <span class = "custom__remove" @click = "props.remove(props.option)">❌</span>
+                        </span>
+                    </template>
+                    </multiselect>
                 </div>
                 <div class="popup__wrapper mt-1 row">
                     <div class="col-12" style="display: flex; flex-direction: column; align-items: center;">
@@ -327,12 +346,15 @@ import {
   maxValue,
   alpha
 } from "vuelidate/lib/validators";
+import Multiselect from 'vue-multiselect'
+
 
 export default {
   name: "modal-form",
   components: {
     // userCertificates,
-    AutocompleteCity
+    AutocompleteCity,
+    Multiselect
   },
   props: ["sportsmanId", "personRole"],
   data() {
@@ -378,7 +400,9 @@ export default {
         name: "",
         surname: "",
         patronymic: ""
-      }
+      },
+      options: [],
+        my_coaches: []
     };
   },
 
@@ -409,7 +433,7 @@ export default {
         return false;
       }
     }
-  },
+},
   mounted() {
     if (this.sportsmanId !== "") {
       this.$store.state.sportsman = this.$store.state.sportsmanList[
@@ -455,6 +479,22 @@ export default {
         this.degrees = response.data;
       })
       .catch(error => window.console.log(error.message));
+      this.$store.state.sportsman.coaches = []; //clearing list of coaches
+      axios
+          .get(
+              `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+                  this.$store.state.federationInfo.id
+                  }`
+          )
+          .then(response => {
+              if (response.status === 200) {
+                  this.options = response.data;
+                  window.console.log(this.options);
+              }
+          })
+          .catch(function(error) {
+              window.console.log(error);
+          });
   },
   methods: {
     setWeight(value) {
@@ -612,12 +652,12 @@ export default {
                 is_active: 1,
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
-                federation_belt_id: this.$store.state.sportsman.belt
+                federation_belt_id: this.$store.state.sportsman.belt,
               }
             )
             .then(response => {
               console.log(response.data);
-              if (this.image.sportsmanImageId) {
+                if (this.image.sportsmanImageId) {
                 this.createImageConnection(response.data.sportsman_id);
               }
               if (this.documents.documentId) {

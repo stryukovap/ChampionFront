@@ -118,9 +118,10 @@ export default {
   },
   beforeMount() {
     this.tournament = this.$store.state.tournamentsList[this.tournamentKey];
+    window.console.log("before", this.tournament);
   },
   mounted() {
-    this.federationId = this.$store.state.authUser.federation_users[0].federation_id;
+   
     if (
       "sportsmen" in
       this.tournament.categories[this.activeCategory][
