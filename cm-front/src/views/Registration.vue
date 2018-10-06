@@ -894,7 +894,7 @@ export default {
           pass.type = "text";
       } else {
           pass.type = "password";
-      };
+      }
         let confPass = document.getElementById("user-confpass");
         if (confPass.type === "password") {
             confPass.type = "text";
@@ -989,7 +989,7 @@ export default {
 }
 
 .tabs-component-panels {
-  padding: 4em 0;
+  padding: 1em 0;
 }
 
 @media (min-width: 700px) {

@@ -18,10 +18,6 @@
             <div class="invalid-feedback"
                  v-if="!$v.email.email">This field should be an email
             </div>
-            <!--<pre>-->
-            <!--{{$v.email}}-->
-            <!--</pre>-->
-
             <div class="cm-pass-wrapper">
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" id="inputPassword"
@@ -31,11 +27,6 @@
                        v-model="password"
                        @input="$v.password.$touch()"
                        :class="{'is-invalid' :$v.password.$error}">
-                <!--<div class="invalid-feedback"-->
-                <!--v-if="!$v.password.minLength">Password field is required</div>-->
-                <!--<pre>-->
-                <!--{{$v.password}}-->
-                <!--</pre>-->
                 <input type="checkbox" id='show-pass' @click='showPass'>
                 <label for="show-pass" id='toggle-show-pass'>Show
                 </label>
@@ -44,7 +35,6 @@
                 <label>
                     <input type="checkbox" value="remember-me">Remember me </label>
             </div>
-            <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
             <button class="btn btn-lg btn-success btn-block"
                     :disabled="$v.$invalid">Sign in
             </button>
@@ -148,11 +138,11 @@ export default {
           .catch(error => {
           window.console.log(error);
               if (error.response) {
-                  console.log(error.response.data);
-                  console.log(error.response);
-                  console.log(error.response.data.message);
-                  console.log(error.response.status);
-                  console.log(error.response.headers);
+                  window.console.log(error.response.data);
+                  window.console.log(error.response);
+                  window.console.log(error.response.data.message);
+                  window.console.log(error.response.status);
+                  window.console.log(error.response.headers);
                   this.showModalOnError(error.response.status, error.response.data.error, 0);
               }
         });
@@ -181,8 +171,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .form-signin {
-  width: 100%;
-  max-width: 330px;
+  width: 330px;
   padding: 15px;
   margin: auto;
   text-align: center;

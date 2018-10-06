@@ -1,7 +1,7 @@
 <template>
     <div class="federation-cabinet container-fluid">
         <div class="row">
-            <div class="col-2">
+            <div class="col-sm-12 col-md-12 col-lg-2">
                 <div class="sidebar__cabinet">
                     <div class="list-group" v-for="item of menu">
                         <button @click="toggleMenuItem(item.title)"
@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-sm-12 col-md-12 col-lg-10">
                 <tournaments v-if="activeItem === 'Tournaments'"></tournaments>
                 <sportsmen v-else-if="activeItem === 'Sportsmen'"></sportsmen>
                 <news v-else-if="activeItem === 'News'"></news>
@@ -71,5 +71,18 @@ export default {
 
 .list-group-item {
     cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .list-group {
+        width: 25%;
+        display: inline-block;
+    }
+}
+@media (max-width: 576px) {
+    .list-group {
+        width: 100%;
+        display: block;
+    }
 }
 </style>

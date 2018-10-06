@@ -5,10 +5,10 @@
                   <h2 class="tournaments__title">Nearest tournaments</h2>
                   <card class="tournaments__list"></card>
               </section>
-              <article class="federation__news">
+              <section class="federation__news">
                   <h2 class="news__desc">News</h2>
                   <news class="news__list" v-bind:newsList="newsList"></news>
-              </article>
+              </section>
           </div>
           <section class="federation__sportsman">
               <h2 class="sportsman__title">Our Sportmen</h2>
@@ -87,12 +87,11 @@ export default {
         justify-content: space-between;
         align-items: flex-start;
         margin-top: 30px;
-        min-width: 900px;
-        &__info{min-width: 900px;}
+        /*min-width: 900px;*/
+        &__info{
+            min-width: 900px;
+        }
     }
-    /*.sportsman__list, .tournaments__list{*/
-        /*align-self: stretch;*/
-    /*}*/
     .tournaments__title, .sportsman__title, .news__desc{
         text-align: left;
         font-family: "Nova Square", cursive;
@@ -103,5 +102,14 @@ export default {
         line-height: normal;
         letter-spacing: normal;
         color: #262626;
+    }
+
+    @media (max-width: 1300px) {
+        .federation__info,
+        .federation__news,
+        .federation__sportsman {
+            width: 100%;
+        }
+
     }
 </style>

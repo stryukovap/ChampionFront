@@ -28,20 +28,6 @@ export default {
     };
   },
   mounted() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/photos")
-    //   .then(response => {
-    //     for (let i = 0; i < response.data.length; i++) {
-    //       this.userCertificates.push({
-    //         picture: response.data[i].url,
-    //         link: "#"
-    //       });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     window.console.log(error);
-    //   });
-
     axios
       .get(
         `https://champion-api.herokuapp.com/api/sportsman/${

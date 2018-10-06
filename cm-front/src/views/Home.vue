@@ -1,5 +1,5 @@
 <template>
-        <div class="container">
+        <div class="wrapper">
             <div class="cards">
                 <card class="cards__item" v-for="sport in sports"
                       v-bind:Name="sport.name"
@@ -39,18 +39,24 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+    .wrapper {
+        width: 1200px;
+        margin: 0 auto;
+    }
     .cards{
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
         flex-wrap: wrap;
-        align-items: center;
-        margin-bottom: 30px;
+        align-content: flex-start;
         &__item{
-            margin-top: 30px;
-            margin-right: 34px;
-            &:nth-child(4n){
-                margin-right: 0;
-            }
+            margin: 5px 0 10px 5px;
+            align-self: flex-start;
+        }
+    }
+    @media (max-width: 1240px) {
+        .wrapper {
+            width: 100%;
+            padding: 0 20px;
         }
     }
 </style>

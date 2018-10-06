@@ -10,7 +10,7 @@
                 <div class="flex-wrap">
                   <img v-if="sportsman.photo" v-bind:src="sportsman.photo.url" width="50" height="50" alt="photo" class="coach-photo">
                   <img v-else src="../../assets/345x345_26.jpg" width="50" height="50" alt="photo" class="coach-photo">
-                  <div class="sportsman-name">{{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}</div>
+                  <p class="sportsman-name">{{ sportsman.sportsmen.first_name }} {{ sportsman.sportsmen.last_name }}</p>
                 </div>
               </a>
 
@@ -125,8 +125,9 @@ export default {
   font-size: 14px;
   margin-left: 13px;
   color: #000000;
-  max-width: 170px;
+  max-width: 150px;
   text-align: left;
+    text-wrap: normal;
 }
 
 .flex-wrap {

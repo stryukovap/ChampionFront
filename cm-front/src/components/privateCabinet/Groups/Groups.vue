@@ -5,83 +5,18 @@
         <div class="groups-wrapper">
             <div
                     class="group__content"
-                    @click="$emit('open')"
+                    @click="$emit('open', index)"
+                    v-for='(card, index) in cards'
             >
                 <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">Группа здоровья</h3>
-                <p class="group__text__fon"> Пн. 19:00</p>
-                <p class="group__text__fon"> Ср. 19:00</p>
-                <p class="group__text__fon"> Пт. 18:00</p>
+                <h3 class="group__desc">{{card.title}}</h3>
+                <p class="group__text__fon"
+                    v-for='(clas, key) in card.classes'
+                >{{key}} {{clas}}</p>
                 <div class="group__mask">
                     <div class="group__top">
                     </div>
-                    <h3 class="group__text">42
-                        <img class="group__img" src="../../../assets/2people.png"/>
-                    </h3>
-                </div>
-            </div>
-            <div
-                    class="group__content"
-                    @click="$emit('open')"
-            >
-                <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">Группа здоровья</h3>
-                <p class="group__text__fon"> Пн. 19:00</p>
-                <p class="group__text__fon"> Ср. 19:00</p>
-                <div class="group__mask">
-                    <div class="group__top">
-                    </div>
-                    <h3 class="group__text">42
-                        <img class="group__img" src="../../../assets/2people.png"/>
-                    </h3>
-                </div>
-            </div>
-            <div
-                    class="group__content"
-                    @click="$emit('open')"
-            >
-                <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">Группа здоровья</h3>
-                <p class="group__text__fon"> Пн. 19:00</p>
-                <div class="group__mask">
-                    <div class="group__top">
-                    </div>
-                    <h3 class="group__text">42
-                        <img class="group__img" src="../../../assets/2people.png"/>
-                    </h3>
-                </div>
-            </div>
-            <div
-                    class="group__content"
-                    @click="$emit('open')"
-            >
-                <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">Группа здоровья</h3>
-                <p class="group__text__fon"> Пн. 19:00</p>
-                <p class="group__text__fon"> Ср. 19:00</p>
-                <p class="group__text__fon"> Пт. 18:00</p>
-                <p class="group__text__fon"> Cб. 18:00</p>
-                <div class="group__mask">
-                    <div class="group__top">
-                    </div>
-                    <h3 class="group__text">42
-                        <img class="group__img" src="../../../assets/2people.png"/>
-                    </h3>
-                </div>
-            </div>
-            <div
-                    class="group__content"
-                    @click="$emit('open')"
-            >
-                <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">Группа здоровья</h3>
-                <p class="group__text__fon"> Пн. 19:00</p>
-                <p class="group__text__fon"> Ср. 19:00</p>
-                <p class="group__text__fon"> Пт. 18:00</p>
-                <div class="group__mask">
-                    <div class="group__top">
-                    </div>
-                    <h3 class="group__text">42
+                    <h3 class="group__text">{{card.members}}
                         <img class="group__img" src="../../../assets/2people.png"/>
                     </h3>
                 </div>
@@ -194,6 +129,7 @@
             color: #000000;
             padding: 2px;
         }
+
         &__content{
             display: flex;
             flex-direction: column;
@@ -242,6 +178,6 @@
 <script>
     export default {
         name: "group",
-        props: ["Name", "Image", "link_to"]
+        props: ['cards']
     };
 </script>

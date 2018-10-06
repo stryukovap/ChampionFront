@@ -19,7 +19,7 @@
                 <div class="cm-form__wrapper text-center">
                     <button class="btn btn-primary btn-user"
                             :disabled="$v.$invalid"
-                            @click="sendDataOnServer">sendDataOnServer
+                            @click="sendDataOnServer">Send
                     </button>
                     <!--<button class="btn btn-primary btn-user"-->
                     <!--@click="goRestore">goRestore-->
@@ -43,7 +43,7 @@ export default {
   name: "Forgotpass_step1",
   data() {
     return {
-      email: "stryukovap@gmail.com",
+      email: "",
       message: ""
     };
   },
@@ -77,6 +77,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.forgotpassword {
+    margin: 5px;
+}
 .wrapper {
   margin: 100px auto;
   border: 2px solid #000;

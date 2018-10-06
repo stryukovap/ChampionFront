@@ -1,11 +1,13 @@
 <template>
     <div>
         <groups
+            v-bind:cards = 'cards'
             v-if='GroupsShow'
             v-on:open="openGroup"
         ></groups>
         <attendance
-            v-if='AttendanceShow'
+                v-bind:card = 'cardPassed'
+                v-if='AttendanceShow'
             v-on:close='closeAttendance'
         ></attendance>
 
@@ -26,12 +28,33 @@ export default {
         return {
             GroupsShow: true,
             AttendanceShow: false,
+            classPassed: null,
+            cards : [
+                {
+                    title: 'Здоровье',
+                    members: '8',
+                    classes: {
+                            Mon: '18:00',
+                            Wed: '18:00',
+                            Fri: '18:00'
+                            }
+                },
+                {
+                    title: 'Veterans',
+                    members: '5',
+                    classes: {
+                        Tue: '19:00',
+                        Thu: '19:00'
+                    }
+                }
+            ]
         };
     },
     methods: {
-        openGroup() {
+        openGroup(index) {
         this.GroupsShow = false;
-        this.AttendanceShow = true
+        this.AttendanceShow = true;
+        this.cardPassed = this.cards[index];
         },
         closeAttendance() {
             this.GroupsShow = true;

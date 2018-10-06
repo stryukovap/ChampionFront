@@ -30,6 +30,8 @@
         overflow: hidden;
         transition: 0.64s ease-in-out;
         &__inner {
+            box-sizing: border-box;
+            padding: 15px;
             position: relative;
             display: flex;
             flex-direction: column;

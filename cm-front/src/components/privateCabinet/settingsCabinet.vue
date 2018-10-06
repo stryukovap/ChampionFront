@@ -172,10 +172,10 @@ export default {
           .catch(error => {
               // window.console.log(error);
               if (error.response) {
-                  console.log(error.response.data);
-                  console.log(error.response.data.message);
-                  console.log(error.response.status);
-                  console.log(error.response.headers);
+                  window.console.log(error.response.data);
+                  window.console.log(error.response.data.message);
+                  window.console.log(error.response.status);
+                  window.console.log(error.response.headers);
                   this.showModalOnError(
                       error.response.status,
                       error.response.data.message,

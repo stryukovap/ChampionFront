@@ -13,7 +13,7 @@
         >
             ✖
         </button>
-        <h2 class='training--date'>Пн 19:00</h2>
+        <h2 class='training--date'>{{dayOfWeek}}</h2>
         <div class='training-status'>
             <h4>Status</h4>
             <input class='status--input' type='radio' name='training-status' id='training-status1'>
@@ -68,7 +68,8 @@
 
 <script>
 export default {
-    name: 'AttendancePopUp'
+    name: 'AttendancePopUp',
+    props: ['dayOfWeek']
 }
 </script>
 

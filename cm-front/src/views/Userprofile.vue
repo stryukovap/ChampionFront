@@ -1,5 +1,5 @@
 <template>
-  <div class="container cm-co-profile">
+  <div class="wrapper cm-co-profile">
 
     <user-info class="user-info"></user-info>
     <user-certificates class="user-certificates"></user-certificates>
@@ -44,11 +44,27 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+  .wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
   .user-info {
     margin-top: 40px;
     margin-bottom: 40px;    
   }
   .user-certificates {
     margin-bottom: 40px;
+  }
+
+  @media (max-width: 1220px) {
+    .wrapper {
+      margin: 0 10px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .wrapper {
+      margin: 0;
+    }
   }
 </style>

@@ -16,6 +16,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.restorepassword {
+    margin: 5px;
+}
+
 .cm-form__desc {
   display: inline-block;
   margin: 50px;
