@@ -271,7 +271,6 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testInitPassword || testInitValuesSportsman"
                                             @click="sendUserDataOnServer">Registration sportsman
                                     </button>
                                     <!--<button class="btn btn-primary"-->
@@ -421,7 +420,6 @@
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <button class="btn btn-primary"
-                                            v-bind:disabled="testInitPassword || testInitValuesFederation"
                                             @click="sendUserDataOnServer">Registration federation
                                     </button>
                                     <!--<button class="btn btn-primary"-->
@@ -794,7 +792,7 @@ export default {
             })
               .then(response => {
                 window.console.log("r", response);
-                  // this.$router.push("/");
+                  this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
@@ -836,7 +834,7 @@ export default {
             })
               .then(response => {
                 window.console.log(response);
-                  // this.$router.push("/");
+                  this.$router.push("/");
                 //
                 axios
                   .post(this.$store.state.postLoginUrl, {
