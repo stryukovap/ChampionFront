@@ -20,8 +20,11 @@
                         <img class="group__img" src="../../../assets/2people.png"/>
                     </h3>
                 </div>
-            </div>
 
+            </div>
+            <div class="test" v-for="group in groups">
+                <div>{{group.name}}</div>
+            </div>
         </div>
 
         <popup-group
@@ -186,7 +189,7 @@
 </style>
 <script>
     import PopupGroup from '../Groups/PopupGroup';
-
+    import axios from 'axios';
     export default {
         name: "group",
         components: {
@@ -195,10 +198,27 @@
         props: ["cards"],
         data() {
             return {
+                groups: [],
                 groupModalShow: false,
+                http: axios.create({
+                    headers: {
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
+                    }
+                })
             };
         },
+        mounted() {
+            this.getGroups()
+        },
         methods: {
+            getGroups: function () {
+                const coach = this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].sportsman_id;
+                this.http
+                    .get("https://champion-api.herokuapp.com/api/groups-by-coach/" + coach)
+                    .then(response => {
+                        this.groups = response.data;
+                    })
+            },
             ModalShow: function () {
                 this.groupModalShow = true
             },
