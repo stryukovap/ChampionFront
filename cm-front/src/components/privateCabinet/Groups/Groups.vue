@@ -6,25 +6,45 @@
             <div
                     class="group__content"
                     @click="$emit('open', index)"
-                    v-for='(card, index) in cards'
+                    v-for='(schedules_by_group, index) in schedules_by_groups'
             >
                 <img src="../../../assets/run.jpg" alt="picture" width="224" height="154">
-                <h3 class="group__desc">{{card.title}}</h3>
-                <p class="group__text__fon"
-                    v-for='(clas, key) in card.classes'
-                >{{key}} {{clas}}</p>
+                <h3 class="group__desc">{{schedules_by_group.group_name}}</h3>
+                <p v-for="schedule in schedules_by_group.schedule">{{schedule.time}} {{schedule.day}}</p>
+                <!--<p class="group__text__fon"-->
+                <!--v-for='(clas, key) in card.classes'-->
+                <!--&gt;{{key}} {{clas}}</p>-->
                 <div class="group__mask">
                     <div class="group__top">
                     </div>
-                    <h3 class="group__text">{{card.members}}
-                        <img class="group__img" src="../../../assets/2people.png"/>
-                    </h3>
+                    <!--<h3 class="group__text">{{card.members}}-->
+                    <!--<img class="group__img" src="../../../assets/2people.png"/>-->
+                    <!--</h3>-->
                 </div>
 
             </div>
-            <div class="test" v-for="group in groups">
-                <div>{{group.name}}</div>
-            </div>
+            <!--<div-->
+            <!--class="group__content"-->
+            <!--@click="$emit('open', index)"-->
+            <!--v-for='(card, index) in cards'-->
+            <!--&gt;-->
+            <!--<img src="../../../assets/run.jpg" alt="picture" width="224" height="154">-->
+            <!--<h3 class="group__desc">{{card.title}}</h3>-->
+            <!--<p class="group__text__fon"-->
+            <!--v-for='(clas, key) in card.classes'-->
+            <!--&gt;{{key}} {{clas}}</p>-->
+            <!--<div class="group__mask">-->
+            <!--<div class="group__top">-->
+            <!--</div>-->
+            <!--<h3 class="group__text">{{card.members}}-->
+            <!--<img class="group__img" src="../../../assets/2people.png"/>-->
+            <!--</h3>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--<div class="test" v-for="group in groups">-->
+            <!--<div>{{group.name}}</div>-->
+            <!--</div>-->
         </div>
 
         <popup-group
@@ -199,6 +219,7 @@
         data() {
             return {
                 groups: [],
+                schedules_by_groups: [],
                 groupModalShow: false,
                 http: axios.create({
                     headers: {
@@ -217,6 +238,19 @@
                     .get("https://champion-api.herokuapp.com/api/groups-by-coach/" + coach)
                     .then(response => {
                         this.groups = response.data;
+                        this.groups.forEach((group) => {
+                            this.http
+                                .get("https://champion-api.herokuapp.com/api/schedule-by-group/" + group.id)
+                                .then(response => {
+                                    // const group_id = group.id;
+                                    this.schedules_by_groups.push({
+                                        group_id: group.id,
+                                        group_name: group.name,
+                                        schedule: response.data
+                                    });
+                                    console.log(this.schedules_by_groups)
+                                })
+                        })
                     })
             },
             ModalShow: function () {
