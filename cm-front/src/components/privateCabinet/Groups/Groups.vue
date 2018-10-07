@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2 class="groups">Groups</h2>
-        <button class="group__button" @click="createGroup">Create Group</button>
+        <button class="group__button" @click="ModalShow">Create Group</button>
         <div class="groups-wrapper">
             <div
                     class="group__content"
@@ -24,7 +24,11 @@
 
         </div>
 
-
+        <popup-group
+                v-if="groupModalShow"
+                @click.prevent="ModalClose"
+                @clicked="ModalClose">
+        </popup-group>
     </div>
 </template>
 <style scoped lang="scss">
@@ -181,40 +185,27 @@
     }
 </style>
 <script>
-    import axios from "axios";
+    import PopupGroup from '../Groups/PopupGroup';
 
     export default {
         name: "group",
+        components: {
+            PopupGroup
+        },
         props: ["cards"],
         data() {
             return {
-                group_id: "",
-                http: axios.create({
-                    headers: {
-                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
-                    }
-                })
+                groupModalShow: false,
             };
         },
         methods: {
-            createGroup: function () {
-                this.http
-                    .post("https://champion-api.herokuapp.com/api/group", {
-                        name: "test string",
-                        price_monthly: 800,
-                        price_single: 400
-                    })
-                    .then(response => {
-                        window.console.log(response.data);
-                        this.group_id = response.data.id;
-                        this.http.post("https://champion-api.herokuapp.com/api/schedule", {
-                            day: "day",
-                            time: "14:00:00",
-                            group_id: this.group_id,
-                            comment: "schedule"
-                        });
-                    });
-            }
+            ModalShow: function () {
+                this.groupModalShow = true
+            },
+            ModalClose: function () {
+                this.groupModalShow = false
+            },
+
         }
     };
 </script>
