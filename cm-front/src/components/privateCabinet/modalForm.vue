@@ -179,9 +179,9 @@
                     </div>
                     <div class="col">
                         <select class="form-control" name="degree" id="degree"
-                                v-model="$store.state.sportsman.degree">
+                                v-model="$store.state.sportsman.title">
                             <option v-for="degree in degrees"
-                                    v-bind:value="degree.id"
+                                    v-bind:value="degree.title"
                                     :key="degree.id">{{degree.title}}
                             </option>
                         </select>
@@ -462,16 +462,16 @@ export default {
         this.cities.push(city.name);
       });
     });
-    // this.http
-    //     .get(
-    //         "https://champion-api.herokuapp.com/api/belts/" +
-    //         this.$store.state.authUser.federation_users[0].federation_id
-    //     )
-    //     .then(response => {
-    //         window.console.log(response.data);
-    //         this.belts = response.data;
-    //     })
-    //     .catch(error => window.console.log(error.message));
+      this.http
+          .get(
+              "https://champion-api.herokuapp.com/api/belts/" +
+              this.$store.state.authUser.federation_users[0].federation_id
+          )
+          .then(response => {
+              window.console.log(response.data);
+              this.belts = response.data;
+          })
+          .catch(error => window.console.log(error.message));
     this.http
       .get("https://champion-api.herokuapp.com/api/titles/list")
       .then(response => {
@@ -653,6 +653,7 @@ export default {
                 is_coach: this.role.is_coach,
                 is_referee: this.role.is_referee,
                 federation_belt_id: this.$store.state.sportsman.belt,
+                  title: this.$store.state.sportsman.title
               }
             )
             .then(response => {
@@ -700,7 +701,8 @@ export default {
                     is_active: 1,
                     is_coach: 0,
                     is_referee: 0,
-                    federation_belt_id: this.$store.state.sportsman.belt
+                      federation_belt_id: this.$store.state.sportsman.belt,
+                      title: this.$store.state.sportsman.title
                   }
                 )
                 .then(reaponse => {
