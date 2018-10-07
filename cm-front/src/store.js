@@ -91,7 +91,7 @@ export default new Vuex.Store({
         patronymic_name: "",
         gender: "",
         date_of_birth: "",
-        degree: "",
+          title: "",
         weight: "",
         city: "",
         coaches: ""
