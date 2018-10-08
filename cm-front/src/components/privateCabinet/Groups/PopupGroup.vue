@@ -1,6 +1,12 @@
 <template>
     <div class="popup">
         <div class="inner">
+            <button
+                    class='close'
+                    @click="$emit('close')"
+            >
+                ✖
+            </button>
             <div class="edit">
                 <div class="group">
                     <h2>Group</h2>
@@ -11,10 +17,14 @@
                     <input type="text" name="day_cost" id="day_cost" placeholder="Day cost"
                            v-model="group.price_single">
                     <!--<button @click="deleteGroup">deleteGroup</button>-->
-                    <button @click="createGroup">createGroup</button>
+                    <button class='btn btn-outline-success btn-create'
+                            @click="createGroup"
+                    >
+                        create group
+                    </button>
                 </div>
-                <div class="days">
-                    <h2>Days</h2>
+                <div class="schedule">
+                    <h2>Schedule</h2>
                     <div class="day">
                         <select v-model="day">
                             <option value="Monday">Monday</option>
@@ -25,7 +35,8 @@
                             <option value="Saturday">Saturday</option>
                             <option value="Sunday">Sunday</option>
                         </select>
-                        <select v-model="time">
+                        <select class='select-day'
+                                v-model="time">
                             <option value="10:00">10:00</option>
                             <option value="12:00">12:00</option>
                             <option value="14:00">14:00</option>
@@ -35,10 +46,18 @@
                             <button @click.prevent="deleteSchedule(key)"><b>X</b></button>
                         </div>
                     </div>
-                    <button @click.prevent="createSchedule">createSchedule</button>
+                    <button class='btn btn-outline-success btn-create'
+                            @click.prevent="createSchedule"
+                    >
+                        create schedule
+                    </button>
                 </div>
                 <!--<button @click="deleteSchedule">deleteSchedule</button>-->
-                <button v-on="$listeners">Save</button>
+                <button class='btn btn-success btn-save'
+                        v-on="$listeners"
+                >
+                    Save
+                </button>
             </div>
         </div>
     </div>
@@ -117,14 +136,43 @@
 </script>
 
 <style scoped lang="scss">
+    .close {
+        position : absolute;
+        right : 20px;
+        top : 20px;
+        width : 30px;
+        height : 30px;
+        border-radius: 50%;
+        background-color : #F00;
+        color : #fff;
+        font-size : 16px;
+        text-align: center;
+    }
+
     input, select, button {
         margin-top: 10px;
     }
 
-    .days, .group {
+    .select-day {
+        margin-left: 10px;
+    }
+
+    .btn-create,
+    .btn-save{
+        margin: 10px auto !important;
+    }
+
+    .schedule, .group {
         display: flex;
         flex-direction: column;
         align-items: center;
+        h2 {
+            color: #28a745;
+        }
+    }
+
+    .schedule {
+        margin-top: 20px;
     }
 
     .popup {
@@ -140,24 +188,26 @@
         z-index: 2;
         overflow: hidden;
         transition: 0.64s ease-in-out;
-        &__inner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            max-width: 800px;
-            max-height: 600px;
-            width: 80%;
-            height: 80%;
-            background-color: #fff;
-            transition: 0.64s ease-in-out;
-            overflow-y: auto;
-        }
-        &__edit {
-            flex-direction: column;
-            justify-content: center;
-            width: 90%;
-            height: 90%;
-            padding: 1rem;
-        }
+    }
+    .inner {
+        position: relative;
+        display: flex;
+        align-items: center;
+        max-width: 800px;
+        max-height: 600px;
+        width: 80%;
+        height: 80%;
+        background-color: #fff;
+        border-radius: 15px;
+        border : 1px solid #28a745;
+        transition: 0.64s ease-in-out;
+        overflow-y: auto;
+    }
+    .edit {
+        flex-direction: column;
+        justify-content: center;
+        width: 90%;
+        height: 90%;
+        padding: 1rem;
     }
 </style>
