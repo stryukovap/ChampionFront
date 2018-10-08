@@ -55,13 +55,12 @@
         padding: 10px;
     }
     &__content{
-        /*margin-top: 30px;*/
+        margin: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-radius: 5px;
         background-color: #ffffff;
-        /*border: solid 1px #e9e9e9;*/
         width: 224px;
         text-align: center;
         position: relative;
@@ -74,12 +73,8 @@
         &:hover .card__mask{
             display: flex;
         }
-        /*&:hover{*/
-            /*border: none;*/
-        /*}*/
-    }
+           }
     &__mask{
-        /*display: flex;*/
         display: none;
         flex-direction: column;
         justify-content: flex-end;
@@ -89,6 +84,7 @@
         left:0;
         width: 100%;
         height: 100%;
+        z-index: 5;
         border-radius: 5px;
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
@@ -96,6 +92,21 @@
         -webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
         -moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
         box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
+    }
+}
+
+@media (max-width: 570px) {
+    .card {
+        &__content {
+            margin: 5px auto;
+            width: 300px;
+        }
+        &__top,
+        &__content img,
+        &__text,
+        &__title {
+            display: none;
+        }
     }
 }
 </style>
