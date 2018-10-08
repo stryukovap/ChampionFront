@@ -162,4 +162,116 @@
     .navbar-light {
         margin-top: -8px;
     }
+
+    @media screen and (min-width: 120px) and (max-width: 320px) {
+        .navbar-light {
+            margin-top: -8px;
+            margin-left: -34px;
+        }
+        .btn-outline-success {
+            margin-left: -46px;
+        }
+        .h2 {
+            margin-top: 45px;
+        }
+        .btn-group > .btn:first-child {
+            margin-left: -75px;
+            margin-top: 85px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            margin-left: -19px;
+            margin-top: 85px;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            margin-top: 85px;
+        }
+    }
+
+    @media screen and (min-width: 320px) and (max-width: 576px) {
+        .navbar-light {
+            margin-top: -8px;
+            margin-left: -34px;
+        }
+        .btn-outline-success {
+            margin-left: -46px;
+        }
+        .h2 {
+            margin-top: 45px;
+        }
+        .btn-group > .btn:first-child {
+            margin-left: -75px;
+            margin-top: 85px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            margin-left: -19px;
+            margin-top: 85px;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            margin-top: 85px;
+        }
+    }
+
+    @media screen and (min-width: 576px) and (max-width: 992px) {
+        .navbar-light {
+            margin-top: -8px;
+            margin-left: -34px;
+        }
+        .btn-outline-success {
+            margin-left: -46px;
+        }
+        .h2 {
+            margin-top: 45px;
+        }
+        .btn-group > .btn:first-child {
+            margin-left: -75px;
+            margin-top: 85px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            margin-left: -19px;
+            margin-top: 85px;
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            margin-top: 85px;
+        }
+    }
+
 </style>
