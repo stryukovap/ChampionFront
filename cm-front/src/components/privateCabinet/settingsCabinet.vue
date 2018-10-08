@@ -99,169 +99,287 @@
 </template>
 
 <script>
-import axios from "axios";
-import {
-    required,
-    minLength,
-    maxLength,
-    sameAs
-} from "vuelidate/lib/validators";
-import ModalForm from "./../../views/modalOkError.vue";
+    import axios from "axios";
+    import {
+        required,
+        minLength,
+        maxLength,
+        sameAs
+    } from "vuelidate/lib/validators";
+    import ModalForm from "./../../views/modalOkError.vue";
 
-export default {
-    components: {
-        ModalForm
-    },
-  name: "settings",
-  data: function() {
-    return {
-        modal: {
-            show: false,
-            title: "",
-            message: ""
+    export default {
+        components: {
+            ModalForm
         },
-      status: "",
-      subscription: "",
-        user: {
-            oldPassword: "",
-            newPassword: "",
-            confirmNewPassword: ""
+        name: "settings",
+        data: function () {
+            return {
+                modal: {
+                    show: false,
+                    title: "",
+                    message: ""
+                },
+                status: "",
+                subscription: "",
+                user: {
+                    oldPassword: "",
+                    newPassword: "",
+                    confirmNewPassword: ""
+                }
+            };
+        },
+        validations: {
+            user: {
+                oldPassword: {
+                    required: required
+                },
+                newPassword: {
+                    required,
+                    minLength: minLength(6),
+                    maxLength: maxLength(16)
+                },
+                confirmNewPassword: {
+                    required,
+                    sameAs: sameAs("newPassword")
+                }
+            }
+        },
+        methods: {
+            updatePassword: function () {
+                var HTTP = axios.create({
+                    headers: {
+                        Authorization: "Bearer " + this.$store.state.authUser.auth_token
+                    }
+                });
+                HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
+                    old_password: this.user.oldPassword,
+                    password: this.user.newPassword,
+                    password_confirmation: this.user.confirmNewPassword
+                })
+                    .then(response => {
+                        window.console.log(response);
+                        localStorage.removeItem("lbUser");
+                        this.$store.state.isLoggedIn = false;
+                        window.console.log(
+                            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
+                        );
+                        if (response.status) {
+                            this.showModalOnError(response.status, response.data.message, 'info');
+                        }
+                        // this.$router.push("/auth");
+                    })
+                    .catch(error => {
+                        // window.console.log(error);
+                        if (error.response) {
+                            window.console.log(error.response.data);
+                            window.console.log(error.response.data.message);
+                            window.console.log(error.response.status);
+                            window.console.log(error.response.headers);
+                            this.showModalOnError(
+                                error.response.status,
+                                error.response.data.message,
+                                1
+                            );
+                        }
+                    });
+            },
+            closeModal: function () {
+                this.modal.show = false;
+            },
+            showModalOnError: function (title, message, type) {
+                this.modal.show = true;
+                this.modal.title = title;
+                this.modal.message = message;
+                if (type === 'info') {
+                    this.$router.push("/auth");
+                }
+                else {
+                    this.modal.show = true;
+                    this.modal.title = title;
+                    this.modal.message = message;
+                    this.user.oldPassword = "";
+                    this.user.newPassword = "";
+                    this.user.confirmNewPassword = "";
+                }
+            }
+        },
+        mounted() {
+            // axios
+            //   .get("https://jsonplaceholder.typicode.com/todos/1")
+            //   .then(response => {
+            //     this.status = response.data.completed;
+            //     this.subscription = response.data.id;
+            //   })
+            //   .catch(error => window.console.log(error));
         }
     };
-  },
-  validations: {
-      user: {
-          oldPassword: {
-              required: required
-          },
-          newPassword: {
-        required,
-        minLength: minLength(6),
-        maxLength: maxLength(16)
-          },
-          confirmNewPassword: {
-        required,
-              sameAs: sameAs("newPassword")
-          }
-    }
-  },
-  methods: {
-    updatePassword: function() {
-      var HTTP = axios.create({
-        headers: {
-          Authorization: "Bearer " + this.$store.state.authUser.auth_token
-        }
-      });
-      HTTP.post("https://champion-api.herokuapp.com/api/password/change", {
-          old_password: this.user.oldPassword,
-          password: this.user.newPassword,
-          password_confirmation: this.user.confirmNewPassword
-      })
-        .then(response => {
-          window.console.log(response);
-          localStorage.removeItem("lbUser");
-          this.$store.state.isLoggedIn = false;
-          window.console.log(
-            "store.state.isLoggedIn value - " + this.$store.state.isLoggedIn
-          );
-            if (response.status) {
-                this.showModalOnError(response.status, response.data.message, 'info');
-            }
-            // this.$router.push("/auth");
-        })
-          .catch(error => {
-              // window.console.log(error);
-              if (error.response) {
-                  window.console.log(error.response.data);
-                  window.console.log(error.response.data.message);
-                  window.console.log(error.response.status);
-                  window.console.log(error.response.headers);
-                  this.showModalOnError(
-                      error.response.status,
-                      error.response.data.message,
-                      1
-                  );
-              }
-        });
-    },
-      closeModal: function () {
-          this.modal.show = false;
-      },
-      showModalOnError: function (title, message, type) {
-          this.modal.show = true;
-          this.modal.title = title;
-          this.modal.message = message;
-          if (type === 'info') {
-          this.$router.push("/auth");
-          }
-          else {
-              this.modal.show = true;
-              this.modal.title = title;
-              this.modal.message = message;
-              this.user.oldPassword = "";
-              this.user.newPassword = "";
-              this.user.confirmNewPassword = "";
-          }
-      }
-  },
-  mounted() {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/todos/1")
-    //   .then(response => {
-    //     this.status = response.data.completed;
-    //     this.subscription = response.data.id;
-    //   })
-    //   .catch(error => window.console.log(error));
-  }
-};
 </script>
 
 <style scoped lang="scss">
-.info {
-  &__str {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    .info {
+        &__str {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
 
-    &:last-child {
-      margin-bottom: 0;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        &__wrap-text {
+            display: flex;
+            align-items: center;
+        }
+
+        &__btn {
+            margin-left: 20px;
+        }
     }
-  }
 
-  &__wrap-text {
-    display: flex;
-    align-items: center;
-  }
+    .info-form {
+        padding-top: 50px;
+    }
 
-  &__btn {
-    margin-left: 20px;
-  }
-}
+    .form {
+        margin-top: 50px;
 
-.info-form {
-  padding-top: 50px;
-}
+        &__header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-.form {
-  margin-top: 50px;
+        &__field {
+            width: 270px;
+            margin: 0 auto 10px auto;
+        }
 
-  &__header {
-    text-align: center;
-    margin-bottom: 25px;
-  }
+        &__input {
+            width: 100%;
+        }
 
-  &__field {
-    width: 270px;
-    margin: 0 auto 10px auto;
-  }
+        &__btn-wrap {
+            display: flex;
+            justify-content: center;
+        }
+    }
 
-  &__input {
-    width: 100%;
-  }
+    @media screen and (min-width: 120px) and (max-width: 320px) {
+        .info__status {
+            margin-left: -71px;
+        }
+        .info__subsc {
+            margin-left: -71px;
+        }
+        .info__wrap-text {
+            margin-left: -71px;
+            margin-top: 25px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            margin-left: -85px;
+            margin-top: 45px;
+        }
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            margin-left: -77px;
+            font-size: 80%;
+            color: #dc3545;
+        }
+    }
 
-  &__btn-wrap {
-    display: flex;
-    justify-content: center;
-  }
-}
+    @media screen and (min-width: 320px) and (max-width: 576px) {
+        .info__status {
+            margin-left: -71px;
+        }
+        .info__subsc {
+            margin-left: -71px;
+        }
+        .info__wrap-text {
+            margin-left: -71px;
+            margin-top: 25px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            margin-left: -85px;
+            margin-top: 45px;
+        }
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            margin-left: -77px;
+            font-size: 80%;
+            color: #dc3545;
+        }
+    }
+
+    @media screen and (min-width: 576px) and (max-width: 992px) {
+        .info__status {
+            margin-left: -71px;
+        }
+        .info__subsc {
+            margin-left: -71px;
+        }
+        .info__wrap-text {
+            margin-left: -71px;
+            margin-top: 25px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            margin-left: -85px;
+            margin-top: 45px;
+        }
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            margin-left: -77px;
+            font-size: 80%;
+            color: #dc3545;
+        }
+    }
+
 </style>

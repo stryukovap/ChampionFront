@@ -91,10 +91,11 @@ export default new Vuex.Store({
         patronymic_name: "",
         gender: "",
         date_of_birth: "",
-        degree: "",
+          title: "",
         weight: "",
         city: "",
-        coaches: ""
+          coaches: "",
+          my_sportsmen_profile: []
       };
     },
     setTournamentsList(state, tournamentsList) {
