@@ -94,7 +94,8 @@ export default new Vuex.Store({
           title: "",
         weight: "",
         city: "",
-        coaches: ""
+          coaches: "",
+          my_sportsmen_profile: []
       };
     },
     setTournamentsList(state, tournamentsList) {

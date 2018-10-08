@@ -462,16 +462,29 @@ export default {
         this.cities.push(city.name);
       });
     });
-      this.http
-          .get(
-              "https://champion-api.herokuapp.com/api/belts/" +
-              this.$store.state.authUser.federation_users[0].federation_id
-          )
-          .then(response => {
-              window.console.log(response.data);
-              this.belts = response.data;
-          })
-          .catch(error => window.console.log(error.message));
+      if (this.$store.state.role === 'coach') {
+          this.http
+              .get(
+                  "https://champion-api.herokuapp.com/api/belts/" +
+                  this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id
+              )
+              .then(response => {
+                  window.console.log(response.data);
+                  this.belts = response.data;
+              })
+              .catch(error => window.console.log(error.message));
+      } else {
+          this.http
+              .get(
+                  "https://champion-api.herokuapp.com/api/belts/" +
+                  this.$store.state.authUser.federation_users[0].federation_id
+              )
+              .then(response => {
+                  window.console.log(response.data);
+                  this.belts = response.data;
+              })
+              .catch(error => window.console.log(error.message));
+      }
     this.http
       .get("https://champion-api.herokuapp.com/api/titles/list")
       .then(response => {
@@ -480,21 +493,40 @@ export default {
       })
       .catch(error => window.console.log(error.message));
       this.$store.state.sportsman.coaches = []; //clearing list of coaches
-      axios
-          .get(
-              `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
-                  this.$store.state.federationInfo.id
-                  }`
-          )
-          .then(response => {
-              if (response.status === 200) {
-                  this.options = response.data;
-                  window.console.log(this.options);
-              }
-          })
-          .catch(function(error) {
-              window.console.log(error);
-          });
+      if (this.$store.state.role === 'coach') {
+          axios
+              .get(
+                  `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+                      this.$store.state.authUser.my_sportsmen_profile.federation_sportsmen[0].federation_id
+                      }`
+              )
+              .then(response => {
+                  if (response.status === 200) {
+                      this.options = response.data;
+                      window.console.log(this.options);
+                  }
+              })
+              .catch(function (error) {
+                  window.console.log(error);
+              });
+      } else {
+          axios
+              .get(
+                  `https://champion-api.herokuapp.com/api/coach-list/by-federation/${
+                      this.$store.state.federationInfo.id
+                      }`
+              )
+              .then(response => {
+                  if (response.status === 200) {
+                      this.options = response.data;
+                      window.console.log(this.options);
+                  }
+              })
+              .catch(function (error) {
+                  window.console.log(error);
+              });
+      }
+
   },
   methods: {
     setWeight(value) {
