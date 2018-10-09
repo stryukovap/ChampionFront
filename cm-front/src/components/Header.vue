@@ -429,13 +429,9 @@ export default {
   }
 }
 
-/*a {*/
-/*outline: 1px solid red;*/
-/*}*/
-/*li {*/
-/*outline: 1px solid blue;*/
-/*}*/
-/*ul{*/
-/*outline: 1px solid orangered;*/
-/*}*/
+@media (max-width: 1200px) {
+    .user {
+        margin-right: 20px;
+    }
+}
 </style>

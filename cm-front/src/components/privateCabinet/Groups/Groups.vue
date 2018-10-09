@@ -50,7 +50,9 @@
         <popup-group
                 v-if="groupModalShow"
                 @click.prevent="ModalClose"
-                @clicked="ModalClose">
+                @clicked="ModalClose"
+                v-on:close='ModalClose'
+        >
         </popup-group>
     </div>
 </template>

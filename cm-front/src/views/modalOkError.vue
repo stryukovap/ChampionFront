@@ -26,7 +26,7 @@
         bottom: 0;
         right: 0;
         background-color: rgba(0, 0, 0, 0.8);
-        z-index: 2;
+        z-index: 20;
         overflow: hidden;
         transition: 0.64s ease-in-out;
         &__inner {

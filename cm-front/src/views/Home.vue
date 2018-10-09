@@ -41,22 +41,34 @@ export default {
 <style scoped lang="scss">
     .wrapper {
         width: 1200px;
-        margin: 0 auto;
+        margin: 50px auto;
     }
+
     .cards{
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         flex-wrap: wrap;
         align-content: flex-start;
-        &__item{
-            margin: 5px 0 10px 5px;
-            align-self: flex-start;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    @media (max-width: 1200px) {
+        .wrapper {
+            width: 98%;
+            margin: 20px;
+        }
+        .cards {
+            width: 936px;
         }
     }
-    @media (max-width: 1240px) {
-        .wrapper {
-            width: 100%;
-            padding: 0 20px;
+    @media (max-width: 972px) {
+        .cards {
+            width: 703px;
+        }
+    }
+    @media (max-width: 733px) {
+        .cards {
+            width: 469px;
         }
     }
 </style>
