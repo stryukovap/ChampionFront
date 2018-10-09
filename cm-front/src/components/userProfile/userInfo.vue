@@ -9,7 +9,7 @@
                     <a href="#" class="user__link user__link--in"></a>
                     <a href="#" class="user__link user__link--fa"></a>
                 </div>
-                <a href="#" class="user__phone">Phone</a>
+                <a href="#" class="user__phone">+380670000000</a>
             </div>
             <div class="user__info">
                 <h4 class="user__title">{{sportsman.first_name}}
@@ -121,6 +121,7 @@ export default {
         }`
       )
       .then(response => {
+        window.console.log('response', response.data);
           // console.log("response", response.data);
           // console.log("response: ",response.data.federation_sportsmen[0].federations.name);
         // if (response.data) {
