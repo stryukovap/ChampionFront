@@ -9,7 +9,7 @@
                     <a href="#" class="user__link user__link--in"></a>
                     <a href="#" class="user__link user__link--fa"></a>
                 </div>
-                <a href="#" class="user__phone">Phone</a>
+                <a href="tel:+380670000000" class="user__phone">Phone: +380670000000</a>
             </div>
             <div class="user__info">
                 <h4 class="user__title">{{sportsman.first_name}}
