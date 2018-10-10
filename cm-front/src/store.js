@@ -99,10 +99,8 @@ export default new Vuex.Store({
       };
     },
     setTournamentsList(state, tournamentsList) {
-      state.tournamentsList = tournamentsList;
-      window.console.log(state.tournamentsList);
+      state.tournamentsList = Object.values(tournamentsList).sort(function(a, b) {return new Date(b.dates.dateStart) - new Date(a.dates.dateStart);});
     }
   },
-
   actions: {}
 });

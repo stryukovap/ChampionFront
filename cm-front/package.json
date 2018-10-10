@@ -16,6 +16,7 @@
     "firebase": "^5.3.1",
     "npm": "^6.4.1",
     "vue": "^2.5.16",
+    "vue-fullcalendar": "^1.0.9",
     "vue-instant": "^1.0.2",
     "vue-multiselect": "^2.1.0",
     "vue-paginate": "^3.6.0",

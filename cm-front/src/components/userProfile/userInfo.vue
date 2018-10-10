@@ -121,6 +121,7 @@ export default {
         }`
       )
       .then(response => {
+        window.console.log('response', response.data);
           // console.log("response", response.data);
           // console.log("response: ",response.data.federation_sportsmen[0].federations.name);
         // if (response.data) {
