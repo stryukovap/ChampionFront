@@ -29,7 +29,7 @@
             </div>
         </div>
         <tournament-page
-               v-if="tournamentPageShow"
+                v-if="tournamentPageShow"
                 v-bind:tournament-key="tournamentKey"
                 @click.prevent="closeTournament">
         </tournament-page>
@@ -109,9 +109,32 @@
     }
 </script>
 
-<style>
-.tour-card {
-    cursor: pointer;
-}
+<style scoped lang="scss">
+    .tour-card {
+        cursor: pointer;
+    }
+
+    @media screen and (min-width: 320px) and (max-width: 576px) {
+        .btn {
+            cursor: pointer;
+            margin: 50px 80px;
+        }
+    }
+
+    @media screen and (min-width: 576px) and (max-width: 992px) {
+        .btn {
+            cursor: pointer;
+            margin: 50px 80px;
+        }
+    }
+
+    @media screen and (min-width: 120px) and (max-width: 320px) {
+        .btn {
+            cursor: pointer;
+            margin: 50px 80px;
+        }
+    }
+
+
 
 </style>
