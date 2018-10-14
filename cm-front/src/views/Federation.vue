@@ -60,7 +60,7 @@ export default {
 
       axios
       .get(
-        "http://champion-api.herokuapp.com/api/belts/" + this.$route.params.id
+          "https://champion-api.herokuapp.com/api/belts/" + this.$route.params.id
       )
       .then(response => {
         // window.console.log(response.data);
