@@ -98,8 +98,11 @@ export default new Vuex.Store({
           my_sportsmen_profile: []
       };
     },
+      // setTournamentsList(state, tournamentsList) {
+      //   state.tournamentsList = Object.values(tournamentsList).sort(function(a, b) {return new Date(b.dates.dateStart) - new Date(a.dates.dateStart);});
+      // }
     setTournamentsList(state, tournamentsList) {
-      state.tournamentsList = Object.values(tournamentsList).sort(function(a, b) {return new Date(b.dates.dateStart) - new Date(a.dates.dateStart);});
+        state.tournamentsList = tournamentsList;
     }
   },
   actions: {}
