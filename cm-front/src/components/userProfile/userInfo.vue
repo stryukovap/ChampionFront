@@ -20,8 +20,8 @@
                         <h4 v-if="sportsman.federation_sportsmen[0].is_coach === 1" class="user__role">Coach</h4>
                         <h4 v-else class="user__role">Sportsman</h4>
                         <li class="user__item user-badge">
-                            <p v-if="sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">need get
-                                belts</p>
+                            <!-- <p v-if="sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">{{sportsman.federation_sportsmen[0].federation_belt_id}}</p> -->
+                            <p v-if="sportsman.federation_sportsmen[0].federation_belt_id" class="user__belt">{{belt}}</p>
                             <p v-else class="user__belt">is not specified</p>
                             <p v-if="sportsman.federation_sportsmen[0].title" class="user__degree u-title">
                                 {{sportsman.federation_sportsmen[0].title}}</p>
@@ -65,6 +65,7 @@ export default {
   // props: ["userIsCoach"],
   data: function() {
     return {
+      belt: 'is not specified',
       sportsman: {
           "first_name": "",
           "last_name": "",
@@ -126,6 +127,8 @@ export default {
           // console.log("response: ",response.data.federation_sportsmen[0].federations.name);
         // if (response.data) {
           this.sportsman = response.data;
+          let self = this.sportsman;
+          this.belt = this.sportsman.federation_sportsmen[0].federations.belts.find(function(e){return e.id == self.federation_sportsmen[0].federation_belt_id}).name;
         // }
       })
       .catch(error => console.log(error.message));
