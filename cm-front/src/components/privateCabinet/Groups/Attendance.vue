@@ -7,20 +7,27 @@
             >Back</button>
             <h2>{{card["title"]}}</h2>
         </div>
-        <div class="calendar">
-             <full-calendar
-                        :events="classes"
-                        locale="ru"
-                        first-day='1'
-                        @eventClick="eventClick"
-                        @dayClick="dayClick"
-                        @moreClick="moreClick"
-                >
-               </full-calendar>
+        <div>
+            <calendar-view
+                    v-bind:events='events'
+                    v-bind:enableDragDrop='enableDragDrop'
+                    v-bind:showEventTimes='showEventTimes'
+                    v-bind:startingDayOfWeek='startingDayOfWeek'
+                    v-bind:locale='locale'
+                    @click-event='clickEvent'
+                    :show-date="showDate"
+                    class="theme-default groups-calendar">
+                <calendar-view-header
+                        slot="header"
+                        slot-scope="t"
+                        :header-props="t.headerProps"
+                        @input="setShowDate" />
+            </calendar-view>
                 <attendance-pop-up
-                    v-bind:day-of-week="dayOfWeek"
-                    class='popup'
+                    class='attendance-popup'
                     v-if='popUpShow'
+                    v-bind:title='classTitle'
+                    v-bind:time='classTime'
                     v-on:close='closePopUp'
                 ></attendance-pop-up>
         </div>
@@ -30,81 +37,91 @@
 
 <script>
     import AttendancePopUp from './AttendancePopUp';
-    import fullCalendar from 'vue-fullcalendar';
+    import { CalendarView, CalendarViewHeader } from "vue-simple-calendar";
+    require("vue-simple-calendar/static/css/default.css");
+    require("vue-simple-calendar/static/css/holidays-us.css");
 
     export default {
         name: "attendance",
         props: ['card'],
         components: {
             AttendancePopUp,
-            fullCalendar
+            // fullCalendar
+            CalendarView,
+            CalendarViewHeader,
         },
         data: function () {
             return {
-                daysOfWeek: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-                monthsOfYear: [
-                    'Jan',
-                    'Feb',
-                    'Mar',
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec'
-                ],
-                dayOfWeek: "Tue",
-                popUpShow: false,
-                classes: [
-                            {
-                                title: '',
-                                start: ''
-                            }
-                        ]
+                classTitle: '',
+                classTime: '',
+                popUpShow: true,
+                showDate: new Date(),
+                enableDragDrop: true,
+                showEventTimes: true,
+                startingDayOfWeek: 1,
+                locale: 'en',
+                events: [
+                    {
+                        startDate: '2018-10-15 18',
+                        title: 'ololo',
+                        id: 1,
+                        classes: 'ololo',
+                        url: '#'
+                    },{
+                        startDate: '2018-10-18 18',
+                        title: 'ololo',
+                        id: 2,
+                        classes: 'ololo'
+                    },
+                    {
+                        startDate: '2018-10-14 13',
+                        title: 'kokoko',
+                        id: 3,
+                        classes: 'ololo'
+                    },
+                    {
+                        startDate: '2018-10-14 20',
+                        title: 'atata',
+                        id: 4,
+                        classes: 'ololo'
+                    },
+                    {
+                        startDate: '2018-10-14 21',
+                        title: 'papap',
+                        id: 5,
+                        classes: 'ololo'
+                    }
+                ]
+
+
             }
         },
-        mounted: function () {
-                for(let i = 1; i <= 31; i++) {
-                    if("Mon" in this.card.classes) {
-                        window.console.log("mon");
-                    }
-                }
-        },
         methods: {
-            // changeMonth (start, end, current) {
-            //     window.console.log('changeMonth', start.format(), end.format(), current.format())
-            // },
-            eventClick (event, day, jsEvent, pos) {
-                this.popUpShow = this.popUpShow ? false : true;
-                let d = new Date(Date.parse(event.start));
-                this.dayOfWeek = this.daysOfWeek[d.getDay()] + ", " + d.getDate() + " " + this.monthsOfYear[d.getMonth()];
-
-            },
-            dayClick (day, jsEvent) {
-                // window.console.log('dayClick', 'день = ', day , jsEvent)
-            },
-            moreClick (day, events, jsEvent) {
-                // window.console.log('moreCLick', day, events, jsEvent)
-            },
-            openPopUp() {
-                this.popUpShow = true;
+            setShowDate(d) {
+                this.showDate = d;
             },
             closePopUp() {
                 this.popUpShow = false;
+            },
+            clickEvent (event) {
+                this.popUpShow = true;
+                this.classTitle = event.title;
+                this.classTime = event.startDate.getHours() + ':00';
+                window.console.log(event)
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
 
-.popup {
+<style lang="scss">
+
+.attendance-popup {
     position : absolute;
+    top: 85px;
+    right: 0;
     }
-.calendar {
+.groups-calendar {
     position : relative;
     }
 
@@ -119,5 +136,13 @@
 
 .comp-full-calendar {
     background-color: transparent;
+}
+
+.cv-day {
+    overflow-y: visible !important;
+}
+
+.cv-weeks {
+    height: 470px !important;
 }
 </style>

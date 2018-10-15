@@ -6,7 +6,7 @@
                  :key = 'round.index'
                  v-bind:class='`round-${index}`'
                  v-bind:title="index">
-                <p class='round-name'>Раунд {{ index+1 }}</p>
+                <p class='round-name'>Round {{ index+1 }}</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'>
@@ -102,6 +102,7 @@ export default {
         winner
       );
       this.updateBracket();
+      window.console.log(winner.fullname);
     },
 
     showPopUp(e) {
@@ -152,6 +153,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+
 .result {
   display: none;
   box-sizing: border-box;
@@ -200,6 +203,7 @@ export default {
     overflow-y: visible;
     width : 100%;
     padding-bottom : 150px;
+    min-height: 380px;
 }
 
 .bracket-wrapper {
@@ -227,6 +231,10 @@ export default {
   margin-left: 10px;
   background-color: #ccc;
   border-radius: 5px;
+}
+
+.round-name:last-of-type {
+    content: '3rd place';
 }
 
 .third-place,
@@ -316,4 +324,6 @@ export default {
 .fighter2 {
   background-color: #5cb85c;
 }
+
+
 </style>

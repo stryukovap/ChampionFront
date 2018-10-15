@@ -13,7 +13,7 @@
         >
             ✖
         </button>
-        <h2 class='training--date'>{{dayOfWeek}}</h2>
+        <h2 class='training--date'>{{title}} {{time}}</h2>
         <div class='training-status'>
             <h4>Status</h4>
             <input class='status--input' type='radio' name='training-status' id='training-status1'>
@@ -30,7 +30,7 @@
                          class = 'user-avatar__little'
                          width='44'
                          height='44'>
-                    <p class='user-fullname'>User Fullname</p>
+                    <p class='user-fullname'>Vitaliy Plachynda</p>
                     <input type = 'checkbox' class='user-attendance'>
                 </li>
                 <li>
@@ -39,7 +39,7 @@
                          class = 'user-avatar__little'
                          width='44'
                          height='44'>
-                    <p class='user-fullname'>User Fullname</p>
+                    <p class='user-fullname'>Oleksandr Lavrenko</p>
                     <input type = 'checkbox' class='user-attendance'>
                 </li>
                 <li>
@@ -48,7 +48,7 @@
                          class = 'user-avatar__little'
                          width='44'
                          height='44'>
-                    <p class='user-fullname'>User Fullname</p>
+                    <p class='user-fullname'>Andrii Strykov</p>
                     <input type = 'checkbox' class='user-attendance'>
                 </li>
                 <li>
@@ -57,7 +57,7 @@
                          class = 'user-avatar__little'
                          width='44'
                          height='44'>
-                    <p class='user-fullname'>User Fullname</p>
+                    <p class='user-fullname'>Anastasiia Pidoprygora</p>
                     <input type = 'checkbox' class='user-attendance'>
                 </li>
 
@@ -69,8 +69,9 @@
 <script>
 export default {
     name: 'AttendancePopUp',
-    props: ['dayOfWeek']
+    props: ['title', 'time']
 }
+
 </script>
 
 <style scoped>
@@ -91,6 +92,7 @@ export default {
 
 .btn-save {
     width : 100px;
+    margin-top: 0 !important;
     }
 
 .close {
@@ -150,7 +152,7 @@ h4{
     }
 
 .user-attendance:checked:after {
-    content: 'Был';
+    content: '';
     position : absolute;
     top : 20%;
     right : 0;

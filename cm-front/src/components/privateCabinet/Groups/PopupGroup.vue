@@ -55,6 +55,7 @@
                 <!--<button @click="deleteSchedule">deleteSchedule</button>-->
                 <button class='btn btn-success btn-save'
                         v-on="$listeners"
+                        @click.prevent='getSchedule'
                 >
                     Save
                 </button>
@@ -106,8 +107,10 @@
                     });
             },
             getSchedule: function () {
+                console.log('https://champion-api.herokuapp.com/api/schedule/' + this.group_id);
                 this.http
                     .get("https://champion-api.herokuapp.com/api/schedule/" + this.group_id)
+                    // .get("https://champion-api.herokuapp.com/api/group/" + this.group_id) it'll be new api
                     .then(response => {
                         this.schedules = response.data;
                     })
