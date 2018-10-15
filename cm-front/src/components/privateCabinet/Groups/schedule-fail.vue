@@ -25,8 +25,10 @@
                 </div>
                 <div class="schedule">
                     <h2>Schedule</h2>
-                    <div class="day" v-for="(day, index) in week">
-                        <!-- <select v-model="day">
+                    <button class='btn btn-outline-success btn-create' @click.prevent="createSchedule">+</button>
+                    <div class="day">
+                        
+                        <select v-model="classes[0].day">
                             <option value="Monday">Monday</option>
                             <option value="Tuesday">Tuesday</option>
                             <option value="Wednesday">Wednesday</option>
@@ -34,11 +36,9 @@
                             <option value="Friday">Friday</option>
                             <option value="Saturday">Saturday</option>
                             <option value="Sunday">Sunday</option>
-                        </select> -->
-                        <input type="checkbox" id="checkbox" v-model="postDay[index]">
-                        <label for="checkbox">{{day}}</label>
+                        </select>
                         <select class='select-day'
-                                v-model="postTime[index]">
+                                v-model="classes[0].time">
                             <option value="10:00">10:00</option>
                             <option value="12:00">12:00</option>
                             <option value="14:00">14:00</option>
@@ -47,13 +47,10 @@
                             <span>class.day</span><span>class.time</span>
                             <button @click.prevent="deleteSchedule(key)"><b>X</b></button>
                         </div> -->
+                        
                     </div>
                     
-                    <!-- <button class='btn btn-outline-success btn-create'
-                            @click.prevent="createSchedule"
-                    >
-                        create schedule
-                    </button> -->
+                    
                 </div>
                 <!--<button @click="deleteSchedule">deleteSchedule</button>-->
                 <button class='btn btn-success btn-save'
@@ -75,19 +72,13 @@
         name: "PopupGroup",
         data() {
             return {
-                week: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                postTime: ["", "", "", "", "", "", ""],
-                postDay: [false, false, false, false, false, false, false],
                 schedules: [],
                 group: {
                     name: "",
                     price_monthly: "",
                     price_single: ""
                 },
-                class: {
-                    day: "",
-                    time: ""
-                },
+                classes: [{day: "", time: ""}],
                 group_id: "",
                 http: axios.create({
                     headers: {
@@ -101,8 +92,7 @@
         },
         methods: {
             createGroup: function () {
-                // window.console.log(this.postTime);
-                // window.console.log(this.postDay);
+                
             },
             saveGroup: function () {
                 this.http
@@ -114,43 +104,53 @@
                     .then(response => {
                         window.console.log(response.data);
                         this.group_id = response.data.id;
-                        for(var day in this.postDay) {
-                            // window.console.log(this.postDay[day])
-                            if(this.postDay[day]) {
-                                // window.console.log("start", this.week[day], this.postTime[day], this.group_id);
-                                let g_id = this.group_id
-                                this.http
-                                    .post("https://champion-api.herokuapp.com/api/schedule", {
-                                        day: this.week[day],
-                                        time: this.postTime[day],
-                                        group_id: g_id,
-                                        comment: "schedule"
-                                    })
-                                    .then(response => {
-                                        console.log(response.data);
-                                        // this.getSchedule()
-                                        console.log('https://champion-api.herokuapp.com/api/schedule/' + this.group_id);
-                                    })
-                            }
-                        }
                     });
-                
                 // console.log('https://champion-api.herokuapp.com/api/schedule/' + this.group_id);
-
                 // this.http
                 //     .get("https://champion-api.herokuapp.com/api/schedule/" + this.group_id)
                 //     // .get("https://champion-api.herokuapp.com/api/group/" + this.group_id) it'll be new api
                 //     .then(response => {
                 //         this.schedules = response.data;
-                //     })
+                //     });
 
-                // for(day in this.postDay) {
-                //     window.console.log(day)
-                // };
+                // this.http
+                //     .post("https://champion-api.herokuapp.com/api/schedule", {
+                //         day: this.day,
+                //         time: this.time,
+                //         group_id: this.group_id,
+                //         comment: "schedule"
+                //     })
+                //     .then(respons => {
+                //         console.log(respons.data);
+                //         // this.getSchedule()
+                //     });
             },
-            // createSchedule: function () {
-                
-            // },
+            createSchedule: function () {
+                this.classes.push({day: "", time: ""});
+                let newDay = document.createElement('div');
+                newDay.innerHTML = `
+                        <select v-model="classes[${document.getElementsByClassName("day").length}].day">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                        <select class='select-day'
+                                v-model="classes[${document.getElementsByClassName("day").length}].time">
+                            <option value="10:00">10:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="14:00">14:00</option>
+                        </select>
+                        `;
+                newDay.classList.add("day");        
+                let lastDay = document.getElementsByClassName("day")[document.getElementsByClassName("day").length - 1];
+                lastDay.after(newDay);
+
+                console.log(this.classes);
+            },
             // deleteSchedule: function (key) {
             //     this.schedule.splice(key, 1);
             //     // this.http
@@ -181,6 +181,7 @@
 
     .select-day {
         margin-left: 10px;
+        margin-right: 10px;
     }
 
     .btn-create,
