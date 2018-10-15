@@ -4,9 +4,18 @@
             <div class='round'
                  v-for = '(round, index) in bracket'
                  :key = 'round.index'
-                 v-bind:class='`round-${index}`'
-                 v-bind:title="index">
-                <p class='round-name'>Round {{ index+1 }}</p>
+                 v-bind:class='{thirdPlace: index == (bracket.length - 2), final: index == (bracket.length - 1)}'
+                 v-bind:title="index"
+                >
+                <p
+                  class='round-name'
+                  v-if='index < (bracket.length - 2)'>Round {{ index+1 }}</p>
+                <p
+                  class='round-name'
+                  v-else-if='index < (bracket.length - 1)'>Third place</p>
+                <p
+                  class='round-name'
+                  v-else=''>Final</p>
                 <div class = 'game'
                      v-for = '(fight, index) in round'
                      :key = 'fight.index'>
@@ -50,7 +59,7 @@ export default {
   },
   data() {
     return {
-      bracketNew: []
+      bracketNew: [],
     };
   },
   mixins: [bracketModule],
@@ -202,7 +211,7 @@ export default {
     overflow-x: auto;
     overflow-y: visible;
     width : 100%;
-    padding-bottom : 150px;
+    padding-bottom : 210px;
     min-height: 380px;
 }
 
@@ -217,10 +226,15 @@ export default {
   justify-content: space-around;
   margin-top: 30px;
   margin-right: 30px;
+  order: 0;
 }
 
-.last-round {
-  justify-content: center;
+.thirdPlace {
+  order: 2;
+}
+
+.final {
+  order: 1;
 }
 
 .round-name {
@@ -231,16 +245,6 @@ export default {
   margin-left: 10px;
   background-color: #ccc;
   border-radius: 5px;
-}
-
-.round-name:last-of-type {
-    content: '3rd place';
-}
-
-.third-place,
-.final {
-  position: static;
-  margin-top: 50px;
 }
 
 .game {
