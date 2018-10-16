@@ -35,7 +35,7 @@
                             <option value="Saturday">Saturday</option>
                             <option value="Sunday">Sunday</option>
                         </select> -->
-                        <input type="checkbox" id="checkbox" v-model="postDay[index]">
+                        <input type="checkbox" v-model="postDay[index]">
                         <label for="checkbox">{{day}}</label>
                         <select class='select-day'
                                 v-model="postTime[index]">
@@ -181,6 +181,7 @@
 
     .select-day {
         margin-left: 10px;
+        margin-top: 0;
     }
 
     .btn-create,
@@ -235,5 +236,12 @@
         width: 90%;
         height: 90%;
         padding: 1rem;
+    }
+
+    .day {
+        margin: 0;
+        input {
+            margin: 0;
+        }
     }
 </style>
