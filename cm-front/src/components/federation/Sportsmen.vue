@@ -16,26 +16,15 @@
                  class="sportsman__photo"
                  src="../../assets/345x345_26.jpg"
                  alt="photo">
-            <h4 class="sportsman__name">{{ sportsman.first_name }}</h4>
-            <h4 class="sportsman__name">{{sportsman.last_name}}</h4>
+            <h4 class="sportsman__name">{{ sportsman.first_name }} {{sportsman.last_name}}</h4>
           </div>
           <div class="sportsman__desc">
             <p class="sportsman__role" v-if="sportsman.federation_sportsmen[0].is_coach === 0">sportsmen</p>
             <p class="sportsman__role" v-else>coach</p>
           </div>
         </router-link>
-        <!--<a :href="'https://champion-front-test.herokuapp.com/userprofile/' + sportsman.federation_sportsmen[0].sportsman_id" class="text-secondary">-->
-
-              <!--<p class="text-center">{{ sportsman.role }}</p>-->
-            <!--<img v-bind:src="sportsman.belt">{{ sportsman.dan }}</p>-->
-            <!--<p class="text-center">{{ sportsman.role }}</p>-->
-            <!--<p class="text-center">belt - {{ sportsman.belt }}</p>-->
-            <!--<p class="text-center">title - {{ sportsman.title }}</p>-->
-        <!--</a>-->
       </div>
     </div>
-  <!--<div class="container">-->
-    <!--<nav aria-label="Page navigation example">-->
       <ul class="pagination__list" v-if="pagination.pages > 1">
         <li class="pagination__item"
             v-bind:class="{ 'disabled': pagination.currentPage === 1 }"
@@ -56,14 +45,9 @@
           <a class="pagination__link pagination__link--right" href="#"></a>
         </li>
       </ul>
-    <!--</nav>-->
   </div>
-
-<!--</div>-->
-
-  <!--</div>-->
-<!--</div>-->
 </template>
+
 <script>
 import axios from "axios";
 export default {
@@ -268,5 +252,48 @@ export default {
       }
     }
   }
+}
+
+@media (max-width: 980px) {
+  .sportsman {
+    &__list {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    &__item {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      margin-top: 20px;
+      margin-right: 0;
+      border: none;
+      background-color: unset;
+      box-shadow: unset;
+    }
+    &__info {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    &__photo {
+      width: 200px;
+      height: 100%;
+    }
+    &__name {
+      margin-left: 20px;
+      font-size: 3em;
+    }
+    &__desc {
+      position: absolute;
+      bottom: 20px;
+      left: 230px;
+      width: 300px;
+    }
+    &__role {
+      font-size: 2em;
+    }
+
+  }
+
 }
 </style>

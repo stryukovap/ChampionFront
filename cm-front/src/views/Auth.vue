@@ -31,7 +31,7 @@
                 <label for="show-pass" id='toggle-show-pass'>Show
                 </label>
             </div>
-            <div class="checkbox mb-3">
+            <div class="checkbox mb-3 remember">
                 <label>
                     <input type="checkbox" value="remember-me">Remember me </label>
             </div>
@@ -193,6 +193,7 @@ export default {
   height: auto;
   padding: 10px;
   font-size: 16px;
+  margin: 0;
 }
 
 .form-signin .form-control:focus {
@@ -235,5 +236,31 @@ export default {
     top: 0;
     right: 10px;
     font-size: 12px;
+}
+
+@media (max-width: 980px) {
+    .form-signin {
+        width: 100%;
+        h2 {
+            font-size: 4em !important;
+        }
+        .form-control {
+            margin-top: 30px;
+            font-size: 4em;
+        }
+        &__link {
+            font-size: 2em;
+        }
+    }
+    #toggle-show-pass,
+    .remember,
+    .btn
+    {
+        font-size: 3rem;
+    }
+    .btn {
+        margin: 0 auto;
+        width: 350px;
+    }
 }
 </style>

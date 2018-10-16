@@ -16,7 +16,7 @@
         width: 100%;
         -webkit-backdrop-filter: blur(4px);
         backdrop-filter: blur(4px);
-        background-color: #f77f00;
+        /*background-color: #f77f00;*/
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         margin-bottom: auto;
@@ -42,7 +42,7 @@
         font-stretch: normal;
         line-height: normal;
         letter-spacing: normal;
-        color: #ffffff;
+        color: #000;
     }
     &__text{
         font-size: 11px;
@@ -64,9 +64,9 @@
         width: 224px;
         text-align: center;
         position: relative;
-        -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
-        -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
-        box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.7);
+        -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
+        -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
+        box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
         &:hover{
             cursor:pointer;
         }
@@ -81,31 +81,35 @@
         align-items: center;
         position: absolute;
         top: 0;
-        left:0;
+        left:1px;
         width: 100%;
         height: 100%;
         z-index: 5;
         border-radius: 5px;
         -webkit-backdrop-filter: blur(6px);
         backdrop-filter: blur(6px);
-        background-image: linear-gradient(to top,#000000 , rgba(255, 255, 255, 0.42));
-        -webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
-        -moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
-        box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
+        background-image: linear-gradient(to top,#28a745 0, rgba(255, 255, 255, 0.1) 66%);
+        -webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.3);
+        -moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.3);
+        box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.3);
     }
 }
 
-@media (max-width: 570px) {
+@media (max-width: 980px) {
     .card {
         &__content {
             margin: 5px auto;
-            width: 300px;
+            width: 95%;
         }
         &__top,
         &__content img,
         &__text,
         &__title {
             display: none;
+        }
+        &__desc {
+            padding: 20px;
+            font-size: 3rem;
         }
     }
 }

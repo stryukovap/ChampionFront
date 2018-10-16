@@ -1,27 +1,24 @@
 <template>
     <div>
-        <!--<div class="row">-->
-            <div class="news__content"
-                 v-for='(post, index) in newsList'
-                 v-if='index < 2 || isAllPostsShown'
-                 :key='post.index'>
-                <router-link tag="div" v-bind:to="'/about'" class="text-secondary">
-                    <img src="../../assets/345x345_26.jpg"  class="news__img">
-                    <!--v-bind:src="post.avatar"-->
-                    <!--alt="Card image cap">-->
-                    <div>
-                        <h4 class="news__desc">{{ post.name }}</h4>
-                        <!--<p class="text-center">{{ post.date }}</p>-->
-                    </div>
-                </router-link>
-                <!--<router-link tag="div" class="news__mask" v-bind:to="'/' + link_to">-->
-                <router-link tag="a" v-bind:to="'/about'" class="news__mask">
-                    <div class="news__top"></div>
-                    <h3 class="news__title">{{post.name}}</h3>
-                    <p class="news__date">{{ post.date }}</p>
-                    <p class="news__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere pulvinar blandit...</p>
-                </router-link>
-            <!--</div>-->
+        <div class="news__content"
+             v-for='(post, index) in newsList'
+             v-if='index < 2 || isAllPostsShown'
+             :key='post.index'>
+            <router-link tag="div" v-bind:to="'/about'" class="text-secondary">
+                <img src="../../assets/345x345_26.jpg"  class="news__img">
+                <div>
+                    <h4 class="news__desc">{{ post.name }}</h4>
+                </div>
+            </router-link>
+            <router-link tag="a" v-bind:to="'/about'" class="news__mask">
+                <div class="news__top"></div>
+                <h3 class="news__title">{{post.name}}</h3>
+                <p class="news__date">{{ post.date }}</p>
+                <p class="news__text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere
+                    pulvinar blandit...
+                </p>
+            </router-link>
         </div>
         <div class="news__wrapper">
             <a class="news__more" v-on:click.prevent="togleNewsState" href="#">{{ linkText }}...</a>
@@ -165,6 +162,35 @@
             width: 100%;
             height: 200px;
             /*border-radius: 5px;*/
+        }
+    }
+
+    @media (max-width: 980px) {
+        .news {
+            &__content {
+                flex-direction: row;
+                width: 100%;
+            }
+            &__img {
+                width: 200px;
+                height: 100%;
+            }
+            &__desc {
+                font-size: 3em;
+            }
+            &__title,
+            &__date,
+            &__text {
+                font-size: 2em;
+            }
+            &__more {
+                width: 100%;
+                font-size: 3em;
+            }
+        }
+        .text-secondary {
+            display: flex;
+            flex-direction: row;
         }
     }
 </style>

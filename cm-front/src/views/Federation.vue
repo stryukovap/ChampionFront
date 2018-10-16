@@ -2,16 +2,16 @@
       <div class="container">
           <div class="federation">
               <section class="federation__info">
-                  <h2 class="tournaments__title">Nearest tournaments</h2>
+                  <h2 class="tournaments__title title">Nearest tournaments</h2>
                   <card class="tournaments__list"></card>
               </section>
               <section class="federation__news">
-                  <h2 class="news__desc">News</h2>
+                  <h2 class="news__desc title">News</h2>
                   <news class="news__list" v-bind:newsList="newsList"></news>
               </section>
           </div>
-          <section class="federation__sportsman">
-              <h2 class="sportsman__title">Our Sportmen</h2>
+          <section class="federation__sportsman ">
+              <h2 class="sportsman__title title">Our Sportmen</h2>
               <sportsmen class="sportsman__list"></sportsmen>
           </section>
     </div>
@@ -94,7 +94,7 @@ export default {
     }
     .tournaments__title, .sportsman__title, .news__desc{
         text-align: left;
-        font-family: "Nova Square", cursive;
+        font-family: "Nova Square", sans-serif;
         font-size: 32px;
         font-weight: normal;
         font-style: normal;
@@ -111,5 +111,26 @@ export default {
             width: 100%;
         }
 
+    }
+    @media (max-width: 980px) {
+        .container {
+            max-width: 940px;
+            padding: 0;
+            margin: 0 auto;
+        }
+        .title {
+            font-size: 3em;
+            width: 100%;
+        }
+        .federation {
+            flex-direction: column;
+            &__info{
+                min-width: unset;
+            }
+        }
+        .news__list {
+            display: flex;
+            flex-direction: column;
+        }
     }
 </style>
