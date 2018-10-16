@@ -434,4 +434,31 @@ export default {
         margin-right: 20px;
     }
 }
+@media (max-width: 980px) {
+    .container {
+        max-width: 950px;
+        padding: 0;
+        margin: 0 auto;
+    }
+    .menu {
+        &__logo {
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+        }
+        &__list {
+            &--top {
+                display: none;
+            }
+            &--auth {
+                justify-content: flex-end;
+                margin-right: 0;
+            }
+        }
+        &__link--auth {
+            font-size: 4em;
+            margin-left: 20px;
+        }
+    }
+}
 </style>

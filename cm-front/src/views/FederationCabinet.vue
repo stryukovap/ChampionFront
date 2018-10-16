@@ -75,9 +75,13 @@ export default {
 
 @media (max-width: 992px) {
     .list-group {
-        width: 25%;
+        width: 50%;
         display: inline-block;
     }
+    .list-group-item {
+        font-size: 3em;
+    }
+
 }
 @media (max-width: 576px) {
     .list-group {

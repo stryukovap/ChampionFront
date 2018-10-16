@@ -65,7 +65,7 @@
                                         Max length of password is {{ $v.user.password.$params.maxLength.max }}.
                                     </div>
                                 </div>
-                                <div class="cm-form__wrapper">
+                                <div class="cm-form__wrapper password">
                                     <input class="form-control" type="password" name="user-confpass"
                                            id="user-confpass"
                                            autocomplete="off"
@@ -74,16 +74,15 @@
                                            :class="{'is-invalid': $v.user.passwordConfirm.$error}"
                                            @input="$v.user.passwordConfirm.$touch()"
                                            @blur="$v.user.passwordConfirm.$touch()">
+                                    <input type="checkbox" id='show-pass' @click='showPass'>
+                                    <label for="show-pass" id='toggle-show-pass'>Show
+                                    </label>
                                     <div class="invalid-feedback"
                                          v-if="!$v.user.password.required">Confirm password field is required
                                     </div>
                                     <div class="invalid-feedback" v-if="!$v.user.passwordConfirm.sameAs">
                                         Passwords should match
                                     </div>
-                                </div>
-                                <div class="cm-form-wrapper show-password">
-                                    <input type="checkbox" id='show-pass' @click='showPass'>
-                                    <label for="show-pass">Show password</label>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
                                     <a class="btn btn-success"
@@ -94,7 +93,7 @@
                                        $v.user.passwordConfirm.$error  ||
                                        testInitPassword}">Next</a>
                                 </div>
-                                <div class="cm-form__wrapper text-center">
+                                <div class="cm-form__wrapper text-center form-reg__link">
                                     <router-link class="cm_form__link" to="/auth">Already registered?</router-link>
                                 </div>
                             </div>
@@ -106,8 +105,8 @@
                                        testInitPassword">
                             <!--включено для отладки-->
                             <!--<tab name="Second step">-->
-                            <div class="cm-form__wrapper text-left">
-                                <a class="btn btn-danger" href="#first-step">Back</a>
+                            <div class="cm-form__wrapper text-left btn-wrapper">
+                                <a class="btn btn-danger btn-back" href="#first-step">Back</a>
                             </div>
                             <div class="cm-form__content cm-form__content--s"
                                  v-if="userSportsman === 'true'">
@@ -225,7 +224,7 @@
                                     <div class="col">
                                         <label for="federation" class="cm-form__label">Federation</label>
                                     </div>
-                                    <select class="form-control" name="federation" id="federation"
+                                    <select class="form-control federation" name="federation" id="federation"
                                             v-model="sportsman.federation"
                                             @change='getCoaches'
                                     >
@@ -240,6 +239,7 @@
                                         <label for="coach" class="cm-form__label">Coach</label>
                                     </div>
                                        <multiselect id = "coach"
+                                                    class='coach'
                                                     v-model = "sportsman.coaches"
                                                     :options = "options"
                                                     :multiple = "true"
@@ -251,6 +251,7 @@
                                                     label = "last_name"
                                                     track-by = "id"
                                                     :preselect-first = "true"
+
                                        ><template slot = "tag" slot-scope = "props">
                                             <span class = "custom__tag">
                                                 <!-- option === coach -->
@@ -270,29 +271,14 @@
                                     ></autocomplete-city>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
-                                    <button class="btn btn-primary"
-                                            @click="sendUserDataOnServer">Registration sportsman
+                                    <button class="btn btn-primary btn-register"
+                                            @click="sendUserDataOnServer">Register sportsman
                                     </button>
-                                    <!--<button class="btn btn-primary"-->
-                                    <!--v-bind:disabled="testStepSportsman || testInitPassword || testInitValuesSportsman"-->
-                                    <!--v-bind:class="{'disabled':-->
-                                    <!--$v.user.email.$error ||-->
-                                    <!--$v.user.password.$error ||-->
-                                    <!--$v.user.passwordConfirm.$error  ||-->
-                                    <!--testInitPassword ||-->
-                                    <!--testInitValuesSportsman ||-->
-                                    <!--$v.sportsman.patronymic.$error ||-->
-                                    <!--$v.sportsman.surname.$error ||-->
-                                    <!--$v.sportsman.name.$error ||-->
-                                    <!--$v.sportsman.dateOfBirth.$error ||-->
-                                    <!--$v.sportsman.city.$error}"-->
-                                    <!--@click="sendUserDataOnServer">Registration sportsman-->
-                                    <!--</button>-->
                                 </div>
                             </div>
                             <div class="cm-form__content cm-form__content--f"
                                  v-else>
-                                <h3 class="cm-form__user-role text-center">Register as Federation</h3>
+                                <h3 class="cm-form__user-role text-center">Register Federation</h3>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" type="text" name="f-name" id="f-name"
                                            placeholder="Federation Name"
@@ -312,16 +298,13 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.name.required">
                                         Field is required
                                     </div>
-                                    <!--<div class="invalid-feedback" v-if="!$v.federation.name.alpha">-->
-                                    <!--Field for only alphabet characters-->
-                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper align-items-end row">
                                     <div class="col">
                                         <label class="cm-form__label" for="f-sport">Sport</label>
                                     </div>
                                     <div class="col">
-                                        <select class="form-control" name="sport" id="f-sport"
+                                        <select class="form-control sport" name="sport" id="f-sport"
                                                 v-model="federation.sport">
                                             <option v-for="sport in sports"
                                                     v-bind:value="sport.id"
@@ -349,9 +332,6 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.presidentName.required">
                                         Field is required
                                     </div>
-                                    <!--<div class="invalid-feedback" v-if="!$v.federation.presidentName.alpha">-->
-                                    <!--Field for only alphabet characters-->
-                                    <!--</div>-->
                                 </div>
                                 <div class="cm-form__wrapper">
                                     <input class="form-control" autocomplete="off" type="text" name="f-subDomain"
@@ -384,9 +364,6 @@
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.regexPhone">
                                         Field should be in format +380000000000
                                     </div>
-                                    <!--<div class="invalid-feedback" v-if="!$v.federation.phone.numeric">-->
-                                    <!--Field for only numeric characters-->
-                                    <!--</div>-->
                                     <div class="invalid-feedback" v-if="!$v.federation.phone.minLength">
                                         Min length of phone is {{
                                         $v.federation.phone.$params.minLength.min
@@ -419,30 +396,15 @@
                                     </div>
                                 </div>
                                 <div class="cm-form__wrapper text-center">
-                                    <button class="btn btn-primary"
+                                    <button class="btn btn-primary btn-register"
                                             @click="sendUserDataOnServer">Registration federation
                                     </button>
-                                    <!--<button class="btn btn-primary"-->
-                                    <!--v-bind:disabled="testStepFederation || testInitPassword || testInitValuesFederation"-->
-                                    <!--v-bind:class="{'disabled':-->
-                                    <!--$v.user.email.$error ||-->
-                                    <!--$v.user.password.$error ||-->
-                                    <!--$v.user.passwordConfirm.$error  ||-->
-                                    <!--testInitPassword ||-->
-                                    <!--testInitValuesFederation ||-->
-                                    <!--$v.federation.phone.$error ||-->
-                                    <!--$v.federation.email.$error ||-->
-                                    <!--$v.federation.name.$error ||-->
-                                    <!--$v.federation.presidentName.$error ||-->
-                                    <!--$v.federation.subDomain.$error}"-->
-                                    <!--@click="sendUserDataOnServer">Registration federation-->
-                                    <!--</button>-->
+
                                 </div>
                             </div>
                         </tab>
                     </tabs>
                 </form>
-                <!-- <div class="cm-form__message cm-form__message--error">Error message</div> -->
             </div>
         </div>
         <modal-form
@@ -926,7 +888,24 @@ export default {
   margin-bottom: 5px;
 }
 
-@media (min-width: 700px) {
+
+.password{
+    position: relative;
+}
+
+#show-pass {
+    display: none;
+}
+
+#toggle-show-pass {
+    z-index: 10;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 12px;
+}
+@media (min-width: 981px) {
   .tabs-component-tabs {
     border: 0;
     align-items: stretch;
@@ -961,7 +940,8 @@ export default {
   cursor: not-allowed !important;
 }
 
-@media (min-width: 700px) {
+
+@media (min-width: 981px) {
   .tabs-component-tab {
     background-color: #fff;
     border: solid 1px #ddd;
@@ -990,7 +970,7 @@ export default {
   padding: 1em 0;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 981px) {
   .tabs-component-panels {
     border-top-left-radius: 0;
     background-color: #fff;
@@ -1017,12 +997,73 @@ export default {
   margin-left: 5px;
 }
 
-.show-password {
-    text-align: left;
-    padding: 10px;
+.form-control {
+     margin-top: 0 !important;
+    margin-left: 0;
 }
 
-.show-password input {
-    margin-right: 5px;
+@media (max-width: 980px) {
+    .wrapper {
+        max-width: 100%;
+    }
+    .form-control,
+    .form-control label {
+        margin-bottom: 30px;
+        font-size: 3rem !important;
+
+    }
+    #toggle-show-pass {
+        font-size: 2rem;
+        right: 35px;
+    }
+    .cm-form__wrapper label,
+    .btn,
+    .show-password,
+    .cm-form__user-gender,
+    {
+        font-size: 3rem;
+    }
+    .btn {
+        margin: 0 auto;
+        width: 350px;
+    }
+    .invalid-feedback,
+    .form-reg__link,
+    .tabs-component-tab-a,
+    .multiselect__single,
+    .multiselect__option,
+    .autocomplete-result {
+        font-size: 2em;
+    }
+    .btn-back {
+        width: 150px;
+        font-size: 2em;
+        margin-top: 0 !important;
+    }
+
+    .form-control.federation,
+    .form-control.sport,
+    .multiselect__tags {
+        padding: 30px !important;
+    }
+
+    .multiselect__option,
+    .autocomplete-result{
+        margin: 15px;
+    }
+    .autocomplete input {
+        margin-bottom: 0;
+        width: 100%;
+        margin-left: 5px;
+    }
+
+    .autocomplete-results {
+    top: 86px;
+    position: absolute;
+    min-height: 200px;
+    }
+    .btn-register {
+        width: 100%;
+    }
 }
 </style>
