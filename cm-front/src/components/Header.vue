@@ -460,5 +460,20 @@ export default {
             margin-left: 20px;
         }
     }
+    .user {
+        width: 500px;
+        &__photo {
+            width: 110px;
+            height: 110px;
+        }
+        &__title,
+        &__valid,
+        &__link {
+            font-size: 2em;
+        }
+        &__list {
+            top: 110px;
+        }
+    }
 }
 </style>
