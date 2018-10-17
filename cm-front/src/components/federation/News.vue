@@ -172,7 +172,7 @@
                 width: 100%;
             }
             &__img {
-                width: 200px;
+                width: 150px;
                 height: 100%;
             }
             &__desc {
@@ -181,11 +181,11 @@
             &__title,
             &__date,
             &__text {
-                font-size: 2em;
+                font-size: 1.5rem;
             }
             &__more {
                 width: 100%;
-                font-size: 3em;
+                font-size: 1.5rem;
             }
         }
         .text-secondary {

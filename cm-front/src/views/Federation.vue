@@ -119,7 +119,7 @@ export default {
             margin: 0 auto;
         }
         .title {
-            font-size: 3em;
+            font-size: 2rem;
             width: 100%;
         }
         .federation {

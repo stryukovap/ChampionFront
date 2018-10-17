@@ -263,7 +263,7 @@ export default {
     &__item {
       position: relative;
       width: 100%;
-      height: 200px;
+      height: 150px;
       margin-top: 20px;
       margin-right: 0;
       border: none;
@@ -276,21 +276,21 @@ export default {
       width: 100%;
     }
     &__photo {
-      width: 200px;
+      width: 150px;
       height: 100%;
     }
     &__name {
       margin-left: 20px;
-      font-size: 3em;
+      font-size: 1.5rem;
     }
     &__desc {
       position: absolute;
       bottom: 20px;
-      left: 230px;
+      left: 190px;
       width: 300px;
     }
     &__role {
-      font-size: 2em;
+      font-size: 1rem;
     }
 
   }

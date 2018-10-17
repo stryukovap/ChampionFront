@@ -1009,19 +1009,19 @@ export default {
     .form-control,
     .form-control label {
         margin-bottom: 30px;
-        font-size: 3rem !important;
+        font-size: 1.5rem !important;
 
     }
     #toggle-show-pass {
-        font-size: 2rem;
+        font-size: 1rem;
         right: 35px;
     }
     .cm-form__wrapper label,
     .btn,
     .show-password,
-    .cm-form__user-gender,
+    .cm-form__user-gender
     {
-        font-size: 3rem;
+        font-size: 1.5rem;
     }
     .btn {
         margin: 0 auto;
@@ -1033,11 +1033,11 @@ export default {
     .multiselect__single,
     .multiselect__option,
     .autocomplete-result {
-        font-size: 2em;
+        font-size: 1rem;
     }
     .btn-back {
         width: 150px;
-        font-size: 2em;
+        font-size: 1rem;
         margin-top: 0 !important;
     }
 

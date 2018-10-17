@@ -254,4 +254,43 @@
             color: #ffffff;
         }
     }
+
+    @media (max-width: 980px) {
+        .tournament {
+            &__list {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            &__item {
+                width: 47%;
+                height: 500px;
+            }
+            &__info {
+                width: 100%;
+                height: auto;
+               &:before {
+                background-image: unset;
+                }
+            }
+            &__mask {
+                display: none;
+            }
+            &__title {
+                font-size: 1.5rem;
+                text-align: left;
+            }
+            &__registration,
+            &__text,
+            &__subtext {
+                font-size: 1.2rem;
+            }
+            &__participants,
+            &__subinfo,
+            &__desc {
+                font-size: 1em;
+            }
+
+        }
+
+    }
 </style>

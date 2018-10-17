@@ -79,7 +79,7 @@ export default {
         display: inline-block;
     }
     .list-group-item {
-        font-size: 3em;
+        font-size: 1.5rem;
     }
 
 }

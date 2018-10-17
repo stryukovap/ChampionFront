@@ -242,21 +242,21 @@ export default {
     .form-signin {
         width: 100%;
         h2 {
-            font-size: 4em !important;
+            font-size: 2rem !important;
         }
         .form-control {
             margin-top: 30px;
-            font-size: 4em;
+            font-size: 2rem;
         }
         &__link {
-            font-size: 2em;
+            font-size: 1rem;
         }
     }
     #toggle-show-pass,
     .remember,
     .btn
     {
-        font-size: 3rem;
+        font-size: 1.5rem;
     }
     .btn {
         margin: 0 auto;

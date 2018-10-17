@@ -15,6 +15,6 @@
         margin: 100px auto 0;
         width: 50%;
         min-width: 300px;
-        font-size: 2em;
+        font-size: 1rem;
     }
 </style>

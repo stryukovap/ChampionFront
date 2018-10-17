@@ -461,18 +461,18 @@ export default {
         }
     }
     .user {
-        width: 500px;
+        width: 400px;
         &__photo {
-            width: 110px;
-            height: 110px;
+            width: 80px;
+            height: 80px;
         }
         &__title,
         &__valid,
         &__link {
-            font-size: 2em;
+            font-size: 1rem;
         }
         &__list {
-            top: 110px;
+            top: 80px;
         }
     }
 }

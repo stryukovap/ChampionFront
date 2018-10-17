@@ -109,7 +109,7 @@
         }
         &__desc {
             padding: 20px;
-            font-size: 3rem;
+            font-size: 1.5rem;
         }
     }
 }

@@ -39,9 +39,6 @@
                         v-if="editButtonShow"
                         class="btn btn-outline-success">Delete</button>
             </div>
-            <!--<div class="col-2 text-right">-->
-                <!---->
-            <!--</div>-->
         </div>
         <div class="row">
             <div class="col-2">
