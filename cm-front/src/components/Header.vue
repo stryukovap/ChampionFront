@@ -507,27 +507,5 @@ export default {
             margin-left: 35px;
         }
     }
-
-        &__link--auth {
-            font-size: 4em;
-            margin-left: 20px;
-        }
-    }
-    .user {
-        width: 400px;
-        &__photo {
-            width: 80px;
-            height: 80px;
-        }
-        &__title,
-        &__valid,
-        &__link {
-            font-size: 1rem;
-        }
-        &__list {
-            top: 80px;
-        }
-    }
-}
 </style>
 
