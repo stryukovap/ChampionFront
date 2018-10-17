@@ -61,24 +61,24 @@ export default {
     }
 
     @media (max-width: 1200px) {
-        .wrapper {
+        /*.wrapper {*/
+            /*width: 98%;*/
+            /*margin: 20px;*/
+        /*}*/
+        .cards {
             width: 98%;
-            margin: 20px;
-        }
-        .cards {
-            width: 936px;
         }
     }
-    @media (max-width: 972px) {
-        .cards {
-            width: 703px;
-        }
-    }
-    @media (max-width: 733px) {
-        .cards {
-            width: 469px;
-        }
-    }
+    /*@media (max-width: 972px) {*/
+        /*.cards {*/
+            /*width: 703px;*/
+        /*}*/
+    /*}*/
+    /*@media (max-width: 733px) {*/
+        /*.cards {*/
+            /*width: 469px;*/
+        /*}*/
+    /*}*/
         /*@media (max-width: 570px) {*/
             /*.cards {*/
                 /*margin: 10px;*/
