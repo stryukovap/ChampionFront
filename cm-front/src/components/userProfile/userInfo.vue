@@ -165,7 +165,7 @@ p {
   }
   &__title {
     text-align: left;
-    font-family: "Nova Square", cursive;
+    font-family: "Nova Square", sans-serif;
     font-size: 32px;
     font-weight: normal;
     font-style: normal;

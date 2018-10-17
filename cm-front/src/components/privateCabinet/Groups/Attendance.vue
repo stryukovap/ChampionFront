@@ -54,7 +54,7 @@
             return {
                 classTitle: '',
                 classTime: '',
-                popUpShow: true,
+                popUpShow: false,
                 showDate: new Date(),
                 enableDragDrop: true,
                 showEventTimes: true,

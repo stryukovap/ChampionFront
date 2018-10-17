@@ -266,9 +266,9 @@ export default {
                 margin-top: 10px;
                 margin-bottom: 8.7px;
             }
-            /*&--auth {*/
-                /*margin-right: 30px;*/
-            /*}*/
+            &--auth {
+                margin-right: 30px;
+            }
         }
         &__list {
             @include reset-ul();
@@ -436,6 +436,9 @@ export default {
         .menu__link {
             margin-left: 0 !important;
             margin-right: 20px !important;
+        }
+        .menu__item--auth {
+            margin-right: 0;
         }
     }
     @media screen and (min-width: 320px) and (max-width: 576px) {

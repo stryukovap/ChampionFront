@@ -144,6 +144,8 @@
         &__img{
             width: 100%;
             height: auto;
+            object-fit: cover;
+
         }
         &__item{
             display: flex;;

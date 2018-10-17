@@ -72,7 +72,7 @@ export default {
 
 .certificates-h {
   text-align: left;
-  font-family: "Nova Square", cursive;
+  font-family: "Nova Square", sans-serif;
   margin-left: 47px;
   margin-top: 30px;
   margin-bottom: 30px;

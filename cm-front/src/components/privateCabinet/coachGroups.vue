@@ -54,7 +54,8 @@ export default {
         openGroup(index) {
         this.GroupsShow = false;
         this.AttendanceShow = true;
-        this.cardPassed = this.cards[index];
+        // this.cardPassed = this.cards[index];
+        this.cardPassed = this.cards[0];
         },
         closeAttendance() {
             this.GroupsShow = true;

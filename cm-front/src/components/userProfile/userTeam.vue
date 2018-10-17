@@ -104,7 +104,7 @@ export default {
   margin-left: 47px;
   margin-top: 30px;
   margin-bottom: 30px;
-  font-family: "Nova Square", cursive;
+  font-family: "Nova Square", sans-serif;
   font-size: 24px;
 }
 

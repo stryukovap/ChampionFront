@@ -1,14 +1,13 @@
 <template>
     <div class="tournaments-cabinet container mt-3">
         <div class="row text-left mt-3 mb-3">
-            <div class="col-6">
+            <div class="col-12">
                 <h2 class="title">{{tournament.name}}
                     <span v-if="tournament.isStarted && !tournament.isFinished"
                           class="badge badge-success">Started</span>
                     <span v-if="tournament.isFinished" class="badge badge-danger">Finished</span>
                 </h2>
             </div>
-            <div class="col-6"></div>
         </div>
         <div class="row">
             <div class="col-2">
