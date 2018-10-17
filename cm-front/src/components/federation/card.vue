@@ -270,8 +270,9 @@
                 justify-content: space-around;
             }
             &__item {
-                width: 47%;
+                width: 100%;
                 height: 500px;
+                margin-right: 0 !important;
             }
             &__info {
                 width: 100%;

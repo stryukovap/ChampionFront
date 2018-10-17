@@ -293,7 +293,9 @@ export default {
     &__role {
       font-size: 1rem;
     }
-
+  &__wrapper{
+    width: 400px;
+  }
   }
 
 }

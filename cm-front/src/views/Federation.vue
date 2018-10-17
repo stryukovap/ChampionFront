@@ -114,7 +114,7 @@ export default {
     }
     @media (max-width: 980px) {
         .container {
-            max-width: 940px;
+            max-width: 440px;
             padding: 0;
             margin: 0 auto;
         }
@@ -137,5 +137,6 @@ export default {
             display: flex;
             flex-direction: column;
         }
+
     }
 </style>
