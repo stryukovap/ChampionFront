@@ -11,7 +11,7 @@
                   <img v-if="tournament.avatar" class="card-img-top"
                         v-bind:src="tournament.avatar"
                         alt="Card image cap">
-                  <img class="card-img-top"
+                  <img v-else class="card-img-top"
                         src="../../assets/zima.png"
                         alt="Card image cap">
                   <div class="caption">

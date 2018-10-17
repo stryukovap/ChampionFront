@@ -15,7 +15,7 @@
                 <img v-if="tournament.imageUrl" :src="tournament.imageUrl"
                      width="150px"
                      alt="tournament photo">
-                <img src="../../assets/zima.png"
+                <img v-else src="../../assets/zima.png"
                      width="150px"
                      alt="tournament photo">
             </div>
