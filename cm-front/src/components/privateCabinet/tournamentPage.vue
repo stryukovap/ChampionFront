@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row text-left mt-3 mb-3">
-            <div class="col-12">
+            <div class="col-6">
                 <h2 class="title">{{tournament.name}}
                     <span v-if="tournament.isStarted && !tournament.isFinished" class="badge badge-success">Started</span>
                     <span v-if="tournament.isFinished" class="badge badge-danger">Finished</span>
@@ -41,12 +41,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div v-if="tournament.imageUrl" class="col-2">
                 <img :src="tournament.imageUrl"
                      width="150px"
                      alt="tournament photo">
             </div>
-            <div class="col-4 tour__info">
+            <div v-else class="col-2">
+                <img src="../../assets/zima.png"
+                     width="150px"
+                     alt="tournament photo">
+            </div>
+            <div class="col-4">
                 <p class='tour__description'>{{tournament.description}}</p>
                 <p>{{tournament.dates.dateStart}} - {{tournament.dates.dateEnd}}</p>
                 <p>Amount of Participants: {{tournament.amountOfParticipants}}/{{tournament.maxParticipants}}</p>

@@ -8,8 +8,11 @@
               :key='tournament.index'>
               <a v-bind:href="tournament.link" class="text-secondary">
               <div class="thumbnail">
-                  <img class="card-img-top"
+                  <img v-if="tournament.avatar" class="card-img-top"
                         v-bind:src="tournament.avatar"
+                        alt="Card image cap">
+                  <img v-else class="card-img-top"
+                        src="../../assets/zima.png"
                         alt="Card image cap">
                   <div class="caption">
                       <h4 class="text-center">{{ tournament.name }}</h4>

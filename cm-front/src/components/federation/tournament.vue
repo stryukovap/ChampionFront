@@ -11,7 +11,10 @@
         </div>
         <div class="row">
             <div class="col-2">
-                <img :src="tournament.imageUrl"
+                <img v-if="tournament.imageUrl" :src="tournament.imageUrl"
+                     width="150px"
+                     alt="tournament photo">
+                <img v-else src="../../assets/zima.png"
                      width="150px"
                      alt="tournament photo">
             </div>
