@@ -9,7 +9,7 @@
                     <h3 class="tournament__title">{{ tournament.name }}</h3>
                     <div class="tournament__subinfo">
                         <p class="tournament__desc">Start date:</p>
-                        <!--<p class="tournament__desc">{{ tournament.dates.dateStart }}</p>-->
+                        <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
                 </div>
                 <div class="tournament__mask">
@@ -17,7 +17,7 @@
                     <h3 class="tournament__title">{{ tournament.name }}</h3>
                     <div class="tournament__subinfo">
                         <p class="tournament__desc">Start date:</p>
-                        <!--<p class="tournament__desc">{{ tournament.dates.dateStart }}</p>-->
+                        <p class="tournament__desc">{{ tournament.dates.dateStart }}</p>
                     </div>
                     <div class="tournament__subtitle">{{tournament.description}}</div>
                 </div>
@@ -27,11 +27,11 @@
                 <div class="tournament__wrap">
                     <div class="tournament__date">
                         <p class="tournament__text">Starts:</p>
-                        <!--<p class="tournament__subtext">{{tournament.dates.dateStart}}</p>-->
+                        <p class="tournament__subtext">{{tournament.dates.dateStart}}</p>
                     </div>
                     <div class="tournament__date">
                         <p class="tournament__text">Finishes:</p>
-                        <!--<p class="tournament__subtext">{{tournament.dates.dateEnd }}</p>-->
+                        <p class="tournament__subtext">{{tournament.dates.dateEnd }}</p>
                     </div>
                 </div>
                 <p class="tournament__participants">{{ tournament.amountOfParticipants }}/{{ tournament.maxParticipants
