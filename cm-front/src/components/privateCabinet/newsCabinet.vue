@@ -155,4 +155,129 @@
         font-size: 24px;
     }
 
+    @media screen and (min-width: 120px) and (max-width: 320px) {
+        .text-p{
+            line-height: 1.5;
+            margin: 15px 0 0 20px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .input{
+            width: 256px;
+            height: 145px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin: 15px 20px;
+        }
+        .data{
+            display: inline;
+            margin: 15px 40px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+        }
+        .button_submit{
+            display: inline;
+            margin-top: 17px;
+            width: 160px;
+            height: 38px;
+            color: #666666;
+            font-size: 24px;
+            margin-left: 60px;
+        }
+        .ml-5, .mx-5{
+            text-align:  center;
+            margin-top: 50px;
+
+        }
+    }
+
+    @media screen and (min-width: 320px) and (max-width: 576px) {
+        .text-p{
+            line-height: 1.5;
+            margin: 15px 0 0 20px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .input{
+            width: 256px;
+            height: 145px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin: 15px 20px;
+        }
+        .data{
+            display: inline;
+            margin: 15px 40px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+        }
+        .button_submit{
+            display: inline;
+            margin-top: 17px;
+            width: 160px;
+            height: 38px;
+            color: #666666;
+            font-size: 24px;
+            margin-left: 60px;
+        }
+        .ml-5, .mx-5{
+            text-align:  center;
+            margin-top: 50px;
+        }
+    }
+
+    @media screen and (min-width: 576px) and (max-width: 992px) {
+        .text-p{
+            line-height: 1.5;
+            margin: 15px 0 0 20px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .input{
+            width: 256px;
+            height: 145px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin: 15px 20px;
+        }
+        .data{
+            display: inline;
+            margin: 15px 40px;
+            border: 1px solid #000000;
+            color: #666666;
+            font-size: 24px;
+        }
+        .button_submit{
+            display: inline;
+            margin-top: 17px;
+            width: 160px;
+            height: 38px;
+            color: #666666;
+            font-size: 24px;
+            margin-left: 60px;
+        }
+        .ml-5, .mx-5{
+            text-align:  center;
+            margin-top: 50px;
+        }
+    }
+
+
 </style>
