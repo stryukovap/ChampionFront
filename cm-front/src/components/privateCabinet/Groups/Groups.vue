@@ -14,13 +14,13 @@
                 <!--<p class="group__text__fon"-->
                 <!--v-for='(clas, key) in card.classes'-->
                 <!--&gt;{{key}} {{clas}}</p>-->
-                <div class="group__mask">
-                    <div class="group__top">
-                    </div>
+                <!--<div class="group__mask">-->
+                    <!--<div class="group__top">-->
+                    <!--</div>-->
                     <!--<h3 class="group__text">{{card.members}}-->
                     <!--<img class="group__img" src="../../../assets/2people.png"/>-->
                     <!--</h3>-->
-                </div>
+                <!--</div>-->
 
             </div>
             <!--<div-->
@@ -106,18 +106,6 @@
             font-size: 30px;
         }
 
-        &__h {
-            font-family: "Roboto", sans-serif;
-            font-size: 20px;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #262626;
-            padding: 6.2px 0 13.9px 0;
-        }
-
         &__desc {
             font-family: "Roboto", sans-serif;
             font-size: 20px;
@@ -176,37 +164,39 @@
             box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
             &:hover {
                 cursor: pointer;
+                background-image: linear-gradient(to top,#28a745 0, rgba(255, 255, 255, 0.1) 66%);
+                text-decoration: none;
             }
-            &:hover .group__mask {
-                display: flex;
-            }
-            &:hover {
-                border: none;
-            }
+            /*&:hover .group__mask {*/
+                /*display: flex;*/
+            /*}*/
+            /*&:hover {*/
+                /*border: none;*/
+            /*}*/
         }
-        &__mask {
-            /*display: flex;*/
-            display: none;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 5px;
-            -webkit-backdrop-filter: blur(6px);
-            backdrop-filter: blur(6px);
-            background-image: linear-gradient(
-                            to top,
-                            #000000,
-                            rgba(255, 255, 255, 0.42)
-            );
-            -webkit-box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);
-            -moz-box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);
-            box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);
-        }
+        /*&__mask {*/
+            /*!*display: flex;*!*/
+            /*display: none;*/
+            /*flex-direction: column;*/
+            /*justify-content: flex-end;*/
+            /*align-items: center;*/
+            /*position: absolute;*/
+            /*top: 0;*/
+            /*left: 0;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+            /*border-radius: 5px;*/
+            /*-webkit-backdrop-filter: blur(6px);*/
+            /*backdrop-filter: blur(6px);*/
+            /*background-image: linear-gradient(*/
+                            /*to top,*/
+                            /*#000000,*/
+                            /*rgba(255, 255, 255, 0.42)*/
+            /*);*/
+            /*-webkit-box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);*/
+            /*-moz-box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);*/
+            /*box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7);*/
+        /*}*/
     }
 </style>
 <script>
