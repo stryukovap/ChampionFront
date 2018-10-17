@@ -31,7 +31,7 @@
                     </div>
                     <div class="tournament__date">
                         <p class="tournament__text">Finishes:</p>
-                        <p class="tournament__subtext">{{tournament.dates.dateEnd}}</p>
+                        <p class="tournament__subtext">{{tournament.dates.dateEnd }}</p>
                     </div>
                 </div>
                 <p class="tournament__participants">{{ tournament.amountOfParticipants }}/{{ tournament.maxParticipants
@@ -49,6 +49,9 @@
         data: function () {
             // console.log(tournamentKey);
             return {
+                tournament: {
+                    dates: {}
+                },
                 tournamentsShow: true,
                 tournamentPageShow: false,
                 // tournamentKey: "",
@@ -56,8 +59,10 @@
             };
         },
         async mounted() {
+            // mounted: function () {
             try {
                 const fbObj = await firebase
+                // const fbObj = firebase
                     .database()
                     .ref(this.federationId)
                     .once("value");
@@ -68,6 +73,7 @@
         }
     }
 </script>
+
 <style scoped lang="scss">
     p, h3{
         margin: 0;

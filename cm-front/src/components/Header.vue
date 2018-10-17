@@ -251,210 +251,263 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin reset-ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.menu {
-  background-color: #ffffff;
-  box-shadow: 0 2px 10px 0 #e9e9e9;
-  &__item {
-    &--logo {
-      margin-right: auto;
-      margin-top: 10px;
-      margin-bottom: 8.7px;
-    }
-    &--auth {
-      margin-right: 30px;
-    }
-  }
-  &__list {
-    @include reset-ul();
-    display: flex;
-    align-items: center;
-    &--top {
-      justify-content: center;
-      background-color: #f5f5f5;
-    }
-    &--bottom {
-      justify-content: flex-end;
-    }
-    &--auth {
-      margin-right: 90px;
-    }
-  }
-  &__link {
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    &--email {
-      color: #757373;
-      margin-right: 40px;
-      position: relative;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-top: 6px;
-      padding-bottom: 7.5px;
-      padding-left: 33px;
-      background-image: url("../assets/e-moil_icon.svg");
-      background-repeat: no-repeat;
-      background-size: 23px 23px;
-      background-position: center left;
-    }
-    &--tel {
-      color: #757373;
-      margin-right: 40px;
-      position: relative;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-top: 6px;
-      padding-bottom: 7.5px;
-      padding-left: 33px;
-      background-image: url("../assets/phone_icon.svg");
-      background-repeat: no-repeat;
-      background-size: 23px 23px;
-      background-position: center left;
-    }
-    &--auth {
-      color: #333333;
-      text-decoration: none;
-      padding-bottom: 6.8px;
-      &:hover {
-        padding-bottom: 4.8px;
-        border-bottom: 2px solid #f77f00;
-      }
-    }
-  }
-}
-
-.user {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-right: 175px;
-  padding-right: 15px;
-  background-image: url("../assets/Group.svg");
-  background-repeat: no-repeat;
-  background-size: 7px 3.6px;
-  background-position: right center;
-  position: relative;
-  &:hover {
-    cursor: pointer;
-  }
-  &:hover .user__list {
-    display: flex;
-  }
-  &__list {
-    position: absolute;
-    z-index: 5;
-    top: 45px;
-    right: 0;
-    @include reset-ul();
-    border-radius: 5px;
-    background-color: #ffffff;
-    -webkit-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
-    -moz-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
-    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
-    /*display: flex;*/
-    display: none;
-    flex-direction: column;
-    align-content: center;
-    justify-content: flex-end;
-    width: 100%;
-    text-align: center;
-    padding: 5px;
-  }
-  &__link {
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #333333;
-    padding: 4px;
-    text-decoration: none;
-    display: block;
-    &:hover {
-      /*padding-bottom: 2px;*/
-      /*border-bottom: 2px solid #f77f00;*/
-      border-radius: 4px;
-      background-color: #f77f00;
-    }
-  }
-  &__photo {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  &__info {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin-top: auto;
-  }
-  &__title,
-  &__valid {
-    text-align: left;
-  }
-  &__title {
-    margin: 0;
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #262626;
-  }
-  &__valid {
-    margin: 0;
-    font-size: 11px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #c4c4c4;
-  }
-}
-
-@media (max-width: 1200px) {
-    .user {
-        margin-right: 20px;
-    }
-}
-@media (max-width: 980px) {
-    .container {
-        max-width: 950px;
+    @mixin reset-ul {
         padding: 0;
-        margin: 0 auto;
+        margin: 0;
+        list-style: none;
     }
+
     .menu {
-        &__logo {
-            width: 200px;
-            height: 100px;
-            margin: 10px;
-        }
-        &__list {
-            &--top {
-                display: none;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px 0 #e9e9e9;
+        &__item {
+            &--logo {
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 8.7px;
             }
             &--auth {
-                justify-content: flex-end;
-                margin-right: 0;
+                margin-right: 30px;
             }
         }
+        &__list {
+            @include reset-ul();
+            display: flex;
+            align-items: center;
+            &--top {
+                justify-content: center;
+                background-color: #f5f5f5;
+            }
+            &--bottom {
+                justify-content: flex-end;
+            }
+            &--auth {
+                margin-right: 90px;
+            }
+        }
+        &__link {
+            font-family: "Roboto", sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            &--email {
+                color: #757373;
+                margin-right: 40px;
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 6px;
+                padding-bottom: 7.5px;
+                padding-left: 33px;
+                background-image: url("../assets/e-moil_icon.svg");
+                background-repeat: no-repeat;
+                background-size: 23px 23px;
+                background-position: center left;
+            }
+            &--tel {
+                color: #757373;
+                margin-right: 40px;
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 6px;
+                padding-bottom: 7.5px;
+                padding-left: 33px;
+                background-image: url("../assets/phone_icon.svg");
+                background-repeat: no-repeat;
+                background-size: 23px 23px;
+                background-position: center left;
+            }
+            &--auth {
+                color: #333333;
+                text-decoration: none;
+                padding-bottom: 6.8px;
+                &:hover {
+                    padding-bottom: 4.8px;
+                    border-bottom: 2px solid #f77f00;
+                }
+            }
+        }
+    }
+
+    .user {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 175px;
+        padding-right: 15px;
+        background-image: url("../assets/Group.svg");
+        background-repeat: no-repeat;
+        background-size: 7px 3.6px;
+        background-position: right center;
+        position: relative;
+        &:hover {
+            cursor: pointer;
+        }
+        &:hover .user__list {
+            display: flex;
+        }
+        &__list {
+            position: absolute;
+            z-index: 5;
+            top: 45px;
+            right: 0;
+            @include reset-ul();
+            border-radius: 5px;
+            background-color: #ffffff;
+            -webkit-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+            -moz-box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+            box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.7);
+            /*display: flex;*/
+            display: none;
+            flex-direction: column;
+            align-content: center;
+            justify-content: flex-end;
+            width: 100%;
+            text-align: center;
+            padding: 5px;
+        }
+        &__link {
+            font-family: "Roboto", sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #333333;
+            padding: 4px;
+            text-decoration: none;
+            display: block;
+            &:hover {
+                /*padding-bottom: 2px;*/
+                /*border-bottom: 2px solid #f77f00;*/
+                border-radius: 4px;
+                background-color: #f77f00;
+            }
+        }
+        &__photo {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        &__info {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin-top: auto;
+        }
+        &__title,
+        &__valid {
+            text-align: left;
+        }
+        &__title {
+            margin: 0;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #262626;
+        }
+        &__valid {
+            margin: 0;
+            font-size: 11px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #c4c4c4;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .user {
+            margin-right: 20px;
+        }
+    }
+    @media screen and (min-width: 320px) and (max-width: 576px) {
+        .menu__link--email[data-v-61dd7a3d] {
+            color: #757373;
+            margin-right: 40px;
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 6px;
+            padding-bottom: 7.5px;
+            padding-left: 33px;
+            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            background-repeat: no-repeat;
+            background-size: 23px 23px;
+            background-position: center left;
+            margin-left: 33px;
+        }
+
+    }
+    @media screen and (min-width: 576px) and (max-width: 992px) {
+        .menu__link--email[data-v-61dd7a3d] {
+            color: #757373;
+            margin-right: 40px;
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 6px;
+            padding-bottom: 7.5px;
+            padding-left: 33px;
+            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            background-repeat: no-repeat;
+            background-size: 23px 23px;
+            background-position: center left;
+            margin-left: 35px;
+        }
+    }
+    @media screen and (min-width: 120px) and (max-width: 320px) {
+        .menu__link--email[data-v-61dd7a3d][data-v-61dd7a3d] {
+            color: #757373;
+            margin-right: 4px;
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 6px;
+            padding-bottom: 7.5px;
+            padding-left: 24px;
+            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            background-repeat: no-repeat;
+            background-size: 23px 23px;
+            background-position: center left;
+            margin-left: 35px;
+        }
+    }
+
         &__link--auth {
             font-size: 4em;
             margin-left: 20px;
@@ -477,3 +530,4 @@ export default {
     }
 }
 </style>
+
