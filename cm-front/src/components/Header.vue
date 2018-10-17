@@ -266,9 +266,9 @@ export default {
                 margin-top: 10px;
                 margin-bottom: 8.7px;
             }
-            &--auth {
-                margin-right: 30px;
-            }
+            /*&--auth {*/
+                /*margin-right: 30px;*/
+            /*}*/
         }
         &__list {
             @include reset-ul();
@@ -433,9 +433,13 @@ export default {
         .user {
             margin-right: 20px;
         }
+        .menu__link {
+            margin-left: 0 !important;
+            margin-right: 20px !important;
+        }
     }
     @media screen and (min-width: 320px) and (max-width: 576px) {
-        .menu__link--email[data-v-61dd7a3d] {
+        .menu__link--email {
             color: #757373;
             margin-right: 40px;
             position: relative;
@@ -451,16 +455,18 @@ export default {
             padding-top: 6px;
             padding-bottom: 7.5px;
             padding-left: 33px;
-            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            /*background-image: url(/img/e-moil_icon.898fe2fa.svg);*/
             background-repeat: no-repeat;
             background-size: 23px 23px;
             background-position: center left;
             margin-left: 33px;
         }
-
+        .menu__list--auth {
+            margin-right: 10px !important;
+        }
     }
     @media screen and (min-width: 576px) and (max-width: 992px) {
-        .menu__link--email[data-v-61dd7a3d] {
+        .menu__link--email {
             color: #757373;
             margin-right: 40px;
             position: relative;
@@ -476,15 +482,18 @@ export default {
             padding-top: 6px;
             padding-bottom: 7.5px;
             padding-left: 33px;
-            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            /*background-image: url(/img/e-moil_icon.898fe2fa.svg);*/
             background-repeat: no-repeat;
             background-size: 23px 23px;
             background-position: center left;
             margin-left: 35px;
         }
+        .menu__list--auth {
+            margin-right: 10px !important;
+        }
     }
     @media screen and (min-width: 120px) and (max-width: 320px) {
-        .menu__link--email[data-v-61dd7a3d][data-v-61dd7a3d] {
+        .menu__link--email {
             color: #757373;
             margin-right: 4px;
             position: relative;
@@ -500,7 +509,7 @@ export default {
             padding-top: 6px;
             padding-bottom: 7.5px;
             padding-left: 24px;
-            background-image: url(/img/e-moil_icon.898fe2fa.svg);
+            /*background-image: url(/img/e-moil_icon.898fe2fa.svg);*/
             background-repeat: no-repeat;
             background-size: 23px 23px;
             background-position: center left;
