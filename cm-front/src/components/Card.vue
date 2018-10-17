@@ -1,13 +1,13 @@
 <template>
-        <div class="card__content">
+        <router-link class="card__content" v-bind:to="'/' + link_to">
             <img src="../assets/karate-grey-silhouette.svg" alt="picture" class="card__img" width="224" height="154">
             <h3 class="card__desc">{{Name}}</h3>
-            <router-link tag="div" class="card__mask" v-bind:to="'/' + link_to">
+            <!--<router-link tag="div" class="card__mask" >-->
                 <div class="card__top"></div>
-                <h3 class="card__title">{{Name}}</h3>
-                <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere pulvinar blandit...</p>
+                <!--<h3 class="card__title">{{Name}}</h3>-->
+                <!--<p class="card__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere pulvinar blandit...</p>-->
             </router-link>
-        </div>
+        <!--</div>-->
 </template>
 <style scoped lang="scss">
 .card{
@@ -67,12 +67,15 @@
         -webkit-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
         -moz-box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
         box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);
+
         &:hover{
             cursor:pointer;
+            background-image: linear-gradient(to top,#28a745 0, rgba(255, 255, 255, 0.1) 66%);
+            text-decoration: none;
         }
-        &:hover .card__mask{
-            display: flex;
-        }
+        /*&:hover .card__mask{*/
+            /*display: flex;*/
+        /*}*/
            }
     &__mask{
         display: none;
