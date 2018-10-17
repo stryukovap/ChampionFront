@@ -15,7 +15,11 @@
                          v-for='(tournament, key) in $store.state.tournamentsList'>
                         <div class="thumbnail tour-card"
                              @click="openTournament(key)">
-                            <img :src="tournament.imageUrl"
+                            <img v-if="tournament.imageUrl" :src="tournament.imageUrl"
+                                 class="mb-2"
+                                 width="200px"
+                                 alt="Card image cap">
+                            <img v-else src="../../assets/zima.png"
                                  class="mb-2"
                                  width="200px"
                                  alt="Card image cap">

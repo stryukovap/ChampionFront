@@ -41,8 +41,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+            <div v-if="tournament.imageUrl" class="col-2">
                 <img :src="tournament.imageUrl"
+                     width="150px"
+                     alt="tournament photo">
+            </div>
+            <div v-else class="col-2">
+                <img src="../../assets/zima.png"
                      width="150px"
                      alt="tournament photo">
             </div>
