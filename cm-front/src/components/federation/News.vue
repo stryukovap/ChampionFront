@@ -11,13 +11,13 @@
                 </div>
             </router-link>
             <router-link tag="a" v-bind:to="'/about'" class="news__mask">
-                <div class="news__top"></div>
-                <h3 class="news__title">{{post.name}}</h3>
-                <p class="news__date">{{ post.date }}</p>
-                <p class="news__text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere
-                    pulvinar blandit...
-                </p>
+                <!--<div class="news__top"></div>-->
+                <!--<h3 class="news__title">{{post.name}}</h3>-->
+                <!--<p class="news__date">{{ post.date }}</p>-->
+                <!--<p class="news__text">-->
+                    <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum posuere vestibulum posuere-->
+                    <!--pulvinar blandit...-->
+                <!--</p>-->
             </router-link>
         </div>
         <div class="news__wrapper">
@@ -138,26 +138,26 @@
                 border: none;
             }
         }
-        &__mask{
-            text-decoration: none;
-            /*display: flex;*/
-            display: none;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left:0;
-            width: 100%;
-            height: 100%;
-            border-radius: 5px;
-            -webkit-backdrop-filter: blur(6px);
-            backdrop-filter: blur(6px);
-            background-image: linear-gradient(to top,#000000 , rgba(255, 255, 255, 0.42));
-            -webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
-            -moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
-            box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);
-        }
+        /*&__mask{*/
+            /*text-decoration: none;*/
+            /*!*display: flex;*!*/
+            /*display: none;*/
+            /*flex-direction: column;*/
+            /*justify-content: flex-end;*/
+            /*align-items: center;*/
+            /*position: absolute;*/
+            /*top: 0;*/
+            /*left:0;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+            /*border-radius: 5px;*/
+            /*-webkit-backdrop-filter: blur(6px);*/
+            /*backdrop-filter: blur(6px);*/
+            /*background-image: linear-gradient(to top,#000000 , rgba(255, 255, 255, 0.42));*/
+            /*-webkit-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);*/
+            /*-moz-box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);*/
+            /*box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.7);*/
+        /*}*/
         &__img{
             width: 100%;
             height: 200px;
@@ -170,6 +170,10 @@
             &__content {
                 flex-direction: row;
                 width: 100%;
+                width: 440px;
+            }
+            &__wrapper {
+                width: 440px;
             }
             &__img {
                 width: 150px;

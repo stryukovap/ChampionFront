@@ -131,6 +131,11 @@ export default {
         .news__list {
             display: flex;
             flex-direction: column;
+            max-width: 980px;
+        }
+        .tournaments__list {
+            display: flex;
+            flex-direction: column;
         }
     }
 </style>
